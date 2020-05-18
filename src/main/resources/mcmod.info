@@ -1,0 +1,16 @@
+[
+{
+  "modid": "playerinfo",
+  "name": "Player Information",
+  "description": "A mod that lets you get information about players.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["palight"],
+  "credits": "palight did the stuff",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
