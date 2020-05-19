@@ -1,24 +1,16 @@
 package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.commands.InfoCommand;
-import com.palight.playerinfo.data.PlayerProperties;
 import com.palight.playerinfo.gui.GuiHandler;
-import com.palight.playerinfo.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 
 public class MainGui extends GuiScreen {

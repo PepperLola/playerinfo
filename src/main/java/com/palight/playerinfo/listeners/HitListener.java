@@ -1,33 +1,18 @@
 package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.util.MCUtil;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.server.S06PacketUpdateHealth;
-import net.minecraft.network.play.server.S1CPacketEntityMetadata;
 import net.minecraft.network.play.server.S20PacketEntityProperties;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
-import net.minecraftforge.fml.common.network.PacketLoggingHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.io.FileWriter;
 
 public class HitListener {
 

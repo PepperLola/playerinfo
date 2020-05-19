@@ -1,7 +1,5 @@
 package com.palight.playerinfo.gui.screens;
 
-import com.google.common.collect.Maps;
-import com.mojang.authlib.GameProfile;
 import com.palight.playerinfo.commands.InfoCommand;
 import com.palight.playerinfo.data.PlayerProperties;
 import com.palight.playerinfo.util.RenderUtil;
@@ -9,22 +7,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.resources.SkinManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.UUID;
 
 @SideOnly(Side.CLIENT)
 public class InfoGui extends GuiScreen {

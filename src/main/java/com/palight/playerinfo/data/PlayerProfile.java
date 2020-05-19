@@ -1,8 +1,5 @@
 package com.palight.playerinfo.data;
 
-import java.util.List;
-import java.util.Map;
-
 public class PlayerProfile {
     private String id;
     private String name;

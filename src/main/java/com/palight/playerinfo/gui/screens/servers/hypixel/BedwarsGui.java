@@ -1,23 +1,14 @@
 package com.palight.playerinfo.gui.screens.servers.hypixel;
 
-import com.google.gson.Gson;
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.commands.InfoCommand;
-import com.palight.playerinfo.data.PlayerProperties;
 import com.palight.playerinfo.gui.widgets.GuiDropdown;
-import com.palight.playerinfo.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

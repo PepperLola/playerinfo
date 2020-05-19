@@ -1,19 +1,13 @@
 package com.palight.playerinfo.gui;
 
-import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.palight.playerinfo.gui.screens.InfoGui;
 import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.integrations.IntegrationSelector;
 import com.palight.playerinfo.gui.screens.integrations.lifx.LifxGui;
 import com.palight.playerinfo.gui.screens.servers.ServerSelector;
 import com.palight.playerinfo.gui.screens.servers.hypixel.BedwarsGui;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.gui.MinecraftServerGui;
 import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {

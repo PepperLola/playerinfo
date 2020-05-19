@@ -3,10 +3,7 @@ package com.palight.playerinfo.listeners;
 import com.palight.playerinfo.commands.InfoCommand;
 import com.palight.playerinfo.util.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerNotFoundException;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

@@ -1,25 +1,19 @@
 package com.palight.playerinfo;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonWriter;
-import com.palight.playerinfo.listeners.FovListener;
-import com.palight.playerinfo.listeners.HitListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
 import org.apache.commons.io.FileUtils;
-import scala.util.parsing.json.JSON;
-import scala.util.parsing.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,48 +1,25 @@
 package com.palight.playerinfo.util;
 
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.palight.playerinfo.gui.SkinManager;
-import com.sun.imageio.plugins.common.ImageUtil;
-import jdk.internal.dynalink.linker.ConversionComparator;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.common.MinecraftForge;
-import org.apache.commons.io.FileUtils;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class RenderUtil {

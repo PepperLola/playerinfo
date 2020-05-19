@@ -2,19 +2,16 @@ package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.LoginGui;
-import com.palight.playerinfo.rendering.ModelBox;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.gui.ForgeGuiFactory;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.collection.parallel.ParIterableLike;
 
 import java.awt.*;
 
