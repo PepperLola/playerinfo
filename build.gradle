@@ -20,7 +20,7 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.0"
+version = "1.0.0"
 group= "com.palight.playerinfo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "playerinfo"
 
@@ -61,11 +61,6 @@ dependencies {
 
 }
 
-//compileJava {
-//    sourceCompatibility = '13'
-//    targetCompatibility = '13'
-//}
-
 processResources
 {
     // this will ensure that this task is redone when the versions change.
@@ -85,9 +80,3 @@ processResources
         exclude 'mcmod.info'
     }
 }
-
-//idea {
-//    project {
-//        languageLevel = '8'
-//    }
-//}
