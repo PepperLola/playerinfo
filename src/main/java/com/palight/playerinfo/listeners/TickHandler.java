@@ -28,7 +28,7 @@ public class TickHandler {
             ItemArmor helmetArmor = (ItemArmor) helmet.getItem();
             if (helmetArmor.getArmorMaterial() == ItemArmor.ArmorMaterial.LEATHER) {
                 int color = helmetArmor.getColor(helmet);
-                System.out.println(color);
+//                System.out.println(color);
                 LifxGui.setTeamColor(color);
             }
         }

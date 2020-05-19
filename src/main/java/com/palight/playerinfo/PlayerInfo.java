@@ -61,6 +61,11 @@ public class PlayerInfo
 
         Map<String, Object> startingConfig = new HashMap<String, Object>();
 
+        // MOD SETTINGS START
+        startingConfig.put("PUMPKIN_OVERLAY_DISABLED", true);
+        // MOD SETTINGS END
+
+        // HYPIXEL SETTINGS START
         startingConfig.put("SELECTED_SERVER", "Hypixel");
 
         Map<String, Object> servers = new HashMap<String, Object>();
@@ -70,15 +75,18 @@ public class PlayerInfo
         hypixel.put("BEDWARS_MODE", "bedwars_eight_one");
 
         servers.put("Hypixel", hypixel);
+        // HYPIXEL SETTINGS END
 
         startingConfig.put("SERVERS", servers);
 
+        // LIFX SETTINGS START
         Map<String, Object> lifx = new HashMap<String, Object>();
 
         lifx.put("TOKEN", "");
         lifx.put("TEAMS", false);
 
         startingConfig.put("LIFX", lifx);
+        // LIFX SETTINGS END
 
         if (!configFile.exists()) {
             try {

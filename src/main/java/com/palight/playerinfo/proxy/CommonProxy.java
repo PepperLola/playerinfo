@@ -2,6 +2,7 @@ package com.palight.playerinfo.proxy;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.overlay.PumpkinOverlayHandler;
 import com.palight.playerinfo.listeners.*;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -29,6 +30,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new RenderListener());
         MinecraftForge.EVENT_BUS.register(new FovListener());
         MinecraftForge.EVENT_BUS.register(new TickHandler());
+        MinecraftForge.EVENT_BUS.register(new PumpkinOverlayHandler());
 
         // Registering Keybinds
         ClientRegistry.registerKeyBinding(new KeyBinding("key.zoom", 21, "Player Info"));
