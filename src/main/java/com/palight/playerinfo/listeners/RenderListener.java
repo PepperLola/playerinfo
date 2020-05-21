@@ -39,7 +39,7 @@ public class RenderListener {
         if (Minecraft.getMinecraft().theWorld != null) {
             System.out.println(event.gui.getClass().getSimpleName());
             EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
-            er.loadShader(new ResourceLocation("shaders/post/blur.json"));
+            er.loadShader(new ResourceLocation("pi:shaders/post/blur.json"));
         }
         if (event.gui instanceof GuiOptions) {
             GuiScreen gui = event.gui;
