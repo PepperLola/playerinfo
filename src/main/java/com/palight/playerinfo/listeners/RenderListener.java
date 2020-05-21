@@ -6,12 +6,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.collection.parallel.ParIterableLike;
 
 import java.awt.*;
 
@@ -31,6 +36,11 @@ public class RenderListener {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
+        if (Minecraft.getMinecraft().theWorld != null) {
+            System.out.println(event.gui.getClass().getSimpleName());
+            EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
+            er.loadShader(new ResourceLocation("shaders/post/blur.json"));
+        }
         if (event.gui instanceof GuiOptions) {
             GuiScreen gui = event.gui;
 
@@ -71,6 +81,16 @@ public class RenderListener {
 
             GuiButton loginGuiButton = new GuiButton(LOGIN_BUTTON_ID, buttonX, buttonY, buttonWidth, buttonHeight, "Login");
             event.buttonList.add(loginGuiButton);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().currentScreen == null) {
+            EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
+            if (er.isShaderActive()) {
+                er.stopUseShader();
+            }
         }
     }
 

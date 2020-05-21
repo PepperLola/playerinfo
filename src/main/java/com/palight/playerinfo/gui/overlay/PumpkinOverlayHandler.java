@@ -39,6 +39,7 @@ public class PumpkinOverlayHandler extends Gui {
     @SubscribeEvent
     public void onRenderScreen(RenderGameOverlayEvent event) {
         if (!((Boolean) PlayerInfo.getConfigValue(PUMPKIN_CONFIG_NAME))) return;
+        if (event == null || event.type == null) return;
         if (event.type.name().equals("HELMET")) {
             event.setCanceled(true);
         }
