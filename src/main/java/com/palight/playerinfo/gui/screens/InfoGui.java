@@ -17,9 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @SideOnly(Side.CLIENT)
-public class InfoGui extends GuiScreen {
-    private int xSize = 176;
-    private int ySize = 166;
+public class InfoGui extends CustomGuiScreen {
 
     private GuiTextField text;
     private GuiButton submit;
@@ -61,8 +59,7 @@ public class InfoGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/infogui.png"));
-        drawTexturedModalRect((this.width - xSize) / 2, (this.height - ySize) / 2, 0, 0, xSize, ySize);
+
         this.text.drawTextBox();
         if (playerProperties != null) {
             int text_x = (this.width - xSize) / 2 + 8;

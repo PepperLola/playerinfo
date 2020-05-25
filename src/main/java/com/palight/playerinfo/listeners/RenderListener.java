@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.LoginGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -37,9 +38,10 @@ public class RenderListener {
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
         if (Minecraft.getMinecraft().theWorld != null) {
-            System.out.println(event.gui.getClass().getSimpleName());
-            EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
-            er.loadShader(new ResourceLocation("pi:shaders/post/blur.json"));
+            if (!(event.gui instanceof GuiChat)) {
+                EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
+                er.loadShader(new ResourceLocation("pi:shaders/post/blur.json"));
+            }
         }
         if (event.gui instanceof GuiOptions) {
             GuiScreen gui = event.gui;

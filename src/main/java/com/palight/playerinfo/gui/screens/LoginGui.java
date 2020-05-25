@@ -9,9 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class LoginGui extends GuiScreen {
-    private int xSize = 176;
-    private int ySize = 166;
+public class LoginGui extends CustomGuiScreen {
 
     private GuiTextField username;
     private GuiTextField password;
@@ -82,8 +80,6 @@ public class LoginGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/infogui.png"));
-        drawTexturedModalRect((this.width - xSize) / 2, (this.height - ySize) / 2, 0, 0, xSize, ySize);
 
         fontRendererObj.drawString("Login", (width - xSize) / 2 + 8, (height - ySize) / 2 + 8, 1);
 

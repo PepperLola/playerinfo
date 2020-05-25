@@ -24,7 +24,7 @@ public class PlayerInfo
     public static final String VERSION = "1.0";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
-    public static final String DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
+    public static String DATA_FOLDER;
     public static File configFile = new File(DATA_FOLDER + "config.json");
 
     public static Gson gson = new Gson();

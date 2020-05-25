@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens.servers;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiDropdown;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -13,9 +14,7 @@ import net.minecraft.world.World;
 
 import java.io.IOException;
 
-public class ServerSelector extends GuiScreen {
-    private int xSize = 176;
-    private int ySize = 166;
+public class ServerSelector extends CustomGuiScreen {
 
     private int buttonWidth = 64;
     private int buttonHeight = 20;
@@ -62,7 +61,6 @@ public class ServerSelector extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/infogui.png"));
         drawTexturedModalRect((this.width - xSize) / 2, (this.height - ySize) / 2, 0, 0, xSize, ySize);
 
         serverDropdown.drawDropdown(mc, mouseX, mouseY);

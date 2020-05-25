@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.overlay.PumpkinOverlayHandler;
 import com.palight.playerinfo.listeners.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -13,6 +14,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class CommonProxy {
     public void init(FMLInitializationEvent event) {
+
+        PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
 
         PlayerInfo.createConfig();
 
