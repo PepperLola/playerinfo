@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.widgets;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
@@ -9,8 +10,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiColorPicker extends Gui {
 
-    protected static final ResourceLocation textures = new ResourceLocation("pi:textures/gui/widgets.png");
-    protected static final ResourceLocation assets = new ResourceLocation("pi:textures/gui/widget_assets.png");
+    protected static final ResourceLocation textures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widgets.png");
+    protected static final ResourceLocation assets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widget_assets.png");
     public int width;
     public int height;
     public int xPosition;

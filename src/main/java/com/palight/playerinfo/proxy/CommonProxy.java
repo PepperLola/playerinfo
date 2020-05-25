@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.overlay.PumpkinOverlayHandler;
 import com.palight.playerinfo.listeners.*;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+
+import java.io.IOException;
 
 public class CommonProxy {
     public void init(FMLInitializationEvent event) {
@@ -35,5 +38,12 @@ public class CommonProxy {
 
         // Register Gui Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(PlayerInfo.instance, new GuiHandler());
+
+        // init config
+        try {
+            ModConfiguration.initConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

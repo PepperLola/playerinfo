@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.screens.LoginGui;
 import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.integrations.IntegrationSelector;
 import com.palight.playerinfo.gui.screens.integrations.lifx.LifxGui;
+import com.palight.playerinfo.gui.screens.options.GuiCustomConfig;
 import com.palight.playerinfo.gui.screens.options.GuiOptions;
 import com.palight.playerinfo.gui.screens.servers.ServerSelector;
 import com.palight.playerinfo.gui.screens.servers.hypixel.BedwarsGui;

@@ -39,7 +39,7 @@ public class MainGui extends CustomGuiScreen {
 
         this.settingsGuiButton = new GuiTexturedButton(3, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
 
-        this.buttonList.addAll(Arrays.asList(this.infoGuiButton, this.serverGuiButton, this.integrationGuiButton));
+        this.buttonList.addAll(Arrays.asList(this.infoGuiButton, this.serverGuiButton, this.integrationGuiButton, this.settingsGuiButton));
     }
 
     @Override
@@ -48,8 +48,10 @@ public class MainGui extends CustomGuiScreen {
         World playerWorld = player.getEntityWorld();
         BlockPos playerLocation = player.getPosition();
 
+        System.out.println(b.id);
+
         if (b.id == 0) {
-            player.openGui(PlayerInfo.instance, GuiHandler.SETTINGS_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+            player.openGui(PlayerInfo.instance, GuiHandler.INFO_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
         } else if (b.id == 1) {
             player.openGui(PlayerInfo.instance, GuiHandler.SERVER_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
         } else if (b.id == 2) {
@@ -68,8 +70,6 @@ public class MainGui extends CustomGuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
-
-        settingsGuiButton.drawButton(mc, mouseX, mouseY);
     }
 
     @Override

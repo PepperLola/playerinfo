@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.screens;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.util.MCUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,8 +18,8 @@ public class CustomGuiScreen extends GuiScreen {
     protected int headerWidth = 76;
     protected int headerHeight = 25;
 
-    private ResourceLocation gui = new ResourceLocation("pi:textures/gui/infogui.png");
-    private ResourceLocation guiAssets = new ResourceLocation("pi:textures/gui/gui_assets.png");
+    private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/infogui.png");
+    private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {

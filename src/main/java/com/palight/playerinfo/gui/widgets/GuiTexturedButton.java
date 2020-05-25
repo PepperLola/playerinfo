@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.widgets;
 
+import com.palight.playerinfo.PlayerInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -10,7 +11,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiTexturedButton extends GuiButton {
-    protected static final ResourceLocation iconTextures = new ResourceLocation("pi:textures/gui/icons.png");
+    protected static final ResourceLocation iconTextures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/icons.png");
     public int width;
     public int height;
     public int xPosition;

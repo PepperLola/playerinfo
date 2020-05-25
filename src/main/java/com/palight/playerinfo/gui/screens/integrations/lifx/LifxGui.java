@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.screens.integrations.lifx;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiColorPicker;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
@@ -18,9 +19,7 @@ import java.util.Map;
 
 import static com.palight.playerinfo.PlayerInfo.gson;
 
-public class LifxGui extends GuiScreen {
-    private int xSize = 176;
-    private int ySize = 166;
+public class LifxGui extends CustomGuiScreen {
 
     private int buttonWidth = 64;
     private int buttonHeight = 20;
@@ -76,9 +75,7 @@ public class LifxGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.mc.getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/infogui.png"));
-        drawTexturedModalRect((this.width - xSize) / 2, (this.height - ySize) / 2, 0, 0, xSize, ySize);
-
+        super.drawScreen(mouseX, mouseY, partialTicks);
         colorPicker.drawPicker(mc, mouseX, mouseY);
 
         tokenField.drawTextBox();
@@ -86,8 +83,6 @@ public class LifxGui extends GuiScreen {
         teamMode.drawButton(mc, mouseX, mouseY);
 
         fontRendererObj.drawString("LIFX Integration", (width - xSize) / 2 + 8, (height - ySize) / 2 + 8, 0);
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override

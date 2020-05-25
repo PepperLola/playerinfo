@@ -2,6 +2,7 @@ package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.LoginGui;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -37,10 +38,12 @@ public class RenderListener {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (Minecraft.getMinecraft().theWorld != null) {
-            if (!(event.gui instanceof GuiChat)) {
-                EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
-                er.loadShader(new ResourceLocation("pi:shaders/post/blur.json"));
+        if (ModConfiguration.getBoolean("enableBlur", ModConfiguration.CATEGORY_GENERAL)) {
+            if (Minecraft.getMinecraft().theWorld != null) {
+                if (!(event.gui instanceof GuiChat)) {
+                    EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
+                    er.loadShader(new ResourceLocation(PlayerInfo.MODID, "shaders/post/blur.json"));
+                }
             }
         }
         if (event.gui instanceof GuiOptions) {

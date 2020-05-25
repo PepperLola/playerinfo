@@ -25,7 +25,7 @@ public class PumpkinOverlayHandler extends Gui {
 
         EntityPlayer player = mc.thePlayer;
 
-        mc.getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/overlays.png"));
+        mc.getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/gui/overlays.png"));
 
         ItemStack helmet = player.getCurrentArmor(3);
 

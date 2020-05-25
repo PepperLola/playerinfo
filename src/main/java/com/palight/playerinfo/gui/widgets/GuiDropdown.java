@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.widgets;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -11,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class GuiDropdown extends Gui {
-    protected static final ResourceLocation textures = new ResourceLocation("pi:textures/gui/widgets.png");
+    protected static final ResourceLocation textures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widgets.png");
     public int width;
     public int height;
     public int xPosition;

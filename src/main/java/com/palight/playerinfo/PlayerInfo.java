@@ -20,6 +20,7 @@ import java.util.Map;
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
 public class PlayerInfo
 {
+    public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
     public static final String VERSION = "1.0";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
