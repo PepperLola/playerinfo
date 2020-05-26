@@ -1,7 +1,9 @@
 package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.util.MCUtil;
+import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,12 +13,20 @@ import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CustomGuiScreen extends GuiScreen {
     protected int xSize = 256;
     protected int ySize = 236;
 
     protected int headerWidth = 76;
     protected int headerHeight = 25;
+
+    protected int footerHeight = 20;
+
+    protected List<GuiCustomWidget> guiElements = new ArrayList<GuiCustomWidget>();
 
     private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/infogui.png");
     private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
@@ -47,5 +57,23 @@ public class CustomGuiScreen extends GuiScreen {
 //        }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
+
+        for (GuiCustomWidget widget : guiElements) {
+            widget.mouseClicked(mouseX, mouseY);
+            if (NumberUtil.isBetween(mouseX, widget.xPosition, widget.xPosition + widget.width) &&
+                NumberUtil.isBetween(mouseY, widget.yPosition, widget.yPosition + widget.height)) {
+                widgetClicked(widget);
+            }
+        }
+
+        super.mouseClicked(mouseX, mouseY, btn);
+    }
+
+    protected void widgetClicked(GuiCustomWidget widget) {
+
     }
 }

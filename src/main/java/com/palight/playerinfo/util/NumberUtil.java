@@ -7,6 +7,10 @@ public class NumberUtil {
         return low <= num && num <= high;
     }
 
+    public static boolean pointIsBetween(int x, int y, int lowX, int lowY, int highX, int highY) {
+        return isBetween(x, lowX, highX) && isBetween(y, lowY, highY);
+    }
+
     public static String[] prependElement(String[] array, String element) {
         array = ArrayUtils.remove(array, ArrayUtils.indexOf(array, element));
         return ArrayUtils.add(array, 0, element);
