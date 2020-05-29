@@ -7,4 +7,5 @@ A Minecraft mod that does some cool stuff.
 * Super zoom (default key is Y, but it can be changed in controls)
 * Disabling pumpkin overlay (shows pumpkin icon in top right corner instead)
 * Fetch player information (displaying information is still a work in progress)
-* Background blurring in a GUI (not toggleable yet)
+* Background blurring in a GUI
+* Options menu
