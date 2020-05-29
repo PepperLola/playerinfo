@@ -13,11 +13,6 @@ public class GuiCheckBox extends GuiCustomWidget {
 
     public GuiCheckBox(int id, int x, int y, String displayString, boolean checked) {
         super(id, x, y, 16, 16);
-        this.height = 16;
-        this.width = 16;
-        this.id = id;
-        this.xPosition = x;
-        this.yPosition = y;
         this.displayString = displayString;
         this.checked = checked;
     }

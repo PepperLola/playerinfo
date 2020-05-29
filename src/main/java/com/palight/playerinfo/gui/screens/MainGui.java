@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.widgets.GuiMenuBar;
 import com.palight.playerinfo.gui.widgets.GuiTexturedButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -22,10 +23,13 @@ public class MainGui extends CustomGuiScreen {
     private int buttonX;
     private int buttonY;
 
-    private GuiButton infoGuiButton;
-    private GuiButton serverGuiButton;
-    private GuiButton integrationGuiButton;
+    private GuiMenuBar menuBar;
+
     private GuiTexturedButton settingsGuiButton;
+
+    public MainGui() {
+        super("playerinfo");
+    }
 
 
     @Override
@@ -33,32 +37,16 @@ public class MainGui extends CustomGuiScreen {
         buttonX = (this.width - xSize) / 2 + 16;
         buttonY = (this.height - ySize) / 2 + 32;
 
-        this.infoGuiButton = new GuiButton(0, buttonX, buttonY, buttonWidth, buttonHeight, "Player Info");
-        this.serverGuiButton = new GuiButton(1, buttonX, buttonY + 24, buttonWidth, buttonHeight, "Server Util");
-        this.integrationGuiButton = new GuiButton(2, buttonX, buttonY + 48, buttonWidth, buttonHeight, "Integrations");
+        this.menuBar = new GuiMenuBar(0, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new String[]{"Player Info", "Server Util", "Integrations"});
 
         this.settingsGuiButton = new GuiTexturedButton(3, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
 
-        this.buttonList.addAll(Arrays.asList(this.infoGuiButton, this.serverGuiButton, this.integrationGuiButton, this.settingsGuiButton));
+        this.buttonList.addAll(Arrays.asList(this.settingsGuiButton));
     }
 
     @Override
     protected void actionPerformed(GuiButton b) throws IOException {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        World playerWorld = player.getEntityWorld();
-        BlockPos playerLocation = player.getPosition();
-
         System.out.println(b.id);
-
-        if (b.id == 0) {
-            player.openGui(PlayerInfo.instance, GuiHandler.INFO_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-        } else if (b.id == 1) {
-            player.openGui(PlayerInfo.instance, GuiHandler.SERVER_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-        } else if (b.id == 2) {
-            player.openGui(PlayerInfo.instance, GuiHandler.INTEGRATION_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-        } else if (b.id == 3) {
-            player.openGui(PlayerInfo.instance, GuiHandler.SETTINGS_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-        }
     }
 
     @Override
@@ -70,10 +58,12 @@ public class MainGui extends CustomGuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
+        menuBar.drawWidget(mc, mouseX, mouseY);
     }
 
     @Override
     protected void mouseClicked(int x, int y, int btn) throws IOException {
+        menuBar.mouseClicked(x, y);
         super.mouseClicked(x, y, btn);
     }
 

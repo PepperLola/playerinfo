@@ -11,14 +11,9 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
 
-public class GuiDropdown extends Gui {
+public class GuiDropdown extends GuiCustomWidget {
     protected static final ResourceLocation textures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widgets.png");
-    public int width;
-    public int height;
-    public int xPosition;
-    public int yPosition;
     public String[] displayStrings;
-    public int id;
     public boolean enabled;
     public boolean visible;
     protected boolean hovered;
@@ -31,22 +26,20 @@ public class GuiDropdown extends Gui {
     }
 
     public GuiDropdown(int id, int x, int y, int width, int height, String[] displayStrings) {
+        super(id, x, y, width, height);
         this.width = 64;
         this.height = 16;
         this.enabled = true;
         this.visible = true;
-        this.id = id;
-        this.xPosition = x;
-        this.yPosition = y;
         this.width = width - (width % segmentWidth); // MUST BE A MULTIPLE OF 16 FOR HORIZONTAL TILING TO WORK
-        this.height = height;
         this.displayStrings = displayStrings;
     }
 
-    public void drawDropdown(Minecraft mc, int mouseX, int mouseY) {
+    @Override
+    public void drawWidget(Minecraft mc, int mouseX, int mouseY) {
+        super.drawWidget(mc, mouseX, mouseY);
         if (this.visible) {
             FontRenderer fontrenderer = mc.fontRendererObj;
-            mc.getTextureManager().bindTexture(textures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             //int hoverState = this.getHoverState(this.hovered);
             int selectedItem = getHoveredItem(mouseX, mouseY);

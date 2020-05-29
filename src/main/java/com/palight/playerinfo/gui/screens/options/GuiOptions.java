@@ -26,6 +26,10 @@ public class GuiOptions extends CustomGuiScreen {
     private GuiCheckBox blurEnabled;
     private GuiCheckBox pumpkinDisabled;
 
+    public GuiOptions() {
+        super("Options");
+    }
+
     @Override
     public void initGui() {
         buttonX = (this.width - xSize) / 2 + 32;
@@ -34,11 +38,15 @@ public class GuiOptions extends CustomGuiScreen {
         blurEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable background blur", ModConfiguration.getBoolean("enableBlur", ModConfiguration.CATEGORY_GENERAL));
         pumpkinDisabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Disable pumpkin overlay", ModConfiguration.getBoolean("pumpkinOverlayDisabled", ModConfiguration.CATEGORY_GENERAL));
 
+        blurEnabled.checked = ModConfiguration.enableBlur;
+        pumpkinDisabled.checked = ModConfiguration.pumpkinOverlayDisabled;
+
         guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         for (GuiCustomWidget guiElement : guiElements) {
@@ -62,8 +70,10 @@ public class GuiOptions extends CustomGuiScreen {
         if (widget.id == blurEnabled.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "enableBlur", blurEnabled.checked);
         } else if (widget.id == pumpkinDisabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled", blurEnabled.checked);
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled", pumpkinDisabled.checked);
         }
+
+        ModConfiguration.syncFromGUI();
 
         super.widgetClicked(widget);
     }

@@ -38,7 +38,8 @@ public class RenderListener {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (ModConfiguration.getBoolean("enableBlur", ModConfiguration.CATEGORY_GENERAL)) {
+        boolean enableBlur = ModConfiguration.enableBlur;
+        if (enableBlur) {
             if (Minecraft.getMinecraft().theWorld != null) {
                 if (!(event.gui instanceof GuiChat)) {
                     EntityRenderer er = Minecraft.getMinecraft().entityRenderer;

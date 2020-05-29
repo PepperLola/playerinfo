@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.overlay;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +13,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PumpkinOverlayHandler extends Gui {
 
-    public static String PUMPKIN_CONFIG_NAME = "PUMPKIN_OVERLAY_DISABLED";
+    public static String PUMPKIN_CONFIG_NAME = "pumpkinOverlayDisabled";
 
     @SubscribeEvent
     public void onRenderScreen(RenderGameOverlayEvent.Post event) {
-        if (!((Boolean) PlayerInfo.getConfigValue(PUMPKIN_CONFIG_NAME))) return;
+        if (!(ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled"))) return;
         if (!Minecraft.getMinecraft().inGameHasFocus) return;
 
         Minecraft mc = Minecraft.getMinecraft();
@@ -38,7 +39,7 @@ public class PumpkinOverlayHandler extends Gui {
 
     @SubscribeEvent
     public void onRenderScreen(RenderGameOverlayEvent event) {
-        if (!((Boolean) PlayerInfo.getConfigValue(PUMPKIN_CONFIG_NAME))) return;
+        if (!(ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled"))) return;
         if (event == null || event.type == null) return;
         if (event.type.name().equals("HELMET")) {
             event.setCanceled(true);

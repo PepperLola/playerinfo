@@ -21,6 +21,12 @@ public class CustomGuiScreen extends GuiScreen {
     protected int xSize = 256;
     protected int ySize = 236;
 
+    private String screenName;
+
+    public CustomGuiScreen(String screenName) {
+        this.screenName = screenName;
+    }
+
     protected int headerWidth = 76;
     protected int headerHeight = 25;
 
@@ -28,7 +34,7 @@ public class CustomGuiScreen extends GuiScreen {
 
     protected List<GuiCustomWidget> guiElements = new ArrayList<GuiCustomWidget>();
 
-    private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/infogui.png");
+    private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png");
     private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
 
     @Override
@@ -55,6 +61,8 @@ public class CustomGuiScreen extends GuiScreen {
 //        } else {
         drawTexturedModalRect(headerX, headerY, 0, 0, headerWidth, headerHeight);
 //        }
+
+        this.mc.fontRendererObj.drawString(screenName, guiX + (headerWidth / 2) - (mc.fontRendererObj.getStringWidth(screenName) / 2), guiY + (int) Math.floor((headerHeight / 2)) - 5, 0xffffffff);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

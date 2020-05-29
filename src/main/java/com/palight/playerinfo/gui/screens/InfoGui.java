@@ -24,6 +24,10 @@ public class InfoGui extends CustomGuiScreen {
 
     private PlayerProperties playerProperties;
 
+    public InfoGui() {
+        super("Info");
+    }
+
     @Override
     public void initGui() {
         this.text = new GuiTextField(0, this.fontRendererObj, (this.width - xSize) / 2 + 1, (this.height - ySize) / 2 - 20, xSize - 49, 18);

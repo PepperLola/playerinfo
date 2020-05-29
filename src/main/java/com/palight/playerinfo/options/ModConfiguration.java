@@ -32,12 +32,12 @@ public abstract class ModConfiguration {
         private static final boolean lifxTeamMode = false;
     }
 
-    private static boolean enableBlur = DefaultValues.enableBlur;
-    private static boolean pumpkinOverlayDisabled = DefaultValues.pumpkinOverlayDisabled;
-    private static String selectedServer = DefaultValues.selectedServer;
-    private static String bedwarsMode = DefaultValues.bedwarsMode;
-    private static String lifxToken = DefaultValues.lifxToken;
-    private static boolean lifxTeamMode = DefaultValues.lifxTeamMode;
+    public static boolean enableBlur = DefaultValues.enableBlur;
+    public static boolean pumpkinOverlayDisabled = DefaultValues.pumpkinOverlayDisabled;
+    public static String selectedServer = DefaultValues.selectedServer;
+    public static String bedwarsMode = DefaultValues.bedwarsMode;
+    public static String lifxToken = DefaultValues.lifxToken;
+    public static boolean lifxTeamMode = DefaultValues.lifxTeamMode;
 
     public static Configuration getConfig() {
         return config;

@@ -13,6 +13,7 @@ public abstract class GuiCustomWidget extends Gui {
     public int height;
     public int width;
     public int id;
+    public boolean enabled = true;
     public String displayString;
 
     public GuiCustomWidget(int id, int xPosition, int yPosition, int width, int height) {

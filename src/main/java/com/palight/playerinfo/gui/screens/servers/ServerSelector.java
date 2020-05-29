@@ -4,12 +4,11 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiDropdown;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.io.IOException;
@@ -25,6 +24,10 @@ public class ServerSelector extends CustomGuiScreen {
     private GuiDropdown serverDropdown;
     private GuiButton selectButton;
 
+    public ServerSelector() {
+        super("Server Selector");
+    }
+
 
     @Override
     public void initGui() {
@@ -33,7 +36,7 @@ public class ServerSelector extends CustomGuiScreen {
 
         this.serverDropdown = new GuiDropdown(0, buttonX, buttonY, 80, 16, new String[]{"Hypixel"});
 
-        serverDropdown.setSelectedItem((String) PlayerInfo.getConfigValue("SELECTED_SERVER"));
+        serverDropdown.setSelectedItem(ModConfiguration.getString(ModConfiguration.CATEGORY_SERVERS, "selectedServer"));
 
         selectButton = new GuiButton(0, buttonX + 84, buttonY - 2, 64, 20, "Select");
 
@@ -61,18 +64,16 @@ public class ServerSelector extends CustomGuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        drawTexturedModalRect((this.width - xSize) / 2, (this.height - ySize) / 2, 0, 0, xSize, ySize);
-
-        serverDropdown.drawDropdown(mc, mouseX, mouseY);
-
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        serverDropdown.drawWidget(mc, mouseX, mouseY);
     }
 
     @Override
     protected void mouseClicked(int x, int y, int btn) throws IOException {
         serverDropdown.mousePressed(mc, x, y, btn);
 
-        PlayerInfo.addConfigValue("SELECTED_SERVER", serverDropdown.getSelectedItem());
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_SERVERS, "selectedServer", serverDropdown.getSelectedItem());
 
         super.mouseClicked(x, y, btn);
     }

@@ -23,6 +23,10 @@ public class LoginGui extends CustomGuiScreen {
 
     public static final int SUBMIT_BUTTON_ID = 0;
 
+    public LoginGui() {
+        super("Login");
+    }
+
     @Override
     public void initGui() {
         userX = width / 2 - fontRendererObj.getStringWidth("Username:") - 4;

@@ -6,10 +6,8 @@ import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiDropdown;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.io.IOException;
@@ -24,6 +22,10 @@ public class IntegrationSelector extends CustomGuiScreen {
 
     private GuiDropdown integrationDropdown;
     private GuiButton selectButton;
+
+    public IntegrationSelector() {
+        super("Integrations");
+    }
 
 
     @Override
@@ -59,10 +61,9 @@ public class IntegrationSelector extends CustomGuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-
-        integrationDropdown.drawDropdown(mc, mouseX, mouseY);
-
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        integrationDropdown.drawWidget(mc, mouseX, mouseY);
     }
 
     @Override

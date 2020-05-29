@@ -1,5 +1,6 @@
 package com.palight.playerinfo.rendering;
 
+import com.palight.playerinfo.PlayerInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
@@ -33,7 +34,7 @@ public class ModelBox extends ModelBiped {
         WorldRenderer wr = Tessellator.getInstance().getWorldRenderer();
         wr.begin(3, DefaultVertexFormats.POSITION_TEX);
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("pi:textures/gui/infogui.png"));
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png"));
 
         wr.pos(10, 0, 0).tex(0, 0).endVertex();
         wr.pos(0, 10, 0).tex(0, 0).endVertex();

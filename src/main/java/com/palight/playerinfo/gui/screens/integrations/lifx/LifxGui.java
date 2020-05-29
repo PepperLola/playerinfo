@@ -3,6 +3,7 @@ package com.palight.playerinfo.gui.screens.integrations.lifx;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiColorPicker;
+import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
 import net.minecraft.client.gui.GuiButton;
@@ -37,6 +38,10 @@ public class LifxGui extends CustomGuiScreen {
 
     public static int TEAM_COLOR;
     public static boolean TEAM_MODE = getTeamMode();
+
+    public LifxGui() {
+        super("Lifx");
+    }
 
     @Override
     public void initGui() {
@@ -146,32 +151,19 @@ public class LifxGui extends CustomGuiScreen {
     }
 
     public static void setToken(String token) {
-        Map<String, Object> lifx = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("LIFX")), HashMap.class);
-
-        lifx.put("TOKEN", token);
-
-        PlayerInfo.addConfigValue("LIFX", token);
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_LIFX, "lifxToken", token);
     }
 
     public static String getToken() {
-        Map<String, Object> lifx = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("LIFX")), HashMap.class);
-        String token = (String) lifx.get("TOKEN");
-
-        return token;
+        return ModConfiguration.getString(ModConfiguration.CATEGORY_LIFX, "lifxToken");
     }
 
     public static void setTeamMode(boolean teams) {
         TEAM_MODE = teams;
-        Map<String, Object> lifx = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("LIFX")), HashMap.class);
-        lifx.put("TEAMS", teams);
-
-        PlayerInfo.addConfigValue("LIFX", lifx);
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_LIFX, "lifxTeamMode", teams);
     }
 
     public static boolean getTeamMode() {
-        Map<String, Object> lifx = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("LIFX")), HashMap.class);
-        boolean teamMode = (Boolean) lifx.get("TEAMS");
-
-        return teamMode;
+        return ModConfiguration.getBoolean(ModConfiguration.CATEGORY_LIFX, "lifxTeamMode");
     }
 }

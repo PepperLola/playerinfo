@@ -1,19 +1,13 @@
 package com.palight.playerinfo.gui.screens.servers.hypixel;
 
-import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiDropdown;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.palight.playerinfo.PlayerInfo.gson;
 
 public class BedwarsGui extends CustomGuiScreen {
 
@@ -28,6 +22,10 @@ public class BedwarsGui extends CustomGuiScreen {
 
     private String[] bedwars_names = new String[]{"Solos", "Doubles", "Threes", "Fours"};
     private String[] bedwars_modes = new String[]{"bedwars_eight_one", "bedwars_eight_two", "bedwars_four_three", "bedwars_four_four"};
+
+    public BedwarsGui() {
+        super("Bedwars");
+    }
 
 
     @Override
@@ -61,10 +59,9 @@ public class BedwarsGui extends CustomGuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-
-        modes.drawDropdown(mc, mouseX, mouseY);
-
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        modes.drawWidget(mc, mouseX, mouseY);
     }
 
     @Override
@@ -84,21 +81,10 @@ public class BedwarsGui extends CustomGuiScreen {
     }
 
     public static void setBedwarsMode(String mode) {
-        Map<String, Object> servers = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("SERVERS")), HashMap.class);
-        Map<String, Object> hypixel = gson.fromJson(gson.toJson(servers.get("Hypixel")), HashMap.class);
-
-        hypixel.put("BEDWARS_MODE", mode);
-
-        servers.put("Hypixel", hypixel);
-
-        PlayerInfo.addConfigValue("SERVERS", servers);
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_HYPIXEL, "bedwarsMode", mode);
     }
 
     public static String getBedwarsMode() {
-        Map<String, Object> servers = gson.fromJson(gson.toJson(PlayerInfo.getConfigValue("SERVERS")), HashMap.class);
-        Map<String, Object> hypixel = gson.fromJson(gson.toJson(servers.get("Hypixel")), HashMap.class);
-        String bedwars_mode = (String) hypixel.get("BEDWARS_MODE");
-
-        return bedwars_mode;
+        return ModConfiguration.getString(ModConfiguration.CATEGORY_HYPIXEL, "bedwarsMode");
     }
 }
