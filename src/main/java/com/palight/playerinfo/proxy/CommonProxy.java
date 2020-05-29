@@ -18,10 +18,6 @@ import java.io.IOException;
 public class CommonProxy {
     public void init(FMLInitializationEvent event) {
 
-        PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
-
-        PlayerInfo.createConfig();
-
         // Registering Listeners
         FMLCommonHandler.instance().bus().register(new HitListener());
         MinecraftForge.EVENT_BUS.register(new HitListener());
