@@ -25,6 +25,7 @@ public class GuiOptions extends CustomGuiScreen {
 
     private GuiCheckBox blurEnabled;
     private GuiCheckBox pumpkinDisabled;
+    private GuiCheckBox noteBlockHelper;
 
     public GuiOptions() {
         super("Options");
@@ -37,11 +38,14 @@ public class GuiOptions extends CustomGuiScreen {
 
         blurEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable background blur", ModConfiguration.getBoolean("enableBlur", ModConfiguration.CATEGORY_GENERAL));
         pumpkinDisabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Disable pumpkin overlay", ModConfiguration.getBoolean("pumpkinOverlayDisabled", ModConfiguration.CATEGORY_GENERAL));
+        noteBlockHelper = new GuiCheckBox(2, buttonX, buttonY + 64, "Show note block notes in chat", ModConfiguration.getBoolean("noteBlockHelper", ModConfiguration.CATEGORY_GENERAL));
+
 
         blurEnabled.checked = ModConfiguration.enableBlur;
         pumpkinDisabled.checked = ModConfiguration.pumpkinOverlayDisabled;
+        noteBlockHelper.checked = ModConfiguration.noteBlockHelper;
 
-        guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled));
+        guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled, this.noteBlockHelper));
     }
 
     @Override
@@ -71,6 +75,8 @@ public class GuiOptions extends CustomGuiScreen {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "enableBlur", blurEnabled.checked);
         } else if (widget.id == pumpkinDisabled.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled", pumpkinDisabled.checked);
+        } else if (widget.id == noteBlockHelper.id) {
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "noteBlockHelper", noteBlockHelper.checked);
         }
 
         ModConfiguration.syncFromGUI();

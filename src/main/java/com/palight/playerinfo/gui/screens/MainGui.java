@@ -47,6 +47,14 @@ public class MainGui extends CustomGuiScreen {
     @Override
     protected void actionPerformed(GuiButton b) throws IOException {
         System.out.println(b.id);
+
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        World playerWorld = player.getEntityWorld();
+        BlockPos playerLocation = player.getPosition();
+
+        if (b.id == settingsGuiButton.id) {
+            player.openGui(PlayerInfo.instance, GuiHandler.SETTINGS_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+        }
     }
 
     @Override

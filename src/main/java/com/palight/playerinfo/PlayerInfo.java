@@ -3,6 +3,7 @@ package com.palight.playerinfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.palight.playerinfo.proxy.ClientProxy;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;

@@ -2,7 +2,15 @@ package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.LoginGui;
+import com.palight.playerinfo.modules.NoteBlockUtil;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.util.MCUtil;
+import ibxm.Player;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockNote;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -10,15 +18,19 @@ import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import scala.collection.parallel.ParIterableLike;
 
 import java.awt.*;
 
@@ -91,11 +103,30 @@ public class RenderListener {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().currentScreen == null) {
-            EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
-            if (er.isShaderActive()) {
-                er.stopUseShader();
+        if (Minecraft.getMinecraft().currentScreen == null) {
+            // stop blurring background because it isn't the background anymore
+            if (event.phase == TickEvent.Phase.END) {
+                EntityRenderer er = Minecraft.getMinecraft().entityRenderer;
+                if (er.isShaderActive()) {
+                    er.stopUseShader();
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onNoteBlockChange(NoteBlockEvent event) {
+        if (ModConfiguration.noteBlockHelper) {
+            if (event.getVanillaNoteId() != NoteBlockUtil.getNoteId()) {
+                NoteBlockUtil.setNoteId(event.getVanillaNoteId());
+                MCUtil.sendPlayerMessage(
+                        Minecraft.getMinecraft().thePlayer,
+                        EnumChatFormatting.AQUA +
+                                "Note Block now set to " +
+                                EnumChatFormatting.RESET + EnumChatFormatting.GREEN + EnumChatFormatting.BOLD +
+                                NoteBlockUtil.getNoteString(event.getNote()));
             }
         }
     }

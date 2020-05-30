@@ -26,6 +26,7 @@ public abstract class ModConfiguration {
     private static class DefaultValues {
         private static final boolean enableBlur = true;
         private static final boolean pumpkinOverlayDisabled = false;
+        private static final boolean noteBlockHelper = false;
         private static final String selectedServer = "Hypixel";
         private static final String bedwarsMode = "bedwars_eight_one";
         private static final String lifxToken = "";
@@ -34,6 +35,7 @@ public abstract class ModConfiguration {
 
     public static boolean enableBlur = DefaultValues.enableBlur;
     public static boolean pumpkinOverlayDisabled = DefaultValues.pumpkinOverlayDisabled;
+    public static boolean noteBlockHelper = DefaultValues.noteBlockHelper;
     public static String selectedServer = DefaultValues.selectedServer;
     public static String bedwarsMode = DefaultValues.bedwarsMode;
     public static String lifxToken = DefaultValues.lifxToken;
@@ -73,9 +75,12 @@ public abstract class ModConfiguration {
 
         Property pumpkinOverlayDisabled = config.get(CATEGORY_GENERAL, "pumpkinOverlayDisabled", DefaultValues.pumpkinOverlayDisabled, "Disable pumpkin overlay");
 
+        Property noteBlockHelper = config.get(CATEGORY_GENERAL, "noteBlockHelper", DefaultValues.noteBlockHelper, "Show note block notes");
+
         List<String> propOrderGeneral = new ArrayList<String>();
         propOrderGeneral.add(enableBlur.getName());
         propOrderGeneral.add(pumpkinOverlayDisabled.getName());
+        propOrderGeneral.add(noteBlockHelper.getName());
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrderGeneral);
 
         Property selectedServer = config.get(CATEGORY_SERVERS, "selectedServer", DefaultValues.selectedServer, "Selected server for server util");
@@ -101,6 +106,7 @@ public abstract class ModConfiguration {
         try {
             enableBlur.setConfigEntryClass(BooleanEntry.class);
             pumpkinOverlayDisabled.setConfigEntryClass(BooleanEntry.class);
+            noteBlockHelper.setConfigEntryClass(BooleanEntry.class);
 
             selectedServer.setConfigEntryClass(StringEntry.class);
 
@@ -116,6 +122,7 @@ public abstract class ModConfiguration {
         if (readFieldsFromConfig) {
             ModConfiguration.enableBlur = enableBlur.getBoolean();
             ModConfiguration.pumpkinOverlayDisabled = pumpkinOverlayDisabled.getBoolean();
+            ModConfiguration.noteBlockHelper = noteBlockHelper.getBoolean();
 
             ModConfiguration.selectedServer = selectedServer.getString();
 
@@ -128,6 +135,7 @@ public abstract class ModConfiguration {
 
         enableBlur.set(ModConfiguration.enableBlur);
         pumpkinOverlayDisabled.set(ModConfiguration.pumpkinOverlayDisabled);
+        noteBlockHelper.set(ModConfiguration.noteBlockHelper);
 
         selectedServer.set(ModConfiguration.selectedServer);
 
