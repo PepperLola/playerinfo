@@ -9,3 +9,4 @@ A Minecraft mod that does some cool stuff.
 * Fetch player information (displaying information is still a work in progress)
 * Background blurring in a GUI
 * Options menu
+* Note block helper (shows notes in chat)
