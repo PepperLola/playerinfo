@@ -23,6 +23,7 @@ public class GuiHandler implements IGuiHandler {
     public static int HYPIXEL_GUI_ID = 5;
     public static int INTEGRATION_GUI_ID = 6;
     public static int LIFX_GUI_ID = 7;
+    public static int CONFIG_GUI_ID = 8;
 
     @Override
     public Object getServerGuiElement(int i, EntityPlayer entityPlayer, World world, int i1, int i2, int i3) {
@@ -47,6 +48,8 @@ public class GuiHandler implements IGuiHandler {
             return new GuiOptions();
         } else if (id == LOGIN_GUI_ID) {
             return new LoginGui();
+        } else if (id == CONFIG_GUI_ID) {
+            return new GuiCustomConfig(new GuiOptions());
         }
 
         return null;
