@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,11 +28,6 @@ import java.awt.*;
 public class RenderListener {
 
     public static final int LOGIN_BUTTON_ID = PlayerInfo.MODID.hashCode();
-
-//    @SubscribeEvent
-//    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
-//
-//    }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent

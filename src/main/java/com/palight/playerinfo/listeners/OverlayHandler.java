@@ -41,8 +41,5 @@ public class OverlayHandler extends Gui {
     public void onRenderScreen(RenderGameOverlayEvent event) {
         if (!(ModConfiguration.pumpkinOverlayDisabled)) return;
         if (event == null || event.type == null) return;
-        if (event.type.name().equals("HELMET")) {
-            event.setCanceled(true);
-        }
     }
 }
