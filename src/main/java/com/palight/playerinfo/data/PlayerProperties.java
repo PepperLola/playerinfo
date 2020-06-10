@@ -1,12 +1,18 @@
 package com.palight.playerinfo.data;
 
+import io.netty.handler.codec.base64.Base64;
+import io.netty.handler.codec.base64.Base64Encoder;
+
+import javax.xml.bind.DatatypeConverter;
 import java.util.Map;
+
+import static com.palight.playerinfo.PlayerInfo.gson;
 
 public class PlayerProperties {
     private long timestamp;
     private String profileId;
     private String profileName;
-    private Map<String, Map<String, Object>> textures;
+    private Map<String, Map<String, ?>> textures;
 
     public PlayerProperties() {
     }
@@ -35,11 +41,11 @@ public class PlayerProperties {
         this.profileName = profileName;
     }
 
-    public Map<String, Map<String, Object>> getTextures() {
+    public Map<String, Map<String, ?>> getTextures() {
         return textures;
     }
 
-    public void setTextures(Map<String, Map<String, Object>> textures) {
+    public void setTextures(Map<String, Map<String, ?>> textures) {
         this.textures = textures;
     }
 
@@ -56,5 +62,18 @@ public class PlayerProperties {
         Map<String, String> metadata = getSkinMetadata();
         if (metadata == null) return "default";
         return metadata.get("model");
+    }
+
+    public String toString() {
+        return gson.toJson(this);
+    }
+
+    public String toBase64String() {
+        return DatatypeConverter.printBase64Binary(this.toString().getBytes());
+    }
+
+    public static PlayerProperties fromBase64(String base64Encoded) {
+        String decodedBase64 = new String(DatatypeConverter.parseBase64Binary(base64Encoded));
+        return gson.fromJson(decodedBase64, PlayerProperties.class);
     }
 }

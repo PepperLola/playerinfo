@@ -5,12 +5,6 @@ import com.palight.playerinfo.gui.screens.LoginGui;
 import com.palight.playerinfo.modules.NoteBlockUtil;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.MCUtil;
-import ibxm.Player;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockNote;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
@@ -18,14 +12,10 @@ import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -38,14 +28,10 @@ public class RenderListener {
 
     public static final int LOGIN_BUTTON_ID = PlayerInfo.MODID.hashCode();
 
-    @SubscribeEvent
-    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        EntityPlayer player = event.entityPlayer;
-//        if (player.getUniqueID().toString().replace("-", "").equals(Minecraft.getSessionInfo().get("X-Minecraft-UUID"))) {
-//            ModelBox modelBox = new ModelBox(event.renderer.getMainModel(), 1);
-//            modelBox.render(player, player.posX, player.posY, player.posZ);
-//        }
-    }
+//    @SubscribeEvent
+//    public void onRenderPlayer(RenderPlayerEvent.Pre event) {
+//
+//    }
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
@@ -117,7 +103,7 @@ public class RenderListener {
     }
 
     @SubscribeEvent
-    public void onNoteBlockChange(NoteBlockEvent event) {
+    public void onNoteBlockChange(NoteBlockEvent.Change event) {
         if (ModConfiguration.noteBlockHelper) {
             if (event.getVanillaNoteId() != NoteBlockUtil.getNoteId()) {
                 NoteBlockUtil.setNoteId(event.getVanillaNoteId());

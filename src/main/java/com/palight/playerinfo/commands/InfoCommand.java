@@ -13,9 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.palight.playerinfo.PlayerInfo.gson;
+
 public class InfoCommand {
 
-    private static Gson gson = new Gson();
     private static EntityPlayer player;
 
     private InfoCommand() {}
@@ -39,9 +40,7 @@ public class InfoCommand {
         Map<String, Object> responseData = gson.fromJson(responseBody, new TypeToken<HashMap<String, Object>>(){}.getType());
         List<Map<String, String>> rawProperties = (ArrayList<Map<String, String>>) responseData.get("properties");
 
-        String decodedBase64 = new String(DatatypeConverter.parseBase64Binary(rawProperties.get(0).get("value")));
-
-        PlayerProperties playerProperties = gson.fromJson(decodedBase64, PlayerProperties.class);
+        PlayerProperties playerProperties = PlayerProperties.fromBase64(rawProperties.get(0).get("value"));
 
         System.out.println(playerProperties.getProfileName() + ": " + playerProperties.getSkinMetadata());
         return playerProperties;

@@ -1,33 +1,33 @@
 package com.palight.playerinfo;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.palight.playerinfo.proxy.ClientProxy;
+import com.palight.playerinfo.modules.NoteBlockUtil;
 import com.palight.playerinfo.proxy.CommonProxy;
-import net.minecraft.client.Minecraft;
+import com.palight.playerinfo.util.MidiUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import org.apache.commons.io.FileUtils;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
+import javax.sound.midi.ShortMessage;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Random;
 
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
 public class PlayerInfo
 {
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.6.5";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
     public static File configFile = new File(DATA_FOLDER + "config.json");
+
+    public static Random random = new Random();
 
     public static Gson gson = new Gson();
     public static JsonParser parser = new JsonParser();
@@ -43,5 +43,19 @@ public class PlayerInfo
     {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
+        createDataFolder();
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
+
+    public void createDataFolder() {
+        File dataFolder = new File(DATA_FOLDER);
+
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
     }
 }

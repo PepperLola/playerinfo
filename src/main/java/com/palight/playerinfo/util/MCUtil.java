@@ -1,5 +1,6 @@
 package com.palight.playerinfo.util;
 
+import com.palight.playerinfo.data.PlayerProperties;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;

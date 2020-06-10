@@ -92,7 +92,6 @@ public class GuiMenuBar extends GuiCustomWidget {
                 xOffset += buttonWidth - 8;
             }
 
-            System.out.println("FORWARD BUTTON");
         } else if (backButton.mousePressed(mouseX, mouseY)) {
             buttonList.add(buttonList.get(0));
             buttonList.remove(0);
@@ -104,10 +103,6 @@ public class GuiMenuBar extends GuiCustomWidget {
                 buttonList.get(i).xPosition = xPosition + xOffset;
                 xOffset += buttonWidth - 8;
             }
-
-            System.out.println("BACK BUTTON");
         }
-
-        System.out.println(buttonList.toString());
     }
 }

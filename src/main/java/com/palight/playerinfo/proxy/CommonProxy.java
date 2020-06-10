@@ -5,11 +5,13 @@ import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.listeners.OverlayHandler;
 import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.options.ModConfiguration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import java.io.IOException;
@@ -18,7 +20,6 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
 
         // Registering Listeners
-        FMLCommonHandler.instance().bus().register(new HitListener());
         MinecraftForge.EVENT_BUS.register(new HitListener());
         MinecraftForge.EVENT_BUS.register(new CommandListener());
         MinecraftForge.EVENT_BUS.register(new KeyListener());
@@ -40,5 +41,11 @@ public class CommonProxy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
+    }
+
+    public void postInit(FMLPostInitializationEvent event) {
+
     }
 }

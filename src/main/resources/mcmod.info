@@ -2,7 +2,7 @@
 {
   "modid": "playerinfo",
   "name": "Player Information",
-  "description": "A mod that lets you get information about players.",
+  "description": "A mod that does a lot of things.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
