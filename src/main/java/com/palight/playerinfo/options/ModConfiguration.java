@@ -23,23 +23,43 @@ public abstract class ModConfiguration {
     public static final String CATEGORY_INTEGRATIONS = "integrations";
     public static final String CATEGORY_LIFX = CATEGORY_INTEGRATIONS + ".lifx";
 
+    public static final String CATEGORY_GUI = "gui";
+
+    public static final String CATEGORY_MODS = "mods";
+
     private static class DefaultValues {
         private static final boolean enableBlur = true;
         private static final boolean pumpkinOverlayDisabled = false;
         private static final boolean noteBlockHelper = false;
+
         private static final String selectedServer = "Hypixel";
         private static final String bedwarsMode = "bedwars_eight_one";
+
         private static final String lifxToken = "";
         private static final boolean lifxTeamMode = false;
+
+        private static final boolean lifxModEnabled = false;
+        private static final boolean scoreboardModEnabled = false;
+
+        private static final boolean scoreboardEnabled = true;
+        private static final boolean scoreboardNumbersEnabled = true;
     }
 
     public static boolean enableBlur = DefaultValues.enableBlur;
     public static boolean pumpkinOverlayDisabled = DefaultValues.pumpkinOverlayDisabled;
     public static boolean noteBlockHelper = DefaultValues.noteBlockHelper;
+
     public static String selectedServer = DefaultValues.selectedServer;
     public static String bedwarsMode = DefaultValues.bedwarsMode;
+
     public static String lifxToken = DefaultValues.lifxToken;
     public static boolean lifxTeamMode = DefaultValues.lifxTeamMode;
+
+    public static boolean lifxModEnabled = DefaultValues.lifxModEnabled;
+    public static boolean scoreboardModEnabled = DefaultValues.scoreboardModEnabled;
+
+    public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
+    public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
 
     public static Configuration getConfig() {
         return config;
@@ -83,6 +103,14 @@ public abstract class ModConfiguration {
         propOrderGeneral.add(noteBlockHelper.getName());
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrderGeneral);
 
+        Property scoreboardEnabled = config.get(CATEGORY_GUI, "scoreboardEnabled", DefaultValues.scoreboardEnabled, "Toggle scoreboard");
+        Property scoreboardNumbersEnabled = config.get(CATEGORY_GUI, "scoreboardNumbersEnabled", DefaultValues.scoreboardNumbersEnabled, "Toggle the red numbers on the scoreboard");
+
+        List<String> propOrderGui = new ArrayList<String>();
+        propOrderGui.add(scoreboardEnabled.getName());
+        propOrderGui.add(scoreboardNumbersEnabled.getName());
+        config.setCategoryPropertyOrder(CATEGORY_GUI, propOrderGui);
+
         Property selectedServer = config.get(CATEGORY_SERVERS, "selectedServer", DefaultValues.selectedServer, "Selected server for server util");
 
         List<String> propOrderServers = new ArrayList<String>();
@@ -103,6 +131,14 @@ public abstract class ModConfiguration {
         propOrderLifx.add(lifxTeamMode.getName());
         config.setCategoryPropertyOrder(CATEGORY_LIFX, propOrderLifx);
 
+        Property lifxModEnabled = config.get(CATEGORY_MODS, "lifxModEnabled", DefaultValues.lifxModEnabled, "Enable LIFX Mod");
+        Property scoreboardModEnabled = config.get(CATEGORY_MODS, "scoreboardModEnabled", DefaultValues.scoreboardModEnabled, "Enable scoreboard mod");
+
+        List<String> propOrderMods = new ArrayList<String>();
+        propOrderMods.add(scoreboardModEnabled.getName());
+        propOrderMods.add(lifxModEnabled.getName());
+        config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
+
         try {
             enableBlur.setConfigEntryClass(BooleanEntry.class);
             pumpkinOverlayDisabled.setConfigEntryClass(BooleanEntry.class);
@@ -114,6 +150,12 @@ public abstract class ModConfiguration {
 
             lifxToken.setConfigEntryClass(StringEntry.class);
             lifxTeamMode.setConfigEntryClass(BooleanEntry.class);
+
+            lifxModEnabled.setConfigEntryClass(BooleanEntry.class);
+            scoreboardModEnabled.setConfigEntryClass(BooleanEntry.class);
+
+            scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
+            scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
         } catch(NoClassDefFoundError e) {
             e.printStackTrace();
         }
@@ -130,6 +172,12 @@ public abstract class ModConfiguration {
 
             ModConfiguration.lifxToken = lifxToken.getString();
             ModConfiguration.lifxTeamMode = lifxTeamMode.getBoolean();
+
+            ModConfiguration.lifxModEnabled = lifxModEnabled.getBoolean();
+            ModConfiguration.scoreboardModEnabled = scoreboardModEnabled.getBoolean();
+
+            ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
+            ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
         }
 
 
@@ -143,6 +191,12 @@ public abstract class ModConfiguration {
 
         lifxToken.set(ModConfiguration.lifxToken);
         lifxTeamMode.set(ModConfiguration.lifxTeamMode);
+
+        lifxModEnabled.set(ModConfiguration.lifxModEnabled);
+        scoreboardModEnabled.set(ModConfiguration.scoreboardModEnabled);
+
+        scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
+        scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
 
         if (config.hasChanged()) config.save();
     }

@@ -3,10 +3,9 @@ package com.palight.playerinfo.gui;
 import com.palight.playerinfo.gui.screens.InfoGui;
 import com.palight.playerinfo.gui.screens.LoginGui;
 import com.palight.playerinfo.gui.screens.MainGui;
-import com.palight.playerinfo.gui.screens.integrations.IntegrationSelector;
-import com.palight.playerinfo.gui.screens.integrations.lifx.LifxGui;
 import com.palight.playerinfo.gui.screens.options.GuiCustomConfig;
 import com.palight.playerinfo.gui.screens.options.GuiOptions;
+import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
 import com.palight.playerinfo.gui.screens.servers.ServerSelector;
 import com.palight.playerinfo.gui.screens.servers.hypixel.BedwarsGui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,8 +39,6 @@ public class GuiHandler implements IGuiHandler {
             return new ServerSelector();
         } else if (id == HYPIXEL_GUI_ID) {
             return new BedwarsGui();
-        } else if (id == INTEGRATION_GUI_ID) {
-            return new IntegrationSelector();
         } else if (id == LIFX_GUI_ID) {
             return new LifxGui();
         } else if (id == SETTINGS_GUI_ID) {

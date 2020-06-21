@@ -36,10 +36,4 @@ public class OverlayHandler extends Gui {
             }
         }
     }
-
-    @SubscribeEvent
-    public void onRenderScreen(RenderGameOverlayEvent event) {
-        if (!(ModConfiguration.pumpkinOverlayDisabled)) return;
-        if (event == null || event.type == null) return;
-    }
 }

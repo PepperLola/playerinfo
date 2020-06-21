@@ -3,22 +3,27 @@ package com.palight.playerinfo.gui.screens;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.widgets.GuiMenuBar;
+import com.palight.playerinfo.gui.widgets.GuiModuleEntry;
 import com.palight.playerinfo.gui.widgets.GuiTexturedButton;
+import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
-public class MainGui extends CustomGuiScreen {
+public class MainGui extends CustomGuiScreenScrollable {
 
-    private int buttonWidth = 64;
-    private int buttonHeight = 20;
+    private final int buttonWidth = 64;
+    private final int buttonHeight = 20;
+
+    private final int hPadding = 2;
+    private final int columns = 2;
+    private int columnWidth;
+    private final int rowHeight = 32;
 
     private int buttonX;
     private int buttonY;
@@ -27,6 +32,8 @@ public class MainGui extends CustomGuiScreen {
 
     private GuiTexturedButton settingsGuiButton;
 
+    List<GuiModuleEntry> modules = new ArrayList<GuiModuleEntry>();
+
     public MainGui() {
         super("playerinfo");
     }
@@ -34,14 +41,30 @@ public class MainGui extends CustomGuiScreen {
 
     @Override
     public void initGui() {
+        super.initGui();
+
         buttonX = (this.width - xSize) / 2 + 16;
         buttonY = (this.height - ySize) / 2 + 32;
+
+        columnWidth = ((xSize - (2 * leftOffset)) - (2 * hPadding)) / columns;
+
+        for (int i = 0; i < PlayerInfo.getModules().values().size(); i++) {
+            Module module = new ArrayList<Module>(PlayerInfo.getModules().values()).get(i);
+            int xPosition = guiX + leftOffset + hPadding + (columnWidth * (i % columns));
+            int yPosition = guiY + headerHeight + (i - (i % columns)) * rowHeight + 4;
+            GuiModuleEntry entry = new GuiModuleEntry(this, i, module, xPosition, yPosition, columnWidth, rowHeight);
+            entry.init();
+            modules.add(entry);
+        }
+
 
         this.menuBar = new GuiMenuBar(0, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new String[]{"Player Info", "Server Util", "Integrations"});
 
         this.settingsGuiButton = new GuiTexturedButton(3, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
 
         this.buttonList.addAll(Arrays.asList(this.settingsGuiButton));
+
+        this.guiElements.addAll(modules);
     }
 
     @Override

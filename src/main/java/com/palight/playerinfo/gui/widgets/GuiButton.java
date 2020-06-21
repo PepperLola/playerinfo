@@ -13,8 +13,8 @@ public class GuiButton extends GuiCustomWidget {
     protected boolean hovered;
     public int packedFGColour;
 
-    public GuiButton(int p_i1020_1_, int p_i1020_2_, int p_i1020_3_, String p_i1020_4_) {
-        this(p_i1020_1_, p_i1020_2_, p_i1020_3_, 200, 20, p_i1020_4_);
+    public GuiButton(int id, int xPosition, int yPosition, String displayString) {
+        this(id, xPosition, yPosition, 200, 20, displayString);
     }
 
     public GuiButton(int id, int xPosition, int yPosition, int width, int height, String displayString) {

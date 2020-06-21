@@ -2,18 +2,19 @@ package com.palight.playerinfo;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import com.palight.playerinfo.modules.NoteBlockUtil;
+import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.modules.gui.ScoreboardMod;
+import com.palight.playerinfo.modules.misc.LifxMod;
 import com.palight.playerinfo.proxy.CommonProxy;
-import com.palight.playerinfo.util.MidiUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
-import javax.sound.midi.ShortMessage;
 import java.io.File;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
@@ -38,6 +39,13 @@ public class PlayerInfo
     @Mod.Instance("playerinfo")
     public static PlayerInfo instance;
 
+    private static Map<String, Module> modules = new HashMap<String, Module>();
+
+    static {
+        modules.put("scoreboard", new ScoreboardMod());
+        modules.put("lifx", new LifxMod());
+    }
+
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -57,5 +65,9 @@ public class PlayerInfo
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
+    }
+
+    public static Map<String, Module> getModules() {
+        return modules;
     }
 }

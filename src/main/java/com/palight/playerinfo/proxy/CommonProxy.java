@@ -25,8 +25,8 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new KeyListener());
         MinecraftForge.EVENT_BUS.register(new RenderListener());
         MinecraftForge.EVENT_BUS.register(new FovListener());
-        MinecraftForge.EVENT_BUS.register(new TickHandler());
         MinecraftForge.EVENT_BUS.register(new OverlayHandler());
+        MinecraftForge.EVENT_BUS.register(new MainScreenHandler());
 
         // Registering Keybinds
         ClientRegistry.registerKeyBinding(new KeyBinding("key.zoom", 21, "Player Info"));

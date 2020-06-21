@@ -60,21 +60,6 @@ public class GuiSlantedButton extends GuiCustomWidget {
         if (!this.enabled) return false;
 
         if (NumberUtil.pointIsBetween(mouseX, mouseY, xPosition, yPosition, xPosition + width, yPosition + height)) {
-            try {
-                Sequence sequence = MidiUtil.getSequence(DATA_FOLDER + "/country_roads.mid");
-//                MidiUtil.playMidiSequence(sequence);
-                List<ShortMessage> smList = MidiUtil.readMidi(sequence);
-
-                long tickLength = sequence.getTickLength();
-
-                for (ShortMessage sm : smList) {
-                    NoteBlockEvent.Note note = NoteBlockUtil.getNote(MidiUtil.toMCNote(sm));
-                    Thread.sleep(500);
-                    Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("note.harp"), NoteBlockUtil.getPitch(note)));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             return true;
         }
 

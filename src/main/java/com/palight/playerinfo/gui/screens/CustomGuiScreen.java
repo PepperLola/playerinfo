@@ -20,6 +20,10 @@ import java.util.List;
 public class CustomGuiScreen extends GuiScreen {
     protected int xSize = 256;
     protected int ySize = 236;
+    protected int guiX;
+    protected int guiY;
+
+    protected int leftOffset = 15;
 
     private String screenName;
 
@@ -38,10 +42,16 @@ public class CustomGuiScreen extends GuiScreen {
     private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
 
     @Override
+    public void initGui() {
+        guiX = (this.width - xSize) / 2;
+        guiY = (this.height - ySize) / 2;
+    }
+
+    @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-        int guiX = (this.width - xSize) / 2;
-        int guiY = (this.height - ySize) / 2;
+        guiX = (this.width - xSize) / 2;
+        guiY = (this.height - ySize) / 2;
 
         this.mc.getTextureManager().bindTexture(gui);
         drawTexturedModalRect(guiX, guiY, 0, 0, xSize, ySize);
@@ -83,5 +93,40 @@ public class CustomGuiScreen extends GuiScreen {
 
     protected void widgetClicked(GuiCustomWidget widget) {
 
+    }
+
+    public void drawTextMultiLine(String text, int x, int y, int color, int maxWidth, boolean splitOnSpaces) {
+        String splitChar = splitOnSpaces ? " " : "";
+        String[] splitText = text.split(splitChar);
+
+        List<String> displayStrings = new ArrayList<String>();
+
+        String currentString = "";
+        int currentWidth = 0;
+        // loops over split text
+        for (int i = 0; i < splitText.length; i++) {
+            // current string, adds spaces back if split on spaces and this isn't the last word in the list
+            String displayString = splitText[i] + (i != splitText.length - 1 && splitOnSpaces ? " " : "");
+            // adds displayString's width to the line's total width
+            currentWidth += fontRendererObj.getStringWidth(displayString);
+
+            // this means it's the end of the line and that we should start a new one
+            if (currentWidth > maxWidth) {
+                // resets total width for next line, adds this line text to the lines list and resets current text
+                currentWidth = 0;
+                displayStrings.add(currentString);
+                currentString = "";
+            }
+            // adds display string to current text
+            currentString += displayString;
+        }
+
+        // adds the last row
+        displayStrings.add(currentString);
+
+        for (int i = 0; i < displayStrings.size(); i++) {
+            String displayString = displayStrings.get(i);
+            this.drawString(fontRendererObj, displayString, x, y + (i * fontRendererObj.FONT_HEIGHT), color);
+        }
     }
 }

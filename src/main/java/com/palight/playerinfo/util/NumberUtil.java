@@ -11,6 +11,10 @@ public class NumberUtil {
         return isBetween(x, lowX, highX) && isBetween(y, lowY, highY);
     }
 
+    public static int roundDown(int in, int max) {
+        return Math.min(in, max);
+    }
+
     public static String[] prependElement(String[] array, String element) {
         array = ArrayUtils.remove(array, ArrayUtils.indexOf(array, element));
         return ArrayUtils.add(array, 0, element);

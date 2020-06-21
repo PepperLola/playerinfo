@@ -1,15 +1,12 @@
-package com.palight.playerinfo.gui.screens.integrations.lifx;
+package com.palight.playerinfo.gui.screens.options.modules.misc;
 
-import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiColorPicker;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 import org.apache.http.HttpResponse;
 
@@ -17,8 +14,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.palight.playerinfo.PlayerInfo.gson;
 
 public class LifxGui extends CustomGuiScreen {
 
@@ -37,7 +32,7 @@ public class LifxGui extends CustomGuiScreen {
     private GuiCheckBox teamMode;
 
     public static int TEAM_COLOR;
-    public static boolean TEAM_MODE = getTeamMode();
+    public static boolean TEAM_MODE;
 
     public LifxGui() {
         super("Lifx");
@@ -45,6 +40,8 @@ public class LifxGui extends CustomGuiScreen {
 
     @Override
     public void initGui() {
+        TEAM_MODE = getTeamMode();
+
         buttonX = (this.width - xSize) / 2;
         buttonY = (this.height - ySize) / 2;
 
