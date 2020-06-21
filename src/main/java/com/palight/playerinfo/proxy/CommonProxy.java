@@ -2,14 +2,12 @@ package com.palight.playerinfo.proxy;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
-import com.palight.playerinfo.listeners.OverlayHandler;
 import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -25,7 +23,6 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new KeyListener());
         MinecraftForge.EVENT_BUS.register(new RenderListener());
         MinecraftForge.EVENT_BUS.register(new FovListener());
-        MinecraftForge.EVENT_BUS.register(new OverlayHandler());
         MinecraftForge.EVENT_BUS.register(new MainScreenHandler());
 
         // Registering Keybinds

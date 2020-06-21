@@ -1,8 +1,6 @@
-package com.palight.playerinfo.modules;
+package com.palight.playerinfo.util;
 
 import com.palight.playerinfo.PlayerInfo;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.world.NoteBlockEvent;
 
 import static net.minecraftforge.event.world.NoteBlockEvent.Note;
 

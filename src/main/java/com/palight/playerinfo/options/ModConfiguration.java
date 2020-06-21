@@ -28,9 +28,6 @@ public abstract class ModConfiguration {
     public static final String CATEGORY_MODS = "mods";
 
     private static class DefaultValues {
-        private static final boolean enableBlur = true;
-        private static final boolean pumpkinOverlayDisabled = false;
-        private static final boolean noteBlockHelper = false;
 
         private static final String selectedServer = "Hypixel";
         private static final String bedwarsMode = "bedwars_eight_one";
@@ -38,16 +35,16 @@ public abstract class ModConfiguration {
         private static final String lifxToken = "";
         private static final boolean lifxTeamMode = false;
 
+        private static final boolean blurModEnabled = true;
+        private static final boolean pumpkinModEnabled = false;
         private static final boolean lifxModEnabled = false;
         private static final boolean scoreboardModEnabled = false;
+        private static final boolean noteBlockModEnabled = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
     }
 
-    public static boolean enableBlur = DefaultValues.enableBlur;
-    public static boolean pumpkinOverlayDisabled = DefaultValues.pumpkinOverlayDisabled;
-    public static boolean noteBlockHelper = DefaultValues.noteBlockHelper;
 
     public static String selectedServer = DefaultValues.selectedServer;
     public static String bedwarsMode = DefaultValues.bedwarsMode;
@@ -55,8 +52,11 @@ public abstract class ModConfiguration {
     public static String lifxToken = DefaultValues.lifxToken;
     public static boolean lifxTeamMode = DefaultValues.lifxTeamMode;
 
+    public static boolean blurModEnabled = DefaultValues.blurModEnabled;
+    public static boolean pumpkinModEnabled = DefaultValues.pumpkinModEnabled;
     public static boolean lifxModEnabled = DefaultValues.lifxModEnabled;
     public static boolean scoreboardModEnabled = DefaultValues.scoreboardModEnabled;
+    public static boolean noteBlockModEnabled = DefaultValues.noteBlockModEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -90,17 +90,10 @@ public abstract class ModConfiguration {
 
         if (loadConfigFromFile) config.load();
 
-        Property enableBlur = config.get(CATEGORY_GENERAL, "enableBlur", DefaultValues.enableBlur, "Enable background blurring in gui");
-//        propStandardLevel.setLanguageKey("uncrafting.options.standardLevel");
 
-        Property pumpkinOverlayDisabled = config.get(CATEGORY_GENERAL, "pumpkinOverlayDisabled", DefaultValues.pumpkinOverlayDisabled, "Disable pumpkin overlay");
 
-        Property noteBlockHelper = config.get(CATEGORY_GENERAL, "noteBlockHelper", DefaultValues.noteBlockHelper, "Show note block notes");
 
         List<String> propOrderGeneral = new ArrayList<String>();
-        propOrderGeneral.add(enableBlur.getName());
-        propOrderGeneral.add(pumpkinOverlayDisabled.getName());
-        propOrderGeneral.add(noteBlockHelper.getName());
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrderGeneral);
 
         Property scoreboardEnabled = config.get(CATEGORY_GUI, "scoreboardEnabled", DefaultValues.scoreboardEnabled, "Toggle scoreboard");
@@ -131,18 +124,22 @@ public abstract class ModConfiguration {
         propOrderLifx.add(lifxTeamMode.getName());
         config.setCategoryPropertyOrder(CATEGORY_LIFX, propOrderLifx);
 
-        Property lifxModEnabled = config.get(CATEGORY_MODS, "lifxModEnabled", DefaultValues.lifxModEnabled, "Enable LIFX Mod");
+        Property blurModEnabled = config.get(CATEGORY_MODS, "blurModEnabled", DefaultValues.blurModEnabled, "Enable background blurring in gui");
+        Property pumpkinModEnabled = config.get(CATEGORY_MODS, "pumpkinModEnabled", DefaultValues.pumpkinModEnabled, "Disable pumpkin overlay");
+        Property lifxModEnabled = config.get(CATEGORY_MODS, "lifxModEnabled", DefaultValues.lifxModEnabled, "Enable LIFX mod");
         Property scoreboardModEnabled = config.get(CATEGORY_MODS, "scoreboardModEnabled", DefaultValues.scoreboardModEnabled, "Enable scoreboard mod");
+        Property noteBlockModEnabled = config.get(CATEGORY_MODS, "noteBlockModEnabled", DefaultValues.noteBlockModEnabled, "Show note block notes");
 
         List<String> propOrderMods = new ArrayList<String>();
+        propOrderMods.add(blurModEnabled.getName());
+        propOrderMods.add(pumpkinModEnabled.getName());
         propOrderMods.add(scoreboardModEnabled.getName());
         propOrderMods.add(lifxModEnabled.getName());
+        propOrderMods.add(noteBlockModEnabled.getName());
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
         try {
-            enableBlur.setConfigEntryClass(BooleanEntry.class);
-            pumpkinOverlayDisabled.setConfigEntryClass(BooleanEntry.class);
-            noteBlockHelper.setConfigEntryClass(BooleanEntry.class);
+            noteBlockModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             selectedServer.setConfigEntryClass(StringEntry.class);
 
@@ -151,6 +148,8 @@ public abstract class ModConfiguration {
             lifxToken.setConfigEntryClass(StringEntry.class);
             lifxTeamMode.setConfigEntryClass(BooleanEntry.class);
 
+            blurModEnabled.setConfigEntryClass(BooleanEntry.class);
+            pumpkinModEnabled.setConfigEntryClass(BooleanEntry.class);
             lifxModEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardModEnabled.setConfigEntryClass(BooleanEntry.class);
 
@@ -162,9 +161,7 @@ public abstract class ModConfiguration {
 
 
         if (readFieldsFromConfig) {
-            ModConfiguration.enableBlur = enableBlur.getBoolean();
-            ModConfiguration.pumpkinOverlayDisabled = pumpkinOverlayDisabled.getBoolean();
-            ModConfiguration.noteBlockHelper = noteBlockHelper.getBoolean();
+            ModConfiguration.noteBlockModEnabled = noteBlockModEnabled.getBoolean();
 
             ModConfiguration.selectedServer = selectedServer.getString();
 
@@ -173,6 +170,8 @@ public abstract class ModConfiguration {
             ModConfiguration.lifxToken = lifxToken.getString();
             ModConfiguration.lifxTeamMode = lifxTeamMode.getBoolean();
 
+            ModConfiguration.blurModEnabled = blurModEnabled.getBoolean();
+            ModConfiguration.pumpkinModEnabled = pumpkinModEnabled.getBoolean();
             ModConfiguration.lifxModEnabled = lifxModEnabled.getBoolean();
             ModConfiguration.scoreboardModEnabled = scoreboardModEnabled.getBoolean();
 
@@ -181,9 +180,7 @@ public abstract class ModConfiguration {
         }
 
 
-        enableBlur.set(ModConfiguration.enableBlur);
-        pumpkinOverlayDisabled.set(ModConfiguration.pumpkinOverlayDisabled);
-        noteBlockHelper.set(ModConfiguration.noteBlockHelper);
+        noteBlockModEnabled.set(ModConfiguration.noteBlockModEnabled);
 
         selectedServer.set(ModConfiguration.selectedServer);
 
@@ -192,6 +189,8 @@ public abstract class ModConfiguration {
         lifxToken.set(ModConfiguration.lifxToken);
         lifxTeamMode.set(ModConfiguration.lifxTeamMode);
 
+        blurModEnabled.set(ModConfiguration.blurModEnabled);
+        pumpkinModEnabled.set(ModConfiguration.pumpkinModEnabled);
         lifxModEnabled.set(ModConfiguration.lifxModEnabled);
         scoreboardModEnabled.set(ModConfiguration.scoreboardModEnabled);
 

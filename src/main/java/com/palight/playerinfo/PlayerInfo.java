@@ -3,8 +3,11 @@ package com.palight.playerinfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.modules.gui.PumpkinMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
+import com.palight.playerinfo.modules.misc.BlurMod;
 import com.palight.playerinfo.modules.misc.LifxMod;
+import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -44,6 +47,9 @@ public class PlayerInfo
     static {
         modules.put("scoreboard", new ScoreboardMod());
         modules.put("lifx", new LifxMod());
+        modules.put("backgroundBlur", new BlurMod());
+        modules.put("pumpkinOverlay", new PumpkinMod());
+        modules.put("noteBlockHelper", new NoteBlockMod());
     }
 
     @EventHandler

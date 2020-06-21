@@ -28,8 +28,10 @@ public class GuiModuleEntry extends GuiCustomWidget {
         buttonY = yPosition + 32;
 
         toggleButton = new GuiButton(0, buttonX, buttonY, getButtonText());
-        toggleButton.width = width - 20;
-        optionsButton = new GuiTexturedButton(1, buttonX + (width - 20), buttonY, 20, 20, 0, 0);
+        toggleButton.width = width - (module.getOptionsGui() == null ? 0 : 20);
+
+        if (module.getOptionsGui() != null)
+            optionsButton = new GuiTexturedButton(1, buttonX + (width - 20), buttonY, 20, 20, 0, 0);
     }
 
     public void init() {
@@ -45,8 +47,11 @@ public class GuiModuleEntry extends GuiCustomWidget {
         owningScreen.drawTextMultiLine(module.getDescription(), xPosition, yPosition + mc.fontRendererObj.FONT_HEIGHT + 4, 0xffffffff, width, true);
         this.toggleButton.yPosition = this.yPosition + 32;
         this.toggleButton.drawWidget(mc, mouseX, mouseY);
-        this.optionsButton.yPosition = this.yPosition + 32;
-        this.optionsButton.drawButton(mc, mouseX, mouseY);
+
+        if (module.getOptionsGui() != null) {
+            this.optionsButton.yPosition = this.yPosition + 32;
+            this.optionsButton.drawButton(mc, mouseX, mouseY);
+        }
     }
 
     @Override

@@ -2,27 +2,19 @@ package com.palight.playerinfo.gui.screens.options;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
-import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiButton;
 import com.palight.playerinfo.gui.widgets.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
-import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.config.Configuration;
-import org.lwjgl.input.Mouse;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.io.IOException;
-import java.util.List;
 
 public class GuiOptions extends CustomGuiScreenScrollable {
     private int buttonX;
@@ -47,9 +39,9 @@ public class GuiOptions extends CustomGuiScreenScrollable {
         noteBlockHelper = new GuiCheckBox(2, buttonX, buttonY + 64, "Show note block notes in chat", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "noteBlockHelper"));
         configButton = new GuiButton(3, (width + xSize) / 2 - 64, (height + ySize) / 2 - 24, 32, 20, "Config");
 
-        blurEnabled.checked = ModConfiguration.enableBlur;
-        pumpkinDisabled.checked = ModConfiguration.pumpkinOverlayDisabled;
-        noteBlockHelper.checked = ModConfiguration.noteBlockHelper;
+        blurEnabled.checked = ModConfiguration.blurModEnabled;
+        pumpkinDisabled.checked = ModConfiguration.pumpkinModEnabled;
+        noteBlockHelper.checked = ModConfiguration.noteBlockModEnabled;
 
         guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled, this.noteBlockHelper, this.configButton));
     }

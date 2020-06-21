@@ -1,20 +1,7 @@
 package com.palight.playerinfo.gui.widgets;
 
-import com.palight.playerinfo.modules.NoteBlockUtil;
-import com.palight.playerinfo.util.MidiUtil;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.world.NoteBlockEvent;
-
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.ShortMessage;
-import java.util.List;
-
-import static com.palight.playerinfo.PlayerInfo.DATA_FOLDER;
 
 public class GuiSlantedButton extends GuiCustomWidget {
 

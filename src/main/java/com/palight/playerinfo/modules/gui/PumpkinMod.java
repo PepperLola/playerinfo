@@ -1,26 +1,37 @@
-package com.palight.playerinfo.listeners;
+package com.palight.playerinfo.modules.gui;
 
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.modules.NoteBlockUtil;
+import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class OverlayHandler extends Gui {
+public class PumpkinMod extends Module {
+    public PumpkinMod() {
+        super("pumpkinOverlay", "Pumpkin Overlay", "Disable the pumpkin overlay.", ModuleType.GUI, null);
+    }
 
-    public static String PUMPKIN_CONFIG_NAME = "pumpkinOverlayDisabled";
+    @Override
+    public void init() {
+        this.setEnabled(ModConfiguration.pumpkinModEnabled);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "pumpkinModEnabled", enabled);
+        ModConfiguration.syncFromGUI();
+        super.setEnabled(enabled);
+    }
 
     @SubscribeEvent
     public void onRenderScreen(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (ModConfiguration.pumpkinOverlayDisabled && mc.inGameHasFocus) {
+        if (ModConfiguration.pumpkinModEnabled && mc.inGameHasFocus) {
 
             if (mc.thePlayer != null) {
 
@@ -31,7 +42,7 @@ public class OverlayHandler extends Gui {
                 ItemStack helmet = player.getCurrentArmor(3);
 
                 if (helmet != null && helmet.getItem().equals(Item.getByNameOrId("pumpkin"))) {
-                    drawTexturedModalRect(event.resolution.getScaledWidth() - 10 - 16, 10, 0, 0, 16, 16);
+                    Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(event.resolution.getScaledWidth() - 10 - 16, 10, 0, 0, 16, 16);
                 }
             }
         }
