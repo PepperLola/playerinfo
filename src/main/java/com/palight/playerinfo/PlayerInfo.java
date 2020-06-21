@@ -3,6 +3,7 @@ package com.palight.playerinfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.modules.gui.CoordsMod;
 import com.palight.playerinfo.modules.gui.PumpkinMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
 import com.palight.playerinfo.modules.misc.BlurMod;
@@ -50,6 +51,7 @@ public class PlayerInfo
         modules.put("backgroundBlur", new BlurMod());
         modules.put("pumpkinOverlay", new PumpkinMod());
         modules.put("noteBlockHelper", new NoteBlockMod());
+        modules.put("coords", new CoordsMod());
     }
 
     @EventHandler

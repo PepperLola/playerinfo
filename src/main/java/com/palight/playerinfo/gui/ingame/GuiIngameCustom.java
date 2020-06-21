@@ -1,8 +1,9 @@
-package com.palight.playerinfo.gui.screens;
+package com.palight.playerinfo.gui.ingame;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.palight.playerinfo.modules.gui.CoordsMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.block.material.Material;
@@ -155,6 +156,11 @@ public class GuiIngameCustom extends GuiIngame {
             ScoreObjective scoreobjective1 = objective != null ? objective : scoreboard.getObjectiveInDisplaySlot(1);
             if (renderObjective && scoreobjective1 != null) {
                 this.renderScoreboard(scoreobjective1, this.res);
+            }
+
+            // render custom gui elements
+            if (ModConfiguration.coordsModEnabled) {
+                CoordsMod.getWidget().render(this.mc);
             }
 
             GlStateManager.enableBlend();

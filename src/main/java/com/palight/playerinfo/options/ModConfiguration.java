@@ -40,6 +40,7 @@ public abstract class ModConfiguration {
         private static final boolean lifxModEnabled = false;
         private static final boolean scoreboardModEnabled = false;
         private static final boolean noteBlockModEnabled = false;
+        private static final boolean coordsModEnabled = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -57,6 +58,7 @@ public abstract class ModConfiguration {
     public static boolean lifxModEnabled = DefaultValues.lifxModEnabled;
     public static boolean scoreboardModEnabled = DefaultValues.scoreboardModEnabled;
     public static boolean noteBlockModEnabled = DefaultValues.noteBlockModEnabled;
+    public static boolean coordsModEnabled = DefaultValues.coordsModEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -129,6 +131,7 @@ public abstract class ModConfiguration {
         Property lifxModEnabled = config.get(CATEGORY_MODS, "lifxModEnabled", DefaultValues.lifxModEnabled, "Enable LIFX mod");
         Property scoreboardModEnabled = config.get(CATEGORY_MODS, "scoreboardModEnabled", DefaultValues.scoreboardModEnabled, "Enable scoreboard mod");
         Property noteBlockModEnabled = config.get(CATEGORY_MODS, "noteBlockModEnabled", DefaultValues.noteBlockModEnabled, "Show note block notes");
+        Property coordsModEnabled = config.get(CATEGORY_MODS, "coordsModEnabled", DefaultValues.coordsModEnabled, "Show your coordinates on screen");
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.add(blurModEnabled.getName());
@@ -136,6 +139,7 @@ public abstract class ModConfiguration {
         propOrderMods.add(scoreboardModEnabled.getName());
         propOrderMods.add(lifxModEnabled.getName());
         propOrderMods.add(noteBlockModEnabled.getName());
+        propOrderMods.add(coordsModEnabled.getName());
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
         try {
@@ -152,6 +156,7 @@ public abstract class ModConfiguration {
             pumpkinModEnabled.setConfigEntryClass(BooleanEntry.class);
             lifxModEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardModEnabled.setConfigEntryClass(BooleanEntry.class);
+            coordsModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -174,6 +179,7 @@ public abstract class ModConfiguration {
             ModConfiguration.pumpkinModEnabled = pumpkinModEnabled.getBoolean();
             ModConfiguration.lifxModEnabled = lifxModEnabled.getBoolean();
             ModConfiguration.scoreboardModEnabled = scoreboardModEnabled.getBoolean();
+            ModConfiguration.coordsModEnabled = coordsModEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -193,6 +199,7 @@ public abstract class ModConfiguration {
         pumpkinModEnabled.set(ModConfiguration.pumpkinModEnabled);
         lifxModEnabled.set(ModConfiguration.lifxModEnabled);
         scoreboardModEnabled.set(ModConfiguration.scoreboardModEnabled);
+        coordsModEnabled.set(ModConfiguration.coordsModEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
