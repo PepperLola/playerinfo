@@ -176,60 +176,7 @@ public class GuiIngameCustom extends GuiIngame {
     }
 
     protected void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
-        if (ModConfiguration.scoreboardModEnabled && !ModConfiguration.scoreboardEnabled) return;
-        Scoreboard scoreboard = objective.getScoreboard();
-        Collection<Score> sortedScores = scoreboard.getSortedScores(objective);
-        List<Score> filteredList = Lists.newArrayList(Iterables.filter(sortedScores, new Predicate<Score>() {
-            public boolean apply(Score score) {
-                return score.getPlayerName() != null && !score.getPlayerName().startsWith("#");
-            }
-        }));
-        ArrayList list;
-        if (filteredList.size() > 15) {
-            list = Lists.newArrayList(Iterables.skip(filteredList, sortedScores.size() - 15));
-        } else {
-            list = (ArrayList) filteredList;
-        }
-
-        int stringWidth = this.getFontRenderer().getStringWidth(objective.getDisplayName());
-
-        String displayString;
-        for (Iterator iterator = list.iterator(); iterator.hasNext(); stringWidth = Math.max(stringWidth, this.getFontRenderer().getStringWidth(displayString))) {
-            Score score = (Score) iterator.next();
-            ScorePlayerTeam teamScore = scoreboard.getPlayersTeam(score.getPlayerName());
-            displayString = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
-
-            if (!ModConfiguration.scoreboardModEnabled || ModConfiguration.scoreboardNumbersEnabled) {
-                displayString += ": " + EnumChatFormatting.RED + score.getScorePoints();
-            }
-        }
-
-        int scoreboardHeight = list.size() * this.getFontRenderer().FONT_HEIGHT;
-        int lineHeight = resolution.getScaledHeight() / 2 + scoreboardHeight / 3;
-        int padding = 3;
-        int xPosition = resolution.getScaledWidth() - stringWidth - padding;
-        int index = 0;
-        Iterator iterator = list.iterator();
-
-        while (iterator.hasNext()) {
-            Score score = (Score) iterator.next();
-            ++index;
-            ScorePlayerTeam teamScore = scoreboard.getPlayersTeam(score.getPlayerName());
-            String formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
-            String scoreString = !ModConfiguration.scoreboardModEnabled || ModConfiguration.scoreboardNumbersEnabled ? EnumChatFormatting.RED + "" + score.getScorePoints() : "";
-            int yPosition = lineHeight - index * this.getFontRenderer().FONT_HEIGHT;
-            int xEnd = resolution.getScaledWidth() - padding + 2;
-            drawRect(xPosition - 2, yPosition, xEnd, yPosition + this.getFontRenderer().FONT_HEIGHT, 1342177280);
-            this.getFontRenderer().drawString(formattedPlayerName, xPosition, yPosition, 553648127);
-            this.getFontRenderer().drawString(scoreString, xEnd - this.getFontRenderer().getStringWidth(scoreString), yPosition, 553648127);
-            if (index == list.size()) {
-                String lvt_20_1_ = objective.getDisplayName();
-                drawRect(xPosition - 2, yPosition - this.getFontRenderer().FONT_HEIGHT - 1, xEnd, yPosition - 1, 1610612736);
-                drawRect(xPosition - 2, yPosition - 1, xEnd, yPosition, 1342177280);
-                this.getFontRenderer().drawString(lvt_20_1_, xPosition + stringWidth / 2 - this.getFontRenderer().getStringWidth(lvt_20_1_) / 2, yPosition - this.getFontRenderer().FONT_HEIGHT, 553648127);
-            }
-        }
-
+        ScoreboardMod.getScoreboard().render(objective, resolution);
     }
 
     public ScaledResolution getResolution() {

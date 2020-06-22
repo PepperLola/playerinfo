@@ -1,13 +1,13 @@
 package com.palight.playerinfo.gui.screens.options.modules.misc;
 
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
+import com.palight.playerinfo.gui.widgets.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.GuiColorPicker;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraftforge.fml.client.config.GuiCheckBox;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -55,6 +55,11 @@ public class LifxGui extends CustomGuiScreen {
         this.buttonList.addAll(Arrays.asList(this.colorButton, this.submit));
 
         teamMode = new GuiCheckBox(0, buttonX + 8, (height + ySize) / 2 - 20, "Team Mode", getTeamMode());
+
+        this.guiElements.addAll(Arrays.asList(
+            colorPicker, teamMode
+        ));
+
     }
 
     @Override
@@ -78,11 +83,9 @@ public class LifxGui extends CustomGuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
-        colorPicker.drawPicker(mc, mouseX, mouseY);
+        colorPicker.drawWidget(mc, mouseX, mouseY);
 
         tokenField.drawTextBox();
-
-        teamMode.drawButton(mc, mouseX, mouseY);
 
         fontRendererObj.drawString("LIFX Integration", (width - xSize) / 2 + 8, (height - ySize) / 2 + 8, 0);
     }
@@ -91,9 +94,9 @@ public class LifxGui extends CustomGuiScreen {
     protected void mouseClicked(int x, int y, int btn) throws IOException {
         colorPicker.mousePressed();
         tokenField.mouseClicked(x, y, btn);
-        teamMode.mousePressed(mc, x, y);
+        teamMode.mouseClicked(x, y);
 
-        setTeamMode(teamMode.isChecked());
+        setTeamMode(teamMode.checked);
 
         super.mouseClicked(x, y, btn);
     }

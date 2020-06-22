@@ -1,7 +1,6 @@
 package com.palight.playerinfo.modules.gui;
 
 import com.palight.playerinfo.gui.ingame.widgets.CoordinatesWidget;
-import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 

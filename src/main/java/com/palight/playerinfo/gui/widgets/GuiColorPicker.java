@@ -8,16 +8,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiColorPicker extends Gui {
-
-    protected static final ResourceLocation textures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widgets.png");
+public class GuiColorPicker extends GuiCustomWidget {
     protected static final ResourceLocation assets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/widget_assets.png");
-    public int width;
-    public int height;
-    public int xPosition;
-    public int yPosition;
-    public int id;
-    public boolean enabled;
     public boolean visible;
     protected boolean mouseDown = false;
     protected int barHeight = 30;
@@ -39,36 +31,29 @@ public class GuiColorPicker extends Gui {
     private int barY;
 
     public GuiColorPicker(int id, int x, int y) {
-        this(id, x, y, 64, 16);
+        this(id, x, y, 48, 64);
     }
 
     public GuiColorPicker(int id, int x, int y, int width, int height) {
-        this.width = 64;
-        this.height = 16;
-        this.enabled = true;
+        super(id, x, y, width, height);
         this.visible = true;
-        this.id = id;
-        this.xPosition = x;
-        this.yPosition = y;
-        this.width = width;
-        this.height = height;
         previewX = xPosition + 11;
-        previewY = yPosition + 5;
-
         previewX2 = previewX + 26;
-        previewY2 = previewY + 16;
-
-        barY = yPosition + 29;
-
         rX = xPosition + 12;
         gX = rX + 11;
         bX = gX + 11;
     }
 
-    public void drawPicker(Minecraft mc, int mouseX, int mouseY) {
+    @Override
+    public void drawWidget(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
-            FontRenderer fontrenderer = mc.fontRendererObj;
-            mc.getTextureManager().bindTexture(textures);
+            previewY = yPosition + 5;
+            previewY2 = previewY + 16;
+            barY = yPosition + 29;
+
+            super.drawWidget(mc, mouseX, mouseY);
+
+            FontRenderer fr = mc.fontRendererObj;
 
             this.drawTexturedModalRect(xPosition, yPosition, 48, 0, width, height);
 
@@ -91,6 +76,7 @@ public class GuiColorPicker extends Gui {
 
     public void setColors(int mouseX, int mouseY) {
         int hoveredBar = getHoveredBar(mouseX, mouseY);
+        System.out.println(hoveredBar);
 
         if (this.mouseDown) {
             if (hoveredBar == 0) {
@@ -120,10 +106,6 @@ public class GuiColorPicker extends Gui {
         if (NumberUtil.isBetween(mouseX, bX - 8, bX + barWidth)) return 2;
 
         return -1;
-    }
-
-    public void mouseMoved(int mouseX, int mouseY) {
-
     }
 
     public void mousePressed() {

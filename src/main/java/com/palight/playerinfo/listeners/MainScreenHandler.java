@@ -2,6 +2,7 @@ package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.MainMenuGui;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -15,7 +16,7 @@ public class MainScreenHandler {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Pre event) {
-        if (!(event.gui instanceof GuiMainMenu)) return;
+        if (!ModConfiguration.mainMenuModEnabled || !(event.gui instanceof GuiMainMenu)) return;
         event.gui.mc.displayGuiScreen(new MainMenuGui());
     }
 }

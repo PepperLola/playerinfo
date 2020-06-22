@@ -3,12 +3,15 @@ package com.palight.playerinfo.options;
 import com.palight.playerinfo.PlayerInfo;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.*;
+import net.minecraftforge.fml.client.config.GuiConfigEntries;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.BooleanEntry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.StringEntry;
 import net.minecraftforge.fml.common.Loader;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class ModConfiguration {
@@ -41,9 +44,12 @@ public abstract class ModConfiguration {
         private static final boolean scoreboardModEnabled = false;
         private static final boolean noteBlockModEnabled = false;
         private static final boolean coordsModEnabled = false;
+        private static final boolean mainMenuModEnabled = true;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
+        private static final int scoreboardHeaderColor = 1610612736;
+        private static final int scoreboardBodyColor = 1342177280;
     }
 
 
@@ -59,9 +65,12 @@ public abstract class ModConfiguration {
     public static boolean scoreboardModEnabled = DefaultValues.scoreboardModEnabled;
     public static boolean noteBlockModEnabled = DefaultValues.noteBlockModEnabled;
     public static boolean coordsModEnabled = DefaultValues.coordsModEnabled;
+    public static boolean mainMenuModEnabled = DefaultValues.mainMenuModEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
+    public static int scoreboardHeaderColor = DefaultValues.scoreboardHeaderColor;
+    public static int scoreboardBodyColor = DefaultValues.scoreboardBodyColor;
 
     public static Configuration getConfig() {
         return config;
@@ -92,38 +101,47 @@ public abstract class ModConfiguration {
 
         if (loadConfigFromFile) config.load();
 
-
-
-
         List<String> propOrderGeneral = new ArrayList<String>();
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrderGeneral);
 
         Property scoreboardEnabled = config.get(CATEGORY_GUI, "scoreboardEnabled", DefaultValues.scoreboardEnabled, "Toggle scoreboard");
         Property scoreboardNumbersEnabled = config.get(CATEGORY_GUI, "scoreboardNumbersEnabled", DefaultValues.scoreboardNumbersEnabled, "Toggle the red numbers on the scoreboard");
+        Property scoreboardHeaderColor = config.get(CATEGORY_GUI, "scoreboardHeaderColor", DefaultValues.scoreboardHeaderColor, "Scoreboard header color");
+        Property scoreboardBodyColor = config.get(CATEGORY_GUI, "scoreboardBodyColor", DefaultValues.scoreboardBodyColor, "Scoreboard body color");
 
         List<String> propOrderGui = new ArrayList<String>();
-        propOrderGui.add(scoreboardEnabled.getName());
-        propOrderGui.add(scoreboardNumbersEnabled.getName());
+        propOrderGui.addAll(Arrays.asList(
+                scoreboardEnabled.getName(),
+                scoreboardNumbersEnabled.getName(),
+                scoreboardHeaderColor.getName(),
+                scoreboardBodyColor.getName()
+        ));
         config.setCategoryPropertyOrder(CATEGORY_GUI, propOrderGui);
 
         Property selectedServer = config.get(CATEGORY_SERVERS, "selectedServer", DefaultValues.selectedServer, "Selected server for server util");
 
         List<String> propOrderServers = new ArrayList<String>();
-        propOrderServers.add(selectedServer.getName());
+        propOrderServers.addAll(Arrays.asList(
+                selectedServer.getName()
+        ));
         config.setCategoryPropertyOrder(CATEGORY_SERVERS, propOrderServers);
 
         Property bedwarsMode = config.get(CATEGORY_HYPIXEL, "bedwarsMode", DefaultValues.bedwarsMode, "Bedwars mode for quick play");
 
         List<String> propOrderHypixel = new ArrayList<String>();
-        propOrderHypixel.add(bedwarsMode.getName());
+        propOrderHypixel.addAll(Arrays.asList(
+                bedwarsMode.getName()
+        ));
         config.setCategoryPropertyOrder(CATEGORY_HYPIXEL, propOrderHypixel);
 
         Property lifxToken = config.get(CATEGORY_LIFX, "lifxToken", DefaultValues.lifxToken, "LIFX token for LIFX integration");
         Property lifxTeamMode = config.get(CATEGORY_LIFX, "lifxTeamMode", DefaultValues.lifxTeamMode, "Whether or not the light should change based on your helmet color");
 
         List<String> propOrderLifx = new ArrayList<String>();
-        propOrderLifx.add(lifxToken.getName());
-        propOrderLifx.add(lifxTeamMode.getName());
+        propOrderLifx.addAll(Arrays.asList(
+                lifxToken.getName(),
+                lifxTeamMode.getName()
+        ));
         config.setCategoryPropertyOrder(CATEGORY_LIFX, propOrderLifx);
 
         Property blurModEnabled = config.get(CATEGORY_MODS, "blurModEnabled", DefaultValues.blurModEnabled, "Enable background blurring in gui");
@@ -132,14 +150,18 @@ public abstract class ModConfiguration {
         Property scoreboardModEnabled = config.get(CATEGORY_MODS, "scoreboardModEnabled", DefaultValues.scoreboardModEnabled, "Enable scoreboard mod");
         Property noteBlockModEnabled = config.get(CATEGORY_MODS, "noteBlockModEnabled", DefaultValues.noteBlockModEnabled, "Show note block notes");
         Property coordsModEnabled = config.get(CATEGORY_MODS, "coordsModEnabled", DefaultValues.coordsModEnabled, "Show your coordinates on screen");
+        Property mainMenuModEnabled = config.get(CATEGORY_MODS, "mainMenuModEnabled", DefaultValues.mainMenuModEnabled, "Enable the custom main menu");
 
         List<String> propOrderMods = new ArrayList<String>();
-        propOrderMods.add(blurModEnabled.getName());
-        propOrderMods.add(pumpkinModEnabled.getName());
-        propOrderMods.add(scoreboardModEnabled.getName());
-        propOrderMods.add(lifxModEnabled.getName());
-        propOrderMods.add(noteBlockModEnabled.getName());
-        propOrderMods.add(coordsModEnabled.getName());
+        propOrderMods.addAll(Arrays.asList(
+                blurModEnabled.getName(),
+                pumpkinModEnabled.getName(),
+                scoreboardModEnabled.getName(),
+                lifxModEnabled.getName(),
+                noteBlockModEnabled.getName(),
+                coordsModEnabled.getName(),
+                mainMenuModEnabled.getName()
+        ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
         try {
@@ -157,9 +179,12 @@ public abstract class ModConfiguration {
             lifxModEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardModEnabled.setConfigEntryClass(BooleanEntry.class);
             coordsModEnabled.setConfigEntryClass(BooleanEntry.class);
+            mainMenuModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
+            scoreboardHeaderColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
+            scoreboardBodyColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
         } catch(NoClassDefFoundError e) {
             e.printStackTrace();
         }
@@ -180,13 +205,15 @@ public abstract class ModConfiguration {
             ModConfiguration.lifxModEnabled = lifxModEnabled.getBoolean();
             ModConfiguration.scoreboardModEnabled = scoreboardModEnabled.getBoolean();
             ModConfiguration.coordsModEnabled = coordsModEnabled.getBoolean();
+            ModConfiguration.mainMenuModEnabled = mainMenuModEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
+            ModConfiguration.scoreboardHeaderColor = scoreboardHeaderColor.getInt();
+            ModConfiguration.scoreboardBodyColor = scoreboardBodyColor.getInt();
         }
 
 
-        noteBlockModEnabled.set(ModConfiguration.noteBlockModEnabled);
 
         selectedServer.set(ModConfiguration.selectedServer);
 
@@ -198,11 +225,15 @@ public abstract class ModConfiguration {
         blurModEnabled.set(ModConfiguration.blurModEnabled);
         pumpkinModEnabled.set(ModConfiguration.pumpkinModEnabled);
         lifxModEnabled.set(ModConfiguration.lifxModEnabled);
+        noteBlockModEnabled.set(ModConfiguration.noteBlockModEnabled);
         scoreboardModEnabled.set(ModConfiguration.scoreboardModEnabled);
         coordsModEnabled.set(ModConfiguration.coordsModEnabled);
+        mainMenuModEnabled.set(ModConfiguration.mainMenuModEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
+        scoreboardHeaderColor.set(ModConfiguration.scoreboardHeaderColor);
+        scoreboardBodyColor.set(ModConfiguration.scoreboardBodyColor);
 
         if (config.hasChanged()) config.save();
     }
