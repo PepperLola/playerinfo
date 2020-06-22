@@ -20,7 +20,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
     }
 
     public void doRenderLayer(AbstractClientPlayer player, float p_doRenderLayer_2_, float p_doRenderLayer_3_, float p_doRenderLayer_4_, float p_doRenderLayer_5_, float p_doRenderLayer_6_, float p_doRenderLayer_7_, float p_doRenderLayer_8_) {
-//        if (player.hasPlayerInfo() && !player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE) && player.getLocationCape() != null) {
+        if (!player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE)) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //            this.playerRenderer.bindTexture(player.getLocationCape());
             this.playerRenderer.bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/capes/cape.png"));
@@ -52,7 +52,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             this.playerRenderer.getMainModel().renderCape(0.0625F);
             GlStateManager.popMatrix();
-//        }
+        }
     }
 
     public boolean shouldCombineTextures() {
