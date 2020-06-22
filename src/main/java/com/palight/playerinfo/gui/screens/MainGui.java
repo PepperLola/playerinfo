@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.GuiMenuBar;
 import com.palight.playerinfo.gui.widgets.GuiModuleEntry;
 import com.palight.playerinfo.gui.widgets.GuiTexturedButton;

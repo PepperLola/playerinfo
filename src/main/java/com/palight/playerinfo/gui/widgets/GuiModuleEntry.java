@@ -45,6 +45,8 @@ public class GuiModuleEntry extends GuiCustomWidget {
         this.drawGradientRect(xPosition, yPosition, xPosition + width, yPosition + height, 0x22ffffff, 0x22ffffff);
         this.drawString(mc.fontRendererObj, module.getName(), xPosition + (width - mc.fontRendererObj.getStringWidth(module.getName())) / 2, yPosition, 0xffffffff);
         owningScreen.drawTextMultiLine(module.getDescription(), xPosition, yPosition + mc.fontRendererObj.FONT_HEIGHT + 4, 0xffffffff, width, true);
+        buttonX = xPosition;
+        buttonY = yPosition + 32;
         this.toggleButton.yPosition = this.yPosition + 32;
         this.toggleButton.drawWidget(mc, mouseX, mouseY);
 
