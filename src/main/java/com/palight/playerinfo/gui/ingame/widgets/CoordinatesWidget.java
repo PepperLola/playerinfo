@@ -19,8 +19,6 @@ public class CoordinatesWidget extends GuiIngameWidget {
 
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
-        Vec3 look = player.getLookVec();
-
         int x = (int) Math.floor(player.posX);
         int y = (int) Math.floor(player.posY);
         int z = (int) Math.floor(player.posZ);

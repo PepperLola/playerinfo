@@ -5,6 +5,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.palight.playerinfo.modules.gui.CoordsMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
+import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -162,6 +163,12 @@ public class GuiIngameCustom extends GuiIngame {
             if (ModConfiguration.coordsModEnabled) {
                 CoordsMod.getWidget().render(this.mc);
             }
+
+            if (ModConfiguration.toggleSprintModEnabled) {
+                ToggleSprintMod.getWidget().render(this.mc);
+            }
+
+            this.drawString(this.fontrenderer, "TEST STRING", 2, 1068, 0xffffffff);
 
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

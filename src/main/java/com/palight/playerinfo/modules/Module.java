@@ -81,6 +81,7 @@ public abstract class Module {
 
     public static enum ModuleType {
         ANIMATION,
+        MOVEMENT,
         GUI,
         UTIL,
         MISC

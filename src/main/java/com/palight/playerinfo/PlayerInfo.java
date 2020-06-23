@@ -9,6 +9,7 @@ import com.palight.playerinfo.modules.gui.PumpkinMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
 import com.palight.playerinfo.modules.misc.BlurMod;
 import com.palight.playerinfo.modules.misc.LifxMod;
+import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -54,6 +55,7 @@ public class PlayerInfo
         modules.put("noteBlockHelper", new NoteBlockMod());
         modules.put("coords", new CoordsMod());
         modules.put("mainMenu", new CustomMainMenuMod());
+        modules.put("toggleSprint", new ToggleSprintMod());
     }
 
     @EventHandler

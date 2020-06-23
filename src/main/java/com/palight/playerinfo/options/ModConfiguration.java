@@ -45,6 +45,7 @@ public abstract class ModConfiguration {
         private static final boolean noteBlockModEnabled = false;
         private static final boolean coordsModEnabled = false;
         private static final boolean mainMenuModEnabled = true;
+        private static final boolean toggleSprintModEnabled = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -66,6 +67,7 @@ public abstract class ModConfiguration {
     public static boolean noteBlockModEnabled = DefaultValues.noteBlockModEnabled;
     public static boolean coordsModEnabled = DefaultValues.coordsModEnabled;
     public static boolean mainMenuModEnabled = DefaultValues.mainMenuModEnabled;
+    public static boolean toggleSprintModEnabled = DefaultValues.toggleSprintModEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -151,6 +153,7 @@ public abstract class ModConfiguration {
         Property noteBlockModEnabled = config.get(CATEGORY_MODS, "noteBlockModEnabled", DefaultValues.noteBlockModEnabled, "Show note block notes");
         Property coordsModEnabled = config.get(CATEGORY_MODS, "coordsModEnabled", DefaultValues.coordsModEnabled, "Show your coordinates on screen");
         Property mainMenuModEnabled = config.get(CATEGORY_MODS, "mainMenuModEnabled", DefaultValues.mainMenuModEnabled, "Enable the custom main menu");
+        Property toggleSprintModEnabled = config.get(CATEGORY_MODS, "toggleSprintModEnabled", DefaultValues.toggleSprintModEnabled, "Enable toggle sprint");
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -160,7 +163,8 @@ public abstract class ModConfiguration {
                 lifxModEnabled.getName(),
                 noteBlockModEnabled.getName(),
                 coordsModEnabled.getName(),
-                mainMenuModEnabled.getName()
+                mainMenuModEnabled.getName(),
+                toggleSprintModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -180,6 +184,7 @@ public abstract class ModConfiguration {
             scoreboardModEnabled.setConfigEntryClass(BooleanEntry.class);
             coordsModEnabled.setConfigEntryClass(BooleanEntry.class);
             mainMenuModEnabled.setConfigEntryClass(BooleanEntry.class);
+            toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -206,6 +211,7 @@ public abstract class ModConfiguration {
             ModConfiguration.scoreboardModEnabled = scoreboardModEnabled.getBoolean();
             ModConfiguration.coordsModEnabled = coordsModEnabled.getBoolean();
             ModConfiguration.mainMenuModEnabled = mainMenuModEnabled.getBoolean();
+            ModConfiguration.toggleSprintModEnabled = toggleSprintModEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -229,6 +235,7 @@ public abstract class ModConfiguration {
         scoreboardModEnabled.set(ModConfiguration.scoreboardModEnabled);
         coordsModEnabled.set(ModConfiguration.coordsModEnabled);
         mainMenuModEnabled.set(ModConfiguration.mainMenuModEnabled);
+        toggleSprintModEnabled.set(ModConfiguration.toggleSprintModEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
