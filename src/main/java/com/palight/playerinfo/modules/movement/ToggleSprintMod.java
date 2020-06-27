@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.options.modules.movement.ToggleSprintGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,6 +1,9 @@
 package com.palight.playerinfo.util;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 
@@ -11,6 +14,17 @@ public class MCUtil {
 
     public static void sendPlayerMessage(EntityPlayer player, String message, ChatStyle formatting) {
         player.addChatMessage(new ChatComponentText(message).setChatStyle(formatting));
+    }
+
+    public static int getTotalItems(InventoryPlayer inv, Item itemStack) {
+        int total = 0;
+        for (ItemStack item : inv.mainInventory) {
+            if (item == null) continue;
+            if (item.getItem().equals(itemStack))
+                total += item.stackSize;
+        }
+
+        return total;
     }
 
     /*public static Direction getDirectionFromLook(Vec3 look) {

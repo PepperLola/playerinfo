@@ -27,8 +27,10 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             if (player == null) return;
 
-            if (player.isSprinting()) {
-                displayText = "[Sprinting(%s)]";
+            if (player.isSneaking()) {
+                displayText = "[Sneaking]";
+            } else if (player.isSprinting()) {
+                displayText = "[Sprinting (%s)]";
                 if (sprintKey.isKeyDown()) {
                     displayText = String.format(displayText, "Key Held");
                 } else if (ModConfiguration.toggleSprintModEnabled) {

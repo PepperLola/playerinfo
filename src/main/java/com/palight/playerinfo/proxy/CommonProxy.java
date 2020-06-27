@@ -3,6 +3,7 @@ package com.palight.playerinfo.proxy;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.listeners.*;
+import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -37,6 +38,10 @@ public class CommonProxy {
             ModConfiguration.initConfig();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        for (Module module : PlayerInfo.getModules().values()) {
+            module.init();
         }
 
         PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";

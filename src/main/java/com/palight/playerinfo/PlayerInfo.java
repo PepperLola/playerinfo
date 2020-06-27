@@ -3,10 +3,7 @@ package com.palight.playerinfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.modules.gui.CoordsMod;
-import com.palight.playerinfo.modules.gui.CustomMainMenuMod;
-import com.palight.playerinfo.modules.gui.PumpkinMod;
-import com.palight.playerinfo.modules.gui.ScoreboardMod;
+import com.palight.playerinfo.modules.gui.*;
 import com.palight.playerinfo.modules.misc.BlurMod;
 import com.palight.playerinfo.modules.misc.LifxMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
@@ -56,6 +53,7 @@ public class PlayerInfo
         modules.put("coords", new CoordsMod());
         modules.put("mainMenu", new CustomMainMenuMod());
         modules.put("toggleSprint", new ToggleSprintMod());
+        modules.put("resources", new BedwarsResourcesMod());
     }
 
     @EventHandler

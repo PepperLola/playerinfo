@@ -4,7 +4,9 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.ScoreboardWidget;
+import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.gui.CoordsMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
@@ -156,21 +158,18 @@ public class GuiIngameCustom extends GuiIngame {
                 }
             }
 
-            ScoreObjective scoreobjective1 = objective != null ? objective : scoreboard.getObjectiveInDisplaySlot(1);
-            if (renderObjective && scoreobjective1 != null) {
-                this.renderScoreboard(scoreobjective1, this.res);
+            ScoreObjective objective1 = objective != null ? objective : scoreboard.getObjectiveInDisplaySlot(1);
+            if (renderObjective && objective1 != null) {
+                this.renderScoreboard(objective1, this.res);
             }
 
             // render custom gui elements
-            if (ModConfiguration.coordsModEnabled) {
-                PlayerInfo.getModules().get("coords").getWidget().render(this.mc);
+            for (Module module : PlayerInfo.getModules().values()) {
+                if (!module.isEnabled()) continue;
+                GuiIngameWidget widget = module.getWidget();
+                if (widget == null || widget instanceof ScoreboardWidget) continue;
+                widget.render(this.mc);
             }
-
-            if (ModConfiguration.toggleSprintModEnabled) {
-                PlayerInfo.getModules().get("toggleSprint").getWidget().render(this.mc);
-            }
-
-            this.drawString(this.fontrenderer, "TEST STRING", 2, 1068, 0xffffffff);
 
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);

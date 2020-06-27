@@ -7,6 +7,10 @@ public class NumberUtil {
         return low <= num && num <= high;
     }
 
+    public static boolean isBetween(double num, double low, double high) {
+        return low <= num && num <= high;
+    }
+
     public static boolean pointIsBetween(int x, int y, int lowX, int lowY, int highX, int highY) {
         return isBetween(x, lowX, highX) && isBetween(y, lowY, highY);
     }

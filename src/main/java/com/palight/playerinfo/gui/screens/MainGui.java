@@ -33,6 +33,7 @@ public class MainGui extends CustomGuiScreenScrollable {
     private GuiMenuBar menuBar;
 
     private GuiTexturedButton settingsGuiButton;
+    private GuiButton editModsButton;
 
     List<GuiModuleEntry> modules = new ArrayList<GuiModuleEntry>();
 
@@ -48,7 +49,7 @@ public class MainGui extends CustomGuiScreenScrollable {
         buttonX = (this.width - xSize) / 2 + 16;
         buttonY = (this.height - ySize) / 2 + 32;
 
-        columnWidth = ((xSize - (2 * leftOffset)) - (2 * hPadding)) / columns;
+        columnWidth = ((xSize - (3 * leftOffset)) - (2 * hPadding)) / columns;
 
         for (int i = 0; i < PlayerInfo.getModules().values().size(); i++) {
             Module module = new ArrayList<Module>(PlayerInfo.getModules().values()).get(i);
@@ -63,8 +64,12 @@ public class MainGui extends CustomGuiScreenScrollable {
         this.menuBar = new GuiMenuBar(0, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new String[]{"Player Info", "Server Util", "Integrations"});
 
         this.settingsGuiButton = new GuiTexturedButton(3, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
+        this.editModsButton = new GuiButton(4, guiX + leftOffset + 2, (height + ySize) / 2 - 24, 48, 20, "Edit GUI");
 
-        this.buttonList.addAll(Arrays.asList(this.settingsGuiButton));
+        this.buttonList.addAll(Arrays.asList(
+                this.settingsGuiButton,
+                this.editModsButton
+        ));
 
         this.guiElements.addAll(modules);
     }
@@ -79,6 +84,8 @@ public class MainGui extends CustomGuiScreenScrollable {
 
         if (b.id == settingsGuiButton.id) {
             player.openGui(PlayerInfo.instance, GuiHandler.SETTINGS_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+        } else if (b.id == editModsButton.id) {
+            player.openGui(PlayerInfo.instance, GuiHandler.EDIT_MODS_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
         }
     }
 
