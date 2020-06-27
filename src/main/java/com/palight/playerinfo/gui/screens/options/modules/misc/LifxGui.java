@@ -7,6 +7,7 @@ import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import org.apache.http.HttpResponse;
 
@@ -133,6 +134,9 @@ public class LifxGui extends CustomGuiScreen {
         int red = (int) Math.floor((color >> 16) & 255);
         int green = (int) Math.floor((color >> 8) & 255);
         int blue = (int) Math.floor(color & 255);
+        int alpha = (int) Math.floor((color >> 24) & 255);
+
+        System.out.println(alpha / 255.0);
 
         String token = getToken();
 
@@ -142,7 +146,7 @@ public class LifxGui extends CustomGuiScreen {
         headers.put("content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
 
-        HttpUtil.httpPut("https://api.lifx.com/v1/lights/d073d527d7f3/state", headers, String.format("{\"power\": \"on\", \"color\": \"rgb:%d,%d,%d\"}", red, green, blue), new HttpUtilResponseHandler() {
+        HttpUtil.httpPut("https://api.lifx.com/v1/lights/d073d527d7f3/state", headers, String.format("{\"power\": \"on\", \"color\": \"rgb:%d,%d,%d\",\"brightness\":%f}", red, green, blue, alpha / 255.0), new HttpUtilResponseHandler() {
             @Override
             public void handleResponse(HttpResponse response) {
                 System.out.println(response.getStatusLine().getStatusCode());

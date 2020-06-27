@@ -18,25 +18,40 @@ public class ToggleSprintWidget extends GuiIngameWidget {
     public void render(Minecraft mc) {
         FontRenderer fr = mc.fontRendererObj;
         this.height = fr.FONT_HEIGHT + 1;
-        super.render(mc);
         String displayText = "";
 
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (player == null) return;
+        if (getState() == WidgetState.EDITING) {
+            displayText = "[Sprinting (Toggled)]";
+        } else if (getState() == WidgetState.INGAME) {
 
-        if (player.isSprinting()) {
-            displayText = "[Sprinting(%s)]";
-            if (sprintKey.isKeyDown()) {
-                displayText = String.format(displayText, "Key Held");
-            } else if (ModConfiguration.toggleSprintModEnabled) {
-                displayText = String.format(displayText, "Toggled");
-            } else {
-                displayText = String.format(displayText, "Vanilla");
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            if (player == null) return;
+
+            if (player.isSprinting()) {
+                displayText = "[Sprinting(%s)]";
+                if (sprintKey.isKeyDown()) {
+                    displayText = String.format(displayText, "Key Held");
+                } else if (ModConfiguration.toggleSprintModEnabled) {
+                    displayText = String.format(displayText, "Toggled");
+                } else {
+                    displayText = String.format(displayText, "Vanilla");
+                }
+            } else if (player.isAirBorne) {
+                if (player.motionY > 0) {
+                    displayText = "[Jumping]";
+                } else if (player.motionY < -0.1) {
+                    displayText = "[Falling]";
+                } else if (player.motionY > -0.1 && player.motionY <= 0 && !player.onGround) {
+                    displayText = "[Flying Somehow]";
+                }
             }
         }
 
         this.width = fr.getStringWidth(displayText) + 2;
 
-        drawString(fr, displayText, xPosition + 1, yPosition + 1, 0xffffffff);
+        if (!displayText.equals("")) {
+            super.render(mc);
+            drawString(fr, displayText, xPosition + 1, yPosition + 1, getChromaColor());
+        }
     }
 }

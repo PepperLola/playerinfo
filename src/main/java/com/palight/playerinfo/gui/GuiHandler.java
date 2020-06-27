@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.screens.LoginGui;
 import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.options.GuiCustomConfig;
 import com.palight.playerinfo.gui.screens.options.GuiOptions;
+import com.palight.playerinfo.gui.screens.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
 import com.palight.playerinfo.gui.screens.servers.ServerSelector;
 import com.palight.playerinfo.gui.screens.servers.hypixel.BedwarsGui;
@@ -23,6 +24,7 @@ public class GuiHandler implements IGuiHandler {
     public static int INTEGRATION_GUI_ID = 6;
     public static int LIFX_GUI_ID = 7;
     public static int CONFIG_GUI_ID = 8;
+    public static int EDIT_MODS_GUI_ID = 9;
 
     @Override
     public Object getServerGuiElement(int i, EntityPlayer entityPlayer, World world, int i1, int i2, int i3) {
@@ -47,6 +49,8 @@ public class GuiHandler implements IGuiHandler {
             return new LoginGui();
         } else if (id == CONFIG_GUI_ID) {
             return new GuiCustomConfig(new GuiOptions());
+        } else if (id == EDIT_MODS_GUI_ID) {
+            return new WidgetEditorGui();
         }
 
         return null;

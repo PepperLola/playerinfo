@@ -4,6 +4,7 @@ import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 

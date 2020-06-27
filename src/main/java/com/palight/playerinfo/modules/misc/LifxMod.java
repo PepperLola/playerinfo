@@ -1,6 +1,6 @@
 package com.palight.playerinfo.modules.misc;
 
-import com.palight.playerinfo.gui.screens.options.modules.gui.ScoreboardOptions;
+import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class LifxMod extends Module {
     public LifxMod() {
-        super("lifx", "Lifx", "Provides a LIFX integration", ModuleType.MISC, new LifxGui());
+        super("lifx", "Lifx", "Provides a LIFX integration", ModuleType.MISC, new LifxGui(), null);
     }
 
     @Override

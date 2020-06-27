@@ -6,7 +6,7 @@ import com.palight.playerinfo.options.ModConfiguration;
 
 public class CustomMainMenuMod extends Module {
     public CustomMainMenuMod() {
-        super("mainMenu", "Main Menu", "Enable the custom main menu.", ModuleType.GUI, null);
+        super("mainMenu", "Main Menu", "Enable the custom main menu.", ModuleType.GUI, null, null);
     }
 
     @Override

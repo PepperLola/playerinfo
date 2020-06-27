@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlurMod extends Module {
     public BlurMod() {
-        super("backgroundBlur", "Background Blur", "Blurs the backgrounds of menus.", ModuleType.MISC, null);
+        super("backgroundBlur", "Background Blur", "Blurs the backgrounds of menus.", ModuleType.MISC, null, null);
     }
 
     @Override

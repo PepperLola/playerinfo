@@ -1,6 +1,7 @@
 package com.palight.playerinfo.modules;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -12,16 +13,37 @@ public abstract class Module {
     protected boolean enabled;
     protected CustomGuiScreen optionsGui;
 
-    public Module(String id, String name, String description, ModuleType type, CustomGuiScreen optionsGui) {
+    protected GuiIngameWidget widget;
+
+    public Module(String id, String name, String description, ModuleType type, CustomGuiScreen optionsGui, GuiIngameWidget widget) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
         this.optionsGui = optionsGui;
+        this.widget = widget;
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     public abstract void init();
+
+    public void startEditingWidgets() {
+        if (widget == null) return;
+        widget.startEditing();
+    }
+
+    public void stopEditingWidgets() {
+        if (widget == null) return;
+        widget.stopEditing();
+    }
+
+    public GuiIngameWidget getWidget() {
+        return widget;
+    }
+
+    public void setWidget(GuiIngameWidget widget) {
+        this.widget = widget;
+    }
 
     public boolean isEnabled() {
         return enabled;

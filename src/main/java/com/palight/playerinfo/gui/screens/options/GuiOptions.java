@@ -3,11 +3,13 @@ package com.palight.playerinfo.gui.screens.options;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
+import com.palight.playerinfo.gui.screens.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.gui.widgets.GuiButton;
 import com.palight.playerinfo.gui.widgets.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -23,6 +25,7 @@ public class GuiOptions extends CustomGuiScreenScrollable {
     private GuiCheckBox blurEnabled;
     private GuiCheckBox pumpkinDisabled;
     private GuiCheckBox noteBlockHelper;
+    private GuiButton editModsButton;
     private GuiButton configButton;
 
     public GuiOptions() {
@@ -37,13 +40,14 @@ public class GuiOptions extends CustomGuiScreenScrollable {
         blurEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable background blur", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "enableBlur"));
         pumpkinDisabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Disable pumpkin overlay", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled"));
         noteBlockHelper = new GuiCheckBox(2, buttonX, buttonY + 64, "Show note block notes in chat", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GENERAL, "noteBlockHelper"));
-        configButton = new GuiButton(3, (width + xSize) / 2 - 64, (height + ySize) / 2 - 24, 32, 20, "Config");
+        editModsButton = new GuiButton(3, guiX + leftOffset + 2, (height + ySize) / 2 - 24, 48, 20, "Edit GUI");
+        configButton = new GuiButton(4, (width + xSize) / 2 - 64, (height + ySize) / 2 - 24, 32, 20, "Config");
 
         blurEnabled.checked = ModConfiguration.blurModEnabled;
         pumpkinDisabled.checked = ModConfiguration.pumpkinModEnabled;
         noteBlockHelper.checked = ModConfiguration.noteBlockModEnabled;
 
-        guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled, this.noteBlockHelper, this.configButton));
+        guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled, this.noteBlockHelper, this.editModsButton, this.configButton));
     }
 
     @Override
@@ -70,6 +74,8 @@ public class GuiOptions extends CustomGuiScreenScrollable {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "pumpkinOverlayDisabled", pumpkinDisabled.checked);
         } else if (widget.id == noteBlockHelper.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "noteBlockHelper", noteBlockHelper.checked);
+        } else if (widget.id == editModsButton.id) {
+            Minecraft.getMinecraft().displayGuiScreen(new WidgetEditorGui());
         } else if (widget.id == configButton.id) {
             Minecraft.getMinecraft().thePlayer.openGui(PlayerInfo.instance, GuiHandler.CONFIG_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
         }

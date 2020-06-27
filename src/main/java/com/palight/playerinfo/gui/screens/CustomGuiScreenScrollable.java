@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.util.NumberUtil;
+import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;

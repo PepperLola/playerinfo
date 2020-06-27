@@ -7,6 +7,7 @@ import com.palight.playerinfo.gui.widgets.GuiColorPicker;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ScoreboardOptions extends CustomGuiScreenScrollable {
+public class ScoreboardGui extends CustomGuiScreenScrollable {
 
     private int buttonX;
     private int buttonY;
@@ -26,7 +27,7 @@ public class ScoreboardOptions extends CustomGuiScreenScrollable {
     private GuiButton secondaryColorButton;
     private GuiButton resetColorsButton;
 
-    public ScoreboardOptions() {
+    public ScoreboardGui() {
         super("Scoreboard");
     }
 

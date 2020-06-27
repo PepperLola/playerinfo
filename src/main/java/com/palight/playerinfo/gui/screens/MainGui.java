@@ -9,6 +9,7 @@ import com.palight.playerinfo.gui.widgets.GuiTexturedButton;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;

@@ -3,6 +3,8 @@ package com.palight.playerinfo.gui.ingame;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.ingame.widgets.ScoreboardWidget;
 import com.palight.playerinfo.modules.gui.CoordsMod;
 import com.palight.playerinfo.modules.gui.ScoreboardMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
@@ -161,11 +163,11 @@ public class GuiIngameCustom extends GuiIngame {
 
             // render custom gui elements
             if (ModConfiguration.coordsModEnabled) {
-                CoordsMod.getWidget().render(this.mc);
+                PlayerInfo.getModules().get("coords").getWidget().render(this.mc);
             }
 
             if (ModConfiguration.toggleSprintModEnabled) {
-                ToggleSprintMod.getWidget().render(this.mc);
+                PlayerInfo.getModules().get("toggleSprint").getWidget().render(this.mc);
             }
 
             this.drawString(this.fontrenderer, "TEST STRING", 2, 1068, 0xffffffff);
@@ -183,7 +185,7 @@ public class GuiIngameCustom extends GuiIngame {
     }
 
     protected void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
-        ScoreboardMod.getScoreboard().render(objective, resolution);
+        ((ScoreboardWidget) PlayerInfo.getModules().get("scoreboard").getWidget()).render(objective, resolution);
     }
 
     public ScaledResolution getResolution() {

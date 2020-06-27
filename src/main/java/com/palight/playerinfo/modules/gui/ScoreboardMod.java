@@ -2,7 +2,8 @@ package com.palight.playerinfo.modules.gui;
 
 import com.palight.playerinfo.gui.ingame.GuiIngameCustom;
 import com.palight.playerinfo.gui.ingame.widgets.ScoreboardWidget;
-import com.palight.playerinfo.gui.screens.options.modules.gui.ScoreboardOptions;
+import com.palight.playerinfo.gui.screens.MainGui;
+import com.palight.playerinfo.gui.screens.options.modules.gui.ScoreboardGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
@@ -13,10 +14,9 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 public class ScoreboardMod extends Module {
 
     private static GuiIngame ingame = null;
-    private static ScoreboardWidget scoreboard;
 
     public ScoreboardMod() {
-        super("scoreboard", "Scoreboard", "Customize your scoreboard!", ModuleType.GUI, new ScoreboardOptions());
+        super("scoreboard", "Scoreboard", "Customize your scoreboard!", ModuleType.GUI, new ScoreboardGui(), new ScoreboardWidget(Minecraft.getMinecraft()));
     }
 
     @SubscribeEvent
@@ -24,7 +24,6 @@ public class ScoreboardMod extends Module {
         // if Minecraft initialized and ingame gui is still default, set it to ours
         if (isItemRendererInitialized() && !isIngameGuiOurs()) {
             setIngameGuiToOurs();
-            scoreboard = new ScoreboardWidget(Minecraft.getMinecraft());
         }
     }
 
@@ -57,13 +56,5 @@ public class ScoreboardMod extends Module {
 
     boolean isIngameGuiOurs() {
         return Minecraft.getMinecraft().ingameGUI instanceof GuiIngameCustom;
-    }
-
-    public static ScoreboardWidget getScoreboard() {
-        return scoreboard;
-    }
-
-    public static void setScoreboard(ScoreboardWidget scoreboard) {
-        ScoreboardMod.scoreboard = scoreboard;
     }
 }

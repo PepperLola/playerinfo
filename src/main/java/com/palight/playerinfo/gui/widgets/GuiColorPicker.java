@@ -14,9 +14,10 @@ public class GuiColorPicker extends GuiCustomWidget {
     protected boolean mouseDown = false;
     protected int barHeight = 30;
     protected int barWidth = 2;
-    public float rP; // red percent
-    public float gP;
-    public float bP;
+    public float rP = 0f; // red percent
+    public float gP = 0f;
+    public float bP = 0f;
+    public float aP = 1f;
 
     private int previewX;
     private int previewY;
@@ -27,6 +28,7 @@ public class GuiColorPicker extends GuiCustomWidget {
     private int rX; // r bar x
     private int gX;
     private int bX;
+    private int aX;
 
     private int barY;
 
@@ -39,9 +41,10 @@ public class GuiColorPicker extends GuiCustomWidget {
         this.visible = true;
         previewX = xPosition + 11;
         previewX2 = previewX + 26;
-        rX = xPosition + 12;
-        gX = rX + 11;
-        bX = gX + 11;
+        rX = xPosition + 9;
+        gX = rX + 7;
+        bX = gX + 7;
+        aX = bX + 7;
     }
 
     @Override
@@ -71,7 +74,8 @@ public class GuiColorPicker extends GuiCustomWidget {
         int r = (int) Math.floor(rP * 255);
         int g = (int) Math.floor(gP * 255);
         int b = (int) Math.floor(bP * 255);
-        return ColorUtil.getColorInt(r, g, b);
+        int a = (int) Math.floor(aP * 255);
+        return ColorUtil.getColorInt(r, g, b, a);
     }
 
     public void setColors(int mouseX, int mouseY) {
@@ -85,6 +89,8 @@ public class GuiColorPicker extends GuiCustomWidget {
                 gP = (barHeight - (mouseY - barY)) / (float) barHeight;
             } else if (hoveredBar == 2) {
                 bP = (barHeight - (mouseY - barY)) / (float) barHeight;
+            } else if (hoveredBar == 3) {
+                aP = (barHeight - (mouseY - barY)) / (float) barHeight;
             }
         }
 
@@ -93,17 +99,19 @@ public class GuiColorPicker extends GuiCustomWidget {
 
     public void drawArrows(Minecraft mc) {
         mc.getTextureManager().bindTexture(assets);
-        this.drawTexturedModalRect(rX - 9, barY + (barHeight - (barHeight * rP)) - 4, 0, 0, 8, 8);
-        this.drawTexturedModalRect(gX - 9, barY + (barHeight - (barHeight * gP)) - 4, 0, 0, 8, 8);
-        this.drawTexturedModalRect(bX - 9, barY + (barHeight - (barHeight * bP)) - 4, 0, 0, 8, 8);
+        this.drawTexturedModalRect(rX, barY + (barHeight - (barHeight * rP)) - 4, 0, 0, 8, 8);
+        this.drawTexturedModalRect(gX, barY + (barHeight - (barHeight * gP)) - 4, 0, 0, 8, 8);
+        this.drawTexturedModalRect(bX, barY + (barHeight - (barHeight * bP)) - 4, 0, 0, 8, 8);
+        this.drawTexturedModalRect(aX, barY + (barHeight - (barHeight * aP)) - 4, 0, 0, 8, 8);
     }
 
     public int getHoveredBar(int mouseX, int mouseY) {
         if (!(mouseY > barY && mouseY < barY + barHeight)) return -1;
 
-        if (NumberUtil.isBetween(mouseX, rX - 8, rX + barWidth)) return 0;
-        if (NumberUtil.isBetween(mouseX, gX - 8, gX + barWidth)) return 1;
-        if (NumberUtil.isBetween(mouseX, bX - 8, bX + barWidth)) return 2;
+        if (NumberUtil.isBetween(mouseX, rX - 1, rX + barWidth + 2)) return 0;
+        if (NumberUtil.isBetween(mouseX, gX - 1, gX + barWidth + 2)) return 1;
+        if (NumberUtil.isBetween(mouseX, bX - 1, bX + barWidth + 2)) return 2;
+        if (NumberUtil.isBetween(mouseX, aX - 1, aX + barWidth + 2)) return 3;
 
         return -1;
     }

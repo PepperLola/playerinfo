@@ -1,6 +1,7 @@
 package com.palight.playerinfo.modules.movement;
 
 import com.palight.playerinfo.gui.ingame.widgets.ToggleSprintWidget;
+import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.options.modules.movement.ToggleSprintGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
@@ -18,14 +19,12 @@ public class ToggleSprintMod extends Module {
     private static boolean sprintingToggled = false;
     private static boolean lastSprintState = false;
 
-    private static ToggleSprintWidget widget = new ToggleSprintWidget(2, 258);
-
     private static KeyBinding forwardKey = Minecraft.getMinecraft().gameSettings.keyBindForward;
     private static KeyBinding sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
     private static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
 
     public ToggleSprintMod() {
-        super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui());
+        super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(2, 258));
     }
 
     @Override
@@ -58,9 +57,5 @@ public class ToggleSprintMod extends Module {
         }
 
         lastSprintState = sprintKey.isPressed();
-    }
-
-    public static ToggleSprintWidget getWidget() {
-        return widget;
     }
 }
