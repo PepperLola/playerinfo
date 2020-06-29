@@ -758,7 +758,7 @@ public class GuiIngameCustom extends GuiIngame {
 
     protected void renderChat(int width, int height) {
         this.mc.mcProfiler.startSection("chat");
-        Chat event = new Chat(this.eventParent, 0, height - 48);
+        Chat event = new Chat(this.eventParent, 0, height - 64);
         if (!MinecraftForge.EVENT_BUS.post(event)) {
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)event.posX, (float)event.posY, 0.0F);

@@ -130,4 +130,12 @@ public class CustomGuiScreen extends GuiScreen {
             this.drawString(fontRendererObj, displayString, x, y + (i * fontRendererObj.FONT_HEIGHT), color);
         }
     }
+
+    public String getScreenName() {
+        return screenName;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
 }

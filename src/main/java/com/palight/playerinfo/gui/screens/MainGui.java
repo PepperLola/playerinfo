@@ -2,6 +2,9 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
+import com.palight.playerinfo.gui.screens.servers.ServerSelector;
+import com.palight.playerinfo.gui.screens.util.CalculatorGui;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.GuiMenuBar;
 import com.palight.playerinfo.gui.widgets.GuiModuleEntry;
@@ -61,7 +64,7 @@ public class MainGui extends CustomGuiScreenScrollable {
         }
 
 
-        this.menuBar = new GuiMenuBar(0, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new String[]{"Player Info", "Server Util", "Integrations"});
+        this.menuBar = new GuiMenuBar(0, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new CustomGuiScreen[]{new InfoGui(), new ServerSelector(), new LifxGui(), new CalculatorGui()});
 
         this.settingsGuiButton = new GuiTexturedButton(3, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
         this.editModsButton = new GuiButton(4, guiX + leftOffset + 2, (height + ySize) / 2 - 24, 48, 20, "Edit GUI");

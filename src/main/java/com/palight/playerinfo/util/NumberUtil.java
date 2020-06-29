@@ -1,5 +1,7 @@
 package com.palight.playerinfo.util;
 
+import com.palight.playerinfo.math.parsing.ExpressionNode;
+import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class NumberUtil {
@@ -27,5 +29,9 @@ public class NumberUtil {
     public static int[] prependElement(int[] array, int element) {
         array = ArrayUtils.remove(array, ArrayUtils.indexOf(array, element));
         return ArrayUtils.add(array, 0, element);
+    }
+
+    public static double evaluateExpression(String exp) throws InvalidExpressionException {
+        return ExpressionNode.evaluateExpression(exp);
     }
 }

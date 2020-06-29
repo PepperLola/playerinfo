@@ -1,21 +1,18 @@
 package com.palight.playerinfo.gui.widgets;
 
-import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GuiMenuBar extends GuiCustomWidget {
 
-    private String[] buttonText;
+    private CustomGuiScreen[] screens;
     private int arrowButtonWidth = 32;
     private int buttonWidth = 96;
 
@@ -23,17 +20,17 @@ public class GuiMenuBar extends GuiCustomWidget {
     private GuiSlantedButton forwardButton;
     private List<GuiSlantedButton> buttonList = new ArrayList<GuiSlantedButton>();
 
-    public GuiMenuBar(int id, int xPosition, int yPosition, int width, int height, String[] buttonText) {
+    public GuiMenuBar(int id, int xPosition, int yPosition, int width, int height, CustomGuiScreen[] screens) {
         super(id, xPosition, yPosition, width, height);
 
-        this.buttonText = buttonText;
+        this.screens = screens;
 
         backButton = new GuiSlantedButton(Integer.MIN_VALUE, xPosition, yPosition, arrowButtonWidth, 16, "<");
 
         int xOffset = arrowButtonWidth - 8;
 
-        for (int i = 0; i < buttonText.length; i++) {
-            String buttonString = buttonText[i];
+        for (int i = 0; i < screens.length; i++) {
+            String buttonString = screens[i].getScreenName();
             buttonList.add(new GuiSlantedButton(i, xPosition + xOffset, yPosition, buttonWidth, 16, buttonString));
             xOffset += buttonWidth - 8;
         }
@@ -70,13 +67,7 @@ public class GuiMenuBar extends GuiCustomWidget {
 
         for (GuiSlantedButton b : buttonList) {
             if (b.mousePressed(mouseX, mouseY)) {
-                if (b.id == 0) {
-                    player.openGui(PlayerInfo.instance, GuiHandler.INFO_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-                } else if (b.id == 1) {
-                    player.openGui(PlayerInfo.instance, GuiHandler.SERVER_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-                } else if (b.id == 2) {
-                    player.openGui(PlayerInfo.instance, GuiHandler.INTEGRATION_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
-                }
+                Minecraft.getMinecraft().displayGuiScreen(screens[b.id]);
                 break;
             }
         }
@@ -87,7 +78,7 @@ public class GuiMenuBar extends GuiCustomWidget {
 
             int xOffset = arrowButtonWidth - 8;
 
-            for (int i = 0; i < buttonText.length; i++) {
+            for (int i = 0; i < screens.length; i++) {
                 buttonList.get(i).xPosition = xPosition + xOffset;
                 xOffset += buttonWidth - 8;
             }
@@ -98,8 +89,8 @@ public class GuiMenuBar extends GuiCustomWidget {
 
             int xOffset = arrowButtonWidth - 8;
 
-            for (int i = 0; i < buttonText.length; i++) {
-                String buttonString = buttonText[i];
+            for (int i = 0; i < screens.length; i++) {
+                String buttonString = screens[i].getScreenName();
                 buttonList.get(i).xPosition = xPosition + xOffset;
                 xOffset += buttonWidth - 8;
             }
