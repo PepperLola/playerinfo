@@ -10,7 +10,7 @@ A Minecraft mod that does some cool stuff.
 * Background blurring in a GUI
 * Options menu
 * Note block helper (shows notes in chat)
-* Calculator (both command and GUI)
+* Calculator (both command and GUI, although the command doesn't quite work yet)
 * ToggleSprint
 * In-game Widgets (they are movable!)
   * Coordinates
@@ -19,4 +19,5 @@ A Minecraft mod that does some cool stuff.
   * Scoreboard
     * Disable Numbers
     * Change Color
+  * CPS Display (both left and right)
 * Custom Main Menu (can be disabled; doesn't look particularly good at the moment)
