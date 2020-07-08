@@ -47,6 +47,7 @@ public abstract class ModConfiguration {
         private static final boolean mainMenuModEnabled = true;
         private static final boolean toggleSprintModEnabled = false;
         private static final boolean bedwarsResourcesModEnabled = false;
+        private static final boolean cpsModEnabled = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -70,6 +71,7 @@ public abstract class ModConfiguration {
     public static boolean mainMenuModEnabled = DefaultValues.mainMenuModEnabled;
     public static boolean toggleSprintModEnabled = DefaultValues.toggleSprintModEnabled;
     public static boolean bedwarsResourcesModEnabled = DefaultValues.bedwarsResourcesModEnabled;
+    public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -157,6 +159,7 @@ public abstract class ModConfiguration {
         Property mainMenuModEnabled = config.get(CATEGORY_MODS, "mainMenuModEnabled", DefaultValues.mainMenuModEnabled, "Enable the custom main menu");
         Property toggleSprintModEnabled = config.get(CATEGORY_MODS, "toggleSprintModEnabled", DefaultValues.toggleSprintModEnabled, "Enable toggle sprint");
         Property bedwarsResourcesModEnabled = config.get(CATEGORY_MODS, "bedwarsResourcesModEnabled", DefaultValues.bedwarsResourcesModEnabled, "Enable bedwars resources indicator");
+        Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -168,7 +171,8 @@ public abstract class ModConfiguration {
                 coordsModEnabled.getName(),
                 mainMenuModEnabled.getName(),
                 toggleSprintModEnabled.getName(),
-                bedwarsResourcesModEnabled.getName()
+                bedwarsResourcesModEnabled.getName(),
+                cpsModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -190,6 +194,7 @@ public abstract class ModConfiguration {
             mainMenuModEnabled.setConfigEntryClass(BooleanEntry.class);
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
             bedwarsResourcesModEnabled.setConfigEntryClass(BooleanEntry.class);
+            cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -218,6 +223,7 @@ public abstract class ModConfiguration {
             ModConfiguration.mainMenuModEnabled = mainMenuModEnabled.getBoolean();
             ModConfiguration.toggleSprintModEnabled = toggleSprintModEnabled.getBoolean();
             ModConfiguration.bedwarsResourcesModEnabled = bedwarsResourcesModEnabled.getBoolean();
+            ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -243,6 +249,7 @@ public abstract class ModConfiguration {
         mainMenuModEnabled.set(ModConfiguration.mainMenuModEnabled);
         toggleSprintModEnabled.set(ModConfiguration.toggleSprintModEnabled);
         bedwarsResourcesModEnabled.set(ModConfiguration.bedwarsResourcesModEnabled);
+        cpsModEnabled.set(ModConfiguration.cpsModEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);

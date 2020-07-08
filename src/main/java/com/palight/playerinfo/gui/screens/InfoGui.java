@@ -5,10 +5,9 @@ import com.palight.playerinfo.data.PlayerProperties;
 import com.palight.playerinfo.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -65,11 +64,12 @@ public class InfoGui extends CustomGuiScreen {
         this.drawDefaultBackground();
 
         this.text.drawTextBox();
+        GlStateManager.color(1f, 1f, 1f);
         if (playerProperties != null) {
             int text_x = (this.width - xSize) / 2 + 8;
             int text_y = (this.height - ySize) / 2 + 8;
-            fontRendererObj.drawString(playerProperties.getProfileName(), text_x, text_y, 1);
-            fontRendererObj.drawString(playerProperties.getProfileId(), text_x, text_y + 8, 0);
+            fontRendererObj.drawString(playerProperties.getProfileName(), text_x, text_y, 0xffffffff);
+            fontRendererObj.drawString(playerProperties.getProfileId(), text_x, text_y + 8, 0xffffffff);
 
             RenderPlayer renderPlayer = new RenderPlayer(Minecraft.getMinecraft().getRenderManager(), playerProperties.getSkinModel().equals("slim"));
 
@@ -86,9 +86,11 @@ public class InfoGui extends CustomGuiScreen {
 //                final HashMap skinMap = Maps.newHashMap();
 //
 //                GameProfile playerGameProfile = new GameProfile(UUID.fromString(playerProperties.getProfileId()), playerProperties.getProfileName());
-//                skinMap.putAll(Minecraft.getMinecraft().getSessionService().getTextures(playerGameProfile, false));
+//                skinMap.put(playerProperties.getProfileId(), Minecraft.getMinecraft().getSessionService().getTextures(playerGameProfile, false));
+//
+//                System.out.println(skinMap.get(playerProperties.getProfileId()).toString());
 
-//                renderPlayer.bindTexture(skinLocation);
+//                renderPlayer.bindTexture(skinMap.get(playerProperties.getProfileId()));
                 RenderUtil.renderPlayerModel(renderPlayer.getMainModel(), 1, (this.width) / 2, (this.height) / 2);
             } catch (MalformedURLException e) {
                 e.printStackTrace();

@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.gui.*;
 import com.palight.playerinfo.modules.misc.BlurMod;
+import com.palight.playerinfo.modules.misc.CPSMod;
 import com.palight.playerinfo.modules.misc.LifxMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
@@ -54,6 +55,7 @@ public class PlayerInfo
         modules.put("mainMenu", new CustomMainMenuMod());
         modules.put("toggleSprint", new ToggleSprintMod());
         modules.put("resources", new BedwarsResourcesMod());
+        modules.put("cps", new CPSMod());
     }
 
     @EventHandler

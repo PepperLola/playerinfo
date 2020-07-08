@@ -1,15 +1,12 @@
 package com.palight.playerinfo.modules.movement;
 
 import com.palight.playerinfo.gui.ingame.widgets.ToggleSprintWidget;
-import com.palight.playerinfo.gui.screens.MainGui;
 import com.palight.playerinfo.gui.screens.options.modules.movement.ToggleSprintGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
-import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,7 +45,7 @@ public class ToggleSprintMod extends Module {
         if (player == null) return;
 
         if (forwardKey.isKeyDown()) {
-            if (sprintingToggled && !sneakKey.isKeyDown()) {
+            if (sprintingToggled && !sneakKey.isKeyDown() && !player.isCollidedHorizontally) {
                 player.setSprinting(true);
             }
         }

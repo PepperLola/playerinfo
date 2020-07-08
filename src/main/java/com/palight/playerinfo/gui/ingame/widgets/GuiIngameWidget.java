@@ -3,8 +3,7 @@ package com.palight.playerinfo.gui.ingame.widgets;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-
-import java.awt.*;
+import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiIngameWidget extends Gui {
     public int xPosition;
@@ -26,6 +25,7 @@ public class GuiIngameWidget extends Gui {
 
     public void render(Minecraft mc) {
         this.drawGradientRect(xPosition, yPosition, xPosition + width, yPosition + height, 0x55000000, 0x55000000);
+        GlStateManager.color(1f, 1f, 1f);
     }
 
     public void startEditing() {

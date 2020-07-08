@@ -1,16 +1,10 @@
 package com.palight.playerinfo.gui.ingame;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.ingame.base.GuiNewChat;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.ScoreboardWidget;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.modules.gui.CoordsMod;
-import com.palight.playerinfo.modules.gui.ScoreboardMod;
-import com.palight.playerinfo.modules.movement.ToggleSprintMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -28,7 +22,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
@@ -41,7 +34,6 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +54,7 @@ public class GuiIngameCustom extends GuiIngame {
     public static boolean renderObjective = true;
     public static int left_height = 39;
     public static int right_height = 39;
+    private GuiNewChat persistentChatGui;
     private ScaledResolution res = null;
     private FontRenderer fontrenderer = null;
     private RenderGameOverlayEvent eventParent;
@@ -69,6 +62,7 @@ public class GuiIngameCustom extends GuiIngame {
 
     public GuiIngameCustom(Minecraft mc) {
         super(mc);
+        this.persistentChatGui = new GuiNewChat(mc);
         this.debugOverlay = new GuiOverlayDebugForge(mc);
     }
 
@@ -762,7 +756,7 @@ public class GuiIngameCustom extends GuiIngame {
         if (!MinecraftForge.EVENT_BUS.post(event)) {
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)event.posX, (float)event.posY, 0.0F);
-            this.persistantChatGUI.drawChat(this.updateCounter);
+            this.persistentChatGui.drawChat(this.updateCounter);
             GlStateManager.popMatrix();
             this.post(ElementType.CHAT);
             this.mc.mcProfiler.endSection();
@@ -831,6 +825,11 @@ public class GuiIngameCustom extends GuiIngame {
                 this.post(ElementType.HEALTHMOUNT);
             }
         }
+    }
+
+    @Override
+    public net.minecraft.client.gui.GuiNewChat getChatGUI() {
+        return persistentChatGui;
     }
 
     private boolean pre(ElementType type) {

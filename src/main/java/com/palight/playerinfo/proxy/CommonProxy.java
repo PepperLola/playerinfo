@@ -1,12 +1,14 @@
 package com.palight.playerinfo.proxy;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.commands.CalcCommand;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +27,9 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new RenderListener());
         MinecraftForge.EVENT_BUS.register(new FovListener());
         MinecraftForge.EVENT_BUS.register(new MainScreenHandler());
+
+        // Registering Commands
+        ClientCommandHandler.instance.registerCommand(new CalcCommand());
 
         // Registering Keybinds
         ClientRegistry.registerKeyBinding(new KeyBinding("key.zoom", 21, "Player Info"));

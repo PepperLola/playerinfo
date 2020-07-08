@@ -4,6 +4,8 @@ import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 
+import java.text.DecimalFormat;
+
 public class GuiCalculator extends GuiCustomWidget {
     private int keypadWidth = 54;
     private int keypadHeight = 48;
@@ -45,7 +47,7 @@ public class GuiCalculator extends GuiCustomWidget {
         if (clickedButton == CalculatorButton.O_EQ) {
             try {
                 double solution = NumberUtil.evaluateExpression(equation);
-                equation = String.valueOf(solution);
+                equation = new DecimalFormat("0.######").format(solution);
             } catch (InvalidExpressionException e) {
                 e.printStackTrace();
                 equation = "ERROR";
