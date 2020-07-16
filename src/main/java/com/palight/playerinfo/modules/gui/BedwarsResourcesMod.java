@@ -1,8 +1,6 @@
 package com.palight.playerinfo.modules.gui;
 
-import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.ResourceWidget;
-import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 

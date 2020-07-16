@@ -10,6 +10,7 @@ public class GuiIngameWidget extends Gui {
     public int yPosition;
     public int width;
     public int height;
+    public boolean movable = true;
 
     private boolean chromaEnabled;
 

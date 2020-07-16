@@ -48,6 +48,7 @@ public class WidgetEditorGui extends CustomGuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
         editingWidget = getClickedWidget(mouseX, mouseY);
         if (editingWidget == null) return;
+        if (!editingWidget.movable) return;
         if (btn == 0) {
             moduleXDiff = editingWidget.xPosition - mouseX;
             moduleYDiff = editingWidget.yPosition - mouseY;
@@ -60,6 +61,7 @@ public class WidgetEditorGui extends CustomGuiScreen {
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int btn, long p_mouseClickMove_4_) {
         if (editingWidget == null) return;
+        if (!editingWidget.movable) return;
         if (btn == 0) {
             editingWidget.xPosition = mouseX + moduleXDiff;
             editingWidget.yPosition = mouseY + moduleYDiff;

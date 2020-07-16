@@ -28,6 +28,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
     public ScoreboardWidget(Minecraft mc) {
         super(-1, -1, 100, 100);
         this.mc = mc;
+        this.movable = false;
     }
 
     public void render(ScoreObjective objective, ScaledResolution resolution) {
@@ -67,13 +68,11 @@ public class ScoreboardWidget extends GuiIngameWidget {
         }
 
         this.height = list.size() * mc.fontRendererObj.FONT_HEIGHT;
-        int defaultY = resolution.getScaledHeight() / 2 + this.height / 3;
-        this.yPosition = yPosition == -1 ? defaultY : yPosition;
+        this.yPosition = resolution.getScaledHeight() / 2 + this.height / 3;
 
         int padding = 3;
-        int defaultX = resolution.getScaledWidth() - stringWidth - padding;
+        this.xPosition = resolution.getScaledWidth() - stringWidth - padding;
 
-        this.xPosition = xPosition == -1 ? defaultX : xPosition;
         this.width = stringWidth + 2;
 
         int xEnd = this.xPosition + this.width;
@@ -86,7 +85,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
             String formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
             String scoreString = !ModConfiguration.scoreboardModEnabled || ModConfiguration.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
 
-            int lineY = yPosition + (i * mc.fontRendererObj.FONT_HEIGHT);
+            int lineY = yPosition - (i * mc.fontRendererObj.FONT_HEIGHT);
 
             drawRect(xPosition - 2, lineY, xEnd, lineY + mc.fontRendererObj.FONT_HEIGHT, bodyColor);
 
@@ -96,9 +95,9 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
         String objectiveDisplayName = objective.getDisplayName();
 
-        drawRect(xPosition - 2, yPosition - mc.fontRendererObj.FONT_HEIGHT, xEnd, yPosition, headerColor);
+        drawRect(xPosition - 2, yPosition - (list.size() * mc.fontRendererObj.FONT_HEIGHT), xEnd, yPosition - (list.size() - 1) * mc.fontRendererObj.FONT_HEIGHT, headerColor);
 
-        drawText(objectiveDisplayName, xPosition + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, this.yPosition - mc.fontRendererObj.FONT_HEIGHT);
+        drawText(objectiveDisplayName, xPosition + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, this.yPosition - (list.size() * mc.fontRendererObj.FONT_HEIGHT));
     }
 
     public int getHeaderColor() {

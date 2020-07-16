@@ -40,6 +40,7 @@ public class CPSMod extends Module {
 
     @SubscribeEvent
     public void onMouseClick(MouseEvent event) {
+        if (!this.isEnabled()) return;
         if (event.button == 0 && event.buttonstate) {
             leftClicks.addLast(System.currentTimeMillis());
         }
@@ -50,6 +51,7 @@ public class CPSMod extends Module {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (!this.isEnabled()) return;
         // remove left clicks
         removeClicks(leftClicks);
 

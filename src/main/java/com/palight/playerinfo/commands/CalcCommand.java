@@ -3,15 +3,20 @@ package com.palight.playerinfo.commands;
 import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.NumberUtil;
-import net.minecraft.command.CommandBase;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class CalcCommand extends CommandBase {
+public class CalcCommand implements ICommand {
     @Override
     public String getCommandName() {
         return "calc";
@@ -20,6 +25,11 @@ public class CalcCommand extends CommandBase {
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
         return "/calc <equation>";
+    }
+
+    @Override
+    public List<String> getCommandAliases() {
+        return new ArrayList<String>(Arrays.asList("calc"));
     }
 
     @Override
@@ -38,7 +48,22 @@ public class CalcCommand extends CommandBase {
     }
 
     @Override
-    public int getRequiredPermissionLevel() {
+    public boolean canCommandSenderUseCommand(ICommandSender iCommandSender) {
+        return iCommandSender.equals(Minecraft.getMinecraft().thePlayer);
+    }
+
+    @Override
+    public List<String> addTabCompletionOptions(ICommandSender iCommandSender, String[] strings, BlockPos blockPos) {
+        return new ArrayList<String>(Arrays.asList("calc"));
+    }
+
+    @Override
+    public boolean isUsernameIndex(String[] args, int i) {
+        return false;
+    }
+
+    @Override
+    public int compareTo(ICommand o) {
         return 0;
     }
 }

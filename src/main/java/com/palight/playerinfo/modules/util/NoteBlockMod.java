@@ -28,7 +28,7 @@ public class NoteBlockMod extends Module {
 
     @SubscribeEvent
     public void onNoteBlockChange(NoteBlockEvent.Change event) {
-        if (ModConfiguration.noteBlockModEnabled) {
+        if (isEnabled()) {
             if (event.getVanillaNoteId() != NoteBlockUtil.getNoteId()) {
                 NoteBlockUtil.setNoteId(event.getVanillaNoteId());
                 MCUtil.sendPlayerMessage(
