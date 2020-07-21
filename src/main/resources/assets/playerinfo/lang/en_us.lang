@@ -1,1 +1,13 @@
-key.main="PlayerInfo GUI"
+key.main=PlayerInfo GUI
+key.zoom=Super Zoom
+
+screen.main=playerinfo
+screen.info=Info
+screen.login=Login
+screen.calc=Calculator
+screen.serverSelector=Servers
+screen.hypixel=Bedwars
+screen.widgetEditor=Widget Editor
+screen.toggleSprint=Toggle Sprint
+screen.lifx=Lifx
+screen.scoreboard=Scoreboard

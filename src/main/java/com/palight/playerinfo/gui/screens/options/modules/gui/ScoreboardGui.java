@@ -7,7 +7,7 @@ import com.palight.playerinfo.gui.widgets.GuiColorPicker;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
     private GuiButton resetColorsButton;
 
     public ScoreboardGui() {
-        super("Scoreboard");
+        super(I18n.format("screen.scoreboard"));
     }
 
     @Override

@@ -5,20 +5,21 @@ import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
 import com.palight.playerinfo.gui.screens.servers.ServerSelector;
 import com.palight.playerinfo.gui.screens.util.CalculatorGui;
-import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.GuiMenuBar;
 import com.palight.playerinfo.gui.widgets.GuiModuleEntry;
 import com.palight.playerinfo.gui.widgets.GuiTexturedButton;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainGui extends CustomGuiScreenScrollable {
 
@@ -41,7 +42,7 @@ public class MainGui extends CustomGuiScreenScrollable {
     List<GuiModuleEntry> modules = new ArrayList<GuiModuleEntry>();
 
     public MainGui() {
-        super("playerinfo");
+        super(I18n.format("screen.main"));
     }
 
 

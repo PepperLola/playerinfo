@@ -21,6 +21,10 @@ public class ColorUtil {
     }
 
     public static int getChromaColor() {
-        return Color.HSBtoRGB((float)(System.currentTimeMillis() % 10000L) / 10000.0F, 0.8F, 0.8F);
+        return getChromaColor(0);
+    }
+
+    public static int getChromaColor(long offset) {
+        return Color.HSBtoRGB(((System.currentTimeMillis() + offset) % 10000L) / 10000.0F, 0.8F, 0.8F);
     }
 }

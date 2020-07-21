@@ -35,6 +35,7 @@ public abstract class ModConfiguration {
         private static final String selectedServer = "Hypixel";
         private static final String bedwarsMode = "bedwars_eight_one";
 
+        private static final String lifxSelector = "all";
         private static final String lifxToken = "";
         private static final boolean lifxTeamMode = false;
 
@@ -59,6 +60,7 @@ public abstract class ModConfiguration {
     public static String selectedServer = DefaultValues.selectedServer;
     public static String bedwarsMode = DefaultValues.bedwarsMode;
 
+    public static String lifxSelector = DefaultValues.lifxSelector;
     public static String lifxToken = DefaultValues.lifxToken;
     public static boolean lifxTeamMode = DefaultValues.lifxTeamMode;
 
@@ -140,11 +142,13 @@ public abstract class ModConfiguration {
         ));
         config.setCategoryPropertyOrder(CATEGORY_HYPIXEL, propOrderHypixel);
 
+        Property lifxSelector = config.get(CATEGORY_LIFX, "lifxSelector", DefaultValues.lifxSelector, "LIFX light selector");
         Property lifxToken = config.get(CATEGORY_LIFX, "lifxToken", DefaultValues.lifxToken, "LIFX token for LIFX integration");
         Property lifxTeamMode = config.get(CATEGORY_LIFX, "lifxTeamMode", DefaultValues.lifxTeamMode, "Whether or not the light should change based on your helmet color");
 
         List<String> propOrderLifx = new ArrayList<String>();
         propOrderLifx.addAll(Arrays.asList(
+                lifxSelector.getName(),
                 lifxToken.getName(),
                 lifxTeamMode.getName()
         ));
@@ -183,6 +187,7 @@ public abstract class ModConfiguration {
 
             bedwarsMode.setConfigEntryClass(StringEntry.class);
 
+            lifxSelector.setConfigEntryClass(StringEntry.class);
             lifxToken.setConfigEntryClass(StringEntry.class);
             lifxTeamMode.setConfigEntryClass(BooleanEntry.class);
 
@@ -212,6 +217,7 @@ public abstract class ModConfiguration {
 
             ModConfiguration.bedwarsMode = bedwarsMode.getString();
 
+            ModConfiguration.lifxSelector = lifxSelector.getString();
             ModConfiguration.lifxToken = lifxToken.getString();
             ModConfiguration.lifxTeamMode = lifxTeamMode.getBoolean();
 
@@ -237,6 +243,7 @@ public abstract class ModConfiguration {
 
         bedwarsMode.set(ModConfiguration.bedwarsMode);
 
+        lifxSelector.set(ModConfiguration.lifxSelector);
         lifxToken.set(ModConfiguration.lifxToken);
         lifxTeamMode.set(ModConfiguration.lifxTeamMode);
 

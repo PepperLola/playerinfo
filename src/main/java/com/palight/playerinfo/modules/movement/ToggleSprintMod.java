@@ -22,7 +22,7 @@ public class ToggleSprintMod extends Module {
     private static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
 
     public ToggleSprintMod() {
-        super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(2, 258));
+        super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(-1, -1));
     }
 
     @Override

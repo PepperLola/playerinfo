@@ -3,6 +3,7 @@ package com.palight.playerinfo.gui.ingame.widgets;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -19,6 +20,12 @@ public class ToggleSprintWidget extends GuiIngameWidget {
         FontRenderer fr = mc.fontRendererObj;
         this.height = fr.FONT_HEIGHT + 1;
         String displayText = "";
+
+        if (this.xPosition == -1 || this.yPosition == -1) {
+            ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+            this.xPosition = xPosition == -1 ? 2 : xPosition;
+            this.yPosition = yPosition == -1 ? res.getScaledHeight() - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT : yPosition;
+        }
 
         if (getState() == WidgetState.EDITING) {
             displayText = "[Sprinting (Toggled)]";
@@ -53,7 +60,7 @@ public class ToggleSprintWidget extends GuiIngameWidget {
 
         if (!displayText.equals("")) {
             super.render(mc);
-            drawString(fr, displayText, xPosition + 1, yPosition + 1, getChromaColor());
+            drawText(displayText, xPosition + 1, yPosition + 1);
         }
     }
 }

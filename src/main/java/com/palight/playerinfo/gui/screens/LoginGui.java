@@ -3,9 +3,8 @@ package com.palight.playerinfo.gui.screens;
 import com.palight.playerinfo.util.ApiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
 
@@ -24,7 +23,7 @@ public class LoginGui extends CustomGuiScreen {
     public static final int SUBMIT_BUTTON_ID = 0;
 
     public LoginGui() {
-        super("Login");
+        super(I18n.format("screen.login"));
     }
 
     @Override

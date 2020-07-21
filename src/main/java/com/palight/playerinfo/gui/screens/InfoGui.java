@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,7 +25,7 @@ public class InfoGui extends CustomGuiScreen {
     private PlayerProperties playerProperties;
 
     public InfoGui() {
-        super("Info");
+        super(I18n.format("screen.info"));
     }
 
     @Override

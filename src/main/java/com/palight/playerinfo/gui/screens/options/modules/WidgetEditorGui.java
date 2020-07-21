@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.NumberUtil;
+import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class WidgetEditorGui extends CustomGuiScreen {
     private int moduleYDiff; // y difference between widget and mouse
 
     public WidgetEditorGui() {
-        super("Widget Editor");
+        super(I18n.format("screen.widgetEditor"));
     }
 
     @Override

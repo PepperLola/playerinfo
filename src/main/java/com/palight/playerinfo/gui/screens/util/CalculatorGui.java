@@ -2,16 +2,16 @@ package com.palight.playerinfo.gui.screens.util;
 
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.GuiCalculator;
+import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class CalculatorGui extends CustomGuiScreen {
 
     private GuiCalculator calculator;
 
     public CalculatorGui() {
-        super("Calculator");
+        super(I18n.format("screen.calc"));
     }
 
     @Override

@@ -10,6 +10,5 @@ public class GuiNewChat extends net.minecraft.client.gui.GuiNewChat {
     @Override
     public void addToSentMessages(String msg) {
         super.addToSentMessages(msg);
-        System.out.println(msg);
     }
 }

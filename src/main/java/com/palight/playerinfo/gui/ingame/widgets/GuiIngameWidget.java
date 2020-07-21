@@ -41,12 +41,16 @@ public class GuiIngameWidget extends Gui {
         this.chromaEnabled = !chromaEnabled;
     }
 
-    protected int getChromaColor() {
+    protected int getChromaColor(long offset) {
         if (chromaEnabled) {
-            return ColorUtil.getChromaColor();
+            return ColorUtil.getChromaColor(offset);
         }
 
         return ColorUtil.getColorInt(255, 255, 255);
+    }
+
+    protected int getChromaColor() {
+        return getChromaColor(0);
     }
 
     protected WidgetState getState() {
@@ -54,7 +58,13 @@ public class GuiIngameWidget extends Gui {
     }
 
     protected void drawText(String text, int x, int y) {
-        Minecraft.getMinecraft().fontRendererObj.drawString(text, x, y, getChromaColor());
+        int leftOffset = 0;
+        int character = 0;
+        for (String sub : text.split("")) {
+            Minecraft.getMinecraft().fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300));
+            leftOffset += Minecraft.getMinecraft().fontRendererObj.getStringWidth(sub);
+            character ++;
+        }
     }
 
     protected enum WidgetState {
