@@ -56,6 +56,7 @@ public class PlayerInfo
         modules.put("toggleSprint", new ToggleSprintMod());
         modules.put("resources", new BedwarsResourcesMod());
         modules.put("cps", new CPSMod());
+        modules.put("displayTweaks", new DisplayTweaksMod());
     }
 
     @EventHandler

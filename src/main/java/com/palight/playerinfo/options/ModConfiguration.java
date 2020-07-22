@@ -30,6 +30,9 @@ public abstract class ModConfiguration {
 
     public static final String CATEGORY_MODS = "mods";
 
+    public static final String CATEGORY_TWEAKS = "tweaks";
+    public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
+
     private static class DefaultValues {
 
         private static final String selectedServer = "Hypixel";
@@ -49,6 +52,9 @@ public abstract class ModConfiguration {
         private static final boolean toggleSprintModEnabled = false;
         private static final boolean bedwarsResourcesModEnabled = false;
         private static final boolean cpsModEnabled = false;
+        private static final boolean displayModEnabled = false;
+
+        private static final boolean disableWaterOverlay = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -74,6 +80,9 @@ public abstract class ModConfiguration {
     public static boolean toggleSprintModEnabled = DefaultValues.toggleSprintModEnabled;
     public static boolean bedwarsResourcesModEnabled = DefaultValues.bedwarsResourcesModEnabled;
     public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
+    public static boolean displayModEnabled = DefaultValues.displayModEnabled;
+
+    public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -164,6 +173,7 @@ public abstract class ModConfiguration {
         Property toggleSprintModEnabled = config.get(CATEGORY_MODS, "toggleSprintModEnabled", DefaultValues.toggleSprintModEnabled, "Enable toggle sprint");
         Property bedwarsResourcesModEnabled = config.get(CATEGORY_MODS, "bedwarsResourcesModEnabled", DefaultValues.bedwarsResourcesModEnabled, "Enable bedwars resources indicator");
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
+        Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -176,9 +186,18 @@ public abstract class ModConfiguration {
                 mainMenuModEnabled.getName(),
                 toggleSprintModEnabled.getName(),
                 bedwarsResourcesModEnabled.getName(),
-                cpsModEnabled.getName()
+                cpsModEnabled.getName(),
+                displayModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
+
+        Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
+
+        List<String> propOrderDisplay = new ArrayList<String>();
+        propOrderDisplay.addAll(Arrays.asList(
+                disableWaterOverlay.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
         try {
             noteBlockModEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -200,6 +219,9 @@ public abstract class ModConfiguration {
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
             bedwarsResourcesModEnabled.setConfigEntryClass(BooleanEntry.class);
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
+            displayModEnabled.setConfigEntryClass(BooleanEntry.class);
+
+            disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -230,6 +252,9 @@ public abstract class ModConfiguration {
             ModConfiguration.toggleSprintModEnabled = toggleSprintModEnabled.getBoolean();
             ModConfiguration.bedwarsResourcesModEnabled = bedwarsResourcesModEnabled.getBoolean();
             ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
+            ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
+
+            ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -257,6 +282,9 @@ public abstract class ModConfiguration {
         toggleSprintModEnabled.set(ModConfiguration.toggleSprintModEnabled);
         bedwarsResourcesModEnabled.set(ModConfiguration.bedwarsResourcesModEnabled);
         cpsModEnabled.set(ModConfiguration.cpsModEnabled);
+        displayModEnabled.set(ModConfiguration.displayModEnabled);
+
+        disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);

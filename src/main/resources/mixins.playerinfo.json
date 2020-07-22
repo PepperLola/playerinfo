@@ -1,0 +1,8 @@
+{
+  "package": "com.palight.playerinfo.mixin",
+  "refmap": "mixins.playerinfo.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "gui.MixinGuiConnecting"
+  ]
+}

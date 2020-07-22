@@ -34,8 +34,8 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
     @Override
     public void initGui() {
         super.initGui();
-        buttonX = (this.width - xSize) / 2 + 32;
-        buttonY = (this.height - ySize) / 2 + 32;
+        buttonX = guiX + 32;
+        buttonY = guiY + 32;
 
         scoreboardEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable scoreboard", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GUI, "scoreboardEnabled"));
         scoreboardNumbersEnabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable scoreboard numbers", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GUI, "scoreboardNumbersEnabled"));
