@@ -628,7 +628,7 @@ public class GuiIngameCustom extends GuiIngame {
 
             this.mc.mcProfiler.endSection();
         } else if (this.mc.thePlayer.isSpectator()) {
-            this.spectatorGui.func_175263_a(res);
+            this.spectatorGui.renderSelectedItem(res);
         }
 
     }
@@ -713,17 +713,17 @@ public class GuiIngameCustom extends GuiIngame {
     }
 
     protected void renderTitle(int width, int height, float partialTicks) {
-        if (this.field_175195_w > 0) {
+        if (this.titlesTimer > 0) {
             this.mc.mcProfiler.startSection("titleAndSubtitle");
-            float age = (float)this.field_175195_w - partialTicks;
+            float age = (float)this.titlesTimer - partialTicks;
             int opacity = 255;
-            if (this.field_175195_w > this.field_175193_B + this.field_175192_A) {
-                float f3 = (float)(this.field_175199_z + this.field_175192_A + this.field_175193_B) - age;
-                opacity = (int)(f3 * 255.0F / (float)this.field_175199_z);
+            if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime) {
+                float f3 = (float)(this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - age;
+                opacity = (int)(f3 * 255.0F / (float)this.titleFadeIn);
             }
 
-            if (this.field_175195_w <= this.field_175193_B) {
-                opacity = (int)(age * 255.0F / (float)this.field_175193_B);
+            if (this.titlesTimer <= this.titleFadeOut) {
+                opacity = (int)(age * 255.0F / (float)this.titleFadeOut);
             }
 
             opacity = MathHelper.clamp_int(opacity, 0, 255);
@@ -735,11 +735,11 @@ public class GuiIngameCustom extends GuiIngame {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(4.0F, 4.0F, 4.0F);
                 int l = opacity << 24 & -16777216;
-                this.getFontRenderer().drawString(this.field_175201_x, (float)(-this.getFontRenderer().getStringWidth(this.field_175201_x) / 2), -10.0F, 16777215 | l, true);
+                this.getFontRenderer().drawString(this.displayedTitle, (float)(-this.getFontRenderer().getStringWidth(this.displayedTitle) / 2), -10.0F, 16777215 | l, true);
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.getFontRenderer().drawString(this.field_175200_y, (float)(-this.getFontRenderer().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | l, true);
+                this.getFontRenderer().drawString(this.displayedSubTitle, (float)(-this.getFontRenderer().getStringWidth(this.displayedSubTitle) / 2), 5.0F, 16777215 | l, true);
                 GlStateManager.popMatrix();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();

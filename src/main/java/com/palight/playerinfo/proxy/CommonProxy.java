@@ -14,6 +14,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.lwjgl.opengl.Display;
 
 import java.io.IOException;
 
@@ -50,6 +51,8 @@ public class CommonProxy {
         }
 
         PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
+
+        Display.setTitle("playerinfo v" + PlayerInfo.VERSION);
     }
 
     public void postInit(FMLPostInitializationEvent event) {

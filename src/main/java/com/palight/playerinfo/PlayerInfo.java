@@ -10,6 +10,7 @@ import com.palight.playerinfo.modules.misc.LifxMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -26,7 +28,7 @@ public class PlayerInfo
 {
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.6.5";
+    public static final String VERSION = "1.11.3";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
@@ -64,6 +66,9 @@ public class PlayerInfo
     {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
+        Arrays.stream(GuiConnecting.class.getDeclaredMethods()).forEach(method -> {
+            System.out.println("(PLAYERINFO) " + method);
+        });
         createDataFolder();
     }
 

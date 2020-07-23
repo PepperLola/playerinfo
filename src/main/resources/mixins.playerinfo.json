@@ -1,8 +1,15 @@
 {
-  "package": "com.palight.playerinfo.mixin",
-  "refmap": "mixins.playerinfo.refmap.json",
+  "required": true,
+  "package": "com.palight.playerinfo.mixins",
+  "refmap": "mixin.playerinfo.refmap.json",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
+  "mixins": [],
+  "server": [],
+  "client": [
     "gui.MixinGuiConnecting"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "verbose": true
 }

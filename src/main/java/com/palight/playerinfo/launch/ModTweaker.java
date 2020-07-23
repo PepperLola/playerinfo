@@ -32,6 +32,8 @@ public class ModTweaker implements ITweaker {
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.playerinfo.json");
 
+        environment.setObfuscationContext("notch");
+
         environment.setSide(MixinEnvironment.Side.CLIENT);
     }
 
