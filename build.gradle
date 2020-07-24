@@ -42,6 +42,8 @@ minecraft {
 }
 
 dependencies {
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+
     embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
@@ -64,21 +66,23 @@ repositories {
     jcenter()
 }
 
-jar {
-    manifest.attributes(
-            "MixinConfigs": 'mixins.playerinfo.json',
-            "TweakClass": 'com.palight.playerinfo.launch.ModTweaker',
+task fatJar(type: Jar) {
+    manifest {
+        attributes(
+                "MixinConfigs": 'mixins.playerinfo.json',
+                "TweakClass": 'com.palight.playerinfo.launch.ModTweaker',
 //            "TweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
-            "TweakOrder": 0,
-            "Manifest-Version": 1.0
-    )
+                "TweakOrder": 0,
+                "Manifest-Version": 1.0
+        )
+    }
 
-//    configurations.embed.each { dep ->
-//        from(project.zipTree(dep)) {
-//            exclude 'META-INF', 'META-INF/**'
-//            exclude 'org/jetbrains/annotations', 'org/jetbrains/annotations/**'
-//        }
-//    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+
+    baseName = archivesBaseName
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 processResources {

@@ -14,13 +14,13 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ReportedException;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Base64;
 
 public class RenderUtil {
     public static void drawEntityOnScreen(int x, int y, int scale, float yaw, float pitch, EntityLivingBase entity) {
@@ -107,7 +107,7 @@ public class RenderUtil {
 
         byte[] imageBytes = bos.toByteArray();
 
-        String encodedImage = new BASE64Encoder().encode(imageBytes);
+        String encodedImage = Base64.getEncoder().encode(imageBytes).toString();
 
         bos.close();
 
