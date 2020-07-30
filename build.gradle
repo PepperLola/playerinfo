@@ -52,10 +52,10 @@ dependencies {
     }
 }
 
-mixin {
-    defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.playerinfo.refmap.json"
-}
+//mixin {
+//    defaultObfuscationEnv notch
+//    add sourceSets.main, "mixin.playerinfo.refmap.json"
+//}
 
 repositories {
     maven {
@@ -69,9 +69,8 @@ repositories {
 task fatJar(type: Jar) {
     manifest {
         attributes(
-                "MixinConfigs": 'mixins.playerinfo.json',
-                "TweakClass": 'com.palight.playerinfo.launch.ModTweaker',
-//            "TweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
+//                "MixinConfigs": 'mixins.playerinfo.json',
+//                "TweakClass": 'com.palight.playerinfo.launch.ModTweaker',
                 "TweakOrder": 0,
                 "Manifest-Version": 1.0
         )

@@ -89,15 +89,15 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
             drawRect(xPosition - 2, lineY, xEnd, lineY + mc.fontRendererObj.FONT_HEIGHT, bodyColor);
 
-            drawText(formattedPlayerName, xPosition, lineY);
-            drawText(scoreString, xEnd - mc.fontRendererObj.getStringWidth(scoreString), lineY);
+            mc.fontRendererObj.drawString(formattedPlayerName, xPosition, lineY, 553648127);
+            mc.fontRendererObj.drawString(scoreString, xEnd - mc.fontRendererObj.getStringWidth(scoreString), lineY, 553648127);
         }
 
         String objectiveDisplayName = objective.getDisplayName();
 
         drawRect(xPosition - 2, yPosition - (list.size() * mc.fontRendererObj.FONT_HEIGHT), xEnd, yPosition - (list.size() - 1) * mc.fontRendererObj.FONT_HEIGHT, headerColor);
 
-        drawText(objectiveDisplayName, xPosition + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, this.yPosition - (list.size() * mc.fontRendererObj.FONT_HEIGHT));
+        mc.fontRendererObj.drawString(objectiveDisplayName, xPosition + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, this.yPosition - (list.size() * mc.fontRendererObj.FONT_HEIGHT), 553648127);
     }
 
     public int getHeaderColor() {

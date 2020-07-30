@@ -53,6 +53,7 @@ public abstract class ModConfiguration {
         private static final boolean bedwarsResourcesModEnabled = false;
         private static final boolean cpsModEnabled = false;
         private static final boolean displayModEnabled = false;
+        private static final boolean hypixelEventsModEnabled = false;
 
         private static final boolean disableWaterOverlay = false;
 
@@ -81,6 +82,7 @@ public abstract class ModConfiguration {
     public static boolean bedwarsResourcesModEnabled = DefaultValues.bedwarsResourcesModEnabled;
     public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
+    public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
@@ -174,6 +176,7 @@ public abstract class ModConfiguration {
         Property bedwarsResourcesModEnabled = config.get(CATEGORY_MODS, "bedwarsResourcesModEnabled", DefaultValues.bedwarsResourcesModEnabled, "Enable bedwars resources indicator");
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
+        Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -187,7 +190,8 @@ public abstract class ModConfiguration {
                 toggleSprintModEnabled.getName(),
                 bedwarsResourcesModEnabled.getName(),
                 cpsModEnabled.getName(),
-                displayModEnabled.getName()
+                displayModEnabled.getName(),
+                hypixelEventsModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -220,6 +224,7 @@ public abstract class ModConfiguration {
             bedwarsResourcesModEnabled.setConfigEntryClass(BooleanEntry.class);
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
+            hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
@@ -253,6 +258,7 @@ public abstract class ModConfiguration {
             ModConfiguration.bedwarsResourcesModEnabled = bedwarsResourcesModEnabled.getBoolean();
             ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
+            ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
@@ -283,6 +289,7 @@ public abstract class ModConfiguration {
         bedwarsResourcesModEnabled.set(ModConfiguration.bedwarsResourcesModEnabled);
         cpsModEnabled.set(ModConfiguration.cpsModEnabled);
         displayModEnabled.set(ModConfiguration.displayModEnabled);
+        hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 
