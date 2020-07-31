@@ -39,7 +39,7 @@ public class ServerSelector extends CustomGuiScreen {
 
         serverDropdown.setSelectedItem(ModConfiguration.getString(ModConfiguration.CATEGORY_SERVERS, "selectedServer"));
 
-        selectButton = new GuiButton(0, buttonX + 84, buttonY - 2, 64, 20, "Select");
+        selectButton = new GuiButton(1, buttonX + 84, buttonY - 2, 64, 20, "Select");
 
         this.buttonList.add(selectButton);
     }
@@ -50,7 +50,7 @@ public class ServerSelector extends CustomGuiScreen {
         World playerWorld = player.getEntityWorld();
         BlockPos playerLocation = player.getPosition();
 
-        if (b.id == 0) {
+        if (b.id == selectButton.id) {
             if (serverDropdown.getSelectedItem().equals("Hypixel")) {
                 player.openGui(PlayerInfo.instance, GuiHandler.HYPIXEL_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
             }

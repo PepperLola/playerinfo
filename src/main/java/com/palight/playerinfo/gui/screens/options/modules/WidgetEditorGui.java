@@ -91,4 +91,9 @@ public class WidgetEditorGui extends CustomGuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        super.drawScreen(mouseX, mouseY, partialTicks);
     }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
 }

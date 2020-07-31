@@ -60,6 +60,7 @@ public class GuiIngameWidget extends Gui {
     protected void drawText(String text, int x, int y) {
         int leftOffset = 0;
         int character = 0;
+        if (text == null) return;
         for (String sub : text.split("")) {
             Minecraft.getMinecraft().fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300));
             leftOffset += Minecraft.getMinecraft().fontRendererObj.getStringWidth(sub);

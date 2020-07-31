@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -70,7 +69,7 @@ public class GuiDropdown extends GuiCustomWidget {
                 this.drawCenteredString(fontrenderer, this.displayStrings[i], this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2 + (this.height * i), fgColor);
             }
         }
-
+        GlStateManager.color(1.0f, 1.0f, 1.0f);
     }
 
     public void drawHorizontal(int x, int y, int yOffset) {
