@@ -58,6 +58,7 @@ public abstract class ModConfiguration {
         private static final boolean hypixelEventsModEnabled = false;
 
         private static final boolean disableWaterOverlay = false;
+        private static final boolean toggleSprintWidgetEnabled = true;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -89,6 +90,7 @@ public abstract class ModConfiguration {
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
+    public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -204,10 +206,12 @@ public abstract class ModConfiguration {
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
+        Property toggleSprintWidgetEnabled = config.get(CATEGORY_DISPLAY, "toggleSprintWidgetEnabled", DefaultValues.toggleSprintWidgetEnabled, "Enable toggle sprint widget");
 
         List<String> propOrderDisplay = new ArrayList<String>();
         propOrderDisplay.addAll(Arrays.asList(
-                disableWaterOverlay.getName()
+                disableWaterOverlay.getName(),
+                toggleSprintWidgetEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
@@ -273,6 +277,7 @@ public abstract class ModConfiguration {
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
+            ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -306,6 +311,7 @@ public abstract class ModConfiguration {
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
+        toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);

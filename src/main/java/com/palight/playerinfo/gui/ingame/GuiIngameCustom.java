@@ -159,9 +159,8 @@ public class GuiIngameCustom extends GuiIngame {
 
             // render custom gui elements
             for (Module module : PlayerInfo.getModules().values()) {
-                if (!module.isEnabled()) continue;
                 GuiIngameWidget widget = module.getWidget();
-                if (widget == null || widget instanceof ScoreboardWidget) continue;
+                if (widget == null || !widget.shouldRender(module) || widget instanceof ScoreboardWidget) continue;
                 widget.render(this.mc);
             }
 

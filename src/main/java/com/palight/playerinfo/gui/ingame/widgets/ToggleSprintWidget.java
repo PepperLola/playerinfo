@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
+import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,6 +18,7 @@ public class ToggleSprintWidget extends GuiIngameWidget {
     }
 
     public void render(Minecraft mc) {
+        if (!ModConfiguration.toggleSprintWidgetEnabled) return;
         FontRenderer fr = mc.fontRendererObj;
         this.height = fr.FONT_HEIGHT + 1;
         String displayText = "";
@@ -62,5 +64,10 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             super.render(mc);
             drawText(displayText, xPosition + 1, yPosition + 1);
         }
+    }
+
+    @Override
+    public boolean shouldRender(Module module) {
+        return ModConfiguration.toggleSprintWidgetEnabled;
     }
 }

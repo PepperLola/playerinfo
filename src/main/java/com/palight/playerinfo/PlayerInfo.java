@@ -27,9 +27,10 @@ import java.util.Random;
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
 public class PlayerInfo
 {
+    //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.11.3";
+    public static final String VERSION = "1.13.4";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;

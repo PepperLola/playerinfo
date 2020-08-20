@@ -1,11 +1,13 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
+import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiIngameWidget extends Gui {
+
     public int xPosition;
     public int yPosition;
     public int width;
@@ -66,6 +68,10 @@ public class GuiIngameWidget extends Gui {
             leftOffset += Minecraft.getMinecraft().fontRendererObj.getStringWidth(sub);
             character ++;
         }
+    }
+
+    public boolean shouldRender(Module module) {
+        return module.isEnabled();
     }
 
     protected enum WidgetState {
