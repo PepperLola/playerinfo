@@ -34,7 +34,7 @@ public class HypixelEventWidget extends GuiIngameWidget {
         }
         if ((!title.equals("") && !subtitle.equals("")) || this.getState() == WidgetState.EDITING) {
             this.width = Math.max(mc.fontRendererObj.getStringWidth(title) + 8, mc.fontRendererObj.getStringWidth(subtitle) + 8);
-            this.xPosition = (res.getScaledWidth() - this.width) / 2;
+//            this.xPosition = (res.getScaledWidth() - this.width) / 2;
             super.render(mc);
             drawText(title, this.xPosition + (this.width - mc.fontRendererObj.getStringWidth(title)) / 2, this.yPosition + (mc.fontRendererObj.FONT_HEIGHT / 2));
             drawText(subtitle, this.xPosition + (this.width - mc.fontRendererObj.getStringWidth(subtitle)) / 2, this.yPosition + (this.height + mc.fontRendererObj.FONT_HEIGHT) / 2);
