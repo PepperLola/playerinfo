@@ -30,7 +30,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.13.4";
+    public static final String VERSION = "1.13.5";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
@@ -47,7 +47,7 @@ public class PlayerInfo
     @Mod.Instance("playerinfo")
     public static PlayerInfo instance;
 
-    private static Map<String, Module> modules = new HashMap<String, Module>();
+    private static final Map<String, Module> modules = new HashMap<>();
 
     static {
         modules.put("scoreboard", new ScoreboardMod());

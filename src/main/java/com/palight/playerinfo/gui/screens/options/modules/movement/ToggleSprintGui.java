@@ -33,7 +33,7 @@ public class ToggleSprintGui extends CustomGuiScreenScrollable {
     @Override
     protected void widgetClicked(GuiCustomWidget widget) {
         if (widget.id == widgetEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "toggleSprintWidgetEnabled", widget.enabled);
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_WIDGETS, "toggleSprintWidgetEnabled", widget.enabled);
         }
         ModConfiguration.syncFromGUI();
         super.widgetClicked(widget);

@@ -30,6 +30,10 @@ public abstract class ModConfiguration {
 
     public static final String CATEGORY_MODS = "mods";
 
+    public static final String CATEGORY_WIDGETS = "widgets";
+
+    public static final String CATEGORY_MAIN_MENU = "mainmenu";
+
     public static final String CATEGORY_TWEAKS = "tweaks";
     public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
 
@@ -57,8 +61,11 @@ public abstract class ModConfiguration {
         private static final boolean displayModEnabled = false;
         private static final boolean hypixelEventsModEnabled = false;
 
-        private static final boolean disableWaterOverlay = false;
         private static final boolean toggleSprintWidgetEnabled = true;
+
+        private static final boolean mainMenuChroma = false;
+
+        private static final boolean disableWaterOverlay = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -89,8 +96,11 @@ public abstract class ModConfiguration {
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
 
-    public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
+
+    public static boolean mainMenuChroma = DefaultValues.mainMenuChroma;
+
+    public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -205,13 +215,27 @@ public abstract class ModConfiguration {
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
+        Property toggleSprintWidgetEnabled = config.get(CATEGORY_WIDGETS, "toggleSprintWidgetEnabled", DefaultValues.toggleSprintWidgetEnabled, "Enable toggle sprint widget");
+
+        List<String> propOrderWidgets = new ArrayList<>();
+        propOrderWidgets.addAll(Arrays.asList(
+                toggleSprintModEnabled.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_WIDGETS, propOrderWidgets);
+
+        Property mainMenuChroma = config.get(CATEGORY_MAIN_MENU, "mainMenuChroma", DefaultValues.mainMenuChroma, "Main menu chroma effect");
+
+        List<String> propOrderMainMenu  = new ArrayList<>();
+        propOrderMainMenu.addAll(Arrays.asList(
+                mainMenuChroma.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_MAIN_MENU, propOrderMainMenu);
+
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
-        Property toggleSprintWidgetEnabled = config.get(CATEGORY_DISPLAY, "toggleSprintWidgetEnabled", DefaultValues.toggleSprintWidgetEnabled, "Enable toggle sprint widget");
 
         List<String> propOrderDisplay = new ArrayList<String>();
         propOrderDisplay.addAll(Arrays.asList(
-                disableWaterOverlay.getName(),
-                toggleSprintWidgetEnabled.getName()
+                disableWaterOverlay.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
@@ -239,6 +263,10 @@ public abstract class ModConfiguration {
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
             hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
+
+            toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
+
+            mainMenuChroma.setConfigEntryClass(BooleanEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
@@ -276,8 +304,11 @@ public abstract class ModConfiguration {
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
 
-            ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
+
+            ModConfiguration.mainMenuChroma = mainMenuChroma.getBoolean();
+
+            ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -310,8 +341,11 @@ public abstract class ModConfiguration {
         displayModEnabled.set(ModConfiguration.displayModEnabled);
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
 
-        disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
+
+        mainMenuChroma.set(ModConfiguration.mainMenuChroma);
+
+        disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
