@@ -4,14 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.gui.*;
-import com.palight.playerinfo.modules.misc.BlurMod;
-import com.palight.playerinfo.modules.misc.CPSMod;
-import com.palight.playerinfo.modules.misc.HypixelEventsMod;
-import com.palight.playerinfo.modules.misc.LifxMod;
+import com.palight.playerinfo.modules.misc.*;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
-import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,7 +15,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -62,6 +57,7 @@ public class PlayerInfo
         modules.put("cps", new CPSMod());
         modules.put("displayTweaks", new DisplayTweaksMod());
         modules.put("hypixelEvents", new HypixelEventsMod());
+        modules.put("discordRPC", new DiscordRichPresenceMod());
     }
 
     @EventHandler
@@ -69,9 +65,6 @@ public class PlayerInfo
     {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
-        Arrays.stream(GuiConnecting.class.getDeclaredMethods()).forEach(method -> {
-            System.out.println("(PLAYERINFO) " + method);
-        });
         createDataFolder();
     }
 

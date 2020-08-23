@@ -34,6 +34,8 @@ public abstract class ModConfiguration {
 
     public static final String CATEGORY_MAIN_MENU = "mainmenu";
 
+    public static final String CATEGORY_DISCORD = "discord";
+
     public static final String CATEGORY_TWEAKS = "tweaks";
     public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
 
@@ -64,6 +66,8 @@ public abstract class ModConfiguration {
         private static final boolean toggleSprintWidgetEnabled = true;
 
         private static final boolean mainMenuChroma = false;
+
+        private static final boolean discordRPCEnabled = true;
 
         private static final boolean disableWaterOverlay = false;
 
@@ -99,6 +103,8 @@ public abstract class ModConfiguration {
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
 
     public static boolean mainMenuChroma = DefaultValues.mainMenuChroma;
+
+    public static boolean discordRPCEnabled = DefaultValues.discordRPCEnabled;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
@@ -231,6 +237,14 @@ public abstract class ModConfiguration {
         ));
         config.setCategoryPropertyOrder(CATEGORY_MAIN_MENU, propOrderMainMenu);
 
+        Property discordRPCEnabled = config.get(CATEGORY_DISCORD, "discordRPCEnabled", DefaultValues.discordRPCEnabled, "Enable Discord Rich Presence");
+
+        List<String> propOrderDiscord = new ArrayList<>();
+        propOrderDiscord.addAll(Arrays.asList(
+                discordRPCEnabled.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_DISCORD, propOrderDiscord);
+
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
 
         List<String> propOrderDisplay = new ArrayList<String>();
@@ -267,6 +281,8 @@ public abstract class ModConfiguration {
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             mainMenuChroma.setConfigEntryClass(BooleanEntry.class);
+
+            discordRPCEnabled.setConfigEntryClass(BooleanEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
@@ -308,6 +324,8 @@ public abstract class ModConfiguration {
 
             ModConfiguration.mainMenuChroma = mainMenuChroma.getBoolean();
 
+            ModConfiguration.discordRPCEnabled = discordRPCEnabled.getBoolean();
+
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
@@ -344,6 +362,8 @@ public abstract class ModConfiguration {
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
 
         mainMenuChroma.set(ModConfiguration.mainMenuChroma);
+
+        discordRPCEnabled.set(ModConfiguration.discordRPCEnabled);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 

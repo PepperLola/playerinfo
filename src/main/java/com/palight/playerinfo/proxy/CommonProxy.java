@@ -23,7 +23,6 @@ public class CommonProxy {
 
         // Registering Listeners
         MinecraftForge.EVENT_BUS.register(new HitListener());
-        MinecraftForge.EVENT_BUS.register(new CommandListener());
         MinecraftForge.EVENT_BUS.register(new KeyListener());
         MinecraftForge.EVENT_BUS.register(new RenderListener());
         MinecraftForge.EVENT_BUS.register(new FovListener());

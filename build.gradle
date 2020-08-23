@@ -12,10 +12,21 @@ buildscript {
             name = 'sponge'
             url = 'https://repo.spongepowered.org/maven'
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven {
+            name = 'bintray'
+            url = 'http://jcenter.bintray.com'
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
     }
 }
 
@@ -23,9 +34,11 @@ configurations {
     embed
     compile.extendsFrom(embed)
 }
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 sourceCompatibility = targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
@@ -42,7 +55,14 @@ minecraft {
 }
 
 dependencies {
-    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+
+
+    embed 'com.jagrosh:DiscordIPC:0.3'
+
+    embed 'ch.qos.logback:logback-core:1.1.6'
+    embed 'ch.qos.logback:logback-classic:1.1.6'
+    embed 'org.slf4j:slf4j-nop:1.7.25'
+    embed 'org.slf4j:slf4j-api:1.7.25'
 
     embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
@@ -50,6 +70,8 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
+
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 }
 
 //mixin {
@@ -58,30 +80,13 @@ dependencies {
 //}
 
 repositories {
+    maven { url "https://jitpack.io" }
     maven {
         name = 'sponge'
         url = 'https://repo.spongepowered.org/maven/'
     }
     mavenCentral()
     jcenter()
-}
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes(
-//                "MixinConfigs": 'mixins.playerinfo.json',
-//                "TweakClass": 'com.palight.playerinfo.launch.ModTweaker',
-                "TweakOrder": 0,
-                "Manifest-Version": 1.0
-        )
-    }
-
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
-
-    baseName = archivesBaseName
-
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
 }
 
 processResources {
@@ -100,5 +105,20 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+
+    inputs.files "src/main/resources"
+    outputs.dir "build/classes/main"
+    copy {
+        from("src/main/resources")
+        into("build/classes/main")
+    }
+}
+
+jar {
+    configurations.embed.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
     }
 }
