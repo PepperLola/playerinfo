@@ -1,6 +1,6 @@
 # playerinfo
-A Minecraft mod that does some cool stuff.
 [![Build Status](https://travis-ci.org/PepperLola/playerinfo.svg?branch=master)](https://travis-ci.org/PepperLola/playerinfo)
+A Minecraft mod that does some cool stuff.
 
 ### Features
 * Lifx Integration
