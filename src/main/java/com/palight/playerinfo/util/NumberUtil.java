@@ -1,6 +1,7 @@
 package com.palight.playerinfo.util;
 
 import com.palight.playerinfo.math.parsing.ExpressionNode;
+import com.palight.playerinfo.math.parsing.ImaginaryNumberException;
 import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -31,7 +32,7 @@ public class NumberUtil {
         return ArrayUtils.add(array, 0, element);
     }
 
-    public static double evaluateExpression(String exp) throws InvalidExpressionException {
+    public static double evaluateExpression(String exp) throws InvalidExpressionException, ImaginaryNumberException {
         return ExpressionNode.evaluateExpression(exp);
     }
 }

@@ -1,0 +1,30 @@
+language: java
+jdk:
+  - openjdk8
+os:
+  - linux
+sudo: required
+
+before_install:
+  - chmod +x gradlew
+  - ./gradlew wrapper --gradle-version 4.8.1
+  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_NUMBER/src/main/resources/build.txt
+before_deploy:
+  - git config --local user.name "PepperLola"
+  - git config --local user.email "$GIT_EMAIL"
+  - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build."
+  - git push https://$GIT_TOKEN@github.com/PepperLola/playerinfo.git HEAD:master --follow-tags
+deploy:
+  provider: releases
+  api_key: $GIT_TOKEN
+  skip_cleanup: true
+  file_glob: true
+  file: $TRAVIS_BUILD_DIR/build/libs/*
+  on:
+    repo: PepperLola/playerinfo
+    prerelease: true
+if: tag IS blank
+
+script:
+  - chmod +x gradlew
+  - ./gradlew :test

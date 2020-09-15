@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.widgets;
 
+import com.palight.playerinfo.math.parsing.ImaginaryNumberException;
 import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
@@ -48,7 +49,7 @@ public class GuiCalculator extends GuiCustomWidget {
             try {
                 double solution = NumberUtil.evaluateExpression(equation);
                 equation = new DecimalFormat("0.######").format(solution);
-            } catch (InvalidExpressionException e) {
+            } catch (InvalidExpressionException | ImaginaryNumberException e) {
                 e.printStackTrace();
                 equation = "ERROR";
             }

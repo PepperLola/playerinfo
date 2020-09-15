@@ -4,7 +4,7 @@ public class ValueNode extends ExpressionNode {
     private double value;
 
     public ValueNode(String value) {
-        this.value = Double.valueOf(value);
+        this.value = Double.parseDouble(value);
     }
 
     public double getValue() {

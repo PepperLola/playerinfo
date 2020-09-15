@@ -1,5 +1,6 @@
 package com.palight.playerinfo.commands;
 
+import com.palight.playerinfo.math.parsing.ImaginaryNumberException;
 import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.NumberUtil;
@@ -42,7 +43,7 @@ public class CalcCommand implements ICommand {
             String result = new DecimalFormat("0.######").format(NumberUtil.evaluateExpression(equation));
             String response = String.format("%s%s=%s%s", EnumChatFormatting.GREEN, equation, EnumChatFormatting.AQUA, result);
             MCUtil.sendPlayerMessage(player, response);
-        } catch (InvalidExpressionException e) {
+        } catch (InvalidExpressionException | ImaginaryNumberException e) {
             e.printStackTrace();
         }
     }

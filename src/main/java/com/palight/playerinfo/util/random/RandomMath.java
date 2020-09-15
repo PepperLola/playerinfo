@@ -4,6 +4,7 @@ package com.palight.playerinfo.util.random;
 import com.palight.playerinfo.math.MathOperator;
 import com.palight.playerinfo.math.MathProblemType;
 import com.palight.playerinfo.math.parsing.ExpressionNode;
+import com.palight.playerinfo.math.parsing.ImaginaryNumberException;
 import com.palight.playerinfo.math.parsing.InvalidExpressionException;
 
 import static com.palight.playerinfo.math.MathOperator.randomOperator;
@@ -35,7 +36,7 @@ public class RandomMath {
             double solution = ExpressionNode.evaluateExpression(problem);
 
             return new Tuple<String, Double>(problem, solution);
-        } catch (InvalidExpressionException e) {
+        } catch (InvalidExpressionException | ImaginaryNumberException e) {
             e.printStackTrace();
         }
 
