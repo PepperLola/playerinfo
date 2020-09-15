@@ -8,7 +8,6 @@ sudo: required
 before_install:
   - chmod +x gradlew
   - ./gradlew wrapper --gradle-version 4.8.1
-  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_NUMBER/src/main/resources/build.txt
 before_deploy:
   - git config --local user.name "PepperLola"
   - git config --local user.email "$GIT_EMAIL"
