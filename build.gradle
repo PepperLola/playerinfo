@@ -55,13 +55,6 @@ minecraft {
 }
 
 dependencies {
-    embed('com.jagrosh:DiscordIPC:0.3')
-    compile('com.jagrosh:DiscordIPC:0.3')
-
-//    embed 'ch.qos.logback:logback-core:1.1.6'
-//    embed 'ch.qos.logback:logback-classic:1.1.6'
-//    embed 'org.slf4j:slf4j-nop:1.7.25'
-//    embed 'org.slf4j:slf4j-api:1.7.25'
 
     embed('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'launchwrapper'
@@ -80,11 +73,6 @@ test {
     useJUnitPlatform()
 }
 
-//mixin {
-//    defaultObfuscationEnv notch
-//    add sourceSets.main, "mixin.playerinfo.refmap.json"
-//}
-
 repositories {
     maven { url "https://jitpack.io" }
     maven {
@@ -95,6 +83,7 @@ repositories {
     jcenter()
 }
 
+
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
@@ -103,28 +92,13 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-    }
-
-    inputs.files "src/main/resources"
-    outputs.dir "build/classes/main"
-    copy {
-        from("src/main/resources")
-        into("build/classes/main")
-    }
-}
-
-jar {
-    configurations.embed.each { dep ->
-        from(project.zipTree(dep)){
-            exclude 'META-INF', 'META-INF/**'
-        }
     }
 }

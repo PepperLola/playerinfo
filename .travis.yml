@@ -10,7 +10,7 @@ before_install:
   - ./gradlew wrapper --gradle-version 4.8.1
 before_deploy:
   - git config --local user.name "PepperLola"
-  - git config --local user.email "$GIT_EMAIL"
+  - git config --local user.email $GIT_EMAIL
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build."
   - git push https://$GIT_TOKEN@github.com/PepperLola/playerinfo.git HEAD:master --follow-tags
 deploy:

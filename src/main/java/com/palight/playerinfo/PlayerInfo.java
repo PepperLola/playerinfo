@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.gui.*;
-import com.palight.playerinfo.modules.misc.*;
+import com.palight.playerinfo.modules.misc.BlurMod;
+import com.palight.playerinfo.modules.misc.CPSMod;
+import com.palight.playerinfo.modules.misc.HypixelEventsMod;
+import com.palight.playerinfo.modules.misc.LifxMod;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
@@ -57,7 +60,6 @@ public class PlayerInfo
         modules.put("cps", new CPSMod());
         modules.put("displayTweaks", new DisplayTweaksMod());
         modules.put("hypixelEvents", new HypixelEventsMod());
-        modules.put("discordRPC", new DiscordRichPresenceMod());
     }
 
     @EventHandler
