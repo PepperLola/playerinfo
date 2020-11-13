@@ -3,6 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/PepperLola/playerinfo)](https://github.com/PepperLola/playerinfo/issues)
 [![GitHub stars](https://img.shields.io/github/stars/PepperLola/playerinfo)](https://github.com/PepperLola/playerinfo/stargazers)
 [![GitHub All Releases](https://img.shields.io/github/downloads/PepperLola/playerinfo/total)](https://github.com/PepperLola/playerinfo/releases/latest)
+![Visits](https://badges.pufler.dev/visits/PepperLola/playerinfo)
 [![GitHub followers](https://img.shields.io/github/followers/PepperLola?label=Follow%20Me%21&style=social)](https://github.com/PepperLola)
 ### A Minecraft mod that does some cool stuff.
 
