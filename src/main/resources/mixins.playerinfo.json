@@ -3,13 +3,8 @@
   "package": "com.palight.playerinfo.mixins",
   "refmap": "mixin.playerinfo.refmap.json",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
-  "server": [],
-  "client": [
+  "verbose": true,
+  "mixins": [
     "gui.MixinGuiConnecting"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "verbose": true
+  ]
 }

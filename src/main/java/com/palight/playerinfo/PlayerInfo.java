@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.gui.*;
-import com.palight.playerinfo.modules.misc.BlurMod;
-import com.palight.playerinfo.modules.misc.CPSMod;
-import com.palight.playerinfo.modules.misc.HypixelEventsMod;
-import com.palight.playerinfo.modules.misc.LifxMod;
+import com.palight.playerinfo.modules.misc.*;
 import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
@@ -60,11 +57,11 @@ public class PlayerInfo
         modules.put("cps", new CPSMod());
         modules.put("displayTweaks", new DisplayTweaksMod());
         modules.put("hypixelEvents", new HypixelEventsMod());
+        modules.put("discordRPC", new DiscordRichPresenceMod());
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
         createDataFolder();
@@ -73,6 +70,11 @@ public class PlayerInfo
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+    }
+
+    @EventHandler
+    public void onWorldJoin() {
+
     }
 
     public void createDataFolder() {

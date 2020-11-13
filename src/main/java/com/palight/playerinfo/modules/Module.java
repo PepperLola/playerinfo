@@ -1,6 +1,5 @@
 package com.palight.playerinfo.modules;
 
-import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import net.minecraftforge.common.MinecraftForge;
