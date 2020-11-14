@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.modules.movement.ToggleSprintMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -40,9 +41,9 @@ public class ToggleSprintWidget extends GuiIngameWidget {
                 displayText = "[Sneaking]";
             } else if (player.isSprinting()) {
                 displayText = "[Sprinting (%s)]";
-                if (sprintKey.isKeyDown()) {
+                if (sprintKey.isKeyDown() && !ToggleSprintMod.isSprintingToggled()) {
                     displayText = String.format(displayText, "Key Held");
-                } else if (ModConfiguration.toggleSprintModEnabled) {
+                } else if (ModConfiguration.toggleSprintModEnabled && ToggleSprintMod.isSprintingToggled()) {
                     displayText = String.format(displayText, "Toggled");
                 } else {
                     displayText = String.format(displayText, "Vanilla");

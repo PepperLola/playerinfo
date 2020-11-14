@@ -17,7 +17,6 @@ public class ToggleSprintMod extends Module {
     private static boolean sprintingToggled = false;
     private static boolean lastSprintState = false;
 
-    private static KeyBinding forwardKey = Minecraft.getMinecraft().gameSettings.keyBindForward;
     private static KeyBinding sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
     private static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
 
@@ -44,16 +43,18 @@ public class ToggleSprintMod extends Module {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null) return;
 
-        if (forwardKey.isKeyDown()) {
-            if (sprintingToggled && !sneakKey.isKeyDown() && !player.isCollidedHorizontally) {
-                player.setSprinting(true);
-            }
-        }
-
-        if (!lastSprintState && sprintKey.isKeyDown()) {
+        if (sprintKey.isPressed()) {
             sprintingToggled = !sprintingToggled;
         }
 
-        lastSprintState = sprintKey.isPressed();
+        System.out.println(sprintingToggled + " | " + sprintKey.isKeyDown() + " | " + sprintKey.isPressed());
+
+        if (sprintingToggled) {
+            KeyBinding.setKeyBindState(sprintKey.getKeyCode(), true);
+        }
+    }
+
+    public static boolean isSprintingToggled() {
+        return sprintingToggled;
     }
 }
