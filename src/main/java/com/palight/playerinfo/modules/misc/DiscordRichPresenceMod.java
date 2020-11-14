@@ -12,7 +12,6 @@ import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,10 +23,11 @@ public class DiscordRichPresenceMod extends Module {
 
     public static long applicationId = 568255570407063553L;
     public static String steamId = "";
+    public static String serverIp = "";
+    public static DiscordState discordState = DiscordState.MAIN_MENU;
+    private IPCClient client;
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.discordRPCEnabled);
+    private void updateDiscord() {
         if (ModConfiguration.discordRPCEnabled) {
 
             /* Discord Rich Presence */
@@ -36,7 +36,8 @@ public class DiscordRichPresenceMod extends Module {
                 @Override
                 public void onReady(IPCClient client) {
                     RichPresence.Builder builder = new RichPresence.Builder();
-                    builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION);
+                    builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
+                            .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
                     client.sendRichPresence(builder.build());
                 }
             });
@@ -49,6 +50,12 @@ public class DiscordRichPresenceMod extends Module {
     }
 
     @Override
+    public void init() {
+        this.setEnabled(ModConfiguration.discordRPCEnabled);
+        updateDiscord();
+    }
+
+    @Override
     public void setEnabled(boolean enabled) {
         ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISCORD, "discordRPCEnabled", enabled);
         ModConfiguration.syncFromGUI();
@@ -56,7 +63,8 @@ public class DiscordRichPresenceMod extends Module {
     }
 
     public void setDiscordState(DiscordState state) {
-
+        discordState = state;
+        updateDiscord();
     }
 
     @SideOnly(Side.CLIENT)
@@ -75,6 +83,7 @@ public class DiscordRichPresenceMod extends Module {
     @SubscribeEvent
     public void onServerJoin(ServerJoinEvent event) {
         System.out.println(String.format("CONNECTED TO: %s", event.getServer()));
+        serverIp = event.getServer();
     }
 
     public enum DiscordState {
@@ -89,7 +98,7 @@ public class DiscordRichPresenceMod extends Module {
                 case SINGLEPLAYER:
                     return "In a singleplayer world";
                 case MULTIPLAYER:
-                    return "Playing on a server";
+                    return "Playing on " + serverIp;
             }
             return "";
         }
