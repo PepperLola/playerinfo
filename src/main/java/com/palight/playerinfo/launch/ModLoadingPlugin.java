@@ -7,12 +7,19 @@ import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
 
+@IFMLLoadingPlugin.MCVersion("1.8.9")
 public class ModLoadingPlugin implements IFMLLoadingPlugin {
 
     public ModLoadingPlugin() {
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins.playerinfo.json");
-        MixinEnvironment.getDefaultEnvironment().setSide(MixinEnvironment.Side.CLIENT);
+        MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
+
+//        if (environment.getObfuscationContext() == null) {
+//            environment.setObfuscationContext("notch");
+//        }
+
+        environment.setSide(MixinEnvironment.Side.CLIENT);
     }
 
     @Override

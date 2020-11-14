@@ -2,17 +2,9 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
-import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.NumberUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;

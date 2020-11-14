@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.user.IReobfuscator
+
 buildscript {
 
     repositories {
@@ -11,9 +13,9 @@ buildscript {
     }
 
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '2.1-SNAPSHOT'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.6-SNAPSHOT'
-        classpath group: 'com.github.jengelman.gradle.plugins', name: 'shadow', version: '4.0.4'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
     }
 }
 
@@ -22,7 +24,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
-sourceCompatibility = targetCompatibility = 1.8
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 compileJava.options.encoding = 'UTF-8'
 
 sourceSets {
@@ -31,7 +33,7 @@ sourceSets {
     main.resources.srcDirs += '../shared/main/resources'
 }
 
-version = "1.13.5"
+version = "1.14.1"
 group= "com.palight.playerinfo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "playerinfo"
 
@@ -40,6 +42,10 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     makeObfSourceJar = true // an Srg named sources jar is made by default. uncomment this to disable.
+
+    def args = ["-Dfml.coreMods.load=com.palight.playerinfo.launch.ModLoadingPlugin"]
+
+    clientJvmArgs.addAll(args)
 }
 
 repositories {
@@ -53,11 +59,8 @@ repositories {
 
 dependencies {
 
-    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+    compile('org.spongepowered:mixin:0.6.4-SNAPSHOT') {
         exclude module: 'launchwrapper'
-        exclude module: 'guava'
-        exclude module: 'gson'
-        exclude module: 'commons-io'
     }
 
     compile 'com.jagrosh:DiscordIPC:0.3'
@@ -100,11 +103,11 @@ jar {
     manifest.attributes(
             'MixinConfigs': 'mixins.playerinfo.json',
             'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-            'TweakOrder': 0,
-            'FMLCorePluginContainsFMLMod': 'com.palight.playerinfo.launch.ModLoadingPlugin',
+            'FMLCorePluginContainsFMLMod': true,
+            'FMLCorePlugin': 'com.palight.playerinfo.launch.ModLoadingPlugin',
             'Manifest-Version': 1.0,
-            'Main-Class': 'com.palight.playerinfo.PlayerInfo'
-//            'ForceLoadAsMod': true
+            'Main-Class': 'com.palight.playerinfo.PlayerInfo',
+            'ForceLoadAsMod': true
     )
 }
 
@@ -113,6 +116,7 @@ shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('com.jagrosh:DiscordIPC'))
+//        include(dependency('net.minecraftforge:forgeBin:1.8.9-11.15.1.2318-1.8.9'))
         include(dependency('org.json:json'))
         include(dependency('org.slf4j:slf4j-api'))
         include(dependency('log4j:log4j:1.2.17'))
@@ -127,12 +131,12 @@ shadowJar {
 reobf {
     shadowJar {
         mappingType = 'SEARGE'
-        classpath = sourceSets.main.compileClasspath
     }
 }
 tasks.reobfShadowJar.mustRunAfter shadowJar
 
 configurations {
+    mods
     external
     compile.extendsFrom external
 }
