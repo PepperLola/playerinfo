@@ -29,9 +29,19 @@ public class DiscordRichPresenceMod extends Module {
 
     private void updateDiscord() {
         if (ModConfiguration.discordRPCEnabled) {
+            RichPresence.Builder builder = new RichPresence.Builder();
+            builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
+                    .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
+            client.sendRichPresence(builder.build());
+        }
+    }
 
+    @Override
+    public void init() {
+        this.setEnabled(ModConfiguration.discordRPCEnabled);
+        if (ModConfiguration.discordRPCEnabled) {
             /* Discord Rich Presence */
-            IPCClient client = new IPCClient(applicationId);
+            client = new IPCClient(applicationId);
             client.setListener(new IPCListener() {
                 @Override
                 public void onReady(IPCClient client) {
@@ -47,12 +57,6 @@ public class DiscordRichPresenceMod extends Module {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.discordRPCEnabled);
-        updateDiscord();
     }
 
     @Override
