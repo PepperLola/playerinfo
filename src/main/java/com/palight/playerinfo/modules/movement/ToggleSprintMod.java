@@ -47,8 +47,6 @@ public class ToggleSprintMod extends Module {
             sprintingToggled = !sprintingToggled;
         }
 
-        System.out.println(sprintingToggled + " | " + sprintKey.isKeyDown() + " | " + sprintKey.isPressed());
-
         if (sprintingToggled) {
             KeyBinding.setKeyBindState(sprintKey.getKeyCode(), true);
         }

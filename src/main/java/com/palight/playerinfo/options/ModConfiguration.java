@@ -62,6 +62,7 @@ public abstract class ModConfiguration {
         private static final boolean cpsModEnabled = false;
         private static final boolean displayModEnabled = false;
         private static final boolean hypixelEventsModEnabled = false;
+        private static final boolean pingModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
 
@@ -99,6 +100,7 @@ public abstract class ModConfiguration {
     public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
+    public static boolean pingModEnabled = DefaultValues.pingModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
 
@@ -203,6 +205,7 @@ public abstract class ModConfiguration {
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
         Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
+        Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -217,7 +220,8 @@ public abstract class ModConfiguration {
                 bedwarsResourcesModEnabled.getName(),
                 cpsModEnabled.getName(),
                 displayModEnabled.getName(),
-                hypixelEventsModEnabled.getName()
+                hypixelEventsModEnabled.getName(),
+                pingModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -277,6 +281,7 @@ public abstract class ModConfiguration {
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
             hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
+            pingModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
 
@@ -319,6 +324,7 @@ public abstract class ModConfiguration {
             ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
+            ModConfiguration.pingModEnabled = pingModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
 
@@ -358,6 +364,7 @@ public abstract class ModConfiguration {
         cpsModEnabled.set(ModConfiguration.cpsModEnabled);
         displayModEnabled.set(ModConfiguration.displayModEnabled);
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
+        pingModEnabled.set(ModConfiguration.pingModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
 

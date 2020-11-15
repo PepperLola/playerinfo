@@ -58,6 +58,7 @@ public class PlayerInfo
         modules.put("displayTweaks", new DisplayTweaksMod());
         modules.put("hypixelEvents", new HypixelEventsMod());
         modules.put("discordRPC", new DiscordRichPresenceMod());
+        modules.put("ping", new PingMod());
     }
 
     @EventHandler

@@ -29,10 +29,14 @@ public class DiscordRichPresenceMod extends Module {
 
     private void updateDiscord() {
         if (ModConfiguration.discordRPCEnabled) {
-            RichPresence.Builder builder = new RichPresence.Builder();
-            builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
-                    .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
-            client.sendRichPresence(builder.build());
+            new Thread() {
+                public void run() {
+                    RichPresence.Builder builder = new RichPresence.Builder();
+                    builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
+                            .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
+                    client.sendRichPresence(builder.build());
+                }
+            }.start();
         }
     }
 
@@ -45,10 +49,7 @@ public class DiscordRichPresenceMod extends Module {
             client.setListener(new IPCListener() {
                 @Override
                 public void onReady(IPCClient client) {
-                    RichPresence.Builder builder = new RichPresence.Builder();
-                    builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
-                            .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
-                    client.sendRichPresence(builder.build());
+                    updateDiscord();
                 }
             });
             try {
