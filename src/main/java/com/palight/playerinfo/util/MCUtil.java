@@ -1,11 +1,17 @@
 package com.palight.playerinfo.util;
 
+import com.google.gson.reflect.TypeToken;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class MCUtil {
     public static void sendPlayerMessage(EntityPlayer player, String message) {
@@ -25,6 +31,12 @@ public class MCUtil {
         }
 
         return total;
+    }
+
+    public static String getPlayerStatus(UUID uuid) {
+        String res = HttpUtil.httpGet("https://api.hypixel.net/status?uuid=" + uuid.toString() + "&key=" + ModConfiguration.hypixelApiKey);
+        Map<String, Object> data = (Map<String, Object>) ((Map<String, Object>) PlayerInfo.gson.fromJson(res, new TypeToken<Map<String, Object>>(){}.getType())).get("session");
+        return data.get("gameType") + " " + data.get("mode");
     }
 
     /*public static Direction getDirectionFromLook(Vec3 look) {

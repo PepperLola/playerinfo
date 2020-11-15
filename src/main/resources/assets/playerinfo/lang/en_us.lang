@@ -2,6 +2,7 @@ key.main=PlayerInfo GUI
 key.zoom=Super Zoom
 
 screen.main=playerinfo
+screen.options=Options
 screen.info=Info
 screen.login=Login
 screen.calc=Calculator

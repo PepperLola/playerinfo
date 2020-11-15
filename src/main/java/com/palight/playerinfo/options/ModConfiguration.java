@@ -45,6 +45,7 @@ public abstract class ModConfiguration {
         private static final String bedwarsMode = "bedwars_eight_one";
         private static final String alertSound = "none";
         private static final boolean friendAlertsEnabled = false;
+        private static final String hypixelApiKey = "";
 
         private static final String lifxSelector = "all";
         private static final String lifxToken = "";
@@ -83,6 +84,7 @@ public abstract class ModConfiguration {
     public static String bedwarsMode = DefaultValues.bedwarsMode;
     public static String alertSound = DefaultValues.alertSound;
     public static boolean friendAlertsEnabled = DefaultValues.friendAlertsEnabled;
+    public static String hypixelApiKey = DefaultValues.hypixelApiKey;
 
     public static String lifxSelector = DefaultValues.lifxSelector;
     public static String lifxToken = DefaultValues.lifxToken;
@@ -172,12 +174,14 @@ public abstract class ModConfiguration {
         Property bedwarsMode = config.get(CATEGORY_HYPIXEL, "bedwarsMode", DefaultValues.bedwarsMode, "Bedwars mode for quick play");
         Property alertSound = config.get(CATEGORY_HYPIXEL, "alertSound", DefaultValues.alertSound, "Sound to be played for alerts");
         Property friendAlertsEnabled = config.get(CATEGORY_HYPIXEL, "friendAlertsEnabled", DefaultValues.friendAlertsEnabled, "Enable friend join/leave alerts");
+        Property hypixelApiKey = config.get(CATEGORY_HYPIXEL, "hypixelApiKey", DefaultValues.hypixelApiKey, "Hypixel API key");
 
         List<String> propOrderHypixel = new ArrayList<String>();
         propOrderHypixel.addAll(Arrays.asList(
                 bedwarsMode.getName(),
                 alertSound.getName(),
-                friendAlertsEnabled.getName()
+                friendAlertsEnabled.getName(),
+                hypixelApiKey.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_HYPIXEL, propOrderHypixel);
 
@@ -265,6 +269,7 @@ public abstract class ModConfiguration {
             bedwarsMode.setConfigEntryClass(StringEntry.class);
             alertSound.setConfigEntryClass(StringEntry.class);
             friendAlertsEnabled.setConfigEntryClass(BooleanEntry.class);
+            hypixelApiKey.setConfigEntryClass(StringEntry.class);
 
             lifxSelector.setConfigEntryClass(StringEntry.class);
             lifxToken.setConfigEntryClass(StringEntry.class);
@@ -308,6 +313,7 @@ public abstract class ModConfiguration {
             ModConfiguration.bedwarsMode = bedwarsMode.getString();
             ModConfiguration.alertSound = alertSound.getString();
             ModConfiguration.friendAlertsEnabled = friendAlertsEnabled.getBoolean();
+            ModConfiguration.hypixelApiKey = hypixelApiKey.getString();
 
             ModConfiguration.lifxSelector = lifxSelector.getString();
             ModConfiguration.lifxToken = lifxToken.getString();
@@ -347,6 +353,7 @@ public abstract class ModConfiguration {
         bedwarsMode.set(ModConfiguration.bedwarsMode);
         alertSound.set(ModConfiguration.alertSound);
         friendAlertsEnabled.set(ModConfiguration.friendAlertsEnabled);
+        hypixelApiKey.set(ModConfiguration.hypixelApiKey);
 
         lifxSelector.set(ModConfiguration.lifxSelector);
         lifxToken.set(ModConfiguration.lifxToken);

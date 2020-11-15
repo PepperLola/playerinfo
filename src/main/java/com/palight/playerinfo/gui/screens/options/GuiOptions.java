@@ -3,20 +3,18 @@ package com.palight.playerinfo.gui.screens.options;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
-import com.palight.playerinfo.gui.screens.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.gui.widgets.GuiButton;
 import com.palight.playerinfo.gui.widgets.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GuiOptions extends CustomGuiScreenScrollable {
     private int buttonX;
@@ -28,7 +26,7 @@ public class GuiOptions extends CustomGuiScreenScrollable {
     private GuiButton configButton;
 
     public GuiOptions() {
-        super("Options");
+        super(I18n.format("screen.options"));
     }
 
     @Override
@@ -46,7 +44,12 @@ public class GuiOptions extends CustomGuiScreenScrollable {
         pumpkinDisabled.checked = ModConfiguration.pumpkinModEnabled;
         noteBlockHelper.checked = ModConfiguration.noteBlockModEnabled;
 
-        guiElements.addAll(Arrays.asList(this.blurEnabled, this.pumpkinDisabled, this.noteBlockHelper, this.configButton));
+        guiElements.addAll(Arrays.asList(
+                this.blurEnabled,
+                this.pumpkinDisabled,
+                this.noteBlockHelper,
+                this.configButton
+        ));
     }
 
     @Override

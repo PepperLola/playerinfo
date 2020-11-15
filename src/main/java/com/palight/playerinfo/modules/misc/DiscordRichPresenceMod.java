@@ -4,14 +4,17 @@ import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
-import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.ServerJoinEvent;
 import com.palight.playerinfo.gui.screens.options.modules.gui.CustomMainMenuGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.util.MCUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreenServerList;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,18 +28,19 @@ public class DiscordRichPresenceMod extends Module {
     public static String steamId = "";
     public static String serverIp = "";
     public static DiscordState discordState = DiscordState.MAIN_MENU;
-    private IPCClient client;
+    int updateTicksMax = 20 * 60;
+    int updateTicks = 0;
+    private static IPCClient client;
 
-    private void updateDiscord() {
+    public static void updateDiscord() {
         if (ModConfiguration.discordRPCEnabled) {
-            new Thread() {
-                public void run() {
-                    RichPresence.Builder builder = new RichPresence.Builder();
-                    builder.setState(PlayerInfo.NAME + " v" + PlayerInfo.VERSION)
-                            .setLargeImage("minecraft", DiscordState.getDisplayString(discordState));
-                    client.sendRichPresence(builder.build());
-                }
-            }.start();
+            new Thread(() -> {
+                System.out.println("DISCORD STATE: " + DiscordState.getDisplayString(discordState));
+                RichPresence.Builder builder = new RichPresence.Builder();
+                builder.setState(DiscordState.getDisplayString(discordState))
+                        .setLargeImage("minecraft", Minecraft.getMinecraft().getSession().getUsername());
+                client.sendRichPresence(builder.build());
+            }).start();
         }
     }
 
@@ -75,7 +79,7 @@ public class DiscordRichPresenceMod extends Module {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Pre event) {
-        if (event.gui instanceof GuiMainMenu || event.gui instanceof CustomMainMenuGui) {
+        if (event.gui instanceof GuiMainMenu || event.gui instanceof CustomMainMenuGui || event.gui instanceof GuiScreenServerList) {
             setDiscordState(DiscordState.MAIN_MENU);
         }
     }
@@ -86,9 +90,20 @@ public class DiscordRichPresenceMod extends Module {
     }
 
     @SubscribeEvent
+    public void clientTickEvent(TickEvent.ClientTickEvent event) {
+        if (updateTicks >= updateTicksMax) {
+            updateDiscord();
+            updateTicks = 0;
+        }
+
+        updateTicks ++;
+    }
+
+    @SubscribeEvent
     public void onServerJoin(ServerJoinEvent event) {
         System.out.println(String.format("CONNECTED TO: %s", event.getServer()));
         serverIp = event.getServer();
+        updateDiscord();
     }
 
     public enum DiscordState {
@@ -103,6 +118,9 @@ public class DiscordRichPresenceMod extends Module {
                 case SINGLEPLAYER:
                     return "In a singleplayer world";
                 case MULTIPLAYER:
+                    if (serverIp.contains("hypixel.net")) {
+                        return "Playing " + MCUtil.getPlayerStatus(Minecraft.getMinecraft().getSession().getProfile().getId()) + " on Hypixel";
+                    }
                     return "Playing on " + serverIp;
             }
             return "";
