@@ -1,7 +1,6 @@
 package com.palight.playerinfo.rendering.cosmetics.layers;
 
 import com.palight.playerinfo.PlayerInfo;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -21,7 +20,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
     }
 
     public void doRenderLayer(AbstractClientPlayer player, float p_doRenderLayer_2_, float p_doRenderLayer_3_, float p_doRenderLayer_4_, float p_doRenderLayer_5_, float p_doRenderLayer_6_, float p_doRenderLayer_7_, float p_doRenderLayer_8_) {
-        if (!player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE) && player.equals(Minecraft.getMinecraft().thePlayer)) {
+        if (!player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE) && player.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //            this.playerRenderer.bindTexture(player.getLocationCape());
             this.playerRenderer.bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/capes/cape.png"));
