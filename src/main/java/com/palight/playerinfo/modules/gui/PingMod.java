@@ -5,8 +5,9 @@ import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 
 public class PingMod extends Module {
+
     public PingMod() {
-        super("ping", "Ping", "Show your ping on screen", ModuleType.GUI, null, new PingWidget(50, 2));
+        super("ping", "Ping", "Displays your ping on screen.", ModuleType.GUI, null, new PingWidget());
     }
 
     @Override
@@ -16,8 +17,8 @@ public class PingMod extends Module {
 
     @Override
     public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
         ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "pingModEnabled", enabled);
         ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
     }
 }

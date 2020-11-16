@@ -14,6 +14,15 @@ public abstract class Module {
 
     protected GuiIngameWidget widget;
 
+    /**
+     * Constructor for module class
+     * @param id
+     * @param name
+     * @param description
+     * @param type
+     * @param optionsGui
+     * @param widget
+     */
     public Module(String id, String name, String description, ModuleType type, CustomGuiScreen optionsGui, GuiIngameWidget widget) {
         this.id = id;
         this.type = type;
