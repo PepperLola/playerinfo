@@ -1,5 +1,3 @@
-import net.minecraftforge.gradle.user.IReobfuscator
-
 buildscript {
 
     repositories {

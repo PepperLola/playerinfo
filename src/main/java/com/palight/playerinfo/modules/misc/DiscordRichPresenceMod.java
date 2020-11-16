@@ -118,7 +118,7 @@ public class DiscordRichPresenceMod extends Module {
                 case SINGLEPLAYER:
                     return "In a singleplayer world";
                 case MULTIPLAYER:
-                    if (serverIp.contains("hypixel.net")) {
+                    if (serverIp.contains("hypixel.net") && !ModConfiguration.hypixelApiKey.equals("")) {
                         return "Playing " + MCUtil.getPlayerStatus(Minecraft.getMinecraft().getSession().getProfile().getId()) + " on Hypixel";
                     }
                     return "Playing on " + serverIp;
