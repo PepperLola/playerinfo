@@ -23,7 +23,14 @@ deploy:
     repo: PepperLola/playerinfo
     prerelease: true
 if: tag IS blank
-
+after_success:
+  - git clone --quiet --branch=gh-pages https://$GIT_TOKEN@github.com/PepperLola/playerinfo.git gh-pages > /dev/null
+  - cd gh-pages
+  - git rm -rf ./javadoc
+  - cp -Rf $HOME/javadoc-latest ./javadoc
+  - git add -f .
+  - git commit -m "Latest javadoc on successful travis build $TRAVIS_BUILD_NUMBER auto-pushed to gh-pages"
+  - git push -fq origin gh-pages > /dev/null
 script:
   - chmod +x gradlew
   - ./gradlew :test
