@@ -20,6 +20,10 @@ public class CustomGuiScreen extends GuiScreen {
 
     private String screenName;
 
+    /**
+     * Constructor for CustomGuiScreen class.
+     * @param screenName Name to be displayed when in the GUI.
+     */
     public CustomGuiScreen(String screenName) {
         this.screenName = screenName;
     }
@@ -34,12 +38,21 @@ public class CustomGuiScreen extends GuiScreen {
     private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png");
     private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
 
+    /**
+     * Initializes the GUI. Just sets the width and the height of the GUI screen.
+     */
     @Override
     public void initGui() {
         guiX = (this.width - xSize) / 2;
         guiY = (this.height - ySize) / 2;
     }
 
+    /**
+     * Draws the background, header, screen name and everything GuiScreen would draw.
+     * @param mouseX X position of the mouse. Provided by Minecraft.
+     * @param mouseY Y position of the mouse. Provided by Minecraft.
+     * @param partialTicks Partial ticks. Provided by Minecraft.
+     */
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
@@ -70,6 +83,13 @@ public class CustomGuiScreen extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
+    /**
+     * Tests if a widget has been clicked, then notify the widget.
+     * @param mouseX X position of the mouse. Provided by Minecraft.
+     * @param mouseY Y position of the mouse. Provided by Minecraft.
+     * @param btn Mouse button that was pressed. Provided by Minecraft.
+     * @throws IOException If there's an error getting mouse events.
+     */
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
 
@@ -84,10 +104,23 @@ public class CustomGuiScreen extends GuiScreen {
         super.mouseClicked(mouseX, mouseY, btn);
     }
 
+    /**
+     * Handles widget being clicked.
+     * @param widget Widget that was clicked.
+     */
     protected void widgetClicked(GuiCustomWidget widget) {
 
     }
 
+    /**
+     * Draws text that wraps when it reaches the max width. Used for drawing module description.
+     * @param text Text to be displayed.
+     * @param x X position to display the text at.
+     * @param y Y position to display the text at.
+     * @param color Color the text will be when displayed.
+     * @param maxWidth Width the text will wrap when it reaches.
+     * @param splitOnSpaces Determines whether text should wrap in the middle of a word or on the space before that word.
+     */
     public void drawTextMultiLine(String text, int x, int y, int color, int maxWidth, boolean splitOnSpaces) {
         String splitChar = splitOnSpaces ? " " : "";
         String[] splitText = text.split(splitChar);
@@ -123,10 +156,18 @@ public class CustomGuiScreen extends GuiScreen {
         }
     }
 
+    /**
+     * Gets the screen name.
+     * @return Screen name.
+     */
     public String getScreenName() {
         return screenName;
     }
 
+    /**
+     * Sets screen name directly.
+     * @param screenName Name to be displayed when in the GUI.
+     */
     public void setScreenName(String screenName) {
         this.screenName = screenName;
     }

@@ -1,13 +1,11 @@
 package com.palight.playerinfo.rendering.cosmetics.layers;
 
-import com.palight.playerinfo.PlayerInfo;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,8 +20,8 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
     public void doRenderLayer(AbstractClientPlayer player, float p_doRenderLayer_2_, float p_doRenderLayer_3_, float p_doRenderLayer_4_, float p_doRenderLayer_5_, float p_doRenderLayer_6_, float p_doRenderLayer_7_, float p_doRenderLayer_8_) {
         if (!player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE) && player.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-//            this.playerRenderer.bindTexture(player.getLocationCape());
-            this.playerRenderer.bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/capes/cape.png"));
+            this.playerRenderer.bindTexture(player.getLocationCape());
+//            this.playerRenderer.bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/capes/cape.png"));
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.125F);
             double lvt_9_1_ = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double)p_doRenderLayer_4_ - (player.prevPosX + (player.posX - player.prevPosX) * (double)p_doRenderLayer_4_);

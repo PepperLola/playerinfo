@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ChatListener {
     /**
      * Client chat listener for Hypixel API key
-     * @param event
+     * @param event Client chat received event. Posted by Minecraft when the client receives a chat message.
      */
     @SubscribeEvent
     public void onReceiveChatEvent(ClientChatReceivedEvent event) {
