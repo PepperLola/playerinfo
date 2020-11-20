@@ -9,7 +9,8 @@ before_install:
   - chmod +x gradlew
   - ./gradlew wrapper --gradle-version 4.8.1
 before_deploy:
-  - git pull
+  - cd ..
+  - git pull origin master
   - git config --local user.name "PepperLola"
   - git config --local user.email $GIT_EMAIL
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build."
