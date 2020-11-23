@@ -3,7 +3,7 @@ package com.palight.playerinfo.gui.ingame;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.base.GuiNewChat;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
-import com.palight.playerinfo.gui.ingame.widgets.ScoreboardWidget;
+import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

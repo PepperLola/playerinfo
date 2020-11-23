@@ -1,12 +1,9 @@
 package com.palight.playerinfo.listeners;
 
-import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.gui.screens.MainMenuGui;
+import com.palight.playerinfo.gui.screens.impl.MainMenuGui;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -6,6 +6,7 @@
   "verbose": true,
   "mixins": [
     "client.MixinAbstractClientPlayer",
-    "gui.MixinGuiConnecting"
+    "gui.MixinGuiConnecting",
+    "render.MixinEntityFX"
   ]
 }

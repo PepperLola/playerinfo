@@ -8,8 +8,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiIngameWidget extends Gui {
 
-    public int xPosition;
-    public int yPosition;
+    private WidgetPosition position;
     public int width;
     public int height;
     public boolean movable = true;
@@ -19,15 +18,14 @@ public class GuiIngameWidget extends Gui {
     private WidgetState state;
 
     public GuiIngameWidget(int xPosition, int yPosition, int width, int height) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
+        this.position = new WidgetPosition(this, xPosition, yPosition);
         this.width = width;
         this.height = height;
         this.state = WidgetState.INGAME;
     }
 
     public void render(Minecraft mc) {
-        this.drawGradientRect(xPosition, yPosition, xPosition + width, yPosition + height, 0x55000000, 0x55000000);
+        this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
         GlStateManager.color(1f, 1f, 1f);
     }
 
@@ -72,6 +70,14 @@ public class GuiIngameWidget extends Gui {
 
     public boolean shouldRender(Module module) {
         return module.isEnabled();
+    }
+
+    public WidgetPosition getPosition() {
+        return position;
+    }
+
+    public void setPosition(WidgetPosition position) {
+        this.position = position;
     }
 
     protected enum WidgetState {

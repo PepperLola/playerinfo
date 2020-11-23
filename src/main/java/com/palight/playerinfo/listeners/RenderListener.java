@@ -1,17 +1,12 @@
 package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.gui.screens.LoginGui;
-import com.palight.playerinfo.util.NoteBlockUtil;
-import com.palight.playerinfo.options.ModConfiguration;
-import com.palight.playerinfo.util.MCUtil;
+import com.palight.playerinfo.gui.screens.impl.LoginGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

@@ -1,14 +1,14 @@
 package com.palight.playerinfo.gui;
 
-import com.palight.playerinfo.gui.screens.InfoGui;
-import com.palight.playerinfo.gui.screens.LoginGui;
-import com.palight.playerinfo.gui.screens.MainGui;
-import com.palight.playerinfo.gui.screens.options.GuiCustomConfig;
-import com.palight.playerinfo.gui.screens.options.GuiOptions;
-import com.palight.playerinfo.gui.screens.options.modules.WidgetEditorGui;
-import com.palight.playerinfo.gui.screens.options.modules.misc.LifxGui;
-import com.palight.playerinfo.gui.screens.servers.ServerSelector;
-import com.palight.playerinfo.gui.screens.servers.hypixel.BedwarsGui;
+import com.palight.playerinfo.gui.screens.impl.InfoGui;
+import com.palight.playerinfo.gui.screens.impl.LoginGui;
+import com.palight.playerinfo.gui.screens.impl.MainGui;
+import com.palight.playerinfo.gui.screens.impl.options.GuiCustomConfig;
+import com.palight.playerinfo.gui.screens.impl.options.GuiOptions;
+import com.palight.playerinfo.gui.screens.impl.options.modules.WidgetEditorGui;
+import com.palight.playerinfo.gui.screens.impl.options.modules.misc.LifxGui;
+import com.palight.playerinfo.gui.screens.impl.servers.ServerSelector;
+import com.palight.playerinfo.gui.screens.impl.servers.hypixel.BedwarsGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

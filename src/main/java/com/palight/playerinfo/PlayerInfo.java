@@ -2,11 +2,13 @@ package com.palight.playerinfo;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
+import com.palight.playerinfo.gui.ingame.widgets.WidgetPosition;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.modules.gui.*;
-import com.palight.playerinfo.modules.misc.*;
-import com.palight.playerinfo.modules.movement.ToggleSprintMod;
-import com.palight.playerinfo.modules.util.NoteBlockMod;
+import com.palight.playerinfo.modules.impl.gui.*;
+import com.palight.playerinfo.modules.impl.misc.*;
+import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
+import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -88,5 +90,13 @@ public class PlayerInfo
 
     public static Map<String, Module> getModules() {
         return modules;
+    }
+
+    public static void saveWidgetPositions() {
+        Map<String, WidgetPosition> modulePositions = new HashMap<>();
+        for (Module module : getModules().values()) {
+            GuiIngameWidget widget = module.getWidget();
+            modulePositions.put(module.getId(), widget.getPosition());
+        }
     }
 }
