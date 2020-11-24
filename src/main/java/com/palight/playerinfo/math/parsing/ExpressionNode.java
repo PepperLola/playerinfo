@@ -2,7 +2,6 @@ package com.palight.playerinfo.math.parsing;
 
 import com.palight.playerinfo.math.MathOperator;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -12,7 +11,7 @@ public abstract class ExpressionNode {
 
     public static String operators = "(?<=[0-9.])[^0-9.\\n\\r]";
     public static String numbers = "((?<![0-9.])[-][0-9.]+)|[0-9.]+";
-    public static String functions = "((log|sin|cos|tan|cot|sec|csc|asin|acos|atan)\\([0-9.,]+\\))";
+    public static String functions = "((log|sin|cos|tan|cot|sec|csc|asin|acos|atan|sqrt)\\([0-9.,]+\\))";
 
     public static double evaluateExpression(String expression) throws InvalidExpressionException, ImaginaryNumberException {
         return parseExpression(expression).evaluate();
@@ -85,6 +84,9 @@ public abstract class ExpressionNode {
                 break;
             case "asin":
                 result =  Math.asin(value);
+                break;
+            case "sqrt":
+                result =  Math.sqrt(value);
                 break;
         }
         if (Double.isNaN(result)) {
