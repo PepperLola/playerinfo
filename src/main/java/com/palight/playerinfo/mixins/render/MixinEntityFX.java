@@ -28,25 +28,27 @@ public abstract class MixinEntityFX {
     @Inject(method = "renderParticle", at = @At("HEAD"))
     public void renderParticle(WorldRenderer p_renderParticle_1_, Entity p_renderParticle_2_, float p_renderParticle_3_, float p_renderParticle_4_, float p_renderParticle_5_, float p_renderParticle_6_, float p_renderParticle_7_, float p_renderParticle_8_, CallbackInfo ci) {
         // crit particles have x=1, y=4
-        if (this.particleTextureIndexX == 1 && this.particleTextureIndexY == 4) {
-            if (selectedParticle == null) {
-                // finding corresponding enum value for saved name
-                String selectedName = ModConfiguration.selectedParticle;
-                for (MCUtil.ParticleTypes type : MCUtil.ParticleTypes.values()) {
-                    if (type.name.equals(selectedName)) {
-                        selectedParticle = type;
-                        break;
+        if (ModConfiguration.particleModEnabled) {
+            if (this.particleTextureIndexX == 1 && this.particleTextureIndexY == 4) {
+                if (selectedParticle == null) {
+                    // finding corresponding enum value for saved name
+                    String selectedName = ModConfiguration.selectedParticle;
+                    for (MCUtil.ParticleTypes type : MCUtil.ParticleTypes.values()) {
+                        if (type.name.equals(selectedName)) {
+                            selectedParticle = type;
+                            break;
+                        }
                     }
                 }
-            }
-            if (selectedParticle != null) {
-                this.particleTextureIndexX = selectedParticle.x;
-                this.particleTextureIndexY = selectedParticle.y;
-            } else if (ModConfiguration.selectedParticle.equals("random")) {
-                // selectedParticle will be null if particle is random, and we want to keep it that way
-                MCUtil.ParticleTypes randomParticleType = MCUtil.ParticleTypes.values()[RandomUtil.randomRange(0, MCUtil.ParticleTypes.values().length - 1)];
-                this.particleTextureIndexX = randomParticleType.x;
-                this.particleTextureIndexY = randomParticleType.y;
+                if (selectedParticle != null) {
+                    this.particleTextureIndexX = selectedParticle.x;
+                    this.particleTextureIndexY = selectedParticle.y;
+                } else if (ModConfiguration.selectedParticle.equals("random")) {
+                    // selectedParticle will be null if particle is random, and we want to keep it that way
+                    MCUtil.ParticleTypes randomParticleType = MCUtil.ParticleTypes.values()[RandomUtil.randomRange(0, MCUtil.ParticleTypes.values().length - 1)];
+                    this.particleTextureIndexX = randomParticleType.x;
+                    this.particleTextureIndexY = randomParticleType.y;
+                }
             }
         }
     }
