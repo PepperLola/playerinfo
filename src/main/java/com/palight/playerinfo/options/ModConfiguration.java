@@ -37,6 +37,7 @@ public abstract class ModConfiguration {
     public static final String CATEGORY_DISCORD = "discord";
 
     public static final String CATEGORY_TWEAKS = "tweaks";
+    public static final String CATEGORY_PARTICLE = CATEGORY_TWEAKS + ".particle";
     public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
 
     private static class DefaultValues {
@@ -64,12 +65,15 @@ public abstract class ModConfiguration {
         private static final boolean displayModEnabled = false;
         private static final boolean hypixelEventsModEnabled = false;
         private static final boolean pingModEnabled = false;
+        private static final boolean particleModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
 
         private static final boolean mainMenuChroma = false;
 
         private static final boolean discordRPCEnabled = true;
+
+        private static final String selectedParticle = "crit";
 
         private static final boolean disableWaterOverlay = false;
 
@@ -103,12 +107,15 @@ public abstract class ModConfiguration {
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
     public static boolean pingModEnabled = DefaultValues.pingModEnabled;
+    public static boolean particleModEnabled = DefaultValues.particleModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
 
     public static boolean mainMenuChroma = DefaultValues.mainMenuChroma;
 
     public static boolean discordRPCEnabled = DefaultValues.discordRPCEnabled;
+
+    public static String selectedParticle = DefaultValues.selectedParticle;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
@@ -210,6 +217,7 @@ public abstract class ModConfiguration {
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
         Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
         Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
+        Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
 
         List<String> propOrderMods = new ArrayList<String>();
         propOrderMods.addAll(Arrays.asList(
@@ -225,7 +233,8 @@ public abstract class ModConfiguration {
                 cpsModEnabled.getName(),
                 displayModEnabled.getName(),
                 hypixelEventsModEnabled.getName(),
-                pingModEnabled.getName()
+                pingModEnabled.getName(),
+                particleModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -252,6 +261,14 @@ public abstract class ModConfiguration {
                 discordRPCEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISCORD, propOrderDiscord);
+
+        Property selectedParticle = config.get(CATEGORY_PARTICLE, "selectedParticle", DefaultValues.selectedParticle, "Selected crit particle");
+
+        List<String> propOrderParticle = new ArrayList<String>();
+        propOrderParticle.addAll(Arrays.asList(
+                selectedParticle.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_PARTICLE, propOrderParticle);
 
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
 
@@ -287,12 +304,15 @@ public abstract class ModConfiguration {
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
             hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
             pingModEnabled.setConfigEntryClass(BooleanEntry.class);
+            particleModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             mainMenuChroma.setConfigEntryClass(BooleanEntry.class);
 
             discordRPCEnabled.setConfigEntryClass(BooleanEntry.class);
+
+            selectedParticle.setConfigEntryClass(StringEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
@@ -331,12 +351,15 @@ public abstract class ModConfiguration {
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
             ModConfiguration.pingModEnabled = pingModEnabled.getBoolean();
+            ModConfiguration.particleModEnabled = particleModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
 
             ModConfiguration.mainMenuChroma = mainMenuChroma.getBoolean();
 
             ModConfiguration.discordRPCEnabled = discordRPCEnabled.getBoolean();
+
+            ModConfiguration.selectedParticle = selectedParticle.getString();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
@@ -372,12 +395,15 @@ public abstract class ModConfiguration {
         displayModEnabled.set(ModConfiguration.displayModEnabled);
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
         pingModEnabled.set(ModConfiguration.pingModEnabled);
+        particleModEnabled.set(ModConfiguration.particleModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
 
         mainMenuChroma.set(ModConfiguration.mainMenuChroma);
 
         discordRPCEnabled.set(ModConfiguration.discordRPCEnabled);
+
+        selectedParticle.set(ModConfiguration.selectedParticle);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 

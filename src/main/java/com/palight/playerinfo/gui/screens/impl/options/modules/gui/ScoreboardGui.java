@@ -57,12 +57,6 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
     protected void widgetClicked(GuiCustomWidget widget) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World playerWorld = player.getEntityWorld();

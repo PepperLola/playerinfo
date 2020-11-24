@@ -53,12 +53,6 @@ public class GuiOptions extends CustomGuiScreenScrollable {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
     protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
         super.mouseClicked(mouseX, mouseY, btn);
     }

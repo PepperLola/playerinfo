@@ -27,6 +27,7 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
      */
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         for (GuiCustomWidget guiElement : guiElements) {
             if (NumberUtil.isBetween(guiElement.yPosition, (height - ySize) / 2 + headerHeight, (height + ySize) / 2 - footerHeight)) {
@@ -60,4 +61,6 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
     public int getScrollAmount() {
         return (int) Math.floor(amountScrolled);
     }
+
+
 }

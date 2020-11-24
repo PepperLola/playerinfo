@@ -33,12 +33,6 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
     protected void widgetClicked(GuiCustomWidget widget) {
         if (widget.id == disableWater.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "disableWaterOverlay", disableWater.checked);
