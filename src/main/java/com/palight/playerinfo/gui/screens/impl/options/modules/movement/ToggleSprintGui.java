@@ -28,19 +28,19 @@ public class ToggleSprintGui extends CustomGuiScreenScrollable {
         toggleSneakEnabled = new GuiCheckBox(1, buttonX, buttonY + 20, "Toggle Sneak enabled", ModConfiguration.toggleSneakModEnabled);
 
         this.guiElements.addAll(Arrays.asList(
-                widgetEnabled,
-                toggleSneakEnabled
+                this.widgetEnabled,
+                this.toggleSneakEnabled
         ));
     }
 
     @Override
     protected void widgetClicked(GuiCustomWidget widget) {
+        super.widgetClicked(widget);
         if (widget.id == widgetEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_WIDGETS, "toggleSprintWidgetEnabled", widget.enabled);
-        } else if(widget.id == toggleSneakEnabled.id){
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "toggleSneakModEnabled", widget.enabled);
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_WIDGETS, "toggleSprintWidgetEnabled", widgetEnabled.checked);
+        } else if (widget.id == toggleSneakEnabled.id) {
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "toggleSneakModEnabled", toggleSneakEnabled.checked);
         }
         ModConfiguration.syncFromGUI();
-        super.widgetClicked(widget);
     }
 }
