@@ -155,7 +155,7 @@ public abstract class ModConfiguration {
 
         if (loadConfigFromFile) config.load();
 
-        List<String> propOrderGeneral = new ArrayList<String>();
+        List<String> propOrderGeneral = new ArrayList<>();
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrderGeneral);
 
         Property scoreboardEnabled = config.get(CATEGORY_GUI, "scoreboardEnabled", DefaultValues.scoreboardEnabled, "Toggle scoreboard");
@@ -163,7 +163,7 @@ public abstract class ModConfiguration {
         Property scoreboardHeaderColor = config.get(CATEGORY_GUI, "scoreboardHeaderColor", DefaultValues.scoreboardHeaderColor, "Scoreboard header color");
         Property scoreboardBodyColor = config.get(CATEGORY_GUI, "scoreboardBodyColor", DefaultValues.scoreboardBodyColor, "Scoreboard body color");
 
-        List<String> propOrderGui = new ArrayList<String>();
+        List<String> propOrderGui = new ArrayList<>();
         propOrderGui.addAll(Arrays.asList(
                 scoreboardEnabled.getName(),
                 scoreboardNumbersEnabled.getName(),
@@ -174,7 +174,7 @@ public abstract class ModConfiguration {
 
         Property selectedServer = config.get(CATEGORY_SERVERS, "selectedServer", DefaultValues.selectedServer, "Selected server for server util");
 
-        List<String> propOrderServers = new ArrayList<String>();
+        List<String> propOrderServers = new ArrayList<>();
         propOrderServers.addAll(Arrays.asList(
                 selectedServer.getName()
         ));
@@ -185,7 +185,7 @@ public abstract class ModConfiguration {
         Property friendAlertsEnabled = config.get(CATEGORY_HYPIXEL, "friendAlertsEnabled", DefaultValues.friendAlertsEnabled, "Enable friend join/leave alerts");
         Property hypixelApiKey = config.get(CATEGORY_HYPIXEL, "hypixelApiKey", DefaultValues.hypixelApiKey, "Hypixel API key");
 
-        List<String> propOrderHypixel = new ArrayList<String>();
+        List<String> propOrderHypixel = new ArrayList<>();
         propOrderHypixel.addAll(Arrays.asList(
                 bedwarsMode.getName(),
                 alertSound.getName(),
@@ -198,7 +198,7 @@ public abstract class ModConfiguration {
         Property lifxToken = config.get(CATEGORY_LIFX, "lifxToken", DefaultValues.lifxToken, "LIFX token for LIFX integration");
         Property lifxTeamMode = config.get(CATEGORY_LIFX, "lifxTeamMode", DefaultValues.lifxTeamMode, "Whether or not the light should change based on your helmet color");
 
-        List<String> propOrderLifx = new ArrayList<String>();
+        List<String> propOrderLifx = new ArrayList<>();
         propOrderLifx.addAll(Arrays.asList(
                 lifxSelector.getName(),
                 lifxToken.getName(),
@@ -222,7 +222,7 @@ public abstract class ModConfiguration {
         Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
         Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
 
-        List<String> propOrderMods = new ArrayList<String>();
+        List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
                 blurModEnabled.getName(),
                 pumpkinModEnabled.getName(),
@@ -268,7 +268,7 @@ public abstract class ModConfiguration {
 
         Property selectedParticle = config.get(CATEGORY_PARTICLE, "selectedParticle", DefaultValues.selectedParticle, "Selected crit particle");
 
-        List<String> propOrderParticle = new ArrayList<String>();
+        List<String> propOrderParticle = new ArrayList<>();
         propOrderParticle.addAll(Arrays.asList(
                 selectedParticle.getName()
         ));
@@ -276,7 +276,7 @@ public abstract class ModConfiguration {
 
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
 
-        List<String> propOrderDisplay = new ArrayList<String>();
+        List<String> propOrderDisplay = new ArrayList<>();
         propOrderDisplay.addAll(Arrays.asList(
                 disableWaterOverlay.getName()
         ));

@@ -3,6 +3,8 @@ package com.palight.playerinfo.modules.impl.misc;
 import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.gui.ingame.widgets.impl.HypixelEventWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.HypixelEventsGui;
+import com.palight.playerinfo.macro.Macro;
+import com.palight.playerinfo.macro.MacroConfig;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
@@ -13,6 +15,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,10 +46,17 @@ public class HypixelEventsMod extends Module {
             String username;
             if (matcher.find()) {
                 username = matcher.group(1);
-                String eventType = matcher.group(2).toLowerCase();
-                MinecraftForge.EVENT_BUS.post(new HypixelEvent.FriendEvent(username, HypixelEvent.FriendEvent.FriendEventType.getType(eventType)));
+                String eventTypeString = matcher.group(2).toLowerCase();
+                HypixelEvent.FriendEvent.FriendEventType eventType = HypixelEvent.FriendEvent.FriendEventType.getType(eventTypeString);
+                MinecraftForge.EVENT_BUS.post(new HypixelEvent.FriendEvent(username, eventType));
 
                 if (!ModConfiguration.alertSound.equals("none")) playAlert(AlertType.FRIEND);
+
+                if (eventType == HypixelEvent.FriendEvent.FriendEventType.JOIN) {
+                    Map<String, String> messageReplacements = new HashMap<>();
+                    messageReplacements.put("<username>", username);
+                    Macro.run(MacroConfig.hypixelFriendJoin, messageReplacements);
+                }
             }
         }
     }

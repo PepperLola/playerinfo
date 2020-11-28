@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.CalcCommand;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.listeners.*;
+import com.palight.playerinfo.macro.MacroConfig;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
@@ -42,9 +43,12 @@ public class CommonProxy {
         // init config
         try {
             ModConfiguration.initConfig();
+            MacroConfig.initConfig();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        MacroConfig.syncFromFile();
 
         for (Module module : PlayerInfo.getModules().values()) {
             module.init();
