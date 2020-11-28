@@ -51,12 +51,14 @@ public class ToggleSprintMod extends Module {
             KeyBinding.setKeyBindState(sprintKey.getKeyCode(), true);
         }
 
-        if (sneakKey.isPressed()) {
-            sneakingToggled = !sneakingToggled;
-        }
+        if (ModConfiguration.toggleSneakModEnabled) {
+            if (sneakKey.isPressed()) {
+                sneakingToggled = !sneakingToggled;
+            }
 
-        if (sneakingToggled) {
-            KeyBinding.setKeyBindState(sneakKey.getKeyCode(), true);
+            if (sneakingToggled) {
+                KeyBinding.setKeyBindState(sneakKey.getKeyCode(), true);
+            }
         }
     }
 
