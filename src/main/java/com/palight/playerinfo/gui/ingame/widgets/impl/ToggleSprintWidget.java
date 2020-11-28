@@ -13,10 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 public class ToggleSprintWidget extends GuiIngameWidget {
 
     private static KeyBinding sprintKey;
+    private static KeyBinding sneakKey;
 
     public ToggleSprintWidget(int xPosition, int yPosition) {
         super(xPosition, yPosition, -1, -1);
         sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
+        sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
     }
 
     public void render(Minecraft mc) {
@@ -39,7 +41,12 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             if (player == null) return;
 
             if (player.isSneaking()) {
-                displayText = "[Sneaking]";
+                displayText = "[Sneaking (%s)]";
+                if (sneakKey.isKeyDown() && !ToggleSprintMod.isSneakingToggled()) {
+                    displayText = String.format(displayText, "Key Held");
+                } else if (ModConfiguration.toggleSneakModEnabled && ToggleSprintMod.isSneakingToggled()) {
+                    displayText = String.format(displayText, "Toggled");
+                }
             } else if (player.isSprinting()) {
                 displayText = "[Sprinting (%s)]";
                 if (sprintKey.isKeyDown() && !ToggleSprintMod.isSprintingToggled()) {
