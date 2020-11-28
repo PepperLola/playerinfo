@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ToggleSprintMod extends Module {
 
     private static boolean sprintingToggled = false;
-    private static boolean lastSprintState = false;
+    private static boolean sneakingToggled = false;
 
     private static KeyBinding sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
     private static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
@@ -50,9 +50,20 @@ public class ToggleSprintMod extends Module {
         if (sprintingToggled) {
             KeyBinding.setKeyBindState(sprintKey.getKeyCode(), true);
         }
+
+        if (sneakKey.isPressed()) {
+            sneakingToggled = !sneakingToggled;
+        }
+
+        if (sneakingToggled) {
+            KeyBinding.setKeyBindState(sneakKey.getKeyCode(), true);
+        }
     }
 
     public static boolean isSprintingToggled() {
         return sprintingToggled;
+    }
+    public static boolean isSneakingToggled() {
+        return sneakingToggled;
     }
 }

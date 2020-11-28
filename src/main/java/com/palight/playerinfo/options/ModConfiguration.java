@@ -60,6 +60,7 @@ public abstract class ModConfiguration {
         private static final boolean coordsModEnabled = false;
         private static final boolean mainMenuModEnabled = true;
         private static final boolean toggleSprintModEnabled = false;
+        private static final boolean toggleSneakModEnabled = false;
         private static final boolean bedwarsResourcesModEnabled = false;
         private static final boolean cpsModEnabled = false;
         private static final boolean displayModEnabled = false;
@@ -102,6 +103,7 @@ public abstract class ModConfiguration {
     public static boolean coordsModEnabled = DefaultValues.coordsModEnabled;
     public static boolean mainMenuModEnabled = DefaultValues.mainMenuModEnabled;
     public static boolean toggleSprintModEnabled = DefaultValues.toggleSprintModEnabled;
+    public static boolean toggleSneakModEnabled = DefaultValues.toggleSneakModEnabled;
     public static boolean bedwarsResourcesModEnabled = DefaultValues.bedwarsResourcesModEnabled;
     public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
@@ -212,6 +214,7 @@ public abstract class ModConfiguration {
         Property coordsModEnabled = config.get(CATEGORY_MODS, "coordsModEnabled", DefaultValues.coordsModEnabled, "Show your coordinates on screen");
         Property mainMenuModEnabled = config.get(CATEGORY_MODS, "mainMenuModEnabled", DefaultValues.mainMenuModEnabled, "Enable the custom main menu");
         Property toggleSprintModEnabled = config.get(CATEGORY_MODS, "toggleSprintModEnabled", DefaultValues.toggleSprintModEnabled, "Enable toggle sprint");
+        Property toggleSneakModEnabled = config.get(CATEGORY_MODS, "toggleSneakModEnabled", DefaultValues.toggleSneakModEnabled, "Enable toggle sneak");
         Property bedwarsResourcesModEnabled = config.get(CATEGORY_MODS, "bedwarsResourcesModEnabled", DefaultValues.bedwarsResourcesModEnabled, "Enable bedwars resources indicator");
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
@@ -229,6 +232,7 @@ public abstract class ModConfiguration {
                 coordsModEnabled.getName(),
                 mainMenuModEnabled.getName(),
                 toggleSprintModEnabled.getName(),
+                toggleSneakModEnabled.getName(),
                 bedwarsResourcesModEnabled.getName(),
                 cpsModEnabled.getName(),
                 displayModEnabled.getName(),
@@ -242,7 +246,7 @@ public abstract class ModConfiguration {
 
         List<String> propOrderWidgets = new ArrayList<>();
         propOrderWidgets.addAll(Arrays.asList(
-                toggleSprintModEnabled.getName()
+                toggleSprintWidgetEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_WIDGETS, propOrderWidgets);
 
@@ -299,6 +303,7 @@ public abstract class ModConfiguration {
             coordsModEnabled.setConfigEntryClass(BooleanEntry.class);
             mainMenuModEnabled.setConfigEntryClass(BooleanEntry.class);
             toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
+            toggleSneakModEnabled.setConfigEntryClass(BooleanEntry.class);
             bedwarsResourcesModEnabled.setConfigEntryClass(BooleanEntry.class);
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -306,7 +311,7 @@ public abstract class ModConfiguration {
             pingModEnabled.setConfigEntryClass(BooleanEntry.class);
             particleModEnabled.setConfigEntryClass(BooleanEntry.class);
 
-            toggleSprintModEnabled.setConfigEntryClass(BooleanEntry.class);
+            toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
 
             mainMenuChroma.setConfigEntryClass(BooleanEntry.class);
 
@@ -346,6 +351,7 @@ public abstract class ModConfiguration {
             ModConfiguration.coordsModEnabled = coordsModEnabled.getBoolean();
             ModConfiguration.mainMenuModEnabled = mainMenuModEnabled.getBoolean();
             ModConfiguration.toggleSprintModEnabled = toggleSprintModEnabled.getBoolean();
+            ModConfiguration.toggleSneakModEnabled = toggleSneakModEnabled.getBoolean();
             ModConfiguration.bedwarsResourcesModEnabled = bedwarsResourcesModEnabled.getBoolean();
             ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
@@ -390,6 +396,7 @@ public abstract class ModConfiguration {
         coordsModEnabled.set(ModConfiguration.coordsModEnabled);
         mainMenuModEnabled.set(ModConfiguration.mainMenuModEnabled);
         toggleSprintModEnabled.set(ModConfiguration.toggleSprintModEnabled);
+        toggleSneakModEnabled.set(ModConfiguration.toggleSneakModEnabled);
         bedwarsResourcesModEnabled.set(ModConfiguration.bedwarsResourcesModEnabled);
         cpsModEnabled.set(ModConfiguration.cpsModEnabled);
         displayModEnabled.set(ModConfiguration.displayModEnabled);
