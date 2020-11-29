@@ -66,6 +66,7 @@ public abstract class ModConfiguration {
         private static final boolean displayModEnabled = false;
         private static final boolean hypixelEventsModEnabled = false;
         private static final boolean pingModEnabled = false;
+        private static final boolean fpsModEnabled = false;
         private static final boolean particleModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
@@ -109,6 +110,7 @@ public abstract class ModConfiguration {
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
     public static boolean pingModEnabled = DefaultValues.pingModEnabled;
+    public static boolean fpsModEnabled = DefaultValues.fpsModEnabled;
     public static boolean particleModEnabled = DefaultValues.particleModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
@@ -220,6 +222,7 @@ public abstract class ModConfiguration {
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
         Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
         Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
+        Property fpsModEnabled = config.get(CATEGORY_MODS, "fpsModEnabled", DefaultValues.fpsModEnabled);
         Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
 
         List<String> propOrderMods = new ArrayList<>();
@@ -238,6 +241,7 @@ public abstract class ModConfiguration {
                 displayModEnabled.getName(),
                 hypixelEventsModEnabled.getName(),
                 pingModEnabled.getName(),
+                fpsModEnabled.getName(),
                 particleModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
@@ -309,6 +313,7 @@ public abstract class ModConfiguration {
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
             hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
             pingModEnabled.setConfigEntryClass(BooleanEntry.class);
+            fpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             particleModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -357,6 +362,7 @@ public abstract class ModConfiguration {
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
             ModConfiguration.pingModEnabled = pingModEnabled.getBoolean();
+            ModConfiguration.fpsModEnabled = fpsModEnabled.getBoolean();
             ModConfiguration.particleModEnabled = particleModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
@@ -402,6 +408,7 @@ public abstract class ModConfiguration {
         displayModEnabled.set(ModConfiguration.displayModEnabled);
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
         pingModEnabled.set(ModConfiguration.pingModEnabled);
+        fpsModEnabled.set(ModConfiguration.fpsModEnabled);
         particleModEnabled.set(ModConfiguration.particleModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
