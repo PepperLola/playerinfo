@@ -33,7 +33,7 @@ public class CustomGuiScreen extends GuiScreen {
 
     protected int footerHeight = 20;
 
-    protected List<GuiCustomWidget> guiElements = new ArrayList<GuiCustomWidget>();
+    protected List<GuiCustomWidget> guiElements = new ArrayList<>();
 
     private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png");
     private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
@@ -96,7 +96,7 @@ public class CustomGuiScreen extends GuiScreen {
         for (GuiCustomWidget widget : guiElements) {
             widget.mouseClicked(mouseX, mouseY);
             if (NumberUtil.isBetween(mouseX, widget.xPosition, widget.xPosition + widget.width) &&
-                NumberUtil.isBetween(mouseY, widget.yPosition, widget.yPosition + widget.height)) {
+                    NumberUtil.isBetween(mouseY, widget.yPosition, widget.yPosition + widget.height)) {
                 widgetClicked(widget);
             }
         }
