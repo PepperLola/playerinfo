@@ -35,8 +35,8 @@ public class CustomGuiScreen extends GuiScreen {
 
     protected List<GuiCustomWidget> guiElements = new ArrayList<>();
 
-    private ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png");
-    private ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
+    protected ResourceLocation gui = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui.png");
+    protected ResourceLocation guiAssets = new ResourceLocation(PlayerInfo.MODID, "textures/gui/gui_assets.png");
 
     /**
      * Initializes the GUI. Just sets the width and the height of the GUI screen.
