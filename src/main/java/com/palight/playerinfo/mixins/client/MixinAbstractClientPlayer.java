@@ -33,6 +33,7 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
     /**
      * @author palight
      * @return ResourceLocation for the cape texture.
+     * @reason Added custom cape textures.
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
