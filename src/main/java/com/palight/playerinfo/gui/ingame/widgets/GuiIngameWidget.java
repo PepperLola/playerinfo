@@ -4,6 +4,7 @@ import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiIngameWidget extends Gui {
@@ -67,6 +68,7 @@ public class GuiIngameWidget extends Gui {
             character ++;
         }
     }
+
 
     public boolean shouldRender(Module module) {
         return module.isEnabled();

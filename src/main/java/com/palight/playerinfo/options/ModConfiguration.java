@@ -63,6 +63,7 @@ public abstract class ModConfiguration {
         private static final boolean toggleSneakModEnabled = false;
         private static final boolean bedwarsResourcesModEnabled = false;
         private static final boolean cpsModEnabled = false;
+        private static final boolean reachDisplayModEnabled = false;
         private static final boolean displayModEnabled = false;
         private static final boolean hypixelEventsModEnabled = false;
         private static final boolean pingModEnabled = false;
@@ -107,6 +108,7 @@ public abstract class ModConfiguration {
     public static boolean toggleSneakModEnabled = DefaultValues.toggleSneakModEnabled;
     public static boolean bedwarsResourcesModEnabled = DefaultValues.bedwarsResourcesModEnabled;
     public static boolean cpsModEnabled = DefaultValues.cpsModEnabled;
+    public static boolean reachDisplayModEnabled = DefaultValues.reachDisplayModEnabled;
     public static boolean displayModEnabled = DefaultValues.displayModEnabled;
     public static boolean hypixelEventsModEnabled = DefaultValues.hypixelEventsModEnabled;
     public static boolean pingModEnabled = DefaultValues.pingModEnabled;
@@ -219,6 +221,7 @@ public abstract class ModConfiguration {
         Property toggleSneakModEnabled = config.get(CATEGORY_MODS, "toggleSneakModEnabled", DefaultValues.toggleSneakModEnabled, "Enable toggle sneak");
         Property bedwarsResourcesModEnabled = config.get(CATEGORY_MODS, "bedwarsResourcesModEnabled", DefaultValues.bedwarsResourcesModEnabled, "Enable bedwars resources indicator");
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
+        Property reachDisplayModEnabled = config.get(CATEGORY_MODS, "reachDisplayModEnabled", DefaultValues.reachDisplayModEnabled, "Enable CPS mod");
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
         Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
         Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
@@ -238,6 +241,7 @@ public abstract class ModConfiguration {
                 toggleSneakModEnabled.getName(),
                 bedwarsResourcesModEnabled.getName(),
                 cpsModEnabled.getName(),
+                reachDisplayModEnabled.getName(),
                 displayModEnabled.getName(),
                 hypixelEventsModEnabled.getName(),
                 pingModEnabled.getName(),
@@ -310,6 +314,7 @@ public abstract class ModConfiguration {
             toggleSneakModEnabled.setConfigEntryClass(BooleanEntry.class);
             bedwarsResourcesModEnabled.setConfigEntryClass(BooleanEntry.class);
             cpsModEnabled.setConfigEntryClass(BooleanEntry.class);
+            reachDisplayModEnabled.setConfigEntryClass(BooleanEntry.class);
             displayModEnabled.setConfigEntryClass(BooleanEntry.class);
             hypixelEventsModEnabled.setConfigEntryClass(BooleanEntry.class);
             pingModEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -359,6 +364,7 @@ public abstract class ModConfiguration {
             ModConfiguration.toggleSneakModEnabled = toggleSneakModEnabled.getBoolean();
             ModConfiguration.bedwarsResourcesModEnabled = bedwarsResourcesModEnabled.getBoolean();
             ModConfiguration.cpsModEnabled = cpsModEnabled.getBoolean();
+            ModConfiguration.reachDisplayModEnabled = reachDisplayModEnabled.getBoolean();
             ModConfiguration.displayModEnabled = displayModEnabled.getBoolean();
             ModConfiguration.hypixelEventsModEnabled = hypixelEventsModEnabled.getBoolean();
             ModConfiguration.pingModEnabled = pingModEnabled.getBoolean();
@@ -405,6 +411,7 @@ public abstract class ModConfiguration {
         toggleSneakModEnabled.set(ModConfiguration.toggleSneakModEnabled);
         bedwarsResourcesModEnabled.set(ModConfiguration.bedwarsResourcesModEnabled);
         cpsModEnabled.set(ModConfiguration.cpsModEnabled);
+        reachDisplayModEnabled.set(ModConfiguration.reachDisplayModEnabled);
         displayModEnabled.set(ModConfiguration.displayModEnabled);
         hypixelEventsModEnabled.set(ModConfiguration.hypixelEventsModEnabled);
         pingModEnabled.set(ModConfiguration.pingModEnabled);
