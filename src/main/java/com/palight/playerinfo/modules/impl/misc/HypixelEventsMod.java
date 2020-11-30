@@ -3,8 +3,6 @@ package com.palight.playerinfo.modules.impl.misc;
 import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.gui.ingame.widgets.impl.HypixelEventWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.HypixelEventsGui;
-import com.palight.playerinfo.macro.Macro;
-import com.palight.playerinfo.macro.MacroConfig;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
@@ -15,8 +13,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,15 +48,6 @@ public class HypixelEventsMod extends Module {
                 MinecraftForge.EVENT_BUS.post(new HypixelEvent.FriendEvent(username, eventType));
 
                 if (!ModConfiguration.alertSound.equals("none")) playAlert(AlertType.FRIEND);
-
-                if (eventType == HypixelEvent.FriendEvent.FriendEventType.JOIN) {
-                    Map<String, String> messageReplacements = new HashMap<>();
-                    messageReplacements.put("username", username);
-                    Macro macro = MacroConfig.macros.get("hypixelFriendJoin");
-                    if (macro != null) {
-                        macro.run(messageReplacements);
-                    }
-                }
             }
         }
     }

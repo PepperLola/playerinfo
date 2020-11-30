@@ -76,8 +76,9 @@ public abstract class MacroConfig {
             MacroConfig.hypixelFriendJoin = hypixelFriendJoin.getStringList();
             MacroConfig.messageReceive = messageReceive.getStringList();
 
-            macros.put("hypixelFriendJoin", new Macro(MacroConfig.hypixelFriendJoin));
-            macros.put("messageReceive", new Macro(MacroConfig.messageReceive));
+            config.getCategory(CATEGORY_MACROS).keySet().forEach(key -> {
+                macros.put(key, new Macro(config.getCategory(CATEGORY_MACROS).get(key).getStringList()));
+            });
         }
 
         hypixelFriendJoin.set(MacroConfig.hypixelFriendJoin);
