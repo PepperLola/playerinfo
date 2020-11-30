@@ -35,4 +35,9 @@ public class NumberUtil {
     public static double evaluateExpression(String exp) throws InvalidExpressionException, ImaginaryNumberException {
         return ExpressionNode.evaluateExpression(exp);
     }
+
+    public static double round(double input, int decimalPlaces) {
+        double multiplier = Math.pow(10, decimalPlaces);
+        return Math.round(input * multiplier) / multiplier;
+    }
 }
