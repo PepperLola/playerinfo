@@ -8,23 +8,23 @@ import net.minecraftforge.fml.common.Loader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public abstract class MacroConfig {
     private static Configuration config;
     private static File file;
 
-    public static final String CATEGORY_MACROS = "macros";
+    public static Map<String, Macro> macros = new HashMap<>();
 
-    public static final String CATEGORY_HYPIXEL = CATEGORY_MACROS + ".hypixel";
+    public static final String CATEGORY_MACROS = "macros";
 
     private static class DefaultValues {
         private static final String[] hypixelFriendJoin = new String[]{};
+        private static final String[] messageReceive = new String[]{};
     }
 
     public static String[] hypixelFriendJoin = DefaultValues.hypixelFriendJoin;
+    public static String[] messageReceive = DefaultValues.messageReceive;
 
     public static Configuration getConfig() {
         return config;
@@ -55,25 +55,33 @@ public abstract class MacroConfig {
 
         if (loadConfigFromFile) config.load();
 
-        Property hypixelFriendJoin = config.get(CATEGORY_HYPIXEL, "hypixelFriendJoin", DefaultValues.hypixelFriendJoin, "Macro to run when one of your friends joins on Hypixel");
+        Property hypixelFriendJoin = config.get(CATEGORY_MACROS, "hypixelFriendJoin", DefaultValues.hypixelFriendJoin, "Macro to run when one of your friends joins on Hypixel");
+        Property messageReceive = config.get(CATEGORY_MACROS, "messageReceive", DefaultValues.messageReceive, "Macro to run when you receive a chat message");
 
         List<String> propOrderHypixel = new ArrayList<>();
         propOrderHypixel.addAll(Arrays.asList(
-                hypixelFriendJoin.getName()
+                hypixelFriendJoin.getName(),
+                messageReceive.getName()
         ));
-        config.setCategoryPropertyOrder(CATEGORY_HYPIXEL, propOrderHypixel);
+        config.setCategoryPropertyOrder(CATEGORY_MACROS, propOrderHypixel);
 
         try {
             hypixelFriendJoin.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
+            messageReceive.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
         } catch (NoClassDefFoundError e) {
             e.printStackTrace();
         }
 
         if (readFieldsFromConfig) {
             MacroConfig.hypixelFriendJoin = hypixelFriendJoin.getStringList();
+            MacroConfig.messageReceive = messageReceive.getStringList();
+
+            macros.put("hypixelFriendJoin", new Macro(MacroConfig.hypixelFriendJoin));
+            macros.put("messageReceive", new Macro(MacroConfig.messageReceive));
         }
 
         hypixelFriendJoin.set(MacroConfig.hypixelFriendJoin);
+        messageReceive.set(MacroConfig.messageReceive);
 
         if (config.hasChanged()) config.save();
     }

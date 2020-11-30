@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class MessageCommand extends Command {
 
@@ -21,11 +22,13 @@ public class MessageCommand extends Command {
     }
 
     @Override
-    public void run() {
+    public void run(Map<String, String> replacements) {
         String msg = message.getValue();
-        for (String key : replacements.keySet()) {
-            msg = msg.replaceAll(key, replacements.get(key));
-            System.out.println(key + " | " + msg);
+        if (replacements != null) {
+            for (String key : replacements.keySet()) {
+                msg = msg.replaceAll(String.format("<%s>", key), replacements.get(key));
+                System.out.println(key + " | " + msg);
+            }
         }
         Minecraft.getMinecraft().thePlayer.sendChatMessage(msg);
     }

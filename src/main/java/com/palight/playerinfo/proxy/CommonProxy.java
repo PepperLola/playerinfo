@@ -29,6 +29,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new FovListener());
         MinecraftForge.EVENT_BUS.register(new MainScreenHandler());
         MinecraftForge.EVENT_BUS.register(new ChatListener());
+        MinecraftForge.EVENT_BUS.register(new MacroEventHandler());
 
         // Registering Commands
         ClientCommandHandler.instance.registerCommand(new CalcCommand());

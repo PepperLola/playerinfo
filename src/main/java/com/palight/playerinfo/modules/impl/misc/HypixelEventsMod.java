@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HypixelEventsMod extends Module {
+
     public HypixelEventsMod() {
         super("hypixelEvents", "Hypixel Events", "Useful events for Hypixel.", ModuleType.MISC, new HypixelEventsGui(), new HypixelEventWidget());
     }
@@ -54,8 +55,11 @@ public class HypixelEventsMod extends Module {
 
                 if (eventType == HypixelEvent.FriendEvent.FriendEventType.JOIN) {
                     Map<String, String> messageReplacements = new HashMap<>();
-                    messageReplacements.put("<username>", username);
-                    Macro.run(MacroConfig.hypixelFriendJoin, messageReplacements);
+                    messageReplacements.put("username", username);
+                    Macro macro = MacroConfig.macros.get("hypixelFriendJoin");
+                    if (macro != null) {
+                        macro.run(messageReplacements);
+                    }
                 }
             }
         }
@@ -72,7 +76,7 @@ public class HypixelEventsMod extends Module {
         }
     }
 
-    private static enum AlertType {
+    private enum AlertType {
         FRIEND,
         GUILD
     }
