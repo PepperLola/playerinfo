@@ -43,6 +43,7 @@ public class WidgetEditorGui extends CustomGuiScreen {
             widgets.remove(module.getWidget());
             module.stopEditingWidgets();
         }
+        PlayerInfo.saveWidgetPositions();
     }
 
     @Override

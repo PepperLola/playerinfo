@@ -27,7 +27,7 @@ public class PumpkinWidget extends GuiIngameWidget {
 
             ItemStack helmet = player.getCurrentArmor(3);
 
-            if ((helmet != null && helmet.getItem().equals(Item.getByNameOrId("pumpkin"))) || getState() == WidgetState.EDITING) {
+            if ((helmet != null && helmet.getItem().equals(Item.getByNameOrId("pumpkin"))) || getState() == WidgetEditingState.EDITING) {
                 int defaultX = res.getScaledWidth() - 10 - 16;
                 int defaultY = 10;
                 getPosition().setX(getPosition().getX() == -1 ? defaultX : getPosition().getX());

@@ -58,6 +58,11 @@ public class CommonProxy {
         PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
 
         Display.setTitle("playerinfo v" + PlayerInfo.VERSION);
+
+        if (ModConfiguration.widgetStates.length == 0) {
+            PlayerInfo.saveWidgetPositions();
+        }
+        PlayerInfo.setModuleStates();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

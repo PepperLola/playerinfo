@@ -4,25 +4,23 @@ import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class GuiIngameWidget extends Gui {
 
-    private WidgetPosition position;
+    private Module module;
+    private WidgetState position;
     public int width;
     public int height;
     public boolean movable = true;
 
-    private boolean chromaEnabled;
-
-    private WidgetState state;
+    private WidgetEditingState state;
 
     public GuiIngameWidget(int xPosition, int yPosition, int width, int height) {
-        this.position = new WidgetPosition(this, xPosition, yPosition);
+        this.position = new WidgetState(this, xPosition, yPosition, false);
         this.width = width;
         this.height = height;
-        this.state = WidgetState.INGAME;
+        this.state = WidgetEditingState.INGAME;
     }
 
     public void render(Minecraft mc) {
@@ -31,19 +29,19 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void startEditing() {
-        this.state = WidgetState.EDITING;
+        this.state = WidgetEditingState.EDITING;
     }
 
     public void stopEditing() {
-        this.state = WidgetState.INGAME;
+        this.state = WidgetEditingState.INGAME;
     }
 
     public void toggleChroma() {
-        this.chromaEnabled = !chromaEnabled;
+        getPosition().setChroma(getPosition().isChroma());
     }
 
     protected int getChromaColor(long offset) {
-        if (chromaEnabled) {
+        if (getPosition().isChroma()) {
             return ColorUtil.getChromaColor(offset);
         }
 
@@ -54,7 +52,7 @@ public class GuiIngameWidget extends Gui {
         return getChromaColor(0);
     }
 
-    protected WidgetState getState() {
+    protected WidgetEditingState getState() {
         return state;
     }
 
@@ -69,20 +67,27 @@ public class GuiIngameWidget extends Gui {
         }
     }
 
-
     public boolean shouldRender(Module module) {
         return module.isEnabled();
     }
 
-    public WidgetPosition getPosition() {
+    public WidgetState getPosition() {
         return position;
     }
 
-    public void setPosition(WidgetPosition position) {
+    public void setPosition(WidgetState position) {
         this.position = position;
     }
 
-    protected enum WidgetState {
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    protected enum WidgetEditingState {
         INGAME,
         EDITING
     }

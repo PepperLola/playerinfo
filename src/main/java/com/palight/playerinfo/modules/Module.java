@@ -33,6 +33,9 @@ public abstract class Module {
         this.optionsGui = optionsGui;
         this.widget = widget;
         MinecraftForge.EVENT_BUS.register(this);
+        if (this.getWidget() != null) {
+            this.getWidget().setModule(this);
+        }
     }
 
     /**

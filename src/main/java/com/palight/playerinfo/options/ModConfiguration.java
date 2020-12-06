@@ -71,6 +71,7 @@ public abstract class ModConfiguration {
         private static final boolean particleModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
+        private static final String[] widgetStates = new String[0];
 
         private static final boolean mainMenuChroma = false;
 
@@ -116,6 +117,7 @@ public abstract class ModConfiguration {
     public static boolean particleModEnabled = DefaultValues.particleModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
+    public static String[] widgetStates = DefaultValues.widgetStates;
 
     public static boolean mainMenuChroma = DefaultValues.mainMenuChroma;
 
@@ -251,10 +253,12 @@ public abstract class ModConfiguration {
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
         Property toggleSprintWidgetEnabled = config.get(CATEGORY_WIDGETS, "toggleSprintWidgetEnabled", DefaultValues.toggleSprintWidgetEnabled, "Enable toggle sprint widget");
+        Property widgetStates = config.get(CATEGORY_WIDGETS, "widgetStates", DefaultValues.widgetStates, "Saved widget states");
 
         List<String> propOrderWidgets = new ArrayList<>();
         propOrderWidgets.addAll(Arrays.asList(
-                toggleSprintWidgetEnabled.getName()
+                toggleSprintWidgetEnabled.getName(),
+                widgetStates.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_WIDGETS, propOrderWidgets);
 
@@ -322,6 +326,7 @@ public abstract class ModConfiguration {
             particleModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
+            widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
 
             mainMenuChroma.setConfigEntryClass(BooleanEntry.class);
 
@@ -372,6 +377,7 @@ public abstract class ModConfiguration {
             ModConfiguration.particleModEnabled = particleModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
+            ModConfiguration.widgetStates = widgetStates.getStringList();
 
             ModConfiguration.mainMenuChroma = mainMenuChroma.getBoolean();
 
@@ -419,6 +425,7 @@ public abstract class ModConfiguration {
         particleModEnabled.set(ModConfiguration.particleModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
+        widgetStates.set(ModConfiguration.widgetStates);
 
         mainMenuChroma.set(ModConfiguration.mainMenuChroma);
 
@@ -540,6 +547,20 @@ public abstract class ModConfiguration {
         return false;
     }
 
+    public static String[] getStringList(String category, String key) {
+        config = new Configuration(file);
+        try {
+            config.load();
+            if (config.getCategory(category).containsKey(key))
+                return config.get(category, key, new String[0]).getStringList();
+        } catch (Exception e) {
+            System.out.println("Cannot load configuration file!");
+        } finally {
+            config.save();
+        }
+        return new String[0];
+    }
+
     public static void writeConfig(String category, String key, String value) {
         config = new Configuration(file);
         try {
@@ -624,6 +645,19 @@ public abstract class ModConfiguration {
             config.load();
             double set = config.get(category, key, value).getDouble();
             config.getCategory(category).get(key).set(Double.valueOf(value));
+        } catch (Exception e) {
+            System.out.println("Cannot load configuration file!");
+        } finally {
+            config.save();
+        }
+    }
+
+    public static void writeConfig(String category, String key, String[] value) {
+        config = new Configuration(file);
+        try {
+            config.load();
+            String[] set = config.get(category, key, value).getStringList();
+            config.getCategory(category).get(key).set(value);
         } catch (Exception e) {
             System.out.println("Cannot load configuration file!");
         } finally {

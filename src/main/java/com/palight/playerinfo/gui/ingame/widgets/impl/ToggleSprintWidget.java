@@ -33,9 +33,9 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             getPosition().setY(getPosition().getY() == -1 ? res.getScaledHeight() - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT : getPosition().getY());
         }
 
-        if (getState() == WidgetState.EDITING) {
+        if (getState() == WidgetEditingState.EDITING) {
             displayText = "[Sprinting (Toggled)]";
-        } else if (getState() == WidgetState.INGAME) {
+        } else if (getState() == WidgetEditingState.INGAME) {
 
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             if (player == null) return;

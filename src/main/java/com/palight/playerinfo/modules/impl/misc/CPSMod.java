@@ -11,8 +11,8 @@ import java.util.ArrayDeque;
 
 public class CPSMod extends Module {
 
-    private static ArrayDeque<Long> leftClicks = new ArrayDeque<Long>();
-    private static ArrayDeque<Long> rightClicks = new ArrayDeque<Long>();
+    private static ArrayDeque<Long> leftClicks = new ArrayDeque<>();
+    private static ArrayDeque<Long> rightClicks = new ArrayDeque<>();
 
     public CPSMod() {
         super("cps", "CPS Mod", "Display your CPS", ModuleType.MISC, null, new CPSWidget(4, 64));

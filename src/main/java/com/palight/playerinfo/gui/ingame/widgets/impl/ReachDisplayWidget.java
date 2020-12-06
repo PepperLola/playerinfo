@@ -22,7 +22,7 @@ public class ReachDisplayWidget extends GuiIngameWidget {
             this.getPosition().setX(res.getScaledWidth() / 2 - this.width / 2);
         }
 
-        if (getState() == WidgetState.EDITING) {
+        if (getState() == WidgetEditingState.EDITING) {
 
             super.render(mc);
 

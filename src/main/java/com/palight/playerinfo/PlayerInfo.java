@@ -3,12 +3,13 @@ package com.palight.playerinfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
-import com.palight.playerinfo.gui.ingame.widgets.WidgetPosition;
+import com.palight.playerinfo.gui.ingame.widgets.WidgetState;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.gui.*;
 import com.palight.playerinfo.modules.impl.misc.*;
 import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
+import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -17,9 +18,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
 public class PlayerInfo
@@ -57,7 +56,7 @@ public class PlayerInfo
         modules.put("toggleSprint", new ToggleSprintMod());
         modules.put("resources", new BedwarsResourcesMod());
         modules.put("cps", new CPSMod());
-        modules.put("fps", new FpsMod());
+        modules.put("fps", new FPSMod());
         modules.put("reachDisplay", new ReachDisplayMod());
         modules.put("displayTweaks", new DisplayTweaksMod());
         modules.put("hypixelEvents", new HypixelEventsMod());
@@ -96,10 +95,26 @@ public class PlayerInfo
     }
 
     public static void saveWidgetPositions() {
-        Map<String, WidgetPosition> modulePositions = new HashMap<>();
+        Map<String, WidgetState> modulePositions = new HashMap<>();
         for (Module module : getModules().values()) {
             GuiIngameWidget widget = module.getWidget();
-            modulePositions.put(module.getId(), widget.getPosition());
+            if (module.getWidget() != null) {
+                modulePositions.put(module.getId(), widget.getPosition());
+            }
+        }
+        List<String> positions = new ArrayList<>();
+        for (String moduleId : modulePositions.keySet()) {
+            WidgetState state = modulePositions.get(moduleId);
+            positions.add(state.toString());
+        }
+        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_WIDGETS, "widgetStates", positions.toArray(new String[0]));
+        ModConfiguration.syncFromGUI();
+    }
+
+    public static void setModuleStates() {
+        for (String widgetState : ModConfiguration.widgetStates) {
+            WidgetState state = WidgetState.fromString(widgetState);
+            state.getModule().setPosition(state);
         }
     }
 }

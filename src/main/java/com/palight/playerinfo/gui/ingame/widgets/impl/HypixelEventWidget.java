@@ -29,11 +29,11 @@ public class HypixelEventWidget extends GuiIngameWidget {
             title = "";
             subtitle = "";
         }
-        if (this.getState() == WidgetState.EDITING) {
+        if (this.getState() == WidgetEditingState.EDITING) {
             this.title = "palight";
             this.subtitle = "joined the server.";
         }
-        if ((!title.equals("") && !subtitle.equals("")) || this.getState() == WidgetState.EDITING) {
+        if ((!title.equals("") && !subtitle.equals("")) || this.getState() == WidgetEditingState.EDITING) {
             this.width = Math.max(mc.fontRendererObj.getStringWidth(title) + 8, mc.fontRendererObj.getStringWidth(subtitle) + 8);
 //            this.xPosition = (res.getScaledWidth() - this.width) / 2;
             super.render(mc);
