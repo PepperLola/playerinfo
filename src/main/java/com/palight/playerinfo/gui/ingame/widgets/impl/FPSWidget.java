@@ -3,9 +3,9 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 
-public class FpsWidget extends GuiIngameWidget {
+public class FPSWidget extends GuiIngameWidget {
 
-    public FpsWidget() {
+    public FPSWidget() {
         super(-1, -1, 16, 11);
     }
 
