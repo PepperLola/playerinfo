@@ -1,13 +1,13 @@
 package com.palight.playerinfo.modules.impl.gui;
 
-import com.palight.playerinfo.gui.ingame.widgets.impl.FpsWidget;
+import com.palight.playerinfo.gui.ingame.widgets.impl.FPSWidget;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
 
-public class FpsMod extends Module {
+public class FPSMod extends Module {
 
-    public FpsMod() {
-        super("fps", "Fps", "Displays your frames per second on screen.", ModuleType.GUI, null, new FpsWidget());
+    public FPSMod() {
+        super("fps", "FPS", "Displays your frames per second on screen.", ModuleType.GUI, null, new FPSWidget());
     }
 
     @Override
