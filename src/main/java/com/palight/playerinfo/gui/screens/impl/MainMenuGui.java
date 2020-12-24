@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.screens.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.widgets.impl.GuiTexturedButton;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.ColorUtil;
@@ -48,11 +49,18 @@ public class MainMenuGui extends GuiScreen {
 //        System.out.println("CHROMA: " + ModConfiguration.mainMenuChroma);
         if (ModConfiguration.mainMenuChroma) {
             this.drawGradientRect(0, 0, this.width, this.height, ColorUtil.getChromaColor(), ColorUtil.getChromaColor(1000));
-            this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 10, 0xffffffff);
+            this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 20, 0xffffffff);
+
+            String commitText = "playerinfo (" + PlayerInfo.commitHash.substring(0, 7) + " / " + PlayerInfo.defaultBranchName + ")";
+            this.drawString(this.fontRendererObj, commitText, 4, this.height - 10, 0xffffffff);
         } else {
             this.drawGradientRect(0, 0, this.width, this.height, 0xff000000, 0xff000000);
             int intensity = NumberUtil.roundDown((int) Math.round(128 + (Math.sin(timeExisted) * 128)), 255);
-            this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 10, ColorUtil.getColorInt(intensity, intensity, intensity));
+            this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 20, ColorUtil.getColorInt(intensity, intensity, intensity));
+
+            String commitText = "playerinfo (" + PlayerInfo.commitHash.substring(0, 7) + " / " + PlayerInfo.defaultBranchName + ")";
+            this.drawString(this.fontRendererObj, commitText, 4, this.height - 10, ColorUtil.getColorInt(intensity, intensity, intensity));
+
             timeExisted = ((2 * Math.PI) / 200) * ticksExisted;
             ticksExisted++;
             if (ticksExisted > 200) {

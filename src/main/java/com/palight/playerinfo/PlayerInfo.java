@@ -2,6 +2,7 @@ package com.palight.playerinfo;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.WidgetState;
 import com.palight.playerinfo.modules.Module;
@@ -11,6 +12,7 @@ import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.proxy.CommonProxy;
+import com.palight.playerinfo.util.HttpUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -27,6 +29,8 @@ public class PlayerInfo
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
     public static final String VERSION = "1.15.5";
+    public static String commitHash = "...";
+    public static String defaultBranchName = "master";
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
@@ -46,6 +50,9 @@ public class PlayerInfo
     private static final Map<String, Module> modules = new HashMap<>();
 
     static {
+        String responseBody = HttpUtil.httpGet("https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName);
+        Map<String, Object> responseData = gson.fromJson(responseBody, new TypeToken<HashMap<String, Object>>(){}.getType());
+        commitHash = ((Map<String, String>) responseData.get("object")).get("sha");
         modules.put("scoreboard", new ScoreboardMod());
         modules.put("lifx", new LifxMod());
         modules.put("backgroundBlur", new BlurMod());
