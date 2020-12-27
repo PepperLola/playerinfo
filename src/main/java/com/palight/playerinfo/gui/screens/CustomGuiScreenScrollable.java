@@ -59,7 +59,7 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
      * @return Amount the user has scrolled.
      */
     public int getScrollAmount() {
-        return (int) Math.floor(amountScrolled);
+        return (int) Math.floor(amountScrolled) * 2; // 2x speed modifier because the scrolling was too slow before
     }
 
 
