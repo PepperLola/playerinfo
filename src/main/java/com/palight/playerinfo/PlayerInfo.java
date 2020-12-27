@@ -28,9 +28,10 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.15.6";
-    public static String commitHash = "...";
+    public static final String VERSION = "1.15.7";
+    public static String commitHash;
     public static String defaultBranchName = "master";
+    public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
@@ -50,7 +51,7 @@ public class PlayerInfo
     private static final Map<String, Module> modules = new HashMap<>();
 
     static {
-        String responseBody = HttpUtil.httpGet("https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName);
+        String responseBody = HttpUtil.httpGet(githubAPIURL);
         Map<String, Object> responseData = gson.fromJson(responseBody, new TypeToken<HashMap<String, Object>>(){}.getType());
         commitHash = ((Map<String, String>) responseData.get("object")).get("sha");
         modules.put("scoreboard", new ScoreboardMod());
@@ -71,6 +72,7 @@ public class PlayerInfo
         modules.put("ping", new PingMod());
         modules.put("particle", new ParticleMod());
         modules.put("armor", new ArmorMod());
+        modules.put("perspective", new PerspectiveMod());
     }
 
     @EventHandler

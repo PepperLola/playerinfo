@@ -39,6 +39,7 @@ public abstract class ModConfiguration {
     public static final String CATEGORY_TWEAKS = "tweaks";
     public static final String CATEGORY_PARTICLE = CATEGORY_TWEAKS + ".particle";
     public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
+    public static final String CATEGORY_PERSPECTIVE = CATEGORY_TWEAKS + ".perspective";
 
     private static class DefaultValues {
 
@@ -70,6 +71,7 @@ public abstract class ModConfiguration {
         private static final boolean fpsModEnabled = false;
         private static final boolean particleModEnabled = false;
         private static final boolean armorModEnabled = false;
+        private static final boolean perspectiveModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
         private static final String[] widgetStates = new String[0];
@@ -81,6 +83,8 @@ public abstract class ModConfiguration {
         private static final String selectedParticle = "crit";
 
         private static final boolean disableWaterOverlay = false;
+
+        private static final boolean mustHoldPerspectiveKey = true;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -117,6 +121,7 @@ public abstract class ModConfiguration {
     public static boolean fpsModEnabled = DefaultValues.fpsModEnabled;
     public static boolean particleModEnabled = DefaultValues.particleModEnabled;
     public static boolean armorModEnabled = DefaultValues.armorModEnabled;
+    public static boolean perspectiveModEnabled = DefaultValues.perspectiveModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
     public static String[] widgetStates = DefaultValues.widgetStates;
@@ -128,6 +133,8 @@ public abstract class ModConfiguration {
     public static String selectedParticle = DefaultValues.selectedParticle;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
+
+    public static boolean mustHoldPerspectiveKey = DefaultValues.mustHoldPerspectiveKey;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -232,6 +239,7 @@ public abstract class ModConfiguration {
         Property fpsModEnabled = config.get(CATEGORY_MODS, "fpsModEnabled", DefaultValues.fpsModEnabled);
         Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
         Property armorModEnabled = config.get(CATEGORY_MODS, "armorModEnabled", DefaultValues.armorModEnabled);
+        Property perspectiveModEnabled = config.get(CATEGORY_MODS, "perspectiveModEnabled", DefaultValues.perspectiveModEnabled);
 
         List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
@@ -252,7 +260,8 @@ public abstract class ModConfiguration {
                 pingModEnabled.getName(),
                 fpsModEnabled.getName(),
                 particleModEnabled.getName(),
-                armorModEnabled.getName()
+                armorModEnabled.getName(),
+                perspectiveModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -298,6 +307,14 @@ public abstract class ModConfiguration {
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
+        Property mustHoldPerspectiveKey = config.get(CATEGORY_PERSPECTIVE, "mustHoldPerspectiveKey", DefaultValues.mustHoldPerspectiveKey, "Perspective reverts when the perspective key is no longer pressed.");
+
+        List<String> propOrderPerspective = new ArrayList<>();
+        propOrderPerspective.addAll(Arrays.asList(
+                mustHoldPerspectiveKey.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_PERSPECTIVE, propOrderPerspective);
+
         try {
             noteBlockModEnabled.setConfigEntryClass(BooleanEntry.class);
 
@@ -329,6 +346,7 @@ public abstract class ModConfiguration {
             fpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             particleModEnabled.setConfigEntryClass(BooleanEntry.class);
             armorModEnabled.setConfigEntryClass(BooleanEntry.class);
+            perspectiveModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
             widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
@@ -340,6 +358,8 @@ public abstract class ModConfiguration {
             selectedParticle.setConfigEntryClass(StringEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
+
+            mustHoldPerspectiveKey.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -381,6 +401,7 @@ public abstract class ModConfiguration {
             ModConfiguration.fpsModEnabled = fpsModEnabled.getBoolean();
             ModConfiguration.particleModEnabled = particleModEnabled.getBoolean();
             ModConfiguration.armorModEnabled = armorModEnabled.getBoolean();
+            ModConfiguration.perspectiveModEnabled = perspectiveModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
             ModConfiguration.widgetStates = widgetStates.getStringList();
@@ -392,6 +413,8 @@ public abstract class ModConfiguration {
             ModConfiguration.selectedParticle = selectedParticle.getString();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
+
+            ModConfiguration.mustHoldPerspectiveKey = mustHoldPerspectiveKey.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -430,6 +453,7 @@ public abstract class ModConfiguration {
         fpsModEnabled.set(ModConfiguration.fpsModEnabled);
         particleModEnabled.set(ModConfiguration.particleModEnabled);
         armorModEnabled.set(ModConfiguration.armorModEnabled);
+        perspectiveModEnabled.set(ModConfiguration.perspectiveModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
         widgetStates.set(ModConfiguration.widgetStates);
@@ -441,6 +465,8 @@ public abstract class ModConfiguration {
         selectedParticle.set(ModConfiguration.selectedParticle);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
+
+        mustHoldPerspectiveKey.set(ModConfiguration.mustHoldPerspectiveKey);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);

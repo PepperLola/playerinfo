@@ -1,5 +1,6 @@
 key.main=PlayerInfo GUI
 key.zoom=Super Zoom
+key.perspective=Toggle Perspective
 
 screen.main=playerinfo
 screen.options=Options
@@ -15,3 +16,4 @@ screen.scoreboard=Scoreboard
 screen.displayTweaks=Display Tweaks
 screen.customMainMenu=Custom Main Menu
 screen.particle=Particle Mod
+screen.perspective=Perspective Mod

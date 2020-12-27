@@ -18,8 +18,13 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.lwjgl.opengl.Display;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommonProxy {
+
+    public static Map<String, KeyBinding> keybinds = new HashMap<>();
+
     public void init(FMLInitializationEvent event) {
 
         // Registering Listeners
@@ -35,8 +40,12 @@ public class CommonProxy {
         ClientCommandHandler.instance.registerCommand(new CalcCommand());
 
         // Registering Keybinds
-        ClientRegistry.registerKeyBinding(new KeyBinding("key.zoom", 21, "Player Info"));
-        ClientRegistry.registerKeyBinding(new KeyBinding("key.main", 35, "Player Info"));
+        // key codes at https://computercraft.info/wiki/images/thumb/8/81/CC-Keyboard-Charcodes.png/963px-CC-Keyboard-Charcodes.png
+        keybinds.put("key.zoom", new KeyBinding("key.zoom", 21, "Player Info"));
+        keybinds.put("key.main", new KeyBinding("key.main", 35, "Player Info"));
+        keybinds.put("key.perspective", new KeyBinding("key.perspective", 29, "Player Info"));
+
+        keybinds.values().forEach(ClientRegistry::registerKeyBinding);
 
         // Register Gui Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(PlayerInfo.instance, new GuiHandler());

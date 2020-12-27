@@ -12,6 +12,12 @@ public class KeyListener {
 
     @SubscribeEvent
     public void onKeyPress(InputEvent.KeyInputEvent event) {
+        if (isKeyPressed("key.main")) {
+            MainGui.openGui();
+        }
+    }
+
+    public static boolean isKeyPressed(String id) {
         KeyBinding[] keybinds = Minecraft.getMinecraft().gameSettings.keyBindings;
 
         for (KeyBinding keybind : keybinds) {
@@ -20,9 +26,11 @@ public class KeyListener {
 
             String key_id = keybind.getKeyDescription();
             System.out.println(key_id);
-            if (key_id.equals("key.main")) {
-                MainGui.openGui();
+            if (key_id.equals(id)) {
+                return true;
             }
         }
+
+        return false;
     }
 }
