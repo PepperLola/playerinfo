@@ -70,6 +70,7 @@ public class PlayerInfo
         modules.put("discordRPC", new DiscordRichPresenceMod());
         modules.put("ping", new PingMod());
         modules.put("particle", new ParticleMod());
+        modules.put("armor", new ArmorMod());
     }
 
     @EventHandler

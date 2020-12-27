@@ -69,6 +69,7 @@ public abstract class ModConfiguration {
         private static final boolean pingModEnabled = false;
         private static final boolean fpsModEnabled = false;
         private static final boolean particleModEnabled = false;
+        private static final boolean armorModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
         private static final String[] widgetStates = new String[0];
@@ -115,6 +116,7 @@ public abstract class ModConfiguration {
     public static boolean pingModEnabled = DefaultValues.pingModEnabled;
     public static boolean fpsModEnabled = DefaultValues.fpsModEnabled;
     public static boolean particleModEnabled = DefaultValues.particleModEnabled;
+    public static boolean armorModEnabled = DefaultValues.armorModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
     public static String[] widgetStates = DefaultValues.widgetStates;
@@ -229,6 +231,7 @@ public abstract class ModConfiguration {
         Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
         Property fpsModEnabled = config.get(CATEGORY_MODS, "fpsModEnabled", DefaultValues.fpsModEnabled);
         Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
+        Property armorModEnabled = config.get(CATEGORY_MODS, "armorModEnabled", DefaultValues.armorModEnabled);
 
         List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
@@ -248,7 +251,8 @@ public abstract class ModConfiguration {
                 hypixelEventsModEnabled.getName(),
                 pingModEnabled.getName(),
                 fpsModEnabled.getName(),
-                particleModEnabled.getName()
+                particleModEnabled.getName(),
+                armorModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -324,6 +328,7 @@ public abstract class ModConfiguration {
             pingModEnabled.setConfigEntryClass(BooleanEntry.class);
             fpsModEnabled.setConfigEntryClass(BooleanEntry.class);
             particleModEnabled.setConfigEntryClass(BooleanEntry.class);
+            armorModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
             widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
@@ -375,6 +380,7 @@ public abstract class ModConfiguration {
             ModConfiguration.pingModEnabled = pingModEnabled.getBoolean();
             ModConfiguration.fpsModEnabled = fpsModEnabled.getBoolean();
             ModConfiguration.particleModEnabled = particleModEnabled.getBoolean();
+            ModConfiguration.armorModEnabled = armorModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
             ModConfiguration.widgetStates = widgetStates.getStringList();
@@ -423,6 +429,7 @@ public abstract class ModConfiguration {
         pingModEnabled.set(ModConfiguration.pingModEnabled);
         fpsModEnabled.set(ModConfiguration.fpsModEnabled);
         particleModEnabled.set(ModConfiguration.particleModEnabled);
+        armorModEnabled.set(ModConfiguration.armorModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
         widgetStates.set(ModConfiguration.widgetStates);
