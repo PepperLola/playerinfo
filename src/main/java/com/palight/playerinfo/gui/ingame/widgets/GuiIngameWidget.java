@@ -37,7 +37,7 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void toggleChroma() {
-        getPosition().setChroma(getPosition().isChroma());
+        getPosition().setChroma(!getPosition().isChroma());
     }
 
     protected int getChromaColor(long offset) {
