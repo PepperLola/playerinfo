@@ -28,7 +28,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.15.12";
+    public static final String VERSION = "1.15.13";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -74,6 +74,7 @@ public class PlayerInfo
         modules.put("armor", new ArmorMod());
         modules.put("perspective", new PerspectiveMod());
         modules.put("timeChanger", new TimeChangerMod());
+        modules.put("oldAnimations", new OldAnimationsMod());
     }
 
     @EventHandler

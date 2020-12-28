@@ -1,14 +1,17 @@
 {
   "required": true,
-  "package": "com.palight.playerinfo.mixins",
+  "package": "com.palight.playerinfo.mixin",
   "refmap": "mixin.playerinfo.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "verbose": true,
   "mixins": [
     "client.MixinAbstractClientPlayer",
+    "client.network.MixinNetHandlerPlayClient",
     "gui.MixinGuiConnecting",
+    "render.IMixinItemRenderer",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",
-    "client.network.MixinNetHandlerPlayClient"
+    "render.MixinItemRenderer",
+    "render.MixinLayerHeldItem"
   ]
 }

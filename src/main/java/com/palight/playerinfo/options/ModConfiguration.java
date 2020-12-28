@@ -41,6 +41,7 @@ public abstract class ModConfiguration {
     public static final String CATEGORY_DISPLAY = CATEGORY_TWEAKS + ".display";
     public static final String CATEGORY_PERSPECTIVE = CATEGORY_TWEAKS + ".perspective";
     public static final String CATEGORY_TIME = CATEGORY_TWEAKS + ".time";
+    public static final String CATEGORY_ANIMATIONS = CATEGORY_TWEAKS + ".animations";
 
     private static class DefaultValues {
 
@@ -74,6 +75,7 @@ public abstract class ModConfiguration {
         private static final boolean armorModEnabled = false;
         private static final boolean perspectiveModEnabled = false;
         private static final boolean timeChangerModEnabled = false;
+        private static final boolean oldAnimationsModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
         private static final String[] widgetStates = new String[0];
@@ -90,6 +92,13 @@ public abstract class ModConfiguration {
         private static final boolean disableWaterOverlay = false;
 
         private static final boolean mustHoldPerspectiveKey = true;
+
+        private static final boolean blockHitAnimationEnabled = false;
+        private static final boolean bowAnimationEnabled = false;
+        private static final boolean rodAnimationEnabled = false;
+        private static final boolean eatingAnimationEnabled = false;
+        private static final boolean swordAnimationEnabled = false;
+        private static final boolean heldAnimationEnabled = false;
 
         private static final boolean scoreboardEnabled = true;
         private static final boolean scoreboardNumbersEnabled = true;
@@ -128,6 +137,7 @@ public abstract class ModConfiguration {
     public static boolean armorModEnabled = DefaultValues.armorModEnabled;
     public static boolean perspectiveModEnabled = DefaultValues.perspectiveModEnabled;
     public static boolean timeChangerModEnabled = DefaultValues.timeChangerModEnabled;
+    public static boolean oldAnimationsModEnabled = DefaultValues.oldAnimationsModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
     public static String[] widgetStates = DefaultValues.widgetStates;
@@ -144,6 +154,13 @@ public abstract class ModConfiguration {
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
     public static boolean mustHoldPerspectiveKey = DefaultValues.mustHoldPerspectiveKey;
+
+    public static boolean blockHitAnimationEnabled = DefaultValues.blockHitAnimationEnabled;
+    public static boolean bowAnimationEnabled = DefaultValues.bowAnimationEnabled;
+    public static boolean rodAnimationEnabled = DefaultValues.rodAnimationEnabled;
+    public static boolean eatingAnimationEnabled = DefaultValues.eatingAnimationEnabled;
+    public static boolean swordAnimationEnabled = DefaultValues.swordAnimationEnabled;
+    public static boolean heldAnimationEnabled = DefaultValues.heldAnimationEnabled;
 
     public static boolean scoreboardEnabled = DefaultValues.scoreboardEnabled;
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
@@ -250,6 +267,7 @@ public abstract class ModConfiguration {
         Property armorModEnabled = config.get(CATEGORY_MODS, "armorModEnabled", DefaultValues.armorModEnabled);
         Property perspectiveModEnabled = config.get(CATEGORY_MODS, "perspectiveModEnabled", DefaultValues.perspectiveModEnabled);
         Property timeChangerModEnabled = config.get(CATEGORY_MODS, "timeChangerModEnabled", DefaultValues.timeChangerModEnabled);
+        Property oldAnimationsModEnabled = config.get(CATEGORY_MODS, "oldAnimationsModEnabled", DefaultValues.oldAnimationsModEnabled);
 
         List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
@@ -336,6 +354,24 @@ public abstract class ModConfiguration {
         ));
         config.setCategoryPropertyOrder(CATEGORY_PERSPECTIVE, propOrderPerspective);
 
+        Property blockHitAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "blockHitAnimationEnabled", DefaultValues.blockHitAnimationEnabled, "Enable 1.7 block hit animation");
+        Property bowAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "bowAnimationEnabled", DefaultValues.bowAnimationEnabled, "Enable 1.7 bow animation");
+        Property rodAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "rodAnimationEnabled", DefaultValues.rodAnimationEnabled, "Enable 1.7 rod animation");
+        Property eatingAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "eatingAnimationEnabled", DefaultValues.eatingAnimationEnabled, "Enable 1.7 eating animation");
+        Property swordAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "swordAnimationEnabled", DefaultValues.swordAnimationEnabled, "Enable 1.7 sword animation");
+        Property heldAnimationEnabled = config.get(CATEGORY_ANIMATIONS, "heldAnimationEnabled", DefaultValues.heldAnimationEnabled, "Enable 1.7 held animation");
+
+        List<String> propOrderAnimations = new ArrayList<>();
+        propOrderAnimations.addAll(Arrays.asList(
+                blockHitAnimationEnabled.getName(),
+                bowAnimationEnabled.getName(),
+                rodAnimationEnabled.getName(),
+                eatingAnimationEnabled.getName(),
+                swordAnimationEnabled.getName(),
+                heldAnimationEnabled.getName()
+        ));
+        config.setCategoryPropertyOrder(CATEGORY_ANIMATIONS, propOrderAnimations);
+
         try {
             noteBlockModEnabled.setConfigEntryClass(BooleanEntry.class);
 
@@ -369,6 +405,7 @@ public abstract class ModConfiguration {
             armorModEnabled.setConfigEntryClass(BooleanEntry.class);
             perspectiveModEnabled.setConfigEntryClass(BooleanEntry.class);
             timeChangerModEnabled.setConfigEntryClass(BooleanEntry.class);
+            oldAnimationsModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
             widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
@@ -385,6 +422,13 @@ public abstract class ModConfiguration {
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
             mustHoldPerspectiveKey.setConfigEntryClass(BooleanEntry.class);
+
+            blockHitAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
+            bowAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
+            rodAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
+            eatingAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
+            swordAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
+            heldAnimationEnabled.setConfigEntryClass(BooleanEntry.class);
 
             scoreboardEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
@@ -428,6 +472,7 @@ public abstract class ModConfiguration {
             ModConfiguration.armorModEnabled = armorModEnabled.getBoolean();
             ModConfiguration.perspectiveModEnabled = perspectiveModEnabled.getBoolean();
             ModConfiguration.timeChangerModEnabled = timeChangerModEnabled.getBoolean();
+            ModConfiguration.oldAnimationsModEnabled = oldAnimationsModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
             ModConfiguration.widgetStates = widgetStates.getStringList();
@@ -444,6 +489,13 @@ public abstract class ModConfiguration {
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
             ModConfiguration.mustHoldPerspectiveKey = mustHoldPerspectiveKey.getBoolean();
+
+            ModConfiguration.blockHitAnimationEnabled = blockHitAnimationEnabled.getBoolean();
+            ModConfiguration.bowAnimationEnabled = bowAnimationEnabled.getBoolean();
+            ModConfiguration.rodAnimationEnabled = rodAnimationEnabled.getBoolean();
+            ModConfiguration.eatingAnimationEnabled = eatingAnimationEnabled.getBoolean();
+            ModConfiguration.swordAnimationEnabled = swordAnimationEnabled.getBoolean();
+            ModConfiguration.heldAnimationEnabled = heldAnimationEnabled.getBoolean();
 
             ModConfiguration.scoreboardEnabled = scoreboardEnabled.getBoolean();
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
@@ -484,6 +536,7 @@ public abstract class ModConfiguration {
         armorModEnabled.set(ModConfiguration.armorModEnabled);
         perspectiveModEnabled.set(ModConfiguration.perspectiveModEnabled);
         timeChangerModEnabled.set(ModConfiguration.timeChangerModEnabled);
+        oldAnimationsModEnabled.set(ModConfiguration.oldAnimationsModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
         widgetStates.set(ModConfiguration.widgetStates);
@@ -500,6 +553,13 @@ public abstract class ModConfiguration {
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 
         mustHoldPerspectiveKey.set(ModConfiguration.mustHoldPerspectiveKey);
+
+        blockHitAnimationEnabled.set(ModConfiguration.blockHitAnimationEnabled);
+        bowAnimationEnabled.set(ModConfiguration.bowAnimationEnabled);
+        rodAnimationEnabled.set(ModConfiguration.rodAnimationEnabled);
+        eatingAnimationEnabled.set(ModConfiguration.eatingAnimationEnabled);
+        swordAnimationEnabled.set(ModConfiguration.swordAnimationEnabled);
+        heldAnimationEnabled.set(ModConfiguration.heldAnimationEnabled);
 
         scoreboardEnabled.set(ModConfiguration.scoreboardEnabled);
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);

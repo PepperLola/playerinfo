@@ -24,7 +24,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
     private GuiSlider fastTimeMultiplierSlider;
 
     public TimeChangerGui() {
-        super(I18n.format("screen.particle"));
+        super(I18n.format("screen.timeChanger"));
     }
 
     @Override

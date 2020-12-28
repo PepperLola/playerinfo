@@ -1,4 +1,4 @@
-package com.palight.playerinfo.mixins.client;
+package com.palight.playerinfo.mixin.client;
 
 import com.mojang.authlib.GameProfile;
 import com.palight.playerinfo.PlayerInfo;

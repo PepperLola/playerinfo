@@ -1,4 +1,4 @@
-package com.palight.playerinfo.mixins.render;
+package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;

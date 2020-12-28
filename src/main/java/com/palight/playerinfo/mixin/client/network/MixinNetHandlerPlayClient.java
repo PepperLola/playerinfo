@@ -1,4 +1,4 @@
-package com.palight.playerinfo.mixins.client.network;
+package com.palight.playerinfo.mixin.client.network;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
