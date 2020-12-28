@@ -8,6 +8,7 @@
     "client.MixinAbstractClientPlayer",
     "gui.MixinGuiConnecting",
     "render.MixinEntityFX",
-    "render.MixinEntityRenderer"
+    "render.MixinEntityRenderer",
+    "client.network.MixinNetHandlerPlayClient"
   ]
 }
