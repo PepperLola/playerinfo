@@ -4,16 +4,13 @@ import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.gui.widgets.impl.GuiDropdown;
+import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
 import com.palight.playerinfo.options.ModConfiguration;
-import com.palight.playerinfo.util.MCUtil;
-import com.sun.jna.StringArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class TimeChangerGui extends CustomGuiScreenScrollable {
 
@@ -34,9 +31,12 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        String[] times = new String[]{"Day", "Night", "Dawn", "Dusk"};
+        int timesLength = TimeChangerMod.Time.values().length;
+        String[] times = new String[TimeChangerMod.Time.values().length];
 
-
+        for (int i = 0; i < timesLength; i++) {
+            times[i] = TimeChangerMod.Time.values()[i].toString();
+        }
 
         timePicker = new GuiDropdown(0, buttonX, buttonY, times);
         setTimeButton = new GuiButton(1, buttonX + 64, buttonY, 64, 20, "Set Time");

@@ -30,22 +30,45 @@ public class TimeChangerMod extends Module {
     public void onTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.theWorld != null && ModConfiguration.selectedTime != null) {
-            mc.theWorld.setWorldTime(getTime(ModConfiguration.selectedTime) % 24000);
+            Time time = Time.getTime(ModConfiguration.selectedTime);
+            if (time == null) return;
+            mc.theWorld.setWorldTime(getTime(time) % 24000);
         }
     }
 
-    public long getTime(String timeString) {
-        switch (timeString.toLowerCase()) {
-            case "day":
-                return 6000;
-            case "night":
+    public long getTime(Time time) {
+        switch (time) {
+            case NIGHT:
                 return 18000;
-            case "dawn":
+            case DAWN:
                 return 0;
-            case "dusk":
+            case DUSK:
                 return 12542;
+            case DAY:
             default:
                 return 6000;
+        }
+    }
+
+    public enum Time {
+        DAY,
+        NIGHT,
+        DAWN,
+        DUSK;
+
+        public static Time getTime(String time) {
+            switch (time.toLowerCase()) {
+                case "day":
+                    return Time.DAY;
+                case "night":
+                    return Time.NIGHT;
+                case "dawn":
+                    return Time.DAWN;
+                case "dusk":
+                    return Time.DUSK;
+                default:
+                    return null;
+            }
         }
     }
 

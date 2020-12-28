@@ -31,7 +31,14 @@ public class MixinNetHandlerPlayClient {
             return;
         }
 
-        handleActualPacket(new S03PacketTimeUpdate(p.getWorldTime(),-timeChangerMod.getTime(ModConfiguration.selectedTime),true) );
+        TimeChangerMod.Time time = TimeChangerMod.Time.getTime(ModConfiguration.selectedTime);
+
+        if (time == null) {
+            handleActualPacket(p);
+            return;
+        }
+
+        handleActualPacket(new S03PacketTimeUpdate(p.getWorldTime(),-timeChangerMod.getTime(time),true) );
     }
 
     private void handleActualPacket(S03PacketTimeUpdate p) {
