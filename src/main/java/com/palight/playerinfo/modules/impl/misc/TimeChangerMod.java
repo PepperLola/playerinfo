@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TimeChangerMod extends Module {
 
-
     public TimeChangerMod() {
         super("time-changer", "Time Changer", "Lets you change the in game time for you.", Module.ModuleType.MISC, new TimeChangerGui(), null);
     }
@@ -29,10 +28,8 @@ public class TimeChangerMod extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.theWorld != null && ModConfiguration.selectedTime != null) {
-            Time time = Time.getTime(ModConfiguration.selectedTime);
-            if (time == null) return;
-            mc.theWorld.setWorldTime(getTime(time) % 24000);
+        if (mc.theWorld != null && ModConfiguration.selectedTime != null && Time.getTime(ModConfiguration.selectedTime) == Time.FAST) {
+            Minecraft.getMinecraft().theWorld.setWorldTime(getTime(Time.FAST));
         }
     }
 
@@ -44,6 +41,8 @@ public class TimeChangerMod extends Module {
                 return 0;
             case DUSK:
                 return 12542;
+            case FAST:
+                return (long) (System.currentTimeMillis() * ModConfiguration.fastTimeMultiplier) % 24000;
             case DAY:
             default:
                 return 6000;
@@ -54,7 +53,8 @@ public class TimeChangerMod extends Module {
         DAY,
         NIGHT,
         DAWN,
-        DUSK;
+        DUSK,
+        FAST;
 
         public static Time getTime(String time) {
             switch (time.toLowerCase()) {
@@ -66,6 +66,8 @@ public class TimeChangerMod extends Module {
                     return Time.DAWN;
                 case "dusk":
                     return Time.DUSK;
+                case "fast":
+                    return Time.FAST;
                 default:
                     return null;
             }

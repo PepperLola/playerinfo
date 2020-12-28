@@ -83,7 +83,9 @@ public abstract class ModConfiguration {
         private static final boolean discordRPCEnabled = true;
 
         private static final String selectedParticle = "crit";
+
         private static final String selectedTime = "time";
+        private static final double fastTimeMultiplier = 1.0D;
 
         private static final boolean disableWaterOverlay = false;
 
@@ -135,7 +137,9 @@ public abstract class ModConfiguration {
     public static boolean discordRPCEnabled = DefaultValues.discordRPCEnabled;
 
     public static String selectedParticle = DefaultValues.selectedParticle;
+
     public static String selectedTime = DefaultValues.selectedTime;
+    public static double fastTimeMultiplier = DefaultValues.fastTimeMultiplier;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
 
@@ -307,10 +311,12 @@ public abstract class ModConfiguration {
         config.setCategoryPropertyOrder(CATEGORY_PARTICLE, propOrderParticle);
 
         Property selectedTime = config.get(CATEGORY_PARTICLE, "selectedTime", DefaultValues.selectedTime, "Selected time");
+        Property fastTimeMultiplier = config.get(CATEGORY_PARTICLE, "fastTimeMultiplier", DefaultValues.fastTimeMultiplier, "Fast time speed multiplier");
 
         List<String> propOrderTime = new ArrayList<>();
         propOrderTime.addAll(Arrays.asList(
-                selectedTime.getName()
+                selectedTime.getName(),
+                fastTimeMultiplier.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_TIME, propOrderTime);
 
@@ -372,7 +378,9 @@ public abstract class ModConfiguration {
             discordRPCEnabled.setConfigEntryClass(BooleanEntry.class);
 
             selectedParticle.setConfigEntryClass(StringEntry.class);
+
             selectedTime.setConfigEntryClass(StringEntry.class);
+            fastTimeMultiplier.setConfigEntryClass(GuiConfigEntries.DoubleEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
 
@@ -429,7 +437,9 @@ public abstract class ModConfiguration {
             ModConfiguration.discordRPCEnabled = discordRPCEnabled.getBoolean();
 
             ModConfiguration.selectedParticle = selectedParticle.getString();
+
             ModConfiguration.selectedTime = selectedTime.getString();
+            ModConfiguration.fastTimeMultiplier = fastTimeMultiplier.getDouble();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
 
@@ -483,7 +493,9 @@ public abstract class ModConfiguration {
         discordRPCEnabled.set(ModConfiguration.discordRPCEnabled);
 
         selectedParticle.set(ModConfiguration.selectedParticle);
+
         selectedTime.set(ModConfiguration.selectedTime);
+        fastTimeMultiplier.set(ModConfiguration.fastTimeMultiplier);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
 
