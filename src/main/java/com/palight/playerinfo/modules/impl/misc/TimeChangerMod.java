@@ -28,7 +28,7 @@ public class TimeChangerMod extends Module {
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.theWorld != null && ModConfiguration.selectedTime != null && Time.getTime(ModConfiguration.selectedTime) == Time.FAST) {
+        if (this.isEnabled() && mc.theWorld != null && ModConfiguration.selectedTime != null && Time.getTime(ModConfiguration.selectedTime) == Time.FAST) {
             Minecraft.getMinecraft().theWorld.setWorldTime(getTime(Time.FAST));
         }
     }
