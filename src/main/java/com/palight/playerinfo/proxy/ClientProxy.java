@@ -1,13 +1,9 @@
 package com.palight.playerinfo.proxy;
 
-import com.palight.playerinfo.rendering.cosmetics.layers.LayerCape;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-
-import java.util.Iterator;
 
 public class ClientProxy extends CommonProxy {
     @Override
@@ -18,11 +14,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
-        Iterator iterator = Minecraft.getMinecraft().getRenderManager().getSkinMap().values().iterator();
-
-        while (iterator.hasNext()) {
-            RenderPlayer render = (RenderPlayer)iterator.next();
-            render.addLayer(new LayerCape(render));
-        }
+//        Iterator iterator = Minecraft.getMinecraft().getRenderManager().getSkinMap().values().iterator();
+//
+//        while (iterator.hasNext()) {
+//            RenderPlayer render = (RenderPlayer)iterator.next();
+//            render.addLayer(new LayerCape(render));
+//        }
     }
 }
