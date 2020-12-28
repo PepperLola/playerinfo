@@ -73,6 +73,7 @@ public class PlayerInfo
         modules.put("particle", new ParticleMod());
         modules.put("armor", new ArmorMod());
         modules.put("perspective", new PerspectiveMod());
+        modules.put("timeChanger", new TimeChangerMod());
     }
 
     @EventHandler
