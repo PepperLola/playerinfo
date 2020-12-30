@@ -33,7 +33,7 @@ public class PumpkinWidget extends GuiIngameWidget {
                 getPosition().setX(getPosition().getX() == -1 ? defaultX : getPosition().getX());
                 getPosition().setY(getPosition().getY() == -1 ? defaultY : getPosition().getY());
                 GlStateManager.color(255, 255, 255);
-                Minecraft.getMinecraft().ingameGUI.drawTexturedModalRect(getPosition().getX(), getPosition().getY(), 0, 0, 16, 16);
+                this.drawTexturedModalRect(getPosition().getX(), getPosition().getY(), 0, 0, 16, 16);
             }
         }
     }

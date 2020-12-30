@@ -16,7 +16,7 @@ public class MixinItemRenderer {
     private CustomItemRenderer customItemRenderer = new CustomItemRenderer((ItemRenderer) (Object) this);
 
     /**
-     * @author Cubxity
+     * @author palight
      * @reason 1.7 animations
      */
     @Overwrite
@@ -25,7 +25,7 @@ public class MixinItemRenderer {
     }
 
     /**
-     * @author CoalOres
+     * @author palight
      * @reason 1.7 animations
      */
     @Overwrite

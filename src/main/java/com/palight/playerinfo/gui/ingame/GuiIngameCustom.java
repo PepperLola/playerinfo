@@ -2,9 +2,7 @@ package com.palight.playerinfo.gui.ingame;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.base.GuiNewChat;
-import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
-import com.palight.playerinfo.modules.Module;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -38,7 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GuiIngameCustom extends GuiIngame {
-    private static final int WHITE = 16777215;
     public static boolean renderHelmet = true;
     public static boolean renderPortal = true;
     public static boolean renderHotbar = true;
@@ -54,11 +51,11 @@ public class GuiIngameCustom extends GuiIngame {
     public static boolean renderObjective = true;
     public static int left_height = 39;
     public static int right_height = 39;
-    private GuiNewChat persistentChatGui;
+    private final GuiNewChat persistentChatGui;
     private ScaledResolution res = null;
     private FontRenderer fontrenderer = null;
     private RenderGameOverlayEvent eventParent;
-    private GuiOverlayDebugForge debugOverlay;
+    private final GuiOverlayDebugForge debugOverlay;
 
     public GuiIngameCustom(Minecraft mc) {
         super(mc);
@@ -100,7 +97,7 @@ public class GuiIngameCustom extends GuiIngame {
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.zLevel = -90.0F;
-            this.rand.setSeed((long)(this.updateCounter * 312871));
+            this.rand.setSeed(this.updateCounter * 312871L);
             if (renderCrosshairs) {
                 this.renderCrosshairs(width, height);
             }
@@ -155,13 +152,6 @@ public class GuiIngameCustom extends GuiIngame {
             ScoreObjective objective1 = objective != null ? objective : scoreboard.getObjectiveInDisplaySlot(1);
             if (renderObjective && objective1 != null) {
                 this.renderScoreboard(objective1, this.res);
-            }
-
-            // render custom gui elements
-            for (Module module : PlayerInfo.getModules().values()) {
-                GuiIngameWidget widget = module.getWidget();
-                if (widget == null || !widget.shouldRender(module) || widget instanceof ScoreboardWidget) continue;
-                widget.render(this.mc);
             }
 
             GlStateManager.enableBlend();
@@ -236,7 +226,7 @@ public class GuiIngameCustom extends GuiIngame {
             int top = height - left_height;
             int level = ForgeHooks.getTotalArmorValue(this.mc.thePlayer);
 
-            for(int i = 1; level > 0 && i < 20; i += 2) {
+            for (int i = 1; level > 0 && i < 20; i += 2) {
                 if (i < level) {
                     this.drawTexturedModalRect(left, top, 34, 9, 9, 9);
                 } else if (i == level) {
@@ -274,7 +264,7 @@ public class GuiIngameCustom extends GuiIngame {
                 if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                     this.mc.getTextureManager().bindTexture(widgetsTexPath);
-                    EntityPlayer lvt_3_1_ = (EntityPlayer)this.mc.getRenderViewEntity();
+                    EntityPlayer lvt_3_1_ = (EntityPlayer) this.mc.getRenderViewEntity();
                     int lvt_4_1_ = res.getScaledWidth() / 2;
                     float lvt_5_1_ = this.zLevel;
                     this.zLevel = -90.0F;
@@ -286,7 +276,7 @@ public class GuiIngameCustom extends GuiIngame {
                     GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                     RenderHelper.enableGUIStandardItemLighting();
 
-                    for(int lvt_6_1_ = 0; lvt_6_1_ < 9; ++lvt_6_1_) {
+                    for (int lvt_6_1_ = 0; lvt_6_1_ < 9; ++lvt_6_1_) {
                         int lvt_7_1_ = res.getScaledWidth() / 2 - 90 + lvt_6_1_ * 20 + 2;
                         int lvt_8_1_ = res.getScaledHeight() - 16 - 3;
                         this.renderHotbarItem(lvt_6_1_, lvt_7_1_, lvt_8_1_, partialTicks, lvt_3_1_);
@@ -306,13 +296,13 @@ public class GuiIngameCustom extends GuiIngame {
     protected void renderHotbarItem(int p_renderHotbarItem_1_, int p_renderHotbarItem_2_, int p_renderHotbarItem_3_, float p_renderHotbarItem_4_, EntityPlayer p_renderHotbarItem_5_) {
         ItemStack lvt_6_1_ = p_renderHotbarItem_5_.inventory.mainInventory[p_renderHotbarItem_1_];
         if (lvt_6_1_ != null) {
-            float lvt_7_1_ = (float)lvt_6_1_.animationsToGo - p_renderHotbarItem_4_;
+            float lvt_7_1_ = (float) lvt_6_1_.animationsToGo - p_renderHotbarItem_4_;
             if (lvt_7_1_ > 0.0F) {
                 GlStateManager.pushMatrix();
                 float lvt_8_1_ = 1.0F + lvt_7_1_ / 5.0F;
-                GlStateManager.translate((float)(p_renderHotbarItem_2_ + 8), (float)(p_renderHotbarItem_3_ + 12), 0.0F);
+                GlStateManager.translate((float) (p_renderHotbarItem_2_ + 8), (float) (p_renderHotbarItem_3_ + 12), 0.0F);
                 GlStateManager.scale(1.0F / lvt_8_1_, (lvt_8_1_ + 1.0F) / 2.0F, 1.0F);
-                GlStateManager.translate((float)(-(p_renderHotbarItem_2_ + 8)), (float)(-(p_renderHotbarItem_3_ + 12)), 0.0F);
+                GlStateManager.translate((float) (-(p_renderHotbarItem_2_ + 8)), (float) (-(p_renderHotbarItem_3_ + 12)), 0.0F);
             }
 
             this.itemRenderer.renderItemAndEffectIntoGUI(lvt_6_1_, p_renderHotbarItem_2_, p_renderHotbarItem_3_);
@@ -327,16 +317,16 @@ public class GuiIngameCustom extends GuiIngame {
     protected void renderAir(int width, int height) {
         if (!this.pre(ElementType.AIR)) {
             this.mc.mcProfiler.startSection("air");
-            EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
+            EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
             GlStateManager.enableBlend();
             int left = width / 2 + 91;
             int top = height - right_height;
             if (player.isInsideOfMaterial(Material.water)) {
                 int air = player.getAir();
-                int full = MathHelper.ceiling_double_int((double)(air - 2) * 10.0D / 300.0D);
-                int partial = MathHelper.ceiling_double_int((double)air * 10.0D / 300.0D) - full;
+                int full = MathHelper.ceiling_double_int((double) (air - 2) * 10.0D / 300.0D);
+                int partial = MathHelper.ceiling_double_int((double) air * 10.0D / 300.0D) - full;
 
-                for(int i = 0; i < full + partial; ++i) {
+                for (int i = 0; i < full + partial; ++i) {
                     this.drawTexturedModalRect(left - i * 8 - 9, top, i < full ? 16 : 25, 18, 9, 9);
                 }
 
@@ -354,15 +344,15 @@ public class GuiIngameCustom extends GuiIngame {
         if (!this.pre(ElementType.HEALTH)) {
             this.mc.mcProfiler.startSection("health");
             GlStateManager.enableBlend();
-            EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
+            EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
             int health = MathHelper.ceiling_float_int(player.getHealth());
-            boolean highlight = this.healthUpdateCounter > (long)this.updateCounter && (this.healthUpdateCounter - (long)this.updateCounter) / 3L % 2L == 1L;
+            boolean highlight = this.healthUpdateCounter > (long) this.updateCounter && (this.healthUpdateCounter - (long) this.updateCounter) / 3L % 2L == 1L;
             if (health < this.playerHealth && player.hurtResistantTime > 0) {
                 this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = (long)(this.updateCounter + 20);
+                this.healthUpdateCounter = this.updateCounter + 20;
             } else if (health > this.playerHealth && player.hurtResistantTime > 0) {
                 this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = (long)(this.updateCounter + 10);
+                this.healthUpdateCounter = this.updateCounter + 10;
             }
 
             if (Minecraft.getSystemTime() - this.lastSystemTime > 1000L) {
@@ -374,11 +364,11 @@ public class GuiIngameCustom extends GuiIngame {
             this.playerHealth = health;
             int healthLast = this.lastPlayerHealth;
             IAttributeInstance attrMaxHealth = player.getEntityAttribute(SharedMonsterAttributes.maxHealth);
-            float healthMax = (float)attrMaxHealth.getAttributeValue();
+            float healthMax = (float) attrMaxHealth.getAttributeValue();
             float absorb = player.getAbsorptionAmount();
             int healthRows = MathHelper.ceiling_float_int((healthMax + absorb) / 2.0F / 10.0F);
             int rowHeight = Math.max(10 - (healthRows - 2), 3);
-            this.rand.setSeed((long)(this.updateCounter * 312871));
+            this.rand.setSeed(this.updateCounter * 312871);
             int left = width / 2 - 91;
             int top = height - left_height;
             left_height += healthRows * rowHeight;
@@ -402,8 +392,8 @@ public class GuiIngameCustom extends GuiIngame {
 
             float absorbRemaining = absorb;
 
-            for(int i = MathHelper.ceiling_float_int((healthMax + absorb) / 2.0F) - 1; i >= 0; --i) {
-                int row = MathHelper.ceiling_float_int((float)(i + 1) / 10.0F) - 1;
+            for (int i = MathHelper.ceiling_float_int((healthMax + absorb) / 2.0F) - 1; i >= 0; --i) {
+                int row = MathHelper.ceiling_float_int((float) (i + 1) / 10.0F) - 1;
                 int x = left + i % 10 * 8;
                 int y = top - row * rowHeight;
                 if (health <= 4) {
@@ -449,7 +439,7 @@ public class GuiIngameCustom extends GuiIngame {
     public void renderFood(int width, int height) {
         if (!this.pre(ElementType.FOOD)) {
             this.mc.mcProfiler.startSection("food");
-            EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
+            EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
             GlStateManager.enableBlend();
             int left = width / 2 + 91;
             int top = height - right_height;
@@ -459,7 +449,7 @@ public class GuiIngameCustom extends GuiIngame {
             int level = stats.getFoodLevel();
             int levelLast = stats.getPrevFoodLevel();
 
-            for(int i = 0; i < 10; ++i) {
+            for (int i = 0; i < 10; ++i) {
                 int idx = i * 2 + 1;
                 int x = left - i * 8 - 9;
                 int y = top;
@@ -506,12 +496,12 @@ public class GuiIngameCustom extends GuiIngame {
             GlStateManager.disableDepth();
             GlStateManager.disableAlpha();
             int sleepTime = this.mc.thePlayer.getSleepTimer();
-            float opacity = (float)sleepTime / 100.0F;
+            float opacity = (float) sleepTime / 100.0F;
             if (opacity > 1.0F) {
-                opacity = 1.0F - (float)(sleepTime - 100) / 10.0F;
+                opacity = 1.0F - (float) (sleepTime - 100) / 10.0F;
             }
 
-            int color = (int)(220.0F * opacity) << 24 | 1052704;
+            int color = (int) (220.0F * opacity) << 24 | 1052704;
             drawRect(0, 0, width, height, color);
             GlStateManager.enableAlpha();
             GlStateManager.enableDepth();
@@ -532,7 +522,7 @@ public class GuiIngameCustom extends GuiIngame {
                 int color;
                 if (cap > 0) {
                     short barWidth = 182;
-                    color = (int)(this.mc.thePlayer.experience * (float)(barWidth + 1));
+                    color = (int) (this.mc.thePlayer.experience * (float) (barWidth + 1));
                     int top = height - 32 + 3;
                     this.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
                     if (color > 0) {
@@ -572,7 +562,7 @@ public class GuiIngameCustom extends GuiIngame {
             float charge = this.mc.thePlayer.getHorseJumpPower();
             int barWidth = 1;
             int x = width / 2 - 91;
-            int filled = (int)(charge * 183.0F);
+            int filled = (int) (charge * 183.0F);
             int top = height - 32 + 3;
             this.drawTexturedModalRect(x, top, 0, 84, 182, 5);
             if (filled > 0) {
@@ -596,7 +586,7 @@ public class GuiIngameCustom extends GuiIngame {
                 }
 
                 name = this.highlightingItemStack.getItem().getHighlightTip(this.highlightingItemStack, name);
-                int opacity = (int)((float)this.remainingHighlightTicks * 256.0F / 10.0F);
+                int opacity = (int) ((float) this.remainingHighlightTicks * 256.0F / 10.0F);
                 if (opacity > 255) {
                     opacity = 255;
                 }
@@ -614,10 +604,10 @@ public class GuiIngameCustom extends GuiIngame {
                     int x;
                     if (font != null) {
                         x = (res.getScaledWidth() - font.getStringWidth(name)) / 2;
-                        font.drawStringWithShadow(name, (float)x, (float)y, 16777215 | opacity << 24);
+                        font.drawStringWithShadow(name, (float) x, (float) y, 16777215 | opacity << 24);
                     } else {
                         x = (res.getScaledWidth() - this.fontrenderer.getStringWidth(name)) / 2;
-                        this.fontrenderer.drawStringWithShadow(name, (float)x, (float)y, 16777215 | opacity << 24);
+                        this.fontrenderer.drawStringWithShadow(name, (float) x, (float) y, 16777215 | opacity << 24);
                     }
 
                     GlStateManager.disableBlend();
@@ -640,9 +630,9 @@ public class GuiIngameCustom extends GuiIngame {
         if (this.mc.isDemo()) {
             long time = this.mc.theWorld.getTotalWorldTime();
             if (time >= 120500L) {
-                listR.add(I18n.format("demo.demoExpired", new Object[0]));
+                listR.add(I18n.format("demo.demoExpired"));
             } else {
-                listR.add(I18n.format("demo.remainingTime", new Object[]{StringUtils.ticksToElapsedTime((int)(120500L - time))}));
+                listR.add(I18n.format("demo.remainingTime", StringUtils.ticksToElapsedTime((int) (120500L - time))));
             }
         }
 
@@ -658,8 +648,8 @@ public class GuiIngameCustom extends GuiIngame {
             Iterator var7 = listL.iterator();
 
             String msg;
-            while(var7.hasNext()) {
-                msg = (String)var7.next();
+            while (var7.hasNext()) {
+                msg = (String) var7.next();
                 if (msg != null) {
                     drawRect(1, top - 1, 2 + this.fontrenderer.getStringWidth(msg) + 1, top + this.fontrenderer.FONT_HEIGHT - 1, -1873784752);
                     this.fontrenderer.drawString(msg, 2, top, 14737632);
@@ -670,8 +660,8 @@ public class GuiIngameCustom extends GuiIngame {
             top = 2;
             var7 = listR.iterator();
 
-            while(var7.hasNext()) {
-                msg = (String)var7.next();
+            while (var7.hasNext()) {
+                msg = (String) var7.next();
                 if (msg != null) {
                     int w = this.fontrenderer.getStringWidth(msg);
                     int left = width - 2 - w;
@@ -689,15 +679,15 @@ public class GuiIngameCustom extends GuiIngame {
     protected void renderRecordOverlay(int width, int height, float partialTicks) {
         if (this.recordPlayingUpFor > 0) {
             this.mc.mcProfiler.startSection("overlayMessage");
-            float hue = (float)this.recordPlayingUpFor - partialTicks;
-            int opacity = (int)(hue * 256.0F / 20.0F);
+            float hue = (float) this.recordPlayingUpFor - partialTicks;
+            int opacity = (int) (hue * 256.0F / 20.0F);
             if (opacity > 255) {
                 opacity = 255;
             }
 
             if (opacity > 0) {
                 GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(width / 2), (float)(height - 68), 0.0F);
+                GlStateManager.translate((float) (width / 2), (float) (height - 68), 0.0F);
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                 int color = this.recordIsPlaying ? Color.HSBtoRGB(hue / 50.0F, 0.7F, 0.6F) & 16777215 : 16777215;
@@ -714,31 +704,31 @@ public class GuiIngameCustom extends GuiIngame {
     protected void renderTitle(int width, int height, float partialTicks) {
         if (this.titlesTimer > 0) {
             this.mc.mcProfiler.startSection("titleAndSubtitle");
-            float age = (float)this.titlesTimer - partialTicks;
+            float age = (float) this.titlesTimer - partialTicks;
             int opacity = 255;
             if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime) {
-                float f3 = (float)(this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - age;
-                opacity = (int)(f3 * 255.0F / (float)this.titleFadeIn);
+                float f3 = (float) (this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - age;
+                opacity = (int) (f3 * 255.0F / (float) this.titleFadeIn);
             }
 
             if (this.titlesTimer <= this.titleFadeOut) {
-                opacity = (int)(age * 255.0F / (float)this.titleFadeOut);
+                opacity = (int) (age * 255.0F / (float) this.titleFadeOut);
             }
 
             opacity = MathHelper.clamp_int(opacity, 0, 255);
             if (opacity > 8) {
                 GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(width / 2), (float)(height / 2), 0.0F);
+                GlStateManager.translate((float) (width / 2), (float) (height / 2), 0.0F);
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(4.0F, 4.0F, 4.0F);
                 int l = opacity << 24 & -16777216;
-                this.getFontRenderer().drawString(this.displayedTitle, (float)(-this.getFontRenderer().getStringWidth(this.displayedTitle) / 2), -10.0F, 16777215 | l, true);
+                this.getFontRenderer().drawString(this.displayedTitle, (float) (-this.getFontRenderer().getStringWidth(this.displayedTitle) / 2), -10.0F, 16777215 | l, true);
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.getFontRenderer().drawString(this.displayedSubTitle, (float)(-this.getFontRenderer().getStringWidth(this.displayedSubTitle) / 2), 5.0F, 16777215 | l, true);
+                this.getFontRenderer().drawString(this.displayedSubTitle, (float) (-this.getFontRenderer().getStringWidth(this.displayedSubTitle) / 2), 5.0F, 16777215 | l, true);
                 GlStateManager.popMatrix();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
@@ -754,7 +744,7 @@ public class GuiIngameCustom extends GuiIngame {
         Chat event = new Chat(this.eventParent, 0, height - 48);
         if (!MinecraftForge.EVENT_BUS.post(event)) {
             GlStateManager.pushMatrix();
-            GlStateManager.translate((float)event.posX, (float)event.posY, 0.0F);
+            GlStateManager.translate((float) event.posX, (float) event.posY, 0.0F);
             this.persistentChatGui.drawChat(this.updateCounter);
             GlStateManager.popMatrix();
             this.post(ElementType.CHAT);
@@ -780,7 +770,7 @@ public class GuiIngameCustom extends GuiIngame {
     }
 
     protected void renderHealthMount(int width, int height) {
-        EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
+        EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
         Entity tmp = player.ridingEntity;
         if (tmp instanceof EntityLivingBase) {
             this.bind(icons);
@@ -789,10 +779,10 @@ public class GuiIngameCustom extends GuiIngame {
                 int left_align = width / 2 + 91;
                 this.mc.mcProfiler.endStartSection("mountHealth");
                 GlStateManager.enableBlend();
-                EntityLivingBase mount = (EntityLivingBase)tmp;
-                int health = (int)Math.ceil((double)mount.getHealth());
+                EntityLivingBase mount = (EntityLivingBase) tmp;
+                int health = (int) Math.ceil(mount.getHealth());
                 float healthMax = mount.getMaxHealth();
-                int hearts = (int)(healthMax + 0.5F) / 2;
+                int hearts = (int) (healthMax + 0.5F) / 2;
                 if (hearts > 30) {
                     hearts = 30;
                 }
@@ -802,12 +792,12 @@ public class GuiIngameCustom extends GuiIngame {
                 int HALF = 1;
                 int FULL = 1;
 
-                for(int heart = 0; hearts > 0; heart += 20) {
+                for (int heart = 0; hearts > 0; heart += 20) {
                     int top = height - right_height;
                     int rowCount = Math.min(hearts, 10);
                     hearts -= rowCount;
 
-                    for(int i = 0; i < rowCount; ++i) {
+                    for (int i = 0; i < rowCount; ++i) {
                         int x = left_align - i * 8 - 9;
                         this.drawTexturedModalRect(x, top, BACKGROUND, 9, 9, 9);
                         if (i * 2 + 1 + heart < health) {

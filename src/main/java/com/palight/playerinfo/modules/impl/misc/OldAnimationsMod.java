@@ -7,8 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class OldAnimationsMod extends Module {
     public OldAnimationsMod() {
@@ -27,16 +25,7 @@ public class OldAnimationsMod extends Module {
         super.setEnabled(enabled);
     }
 
-    @SubscribeEvent
-    public void onRenderFirstHand(RenderHandEvent e) {
-        if (Minecraft.getMinecraft().thePlayer.getHeldItem() == null) {
-            return;
-        }
-
-        attemptSwing();
-    }
-
-    private void attemptSwing() {
+    public void attemptSwing() {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer.getItemInUseCount() > 0) {
             boolean mouseDown = mc.gameSettings.keyBindAttack.isKeyDown() && mc.gameSettings.keyBindUseItem.isKeyDown();

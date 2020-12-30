@@ -8,6 +8,7 @@
     "client.MixinAbstractClientPlayer",
     "client.network.MixinNetHandlerPlayClient",
     "gui.MixinGuiConnecting",
+    "gui.MixinGuiIngame",
     "render.IMixinItemRenderer",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",

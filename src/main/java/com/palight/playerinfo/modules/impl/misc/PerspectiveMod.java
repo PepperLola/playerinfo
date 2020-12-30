@@ -67,19 +67,27 @@ public class PerspectiveMod extends Module {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.inGameHasFocus && Display.isActive()) {
-            if (!perspectiveToggled) return true;
+            if (!perspectiveToggled) {
+                return true;
+            }
 
+            // CODE
             mc.mouseHelper.mouseXYChange();
             float f1 = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
             float f2 = f1 * f1 * f1 * 8.0F;
             float f3 = (float) mc.mouseHelper.deltaX * f2;
             float f4 = (float) mc.mouseHelper.deltaY * f2;
 
+            if (mc.gameSettings.invertMouse) {
+                f4 = -f4;
+            }
+
             cameraYaw += f3 * 0.15F;
             cameraPitch += f4 * 0.15F;
 
             if (cameraPitch > 90) cameraPitch = 90;
             if (cameraPitch < -90) cameraPitch = -90;
+            mc.renderGlobal.setDisplayListEntitiesDirty();
         }
 
         return false;
@@ -103,6 +111,14 @@ public class PerspectiveMod extends Module {
 
     public float getCameraPitch() {
         return perspectiveToggled ? cameraPitch : Minecraft.getMinecraft().thePlayer.rotationPitch;
+    }
+
+    public void setCameraYaw(float cameraYaw) {
+        this.cameraYaw = cameraYaw;
+    }
+
+    public void setCameraPitch(float cameraPitch) {
+        this.cameraPitch = cameraPitch;
     }
 
     public int getPreviousPerspective() {

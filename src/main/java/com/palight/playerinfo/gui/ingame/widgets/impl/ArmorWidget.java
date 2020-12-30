@@ -2,7 +2,6 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -46,7 +45,6 @@ public class ArmorWidget extends GuiIngameWidget {
             }
             offset += 16;
         }
-        GlStateManager.color(1f, 1f, 1f);
         GL11.glPopMatrix();
     }
 }
