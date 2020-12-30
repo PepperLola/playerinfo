@@ -20,6 +20,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -48,11 +49,9 @@ public class MixinEntityRenderer {
     @Inject(method = "setupOverlayRendering", at = @At("RETURN"))
     private void setupOverlayRendering(CallbackInfo ci) {
         if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().thePlayer == null) return;
-        System.out.println("RENDERING WIDGETS...");
         // render custom gui elements
         for (Module module : PlayerInfo.getModules().values()) {
             GuiIngameWidget widget = module.getWidget();
-            System.out.println("RENDERING WIDGET " + module.getId());
             if (widget == null || !widget.shouldRender(module) || widget instanceof ScoreboardWidget) continue;
             widget.render(Minecraft.getMinecraft());
         }
@@ -168,143 +167,45 @@ public class MixinEntityRenderer {
         this.cloudFog = mc.renderGlobal.hasCloudFog(d0, d2, d3, partialTicks);
     }
 
-//    /**
-//     * @author palight
-//     * @reason Changing camera rotation when in perspective mode.
-//     */
-//    @Overwrite
-//    public void updateCameraAndRender(float p_updateCameraAndRender_1_, long p_updateCameraAndRender_2_) {
-//        PerspectiveMod perspectiveMod = (PerspectiveMod) PlayerInfo.getModules().get("perspective");
-//        System.out.println("PERSPECTIVE MOD: " + perspectiveMod);
-//        boolean flag = Display.isActive();
-//        if (!flag && this.mc.gameSettings.pauseOnLostFocus && (!this.mc.gameSettings.touchscreen || !Mouse.isButtonDown(1))) {
-//            if (Minecraft.getSystemTime() - this.prevFrameTime > 500L) {
-//                this.mc.displayInGameMenu();
-//            }
-//        } else {
-//            this.prevFrameTime = Minecraft.getSystemTime();
-//            System.out.println("PREV FRAME TIME: " + prevFrameTime);
-//        }
-//
-//        this.mc.mcProfiler.startSection("mouse");
-//        if (flag && Minecraft.isRunningOnMac && this.mc.inGameHasFocus && !Mouse.isInsideWindow()) {
-//            Mouse.setGrabbed(false);
-//            Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
-//            Mouse.setGrabbed(true);
-//        }
-//
-//        if (this.mc.inGameHasFocus && flag && perspectiveMod.overrideMouse()) {
-//            System.out.println("BEFORE MOUSE XY CHANGE");
-//            this.mc.mouseHelper.mouseXYChange();
-//            System.out.println("AFTER MOUSE XY CHANGE");
-//            float f = this.mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
-//            System.out.println("F " + f);
-//            float f1 = f * f * f * 8.0F;
-//            System.out.println("F1 " + f1);
-//            float f2 = (float)this.mc.mouseHelper.deltaX * f1;
-//            System.out.println("F2 " + f2);
-//            float f3 = (float)this.mc.mouseHelper.deltaY * f1;
-//            System.out.println("F3 " + f3);
-//            int i = 1;
-//            if (this.mc.gameSettings.invertMouse) {
-//                i = -1;
-//            }
-//            System.out.println("I " + i);
-//
-//            if (this.mc.gameSettings.smoothCamera) {
-//                System.out.println("SMOOTH CAMERA");
-//                this.smoothCamYaw += f2;
-//                this.smoothCamPitch += f3;
-//                System.out.println("ANGLES " + smoothCamYaw + " | " + smoothCamPitch);
-//                float f4 = p_updateCameraAndRender_1_ - this.smoothCamPartialTicks;
-//                System.out.println("F4 " + f4);
-//                this.smoothCamPartialTicks = p_updateCameraAndRender_1_;
-//                System.out.println("PARTIAL TICKS " + smoothCamPartialTicks);
-//                f2 = this.smoothCamFilterX * f4;
-//                f3 = this.smoothCamFilterY * f4;
-//                System.out.println("F2 " + f2 + " F3 " + f3 + "...\nSETTING ANGLES...");
-//                this.mc.thePlayer.setAngles(f2, f3 * (float)i);
-//                System.out.println("SET ANGLES");
-//            } else {
-//                this.smoothCamYaw = 0.0F;
-//                this.smoothCamPitch = 0.0F;
-//                System.out.println("YAW " + smoothCamYaw + " | PITCH " + smoothCamPitch + "\nSETTING ANGLES...");
-//                this.mc.thePlayer.setAngles(f2, f3 * (float)i);
-//                System.out.println("SET ANGLES");
-//            }
-//        }
-//
-//        this.mc.mcProfiler.endSection();
-//        if (!this.mc.skipRenderWorld) {
-//            anaglyphEnable = this.mc.gameSettings.anaglyph;
-//            final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-//            int i1 = scaledresolution.getScaledWidth();
-//            int j1 = scaledresolution.getScaledHeight();
-//            final int k1 = Mouse.getX() * i1 / this.mc.displayWidth;
-//            final int l1 = j1 - Mouse.getY() * j1 / this.mc.displayHeight - 1;
-//            int i2 = this.mc.gameSettings.limitFramerate;
-//            if (this.mc.theWorld != null) {
-//                this.mc.mcProfiler.startSection("level");
-//                int j = Math.min(Minecraft.getDebugFPS(), i2);
-//                j = Math.max(j, 60);
-//                long k = System.nanoTime() - p_updateCameraAndRender_2_;
-//                long l = Math.max((long)(1000000000 / j / 4) - k, 0L);
-//                System.out.println("ENTITY RENDERER " + mc.entityRenderer);
-//                mc.entityRenderer.renderWorld(p_updateCameraAndRender_1_, System.nanoTime() + l);
-//                System.out.println("RENDERED WORLD!");
-//                if (OpenGlHelper.shadersSupported) {
-//                    this.mc.renderGlobal.renderEntityOutlineFramebuffer();
-//                    System.out.println("RENDERED ENTITY OUTLINE FRAME BUFFER");
-//                    if (this.theShaderGroup != null && this.useShader) {
-//                        System.out.println("USING SHADER");
-//                        GlStateManager.matrixMode(5890);
-//                        GlStateManager.pushMatrix();
-//                        GlStateManager.loadIdentity();
-//                        System.out.println("LOADED IDENTITY");
-//                        this.theShaderGroup.loadShaderGroup(p_updateCameraAndRender_1_);
-//                        System.out.println("LOADED SHADER GROUP");
-//                        GlStateManager.popMatrix();
-//                    }
-//
-//                    this.mc.getFramebuffer().bindFramebuffer(true);
-//                    System.out.println("BOUND FRAMEBUFFER");
-//                }
-//
-//                this.renderEndNanoTime = System.nanoTime();
-//                this.mc.mcProfiler.endStartSection("gui");
-//                if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null) {
-//                    System.out.println("WILL RENDER OVERLAY");
-//                    GlStateManager.alphaFunc(516, 0.1F);
-//                    System.out.println("ALPHA FUNC");
-//                    this.mc.ingameGUI.renderGameOverlay(p_updateCameraAndRender_1_);
-//                    System.out.println("RENDERED GAME OVERLAY");
-//                }
-//
-//                this.mc.mcProfiler.endSection();
-//            } else {
-//                GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-//                GlStateManager.matrixMode(5889);
-//                GlStateManager.loadIdentity();
-//                GlStateManager.matrixMode(5888);
-//                GlStateManager.loadIdentity();
-//                mc.entityRenderer.setupOverlayRendering();
-//                this.renderEndNanoTime = System.nanoTime();
-//            }
-//
-//
-//            if (this.mc.currentScreen != null) {
-//                System.out.println("BEFORE CLEAR");
-//                GlStateManager.clear(256);
-//                System.out.println("AFTER CLEAR");
-//
-//                try {
-//                    ForgeHooksClient.drawScreen(this.mc.currentScreen, k1, l1, p_updateCameraAndRender_1_);
-//                    System.out.println("DREW SCREEN");
-//                } catch (Throwable var16) {
-//                    CrashReport crashreport = CrashReport.makeCrashReport(var16, "Rendering screen");
-//                    throw new ReportedException(crashreport);
-//                }
-//            }
-//        }
-//    }
+    /**
+     * @author palight
+     * @reason Changing camera rotation when in perspective mode.
+     */
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
+    private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
+       updatePerspectiveCamera();
+    }
+
+    /**
+     * Update the camera angle in perspective mode
+     * @author palight
+     */
+    public void updatePerspectiveCamera() {
+        PerspectiveMod perspectiveMod = (PerspectiveMod) PlayerInfo.getModules().get("perspective");
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.inGameHasFocus && Display.isActive()) {
+            if (!perspectiveMod.isPerspectiveToggled()) {
+                return;
+            }
+
+            // CODE
+            mc.mouseHelper.mouseXYChange();
+            float f1 = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
+            float f2 = f1 * f1 * f1 * 8.0F;
+            float f3 = (float) mc.mouseHelper.deltaX * f2;
+            float f4 = (float) mc.mouseHelper.deltaY * f2;
+
+            if (mc.gameSettings.invertMouse) {
+                f4 = -f4;
+            }
+
+            perspectiveMod.setCameraYaw(perspectiveMod.getCameraYaw() + f3 * 0.15F);
+            perspectiveMod.setCameraPitch(perspectiveMod.getCameraPitch() + f4 * 0.15F);
+
+            if (perspectiveMod.getCameraPitch() > 90) perspectiveMod.setCameraPitch(90);
+            if (perspectiveMod.getCameraPitch() < -90) perspectiveMod.setCameraPitch(-90);
+            mc.renderGlobal.setDisplayListEntitiesDirty();
+        }
+    }
 }

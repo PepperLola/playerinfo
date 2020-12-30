@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
 
 public class PerspectiveMod extends Module {
 
@@ -61,36 +60,6 @@ public class PerspectiveMod extends Module {
         if (Keyboard.getEventKey() == mc.gameSettings.keyBindTogglePerspective.getKeyCode()) {
             perspectiveToggled = false;
         }
-    }
-
-    public boolean overrideMouse() {
-        Minecraft mc = Minecraft.getMinecraft();
-
-        if (mc.inGameHasFocus && Display.isActive()) {
-            if (!perspectiveToggled) {
-                return true;
-            }
-
-            // CODE
-            mc.mouseHelper.mouseXYChange();
-            float f1 = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
-            float f2 = f1 * f1 * f1 * 8.0F;
-            float f3 = (float) mc.mouseHelper.deltaX * f2;
-            float f4 = (float) mc.mouseHelper.deltaY * f2;
-
-            if (mc.gameSettings.invertMouse) {
-                f4 = -f4;
-            }
-
-            cameraYaw += f3 * 0.15F;
-            cameraPitch += f4 * 0.15F;
-
-            if (cameraPitch > 90) cameraPitch = 90;
-            if (cameraPitch < -90) cameraPitch = -90;
-            mc.renderGlobal.setDisplayListEntitiesDirty();
-        }
-
-        return false;
     }
 
     public boolean isMustHoldKey() {
