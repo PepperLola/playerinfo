@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,12 +18,13 @@ public class ArmorWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        GL11.glPushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
         int offset = 0;
-        List<ItemStack> items = new ArrayList<>(Arrays.asList(mc.thePlayer.inventory.armorInventory));
+        List<ItemStack> items;
         if (this.getState() == WidgetEditingState.EDITING) {
             items = Arrays.asList(new ItemStack(Items.diamond_boots), new ItemStack(Items.diamond_leggings), new ItemStack(Items.diamond_chestplate), new ItemStack(Items.diamond_helmet));
+        } else {
+            items = new ArrayList<>(Arrays.asList(mc.thePlayer.inventory.armorInventory));
         }
         int nonNullItems = 0;
         for (ItemStack is : items) {
@@ -45,6 +45,5 @@ public class ArmorWidget extends GuiIngameWidget {
             }
             offset += 16;
         }
-        GL11.glPopMatrix();
     }
 }

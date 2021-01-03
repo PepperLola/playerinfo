@@ -63,6 +63,19 @@ public class MixinEntityRenderer {
      */
     @Overwrite
     private void orientCamera(float partialTicks) {
+        orientPerspectiveCamera(partialTicks);
+    }
+
+    /**
+     * @author palight
+     * @reason Changing camera rotation when in perspective mode.
+     */
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
+    private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
+       updatePerspectiveCamera();
+    }
+
+    public void orientPerspectiveCamera(float partialTicks) {
         PerspectiveMod perspectiveMod = (PerspectiveMod) PlayerInfo.getModules().get("perspective");
         Entity entity = mc.getRenderViewEntity();
         float f = entity.getEyeHeight();
@@ -165,15 +178,6 @@ public class MixinEntityRenderer {
         d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
         this.cloudFog = mc.renderGlobal.hasCloudFog(d0, d2, d3, partialTicks);
-    }
-
-    /**
-     * @author palight
-     * @reason Changing camera rotation when in perspective mode.
-     */
-    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
-    private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
-       updatePerspectiveCamera();
     }
 
     /**
