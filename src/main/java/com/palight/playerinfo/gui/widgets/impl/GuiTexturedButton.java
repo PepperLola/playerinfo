@@ -4,12 +4,17 @@ import com.palight.playerinfo.PlayerInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiTexturedButton extends GuiButton {
     protected static final ResourceLocation iconTextures = new ResourceLocation(PlayerInfo.MODID, "textures/gui/icons.png");
+    private static final int textureWidth = 1024;
+    private static final int textureHeight = 128;
+    private static final int iconWidth = 128;
+    private static final int iconHeight = 128;
     public int width;
     public int height;
     public int xPosition;
@@ -74,7 +79,7 @@ public class GuiTexturedButton extends GuiButton {
             }
 
             mc.getTextureManager().bindTexture(iconTextures);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, this.xTexture, this.yTexture, this.width, this.height);
+            Gui.drawScaledCustomSizeModalRect(this.xPosition + 2, this.yPosition + 2, this.xTexture * 128, this.yTexture * 128, iconWidth, iconHeight, 16, 16, textureWidth, textureHeight);
         }
 
     }

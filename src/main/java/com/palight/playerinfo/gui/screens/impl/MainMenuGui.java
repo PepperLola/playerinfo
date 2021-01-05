@@ -32,7 +32,7 @@ public class MainMenuGui extends GuiScreen {
         // setup buttons
         this.singlePlayerButton = new GuiButton(1, this.width / 2 - 100, this.height / 4 + 48, I18n.format("menu.singleplayer"));
         this.multiPlayerButton = new GuiButton(2, this.width / 2 - 100, this.height / 4 + 48 + 24, I18n.format("menu.multiplayer"));
-        this.quitButton = new GuiTexturedButton(3, res.getScaledWidth() - 22, 2, 20, 20, 20, 0);
+        this.quitButton = new GuiTexturedButton(3, res.getScaledWidth() - 22, 2, 20, 20, 1, 0);
 
         this.buttonList.addAll(Arrays.asList(
                 this.singlePlayerButton,
