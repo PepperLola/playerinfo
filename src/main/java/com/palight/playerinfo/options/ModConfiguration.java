@@ -90,6 +90,7 @@ public abstract class ModConfiguration {
         private static final double fastTimeMultiplier = 1.0D;
 
         private static final boolean disableWaterOverlay = false;
+        private static final boolean lowerFire = false;
 
         private static final boolean mustHoldPerspectiveKey = true;
 
@@ -152,6 +153,7 @@ public abstract class ModConfiguration {
     public static double fastTimeMultiplier = DefaultValues.fastTimeMultiplier;
 
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
+    public static boolean lowerFire = DefaultValues.lowerFire;
 
     public static boolean mustHoldPerspectiveKey = DefaultValues.mustHoldPerspectiveKey;
 
@@ -339,10 +341,12 @@ public abstract class ModConfiguration {
         config.setCategoryPropertyOrder(CATEGORY_TIME, propOrderTime);
 
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
+        Property lowerFire = config.get(CATEGORY_DISPLAY, "lowerFire", DefaultValues.lowerFire, "Fire offset to change the height of the fire overlay");
 
         List<String> propOrderDisplay = new ArrayList<>();
         propOrderDisplay.addAll(Arrays.asList(
-                disableWaterOverlay.getName()
+                disableWaterOverlay.getName(),
+                lowerFire.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
@@ -420,6 +424,7 @@ public abstract class ModConfiguration {
             fastTimeMultiplier.setConfigEntryClass(GuiConfigEntries.DoubleEntry.class);
 
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
+            lowerFire.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
 
             mustHoldPerspectiveKey.setConfigEntryClass(BooleanEntry.class);
 
@@ -487,6 +492,7 @@ public abstract class ModConfiguration {
             ModConfiguration.fastTimeMultiplier = fastTimeMultiplier.getDouble();
 
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
+            ModConfiguration.lowerFire = lowerFire.getBoolean();
 
             ModConfiguration.mustHoldPerspectiveKey = mustHoldPerspectiveKey.getBoolean();
 
@@ -551,6 +557,7 @@ public abstract class ModConfiguration {
         fastTimeMultiplier.set(ModConfiguration.fastTimeMultiplier);
 
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
+        lowerFire.set(ModConfiguration.lowerFire);
 
         mustHoldPerspectiveKey.set(ModConfiguration.mustHoldPerspectiveKey);
 

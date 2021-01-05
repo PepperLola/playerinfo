@@ -24,11 +24,9 @@ public class DisplayTweaksMod extends Module {
     }
 
     @SubscribeEvent
-    public void onRenderFireOverlay(RenderBlockOverlayEvent event) {
+    public void onRenderWaterOverlay(RenderBlockOverlayEvent event) {
         if (!this.isEnabled()) return;
-        if (event.overlayType == RenderBlockOverlayEvent.OverlayType.FIRE) {
-
-        } else if (event.overlayType == RenderBlockOverlayEvent.OverlayType.WATER) {
+        if (event.overlayType == RenderBlockOverlayEvent.OverlayType.WATER) {
             event.setCanceled(ModConfiguration.disableWaterOverlay);
         }
     }

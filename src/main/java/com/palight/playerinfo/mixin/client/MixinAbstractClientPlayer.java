@@ -38,8 +38,9 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
     @Overwrite
     public ResourceLocation getLocationCape() {
         if (this.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
-            return new ResourceLocation(PlayerInfo.MODID, "textures/capes/cape.png");
+            return new ResourceLocation(PlayerInfo.MODID, "textures/capes/glitch_cape.gif");
         }
+
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
         return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
     }
