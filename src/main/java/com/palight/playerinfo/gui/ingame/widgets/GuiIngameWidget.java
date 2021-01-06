@@ -40,13 +40,15 @@ public class GuiIngameWidget extends Gui {
         getPosition().setChroma(!getPosition().isChroma());
     }
 
-    protected int getChromaColor(long offset) {
+    protected int getChromaColor(long offset, boolean invertColors) {
         if (getPosition().isChroma()) {
             return ColorUtil.getChromaColor(offset);
         }
 
-        return ColorUtil.getColorInt(255, 255, 255);
+        return invertColors ? ColorUtil.getColorInt(0, 0, 0) : ColorUtil.getColorInt(255, 255, 255);
     }
+
+    protected int getChromaColor(long offset) { return getChromaColor(offset, false); }
 
     protected int getChromaColor() {
         return getChromaColor(0);
@@ -57,11 +59,15 @@ public class GuiIngameWidget extends Gui {
     }
 
     protected void drawText(String text, int x, int y) {
+        drawText(text, x, y, false);
+    }
+
+    protected void drawText(String text, int x, int y, boolean invertColors) {
         int leftOffset = 0;
         int character = 0;
         if (text == null) return;
         for (String sub : text.split("")) {
-            Minecraft.getMinecraft().fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300));
+            Minecraft.getMinecraft().fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300, invertColors));
             leftOffset += Minecraft.getMinecraft().fontRendererObj.getStringWidth(sub);
             character ++;
         }

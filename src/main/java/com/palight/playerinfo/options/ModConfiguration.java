@@ -76,6 +76,7 @@ public abstract class ModConfiguration {
         private static final boolean perspectiveModEnabled = false;
         private static final boolean timeChangerModEnabled = false;
         private static final boolean oldAnimationsModEnabled = false;
+        private static final boolean keystrokesModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
         private static final String[] widgetStates = new String[0];
@@ -105,6 +106,7 @@ public abstract class ModConfiguration {
         private static final boolean scoreboardNumbersEnabled = true;
         private static final int scoreboardHeaderColor = 1610612736;
         private static final int scoreboardBodyColor = 1342177280;
+        private static final String keystrokesMode = "WASD_SPRINT_MOUSE";
     }
 
 
@@ -139,6 +141,7 @@ public abstract class ModConfiguration {
     public static boolean perspectiveModEnabled = DefaultValues.perspectiveModEnabled;
     public static boolean timeChangerModEnabled = DefaultValues.timeChangerModEnabled;
     public static boolean oldAnimationsModEnabled = DefaultValues.oldAnimationsModEnabled;
+    public static boolean keystrokesModEnabled = DefaultValues.keystrokesModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
     public static String[] widgetStates = DefaultValues.widgetStates;
@@ -168,6 +171,7 @@ public abstract class ModConfiguration {
     public static boolean scoreboardNumbersEnabled = DefaultValues.scoreboardNumbersEnabled;
     public static int scoreboardHeaderColor = DefaultValues.scoreboardHeaderColor;
     public static int scoreboardBodyColor = DefaultValues.scoreboardBodyColor;
+    public static String keystrokesMode = DefaultValues.keystrokesMode;
 
     public static Configuration getConfig() {
         return config;
@@ -205,13 +209,15 @@ public abstract class ModConfiguration {
         Property scoreboardNumbersEnabled = config.get(CATEGORY_GUI, "scoreboardNumbersEnabled", DefaultValues.scoreboardNumbersEnabled, "Toggle the red numbers on the scoreboard");
         Property scoreboardHeaderColor = config.get(CATEGORY_GUI, "scoreboardHeaderColor", DefaultValues.scoreboardHeaderColor, "Scoreboard header color");
         Property scoreboardBodyColor = config.get(CATEGORY_GUI, "scoreboardBodyColor", DefaultValues.scoreboardBodyColor, "Scoreboard body color");
+        Property keystrokesMode = config.get(CATEGORY_GUI, "keystrokesMode", DefaultValues.keystrokesMode, "Keystrokes mode");
 
         List<String> propOrderGui = new ArrayList<>();
         propOrderGui.addAll(Arrays.asList(
                 scoreboardEnabled.getName(),
                 scoreboardNumbersEnabled.getName(),
                 scoreboardHeaderColor.getName(),
-                scoreboardBodyColor.getName()
+                scoreboardBodyColor.getName(),
+                keystrokesMode.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_GUI, propOrderGui);
 
@@ -262,14 +268,15 @@ public abstract class ModConfiguration {
         Property cpsModEnabled = config.get(CATEGORY_MODS, "cpsModEnabled", DefaultValues.cpsModEnabled, "Enable CPS mod");
         Property reachDisplayModEnabled = config.get(CATEGORY_MODS, "reachDisplayModEnabled", DefaultValues.reachDisplayModEnabled, "Enable CPS mod");
         Property displayModEnabled = config.get(CATEGORY_MODS, "displayModEnabled", DefaultValues.displayModEnabled, "Enable display tweaks mod");
-        Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled);
-        Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled);
-        Property fpsModEnabled = config.get(CATEGORY_MODS, "fpsModEnabled", DefaultValues.fpsModEnabled);
-        Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled);
-        Property armorModEnabled = config.get(CATEGORY_MODS, "armorModEnabled", DefaultValues.armorModEnabled);
-        Property perspectiveModEnabled = config.get(CATEGORY_MODS, "perspectiveModEnabled", DefaultValues.perspectiveModEnabled);
-        Property timeChangerModEnabled = config.get(CATEGORY_MODS, "timeChangerModEnabled", DefaultValues.timeChangerModEnabled);
-        Property oldAnimationsModEnabled = config.get(CATEGORY_MODS, "oldAnimationsModEnabled", DefaultValues.oldAnimationsModEnabled);
+        Property hypixelEventsModEnabled = config.get(CATEGORY_MODS, "hypixelEventsModEnabled", DefaultValues.hypixelEventsModEnabled, "Enable hypixel events mod");
+        Property pingModEnabled = config.get(CATEGORY_MODS, "pingModEnabled", DefaultValues.pingModEnabled, "Enable ping display mod");
+        Property fpsModEnabled = config.get(CATEGORY_MODS, "fpsModEnabled", DefaultValues.fpsModEnabled, "Enable FPS display mod");
+        Property particleModEnabled = config.get(CATEGORY_MODS, "particleModEnabled", DefaultValues.particleModEnabled, "Enable particle mod");
+        Property armorModEnabled = config.get(CATEGORY_MODS, "armorModEnabled", DefaultValues.armorModEnabled, "Enable armor status display mod");
+        Property perspectiveModEnabled = config.get(CATEGORY_MODS, "perspectiveModEnabled", DefaultValues.perspectiveModEnabled, "Enable perspective mod");
+        Property timeChangerModEnabled = config.get(CATEGORY_MODS, "timeChangerModEnabled", DefaultValues.timeChangerModEnabled, "Enable time changer mod");
+        Property oldAnimationsModEnabled = config.get(CATEGORY_MODS, "oldAnimationsModEnabled", DefaultValues.oldAnimationsModEnabled, "Enable 1.7 animations mod");
+        Property keystrokesModEnabled = config.get(CATEGORY_MODS, "keystrokesModEnabled", DefaultValues.keystrokesModEnabled, "Enable keystrokes display mod");
 
         List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
@@ -292,7 +299,8 @@ public abstract class ModConfiguration {
                 particleModEnabled.getName(),
                 armorModEnabled.getName(),
                 perspectiveModEnabled.getName(),
-                timeChangerModEnabled.getName()
+                timeChangerModEnabled.getName(),
+                keystrokesModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -410,6 +418,7 @@ public abstract class ModConfiguration {
             perspectiveModEnabled.setConfigEntryClass(BooleanEntry.class);
             timeChangerModEnabled.setConfigEntryClass(BooleanEntry.class);
             oldAnimationsModEnabled.setConfigEntryClass(BooleanEntry.class);
+            keystrokesModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
             widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
@@ -439,6 +448,7 @@ public abstract class ModConfiguration {
             scoreboardNumbersEnabled.setConfigEntryClass(BooleanEntry.class);
             scoreboardHeaderColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
             scoreboardBodyColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
+            keystrokesMode.setConfigEntryClass(StringEntry.class);
         } catch(NoClassDefFoundError e) {
             e.printStackTrace();
         }
@@ -478,6 +488,7 @@ public abstract class ModConfiguration {
             ModConfiguration.perspectiveModEnabled = perspectiveModEnabled.getBoolean();
             ModConfiguration.timeChangerModEnabled = timeChangerModEnabled.getBoolean();
             ModConfiguration.oldAnimationsModEnabled = oldAnimationsModEnabled.getBoolean();
+            ModConfiguration.keystrokesModEnabled = keystrokesModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
             ModConfiguration.widgetStates = widgetStates.getStringList();
@@ -507,6 +518,7 @@ public abstract class ModConfiguration {
             ModConfiguration.scoreboardNumbersEnabled = scoreboardNumbersEnabled.getBoolean();
             ModConfiguration.scoreboardHeaderColor = scoreboardHeaderColor.getInt();
             ModConfiguration.scoreboardBodyColor = scoreboardBodyColor.getInt();
+            ModConfiguration.keystrokesMode = scoreboardBodyColor.getString();
         }
 
 
@@ -543,6 +555,7 @@ public abstract class ModConfiguration {
         perspectiveModEnabled.set(ModConfiguration.perspectiveModEnabled);
         timeChangerModEnabled.set(ModConfiguration.timeChangerModEnabled);
         oldAnimationsModEnabled.set(ModConfiguration.oldAnimationsModEnabled);
+        keystrokesModEnabled.set(ModConfiguration.keystrokesModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
         widgetStates.set(ModConfiguration.widgetStates);
@@ -572,6 +585,7 @@ public abstract class ModConfiguration {
         scoreboardNumbersEnabled.set(ModConfiguration.scoreboardNumbersEnabled);
         scoreboardHeaderColor.set(ModConfiguration.scoreboardHeaderColor);
         scoreboardBodyColor.set(ModConfiguration.scoreboardBodyColor);
+        keystrokesMode.set(ModConfiguration.keystrokesMode);
 
         if (config.hasChanged()) config.save();
     }
