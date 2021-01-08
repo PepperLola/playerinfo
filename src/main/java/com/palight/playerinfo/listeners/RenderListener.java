@@ -71,4 +71,12 @@ public class RenderListener {
             event.setCanceled(true);
         }
     }
+
+//    @SubscribeEvent
+//    public void playerJoinEvent(EntityJoinWorldEvent event) throws IOException {
+//        if (!(event.entity instanceof EntityPlayer)) return;
+//        EntityPlayer player = ((EntityPlayer) event.entity);
+//        PlayerHandler playerHandler = PlayerHandler.getFromPlayer(player);
+//        playerHandler.applyCape(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(new File(((AbstractClientPlayer) player).getLocationCape().getResourcePath()))));
+//    }
 }

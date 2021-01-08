@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.options.ModConfiguration;
@@ -34,11 +35,11 @@ public class HypixelEventWidget extends GuiIngameWidget {
             this.subtitle = "joined the server.";
         }
         if ((!title.equals("") && !subtitle.equals("")) || this.getState() == WidgetEditingState.EDITING) {
-            this.width = Math.max(mc.fontRendererObj.getStringWidth(title) + 8, mc.fontRendererObj.getStringWidth(subtitle) + 8);
+            this.width = (int) Math.max(PlayerInfo.instance.fontRendererObj.getWidth(title) + 8, PlayerInfo.instance.fontRendererObj.getWidth(subtitle) + 8);
 //            this.xPosition = (res.getScaledWidth() - this.width) / 2;
             super.render(mc);
-            drawText(title, getPosition().getX() + (this.width - mc.fontRendererObj.getStringWidth(title)) / 2, getPosition().getY() + (mc.fontRendererObj.FONT_HEIGHT / 2));
-            drawText(subtitle, getPosition().getX() + (this.width - mc.fontRendererObj.getStringWidth(subtitle)) / 2, getPosition().getY() + (this.height + mc.fontRendererObj.FONT_HEIGHT) / 2);
+            drawText(title, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(title)) / 2), getPosition().getY() + (PlayerInfo.instance.fontRendererObj.FONT_HEIGHT / 2));
+            drawText(subtitle, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(subtitle)) / 2), getPosition().getY() + (this.height + PlayerInfo.instance.fontRendererObj.FONT_HEIGHT) / 2);
         }
     }
 

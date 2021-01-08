@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.impl.gui.ReachDisplayMod;
 import com.palight.playerinfo.util.NumberUtil;
@@ -28,8 +29,8 @@ public class ReachDisplayWidget extends GuiIngameWidget {
 
             String displayString = "3 blocks";
 
-            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(displayString) + 4;
-            this.height = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2;
+            this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
+            this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 2;
 
             drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
 
@@ -39,8 +40,8 @@ public class ReachDisplayWidget extends GuiIngameWidget {
 
             String displayString = NumberUtil.round(ReachDisplayMod.reach, 2) + " blocks";
 
-            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(displayString) + 4;
-            this.height = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2;
+            this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
+            this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 2;
 
             drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
         }

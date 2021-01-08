@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -41,7 +42,7 @@ public class ArmorWidget extends GuiIngameWidget {
             if (is.isItemStackDamageable()) {
                 double damage = ((is.getMaxDamage() - is.getItemDamage()) / (double) is.getMaxDamage()) * 100;
                 String damageString = String.format("%.0f%%", damage);
-                this.drawText(damageString, this.getPosition().getX() + 16 + (this.width - 16 - mc.fontRendererObj.getStringWidth(damageString)) / 2, this.getPosition().getY() + offset + (16 - mc.fontRendererObj.FONT_HEIGHT) / 2);
+                this.drawText(damageString, (int) Math.floor(this.getPosition().getX() + 16 + (this.width - 16 - PlayerInfo.instance.fontRendererObj.getWidth(damageString)) / 2), this.getPosition().getY() + offset + (16 - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT) / 2);
             }
             offset += 16;
         }

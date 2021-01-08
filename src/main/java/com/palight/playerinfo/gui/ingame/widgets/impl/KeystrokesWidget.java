@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -136,7 +137,7 @@ public class KeystrokesWidget extends GuiIngameWidget {
         GL11.glDisable(GL11.GL_BLEND);
 
         for (Key key : mode.getKeys()) {
-            int textWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(key.getName());
+            int textWidth = (int) PlayerInfo.instance.fontRendererObj.getWidth(key.getName());
 
             Gui.drawRect(
                     this.getPosition().getX() + key.getX(),

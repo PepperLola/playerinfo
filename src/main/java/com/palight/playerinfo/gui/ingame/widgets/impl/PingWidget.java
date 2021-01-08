@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -20,8 +21,8 @@ public class PingWidget extends GuiIngameWidget {
 
         String displayString = ping + " ms";
 
-        this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(displayString) + 4;
-        this.height = Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + 2;
+        this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
+        this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 2;
 
         drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
     }

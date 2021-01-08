@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.impl.misc.CPSMod;
 import net.minecraft.client.Minecraft;
@@ -12,8 +13,8 @@ public class CPSWidget extends GuiIngameWidget {
     @Override
     public void render(Minecraft mc) {
         String cpsText = String.format("CPS: %d | %d", CPSMod.getLeftClicks(), CPSMod.getRightClicks());
-        this.height = mc.fontRendererObj.FONT_HEIGHT + 1;
-        this.width = mc.fontRendererObj.getStringWidth(cpsText);
+        this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 1;
+        this.width = (int) PlayerInfo.instance.fontRendererObj.getWidth(cpsText);
         super.render(mc);
         this.drawText(cpsText, getPosition().getX(), getPosition().getY() + 1);
     }

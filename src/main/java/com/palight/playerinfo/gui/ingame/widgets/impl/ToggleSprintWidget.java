@@ -1,11 +1,12 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,14 +24,14 @@ public class ToggleSprintWidget extends GuiIngameWidget {
 
     public void render(Minecraft mc) {
         if (!ModConfiguration.toggleSprintWidgetEnabled) return;
-        FontRenderer fr = mc.fontRendererObj;
+        UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
         this.height = fr.FONT_HEIGHT + 1;
         String displayText = "";
 
         if (getPosition().getX() == -1 || getPosition().getY() == -1) {
             ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
             getPosition().setX(getPosition().getX() == -1 ? 2 : getPosition().getX());
-            getPosition().setY(getPosition().getY() == -1 ? res.getScaledHeight() - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT : getPosition().getY());
+            getPosition().setY(getPosition().getY() == -1 ? res.getScaledHeight() - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT : getPosition().getY());
         }
 
         if (getState() == WidgetEditingState.EDITING) {
@@ -67,7 +68,7 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             }
         }
 
-        this.width = fr.getStringWidth(displayText) + 2;
+        this.width = (int) (fr.getWidth(displayText) + 2);
 
         if (!displayText.equals("")) {
             super.render(mc);

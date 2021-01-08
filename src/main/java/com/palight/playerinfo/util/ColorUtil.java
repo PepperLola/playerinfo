@@ -1,8 +1,11 @@
 package com.palight.playerinfo.util;
 
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class ColorUtil {
+    public static final char COLOR_CHAR = '\u00A7';
+
     public static int getColorInt(int r, int g, int b) {
         return (255 << 24) + (r << 16) + (g << 8) + b;
     }
@@ -26,5 +29,9 @@ public class ColorUtil {
 
     public static int getChromaColor(long offset) {
         return Color.HSBtoRGB(((System.currentTimeMillis() * 2 + offset) % 10000L) / 10000.0F, 0.8F, 0.8F);
+    }
+
+    public static String stripColor(String input) {
+        return input == null ? null : Pattern.compile("(?i)" + COLOR_CHAR + "[0-9A-FK-OR]").matcher(input).replaceAll("");
     }
 }

@@ -12,6 +12,7 @@ import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
 import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.proxy.CommonProxy;
+import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import com.palight.playerinfo.util.HttpUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -28,7 +29,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.16.5";
+    public static final String VERSION = "1.16.6";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -36,6 +37,8 @@ public class PlayerInfo
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
     public static File configFile = new File(DATA_FOLDER + "config.json");
+
+    public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("segoeuisb", 16.0F);
 
     public static Random random = new Random();
 
@@ -76,6 +79,7 @@ public class PlayerInfo
         modules.put("timeChanger", new TimeChangerMod());
         modules.put("oldAnimations", new OldAnimationsMod());
         modules.put("keystrokes", new KeystrokesMod());
+        modules.put("textReplacement", new TextReplacementMod());
     }
 
     @EventHandler

@@ -77,6 +77,7 @@ public abstract class ModConfiguration {
         private static final boolean timeChangerModEnabled = false;
         private static final boolean oldAnimationsModEnabled = false;
         private static final boolean keystrokesModEnabled = false;
+        private static final boolean textReplacementModEnabled = false;
 
         private static final boolean toggleSprintWidgetEnabled = true;
         private static final String[] widgetStates = new String[0];
@@ -142,6 +143,7 @@ public abstract class ModConfiguration {
     public static boolean timeChangerModEnabled = DefaultValues.timeChangerModEnabled;
     public static boolean oldAnimationsModEnabled = DefaultValues.oldAnimationsModEnabled;
     public static boolean keystrokesModEnabled = DefaultValues.keystrokesModEnabled;
+    public static boolean textReplacementModEnabled = DefaultValues.textReplacementModEnabled;
 
     public static boolean toggleSprintWidgetEnabled = DefaultValues.toggleSprintWidgetEnabled;
     public static String[] widgetStates = DefaultValues.widgetStates;
@@ -277,6 +279,7 @@ public abstract class ModConfiguration {
         Property timeChangerModEnabled = config.get(CATEGORY_MODS, "timeChangerModEnabled", DefaultValues.timeChangerModEnabled, "Enable time changer mod");
         Property oldAnimationsModEnabled = config.get(CATEGORY_MODS, "oldAnimationsModEnabled", DefaultValues.oldAnimationsModEnabled, "Enable 1.7 animations mod");
         Property keystrokesModEnabled = config.get(CATEGORY_MODS, "keystrokesModEnabled", DefaultValues.keystrokesModEnabled, "Enable keystrokes display mod");
+        Property textReplacementModEnabled = config.get(CATEGORY_MODS, "textReplacementModEnabled", DefaultValues.textReplacementModEnabled, "Enable text replacement mod");
 
         List<String> propOrderMods = new ArrayList<>();
         propOrderMods.addAll(Arrays.asList(
@@ -300,7 +303,8 @@ public abstract class ModConfiguration {
                 armorModEnabled.getName(),
                 perspectiveModEnabled.getName(),
                 timeChangerModEnabled.getName(),
-                keystrokesModEnabled.getName()
+                keystrokesModEnabled.getName(),
+                textReplacementModEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_MODS, propOrderMods);
 
@@ -419,6 +423,7 @@ public abstract class ModConfiguration {
             timeChangerModEnabled.setConfigEntryClass(BooleanEntry.class);
             oldAnimationsModEnabled.setConfigEntryClass(BooleanEntry.class);
             keystrokesModEnabled.setConfigEntryClass(BooleanEntry.class);
+            textReplacementModEnabled.setConfigEntryClass(BooleanEntry.class);
 
             toggleSprintWidgetEnabled.setConfigEntryClass(BooleanEntry.class);
             widgetStates.setConfigEntryClass(GuiConfigEntries.ArrayEntry.class);
@@ -489,6 +494,7 @@ public abstract class ModConfiguration {
             ModConfiguration.timeChangerModEnabled = timeChangerModEnabled.getBoolean();
             ModConfiguration.oldAnimationsModEnabled = oldAnimationsModEnabled.getBoolean();
             ModConfiguration.keystrokesModEnabled = keystrokesModEnabled.getBoolean();
+            ModConfiguration.textReplacementModEnabled = textReplacementModEnabled.getBoolean();
 
             ModConfiguration.toggleSprintWidgetEnabled = toggleSprintWidgetEnabled.getBoolean();
             ModConfiguration.widgetStates = widgetStates.getStringList();
@@ -556,6 +562,7 @@ public abstract class ModConfiguration {
         timeChangerModEnabled.set(ModConfiguration.timeChangerModEnabled);
         oldAnimationsModEnabled.set(ModConfiguration.oldAnimationsModEnabled);
         keystrokesModEnabled.set(ModConfiguration.keystrokesModEnabled);
+        textReplacementModEnabled.set(ModConfiguration.textReplacementModEnabled);
 
         toggleSprintWidgetEnabled.set(ModConfiguration.toggleSprintWidgetEnabled);
         widgetStates.set(ModConfiguration.widgetStates);

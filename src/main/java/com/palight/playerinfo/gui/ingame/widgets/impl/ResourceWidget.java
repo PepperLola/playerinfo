@@ -35,9 +35,9 @@ public class ResourceWidget extends GuiIngameWidget {
         mc.getTextureManager().bindTexture(overlayLocation);
         this.drawTexturedModalRect(getPosition().getX(), getPosition().getY(), 0, 0, width, height);
 
-        this.drawText(String.valueOf(iron), getPosition().getX() + 24 - mc.fontRendererObj.getStringWidth(String.valueOf(iron)) / 2, getPosition().getY() + 8 - mc.fontRendererObj.FONT_HEIGHT / 2);
-        this.drawText(String.valueOf(gold), getPosition().getX() + 24 - mc.fontRendererObj.getStringWidth(String.valueOf(gold)) / 2, getPosition().getY() + 24 - mc.fontRendererObj.FONT_HEIGHT / 2);
-        this.drawText(String.valueOf(diamond), getPosition().getX() + 24 - mc.fontRendererObj.getStringWidth(String.valueOf(diamond)) / 2, getPosition().getY() + 40 - mc.fontRendererObj.FONT_HEIGHT / 2);
-        this.drawText(String.valueOf(emerald), getPosition().getX() + 24 - mc.fontRendererObj.getStringWidth(String.valueOf(emerald)) / 2, getPosition().getY() + 56 - mc.fontRendererObj.FONT_HEIGHT / 2);
+        this.drawText(String.valueOf(iron), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(iron)) / 2), getPosition().getY() + 8 - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT / 2);
+        this.drawText(String.valueOf(gold), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(gold)) / 2), getPosition().getY() + 24 - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT / 2);
+        this.drawText(String.valueOf(diamond), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(diamond)) / 2), getPosition().getY() + 40 - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT / 2);
+        this.drawText(String.valueOf(emerald), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(emerald)) / 2), getPosition().getY() + 56 - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT / 2);
     }
 }
