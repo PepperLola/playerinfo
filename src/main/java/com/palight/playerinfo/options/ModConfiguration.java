@@ -108,6 +108,7 @@ public abstract class ModConfiguration {
         private static final int scoreboardHeaderColor = 1610612736;
         private static final int scoreboardBodyColor = 1342177280;
         private static final String keystrokesMode = "WASD_SPRINT_MOUSE";
+        private static final boolean unicodeFontRendererEnabled = false;
     }
 
 
@@ -174,6 +175,7 @@ public abstract class ModConfiguration {
     public static int scoreboardHeaderColor = DefaultValues.scoreboardHeaderColor;
     public static int scoreboardBodyColor = DefaultValues.scoreboardBodyColor;
     public static String keystrokesMode = DefaultValues.keystrokesMode;
+    public static boolean unicodeFontRendererEnabled = DefaultValues.unicodeFontRendererEnabled;
 
     public static Configuration getConfig() {
         return config;
@@ -212,6 +214,7 @@ public abstract class ModConfiguration {
         Property scoreboardHeaderColor = config.get(CATEGORY_GUI, "scoreboardHeaderColor", DefaultValues.scoreboardHeaderColor, "Scoreboard header color");
         Property scoreboardBodyColor = config.get(CATEGORY_GUI, "scoreboardBodyColor", DefaultValues.scoreboardBodyColor, "Scoreboard body color");
         Property keystrokesMode = config.get(CATEGORY_GUI, "keystrokesMode", DefaultValues.keystrokesMode, "Keystrokes mode");
+        Property unicodeFontRendererEnabled = config.get(CATEGORY_MODS, "unicodeFontRendererEnabled", DefaultValues.unicodeFontRendererEnabled, "Enable custom unicode font renderer mod");
 
         List<String> propOrderGui = new ArrayList<>();
         propOrderGui.addAll(Arrays.asList(
@@ -219,7 +222,8 @@ public abstract class ModConfiguration {
                 scoreboardNumbersEnabled.getName(),
                 scoreboardHeaderColor.getName(),
                 scoreboardBodyColor.getName(),
-                keystrokesMode.getName()
+                keystrokesMode.getName(),
+                unicodeFontRendererEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_GUI, propOrderGui);
 
@@ -454,6 +458,7 @@ public abstract class ModConfiguration {
             scoreboardHeaderColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
             scoreboardBodyColor.setConfigEntryClass(GuiConfigEntries.IntegerEntry.class);
             keystrokesMode.setConfigEntryClass(StringEntry.class);
+            unicodeFontRendererEnabled.setConfigEntryClass(BooleanEntry.class);
         } catch(NoClassDefFoundError e) {
             e.printStackTrace();
         }
@@ -525,6 +530,7 @@ public abstract class ModConfiguration {
             ModConfiguration.scoreboardHeaderColor = scoreboardHeaderColor.getInt();
             ModConfiguration.scoreboardBodyColor = scoreboardBodyColor.getInt();
             ModConfiguration.keystrokesMode = scoreboardBodyColor.getString();
+            ModConfiguration.unicodeFontRendererEnabled = unicodeFontRendererEnabled.getBoolean();
         }
 
 
@@ -593,6 +599,7 @@ public abstract class ModConfiguration {
         scoreboardHeaderColor.set(ModConfiguration.scoreboardHeaderColor);
         scoreboardBodyColor.set(ModConfiguration.scoreboardBodyColor);
         keystrokesMode.set(ModConfiguration.keystrokesMode);
+        unicodeFontRendererEnabled.set(ModConfiguration.unicodeFontRendererEnabled);
 
         if (config.hasChanged()) config.save();
     }

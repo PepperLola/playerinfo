@@ -1,5 +1,6 @@
 package com.palight.playerinfo.rendering.font;
 
+import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -96,6 +97,11 @@ public class UnicodeFontRenderer {
 
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
+
+        if (!ModConfiguration.unicodeFontRendererEnabled) {
+            Minecraft.getMinecraft().fontRendererObj.drawString(text, (int) x, (int) y, color);
+            return 0;
+        }
 
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -209,6 +215,9 @@ public class UnicodeFontRenderer {
     }
 
     public float getWidth(String text) {
+        if (!ModConfiguration.unicodeFontRendererEnabled) {
+            return (float) Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
+        }
         if (cachedStringWidth.size() > 1000) cachedStringWidth.clear();
         return cachedStringWidth.computeIfAbsent(text, e -> unicodeFont.getWidth(ColorUtil.stripColor(text)) / antiAliasingFactor);
     }
@@ -218,6 +227,9 @@ public class UnicodeFontRenderer {
     }
 
     public float getHeight(String s) {
+        if (!ModConfiguration.unicodeFontRendererEnabled) {
+            return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
+        }
         return unicodeFont.getHeight(s) / 2.0F;
     }
 
