@@ -8,8 +8,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class TextReplacementMod extends Module {
 
@@ -45,20 +43,8 @@ public class TextReplacementMod extends Module {
             message = message.replaceAll(s, directReplacements.get(s));
         }
 
-        boolean found = true;
-
-        while (found) {
-            Pattern pattern = Pattern.compile(":(.*):");
-            Matcher matcher = pattern.matcher(message);
-
-            found = matcher.find();
-
-            if (found) {
-                String name = matcher.group(1).toLowerCase();
-                if (emojis.containsKey(name)) {
-                    message = message.replace(String.format(":%s:", name), emojis.get(name));
-                }
-            }
+        for (String emojiName : emojis.keySet()) {
+            message = message.replaceAll(String.format(":%s:", emojiName), emojis.get(emojiName));
         }
 
         event.message = new ChatComponentText(message);
