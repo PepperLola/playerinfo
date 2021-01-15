@@ -1,24 +1,23 @@
 package com.palight.playerinfo.mixin.util;
 
+import com.palight.playerinfo.util.ScreenshotSaverRunnable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ScreenShotHelper;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
 import java.text.DateFormat;
@@ -31,6 +30,7 @@ public class MixinScreenShotHelper {
     @Final @Shadow private static DateFormat dateFormat;
     @Shadow private static IntBuffer pixelBuffer;
     @Shadow private static int[] pixelValues;
+    private static final boolean upload = false;
 
     /**
      * @author palight
@@ -38,63 +38,46 @@ public class MixinScreenShotHelper {
      */
     @Overwrite
     public static IChatComponent saveScreenshot(File screenshotFile, String name, int width, int height, Framebuffer framebuffer) {
-        try {
-            File file = new File(screenshotFile, "screenshots");
-            file.mkdir();
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                width = framebuffer.framebufferTextureWidth;
-                height = framebuffer.framebufferTextureHeight;
-            }
+        final File file1 = new File(Minecraft.getMinecraft().mcDataDir, "screenshots");
+        file1.mkdir();
 
-            int totalPixels = width * height;
-            if (pixelBuffer == null || pixelBuffer.capacity() < totalPixels) {
-                pixelBuffer = BufferUtils.createIntBuffer(totalPixels);
-                pixelValues = new int[totalPixels];
-            }
-
-            GL11.glPixelStorei(3333, 1);
-            GL11.glPixelStorei(3317, 1);
-            pixelBuffer.clear();
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                GlStateManager.bindTexture(framebuffer.framebufferTexture);
-                GL11.glGetTexImage(3553, 0, 32993, 33639, pixelBuffer);
-            } else {
-                GL11.glReadPixels(0, 0, width, height, 32993, 33639, pixelBuffer);
-            }
-
-            pixelBuffer.get(pixelValues);
-            TextureUtil.processPixelValues(pixelValues, width, height);
-            BufferedImage bufferedImage;
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                bufferedImage = new BufferedImage(framebuffer.framebufferWidth, framebuffer.framebufferHeight, 1);
-                int diff = framebuffer.framebufferTextureHeight - framebuffer.framebufferHeight;
-
-                for(int pixelY = diff; pixelY < framebuffer.framebufferTextureHeight; ++pixelY) {
-                    for(int pixelX = 0; pixelX < framebuffer.framebufferWidth; ++pixelX) {
-                        bufferedImage.setRGB(pixelX, pixelY - diff, pixelValues[pixelY * framebuffer.framebufferTextureWidth + pixelX]);
-                    }
-                }
-            } else {
-                bufferedImage = new BufferedImage(width, height, 1);
-                bufferedImage.setRGB(0, 0, width, height, pixelValues, 0, width);
-            }
-
-            File file2;
-            if (name == null) {
-                file2 = getTimestampedPNGFileForDirectory(file);
-            } else {
-                file2 = new File(file, name);
-            }
-
-            ImageIO.write(bufferedImage, "png", file2);
-            IChatComponent chatComponent = new ChatComponentText(file2.getName());
-            chatComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
-            chatComponent.getChatStyle().setUnderlined(true);
-            return new ChatComponentTranslation("screenshot.success", new Object[]{chatComponent});
-        } catch (Exception var11) {
-            logger.warn("Couldn't save screenshot", var11);
-            return new ChatComponentTranslation("screenshot.failure", new Object[]{var11.getMessage()});
+        if (OpenGlHelper.isFramebufferEnabled()) {
+            width = framebuffer.framebufferTextureWidth;
+            height = framebuffer.framebufferTextureHeight;
         }
+
+        final int i = width * height;
+
+        if (pixelBuffer == null || pixelBuffer.capacity() < i) {
+            pixelBuffer = BufferUtils.createIntBuffer(i);
+            pixelValues = new int[i];
+        }
+
+        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        pixelBuffer.clear();
+
+        if (OpenGlHelper.isFramebufferEnabled()) {
+            GlStateManager.bindTexture(framebuffer.framebufferTexture);
+            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+        } else {
+            GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+        }
+        pixelBuffer.get(pixelValues);
+
+        new Thread(new ScreenshotSaverRunnable(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
+
+        IChatComponent modChatComponent = new ChatComponentText("[playerinfo] ");
+        modChatComponent.getChatStyle().setColor(EnumChatFormatting.RED);
+        IChatComponent chatComponent = new ChatComponentText("Capturing...");
+        chatComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
+
+        if (!upload) {
+            return modChatComponent.appendSibling(chatComponent);
+        }
+
+        chatComponent = new ChatComponentText("Uploading...");
+        return modChatComponent.appendSibling(chatComponent);
     }
 
     /**

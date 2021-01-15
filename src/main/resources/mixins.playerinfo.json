@@ -13,6 +13,7 @@
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",
     "render.MixinItemRenderer",
-    "render.MixinLayerHeldItem"
+    "render.MixinLayerHeldItem",
+    "util.MixinScreenShotHelper"
   ]
 }
