@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
@@ -67,10 +68,8 @@ public class GuiIngameWidget extends Gui {
         int character = 0;
         if (text == null) return;
         for (String sub : text.split("")) {
-//            PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300L, invertColors));
-//            leftOffset += PlayerInfo.instance.fontRendererObj.getWidth(sub);
-            Minecraft.getMinecraft().fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300L));
-            leftOffset += Minecraft.getMinecraft().fontRendererObj.getStringWidth(sub);
+            PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300L, invertColors));
+            leftOffset += PlayerInfo.instance.fontRendererObj.getWidth(sub);
             character ++;
             GlStateManager.color(1f, 1f, 1f);
         }
