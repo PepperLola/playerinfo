@@ -16,10 +16,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ReportedException;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Base64;
 
 public class RenderUtil {
@@ -118,5 +122,14 @@ public class RenderUtil {
         String encodedSkin = encodeSkin(imageUrl);
         SkinManager.addSkin(uuid, encodedSkin);
         return encodedSkin;
+    }
+
+    public static ByteBuffer readImageToBuffer(InputStream inputStream) throws IOException {
+        BufferedImage bufferedimage = ImageIO.read(inputStream);
+        int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
+        ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
+        Arrays.stream(aint).map(i -> i << 8 | (i >> 24 & 255)).forEach(bytebuffer::putInt);
+        bytebuffer.flip();
+        return bytebuffer;
     }
 }

@@ -30,7 +30,7 @@ public class ReachDisplayWidget extends GuiIngameWidget {
             String displayString = "3 blocks";
 
             this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
-            this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 2;
+            this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2);
 
             drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
 
@@ -41,7 +41,7 @@ public class ReachDisplayWidget extends GuiIngameWidget {
             String displayString = NumberUtil.round(ReachDisplayMod.reach, 2) + " blocks";
 
             this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
-            this.height = PlayerInfo.instance.fontRendererObj.FONT_HEIGHT + 2;
+            this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2);
 
             drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
         }

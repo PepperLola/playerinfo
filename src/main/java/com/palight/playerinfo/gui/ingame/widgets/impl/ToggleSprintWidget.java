@@ -25,13 +25,13 @@ public class ToggleSprintWidget extends GuiIngameWidget {
     public void render(Minecraft mc) {
         if (!ModConfiguration.toggleSprintWidgetEnabled) return;
         UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
-        this.height = fr.FONT_HEIGHT + 1;
+        this.height = (int) (fr.getHeight("[Sprinting (Toggled)]") + 1);
         String displayText = "";
 
         if (getPosition().getX() == -1 || getPosition().getY() == -1) {
             ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
             getPosition().setX(getPosition().getX() == -1 ? 2 : getPosition().getX());
-            getPosition().setY(getPosition().getY() == -1 ? res.getScaledHeight() - PlayerInfo.instance.fontRendererObj.FONT_HEIGHT : getPosition().getY());
+            getPosition().setY(getPosition().getY() == -1 ? (int) (res.getScaledHeight() - PlayerInfo.instance.fontRendererObj.getHeight("[Sprinting (Toggled)]")) : getPosition().getY());
         }
 
         if (getState() == WidgetEditingState.EDITING) {

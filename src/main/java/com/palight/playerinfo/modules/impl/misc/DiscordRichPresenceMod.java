@@ -4,6 +4,7 @@ import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.ServerJoinEvent;
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.CustomMainMenuGui;
 import com.palight.playerinfo.modules.Module;
@@ -38,7 +39,8 @@ public class DiscordRichPresenceMod extends Module {
                 System.out.println("DISCORD STATE: " + DiscordState.getDisplayString(discordState));
                 RichPresence.Builder builder = new RichPresence.Builder();
                 builder.setState(DiscordState.getDisplayString(discordState))
-                        .setLargeImage("minecraft", Minecraft.getMinecraft().getSession().getUsername());
+                        .setLargeImage("minecraft", Minecraft.getMinecraft().getSession().getUsername())
+                        .setSmallImage("playerinfo", PlayerInfo.MODID + " v" + PlayerInfo.VERSION);
                 client.sendRichPresence(builder.build());
             }).start();
         }

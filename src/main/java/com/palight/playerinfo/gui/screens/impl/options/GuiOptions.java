@@ -74,7 +74,7 @@ public class GuiOptions extends CustomGuiScreenScrollable {
         } else if (widget.id == noteBlockHelper.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "noteBlockHelper", noteBlockHelper.checked);
         } else if (widget.id == unicodeFontRendererEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GENERAL, "unicodeFontRendererEnabled", unicodeFontRendererEnabled.checked);
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "unicodeFontRendererEnabled", unicodeFontRendererEnabled.checked);
         } else if (widget.id == configButton.id) {
             Minecraft.getMinecraft().thePlayer.openGui(PlayerInfo.instance, GuiHandler.CONFIG_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
         }

@@ -214,7 +214,7 @@ public abstract class ModConfiguration {
         Property scoreboardHeaderColor = config.get(CATEGORY_GUI, "scoreboardHeaderColor", DefaultValues.scoreboardHeaderColor, "Scoreboard header color");
         Property scoreboardBodyColor = config.get(CATEGORY_GUI, "scoreboardBodyColor", DefaultValues.scoreboardBodyColor, "Scoreboard body color");
         Property keystrokesMode = config.get(CATEGORY_GUI, "keystrokesMode", DefaultValues.keystrokesMode, "Keystrokes mode");
-        Property unicodeFontRendererEnabled = config.get(CATEGORY_MODS, "unicodeFontRendererEnabled", DefaultValues.unicodeFontRendererEnabled, "Enable custom unicode font renderer mod");
+        Property unicodeFontRendererEnabled = config.get(CATEGORY_GUI, "unicodeFontRendererEnabled", DefaultValues.unicodeFontRendererEnabled, "Enable custom unicode font renderer mod");
 
         List<String> propOrderGui = new ArrayList<>();
         propOrderGui.addAll(Arrays.asList(
