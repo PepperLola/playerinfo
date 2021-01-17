@@ -8,6 +8,7 @@ import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ public class MainMenuGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
 //        System.out.println("CHROMA: " + ModConfiguration.mainMenuChroma);
+
         if (ModConfiguration.mainMenuChroma) {
             this.drawGradientRect(0, 0, this.width, this.height, ColorUtil.getChromaColor(), ColorUtil.getChromaColor(1000));
             this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 20, 0xffffffff);
@@ -69,6 +71,39 @@ public class MainMenuGui extends GuiScreen {
         }
         String copyright = "Copyright Mojang AB. Do not distribute!";
         this.drawString(this.fontRendererObj, copyright, this.width - this.fontRendererObj.getStringWidth(copyright), this.height - 10, 0xffffffff);
+
+        mc.getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, "icons/playerinfo_icon.png"));
+        int xOffset, yOffset, targetWidth, targetHeight, scaledWidth, scaledHeight, imageWidth, imageHeight;
+        xOffset = yOffset = 0;
+        targetWidth = targetHeight = 1024;
+        scaledWidth = scaledHeight = 96;
+        imageWidth = imageHeight = 1024;
+        /**
+         * Arguments
+         * 1: X position
+         * 2: Y position
+         * 3: X offset of target portion from top left of image
+         * 4: Y offset "
+         * 5: Width of target portion
+         * 6: Height of target portion
+         * 7: Scaled width to display
+         * 8: Scaled height to display
+         * 9: Total width of image (specified in resource location)
+         * 10: Total height of image
+         */
+        Gui.drawScaledCustomSizeModalRect(
+                (this.width - scaledWidth) / 2,
+                this.height / 4 + 48 - scaledHeight - 16,
+                xOffset,
+                yOffset,
+                targetWidth,
+                targetHeight,
+                scaledWidth,
+                scaledHeight,
+                imageWidth,
+                imageHeight
+        );
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
