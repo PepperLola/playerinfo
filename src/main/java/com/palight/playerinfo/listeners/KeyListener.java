@@ -25,7 +25,6 @@ public class KeyListener {
             if (!keybind.isKeyDown()) continue;
 
             String key_id = keybind.getKeyDescription();
-            System.out.println(key_id);
             if (key_id.equals(id)) {
                 return true;
             }

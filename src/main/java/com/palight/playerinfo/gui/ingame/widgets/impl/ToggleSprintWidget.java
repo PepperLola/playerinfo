@@ -24,6 +24,7 @@ public class ToggleSprintWidget extends GuiIngameWidget {
 
     public void render(Minecraft mc) {
         if (!ModConfiguration.toggleSprintWidgetEnabled) return;
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
         this.height = (int) (fr.getHeight("[Sprinting (Toggled)]") + 1);
         String displayText = "";

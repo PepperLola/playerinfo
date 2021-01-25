@@ -19,6 +19,7 @@ public class ResourceWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         super.render(mc);
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         ScaledResolution res = new ScaledResolution(mc);

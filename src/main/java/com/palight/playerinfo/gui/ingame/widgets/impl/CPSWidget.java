@@ -12,6 +12,7 @@ public class CPSWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         String cpsText = String.format("CPS: %d | %d", CPSMod.getLeftClicks(), CPSMod.getRightClicks());
         this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(cpsText) + 1);
         this.width = (int) PlayerInfo.instance.fontRendererObj.getWidth(cpsText);

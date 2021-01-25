@@ -25,6 +25,7 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void render(Minecraft mc) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
         GlStateManager.resetColor();
     }
@@ -64,6 +65,7 @@ public class GuiIngameWidget extends Gui {
     }
 
     protected void drawText(String text, int x, int y, boolean invertColors) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         int leftOffset = 0;
         int character = 0;
         if (text == null) return;

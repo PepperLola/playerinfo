@@ -26,6 +26,7 @@ public class HypixelEventWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         if (ticksToExist <= 0) {
             title = "";
             subtitle = "";

@@ -12,6 +12,7 @@ public class CoordinatesWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
+        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         super.render(mc);
 
         this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight("X: ") * 4 + 1);
