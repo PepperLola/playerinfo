@@ -7,12 +7,13 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MacroEventHandler {
     @SubscribeEvent
-    public void onEvent(Event e) {
+    public void onEvent(Event e) throws IllegalAccessException {
         if (e.getClass().getSimpleName().toLowerCase().contains("update")) return;
 
         String eventName = e.getClass().getSimpleName();
@@ -22,6 +23,11 @@ public class MacroEventHandler {
         Macro macro = MacroConfig.macros.get(e.getClass().getSimpleName());
 
         Map<String, String> replacements = new HashMap<>();
+
+        for (Field declaredField : e.getClass().getDeclaredFields()) {
+            declaredField.setAccessible(true);
+            replacements.put(declaredField.getName(), declaredField.get(e).toString());
+        }
 
         if (e instanceof HypixelEvent.FriendEvent) {
             HypixelEvent.FriendEvent friendEvent = (HypixelEvent.FriendEvent) e;

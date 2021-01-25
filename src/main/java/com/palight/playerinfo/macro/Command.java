@@ -57,8 +57,6 @@ public abstract class Command {
             String conditionString = fullInstruction.substring(openingParenthesisIndex + 1, closingParenthesisIndex);
             Condition condition = Condition.parse(conditionString);
 
-            System.out.println(conditionString + " | " + condition);
-
             List<Command> ifCommands = new ArrayList<>();
 
             while (!instQueue.isEmpty()) {
