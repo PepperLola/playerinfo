@@ -3,12 +3,15 @@ package com.palight.playerinfo.util;
 import com.google.gson.reflect.TypeToken;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.InfoCommand;
+import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
+import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 
@@ -39,6 +42,18 @@ public class MCUtil {
         String res = HttpUtil.httpGet("https://api.hypixel.net/status?uuid=" + uuid.toString() + "&key=" + ModConfiguration.hypixelApiKey);
         Map<String, Object> data = (Map<String, Object>) ((Map<String, Object>) PlayerInfo.gson.fromJson(res, new TypeToken<Map<String, Object>>(){}.getType())).get("session");
         return data.get("gameType") + " " + data.get("mode");
+    }
+
+    public static String getPlayerStatus() {
+        if (DiscordRichPresenceMod.serverIp.contains("hypixel.net")) {
+            ScoreboardWidget scoreboardWidget = ((ScoreboardWidget) PlayerInfo.getModules().get("scoreboard").getWidget());
+            ScoreObjective scoreObjective = scoreboardWidget.scoreObjective;
+            if (scoreObjective != null) {
+                return ColorUtil.stripColor(scoreObjective.getDisplayName());
+            }
+        }
+
+        return "Hypixel";
     }
 
     public static boolean isPlayerNicked(String playerName) {
@@ -76,68 +91,4 @@ public class MCUtil {
             this.y = y;
         }
     }
-
-    /*public static Direction getDirectionFromLook(Vec3 look) {
-        for (Direction direction : Direction.values()) {
-            if ((NumberUtil.isBetween(look.xCoord, direction.getVector().xCoord - 0.5, direction.getVector().xCoord + 0.5)) && (direction.getVector().yCoord == newLook.yCoord) && (direction.getVector().zCoord == newLook.zCoord)) {
-                return direction;
-            }
-        }
-
-        Minecraft.getMinecraft().thePlayer.getHorizontalFacing()
-
-        return null;
-    }
-
-    public static enum Direction {
-        N(new Vec3(0, 0, -1)),
-        NE(new Vec3(1, 0, -1)),
-        E(new Vec3(1, 0, 0)),
-        SE(new Vec3(1, 0, 1)),
-        S(new Vec3(0, 0, 1)),
-        SW(new Vec3(-1, 0, 1)),
-        W(new Vec3(-1, 0, 0)),
-        NW(new Vec3(-1, 0, -1));
-
-        private Vec3 vector;
-
-        Direction(Vec3 direction) {
-            this.vector = direction;
-        }
-
-        public Vec3 getVector() {
-            return this.vector;
-        }
-
-        public boolean equals(Direction direction) {
-            Vec3 vector = direction.getVector();
-            return (vector.xCoord == getVector().xCoord) && (vector.yCoord == getVector().yCoord) && (vector.zCoord == getVector().zCoord);
-        }
-
-        public String toString(boolean longName) {
-            if (this.equals(Direction.N)) {
-                return longName ? "North" : "N";
-            } else if (this.equals(Direction.NE)) {
-                return longName ? "Northeast" : "NE";
-            } else if (this.equals(Direction.E)) {
-                return longName ? "East" : "E";
-            } else if (this.equals(Direction.SE)) {
-                return longName ? "Southeast" : "SE";
-            } else if (this.equals(Direction.S)) {
-                return longName ? "South" : "S";
-            } else if (this.equals(Direction.SW)) {
-                return longName ? "Southwest" : "SW";
-            } else if (this.equals(Direction.W)) {
-                return longName ? "West" : "W";
-            } else if (this.equals(Direction.NW)) {
-                return longName ? "Northwest" : "NW";
-            }
-
-            return "";
-        }
-
-        public String toString() {
-            return toString(false);
-        }
-    }*/
 }

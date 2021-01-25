@@ -5,6 +5,7 @@ import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.events.ScoreboardTitleChangeEvent;
 import com.palight.playerinfo.events.ServerJoinEvent;
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.CustomMainMenuGui;
 import com.palight.playerinfo.modules.Module;
@@ -108,6 +109,13 @@ public class DiscordRichPresenceMod extends Module {
         updateDiscord();
     }
 
+    @SubscribeEvent
+    public void onScoreboardUpdate(ScoreboardTitleChangeEvent event) {
+        if (serverIp.contains("hypixel.net")) {
+            updateDiscord();
+        }
+    }
+
     public enum DiscordState {
         MAIN_MENU,
         SINGLEPLAYER,
@@ -121,7 +129,7 @@ public class DiscordRichPresenceMod extends Module {
                     return "In a singleplayer world";
                 case MULTIPLAYER:
                     if (serverIp.contains("hypixel.net") && !ModConfiguration.hypixelApiKey.equals("")) {
-                        return "Playing " + MCUtil.getPlayerStatus(Minecraft.getMinecraft().getSession().getProfile().getId()) + " on Hypixel";
+                        return "Playing " + MCUtil.getPlayerStatus() + " on Hypixel";
                     }
                     return "Playing on " + serverIp;
             }

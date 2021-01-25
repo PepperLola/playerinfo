@@ -1,10 +1,11 @@
 package com.palight.playerinfo.gui.ingame.widgets.impl;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.palight.playerinfo.events.ScoreboardTitleChangeEvent;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.Score;
@@ -12,6 +13,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +27,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
     private int defaultY;
     private int headerColor = 1610612736;
     private int bodyColor = 1342177280;
+    public ScoreObjective scoreObjective;
 
     public ScoreboardWidget(Minecraft mc) {
         super(-1, -1, 100, 100);
@@ -35,17 +38,20 @@ public class ScoreboardWidget extends GuiIngameWidget {
     public void render(ScoreObjective objective, ScaledResolution resolution) {
         if (ModConfiguration.scoreboardModEnabled && !ModConfiguration.scoreboardEnabled) return;
 
+        if (scoreObjective != null && objective != null) {
+            if (!ColorUtil.stripColor(scoreObjective.getDisplayName()).equals(ColorUtil.stripColor(objective.getDisplayName()))) {
+                MinecraftForge.EVENT_BUS.post(new ScoreboardTitleChangeEvent(scoreObjective.getDisplayName(), objective.getDisplayName()));
+            }
+        }
+        scoreObjective = objective;
+
         headerColor = ModConfiguration.scoreboardHeaderColor;
         bodyColor = ModConfiguration.scoreboardBodyColor;
 
         Scoreboard scoreboard = objective.getScoreboard();
         Collection<Score> sortedScores = scoreboard.getSortedScores(objective);
 
-        List<Score> filteredList = Lists.newArrayList(Iterables.filter(sortedScores, new Predicate<Score>() {
-            public boolean apply(Score score) {
-                return score.getPlayerName() != null && !score.getPlayerName().startsWith("#");
-            }
-        }));
+        List<Score> filteredList = Lists.newArrayList(Iterables.filter(sortedScores, score -> score.getPlayerName() != null && !score.getPlayerName().startsWith("#")));
 
         ArrayList list;
         if (filteredList.size() > 15) {

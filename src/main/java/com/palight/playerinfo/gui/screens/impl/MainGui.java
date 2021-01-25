@@ -88,16 +88,16 @@ public class MainGui extends CustomGuiScreenScrollable {
         List<Module> filteredModules = new ArrayList<>();
 
         System.out.println("FILTER TEXT: " + filterTextInput.getText());
-        if (filterTextInput.getText().equals("")) {
+//        if (filterTextInput.getText().equals("")) {
             filteredModules.addAll(PlayerInfo.getModules().values());
-        } else {
-            for (Module module : PlayerInfo.getModules().values()) {
-                String filterText = filterTextInput.getText().toLowerCase();
-                if (module.getName().toLowerCase().contains(filterText) || module.getDescription().toLowerCase().contains(filterText)) {
-                    filteredModules.add(module);
-                }
-            }
-        }
+//        } else {
+//            for (Module module : PlayerInfo.getModules().values()) {
+//                String filterText = filterTextInput.getText().toLowerCase();
+//                if (module.getName().toLowerCase().contains(filterText) || module.getDescription().toLowerCase().contains(filterText)) {
+//                    filteredModules.add(module);
+//                }
+//            }
+//        }
 
         for (int i = 0; i < filteredModules.size(); i++) {
             Module module = filteredModules.get(i);
@@ -162,10 +162,11 @@ public class MainGui extends CustomGuiScreenScrollable {
     }
 
     public static void openGui() {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        World playerWorld = player.getEntityWorld();
-        BlockPos playerLocation = player.getPosition();
-        player.openGui(PlayerInfo.instance, GuiHandler.MAIN_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
+        Minecraft.getMinecraft().displayGuiScreen(new MainGui());
+//        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+//        World playerWorld = player.getEntityWorld();
+//        BlockPos playerLocation = player.getPosition();
+//        player.openGui(PlayerInfo.instance, GuiHandler.MAIN_GUI_ID, playerWorld, playerLocation.getX(), playerLocation.getY(), playerLocation.getZ());
     }
 
     public static void closeGui() {

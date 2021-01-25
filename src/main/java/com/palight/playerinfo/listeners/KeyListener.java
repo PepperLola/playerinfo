@@ -1,5 +1,6 @@
 package com.palight.playerinfo.listeners;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.impl.MainGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -8,7 +9,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class KeyListener {
 
-    public static String MOD_CATEGORY = "Player Info";
+    public static String MOD_CATEGORY = PlayerInfo.MODID;
 
     @SubscribeEvent
     public void onKeyPress(InputEvent.KeyInputEvent event) {
