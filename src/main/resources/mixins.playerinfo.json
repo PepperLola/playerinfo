@@ -8,6 +8,7 @@
     "MixinMinecraft",
     "client.MixinAbstractClientPlayer",
     "client.network.MixinNetHandlerPlayClient",
+    "client.resources.MixinLocale",
     "gui.MixinGuiConnecting",
     "gui.MixinGuiIngame",
     "render.IMixinItemRenderer",
