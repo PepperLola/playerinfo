@@ -17,7 +17,6 @@ public class PumpkinWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         if (mc.thePlayer != null) {
 
             ScaledResolution res = new ScaledResolution(mc);

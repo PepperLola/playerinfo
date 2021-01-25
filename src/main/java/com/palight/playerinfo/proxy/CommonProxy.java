@@ -32,6 +32,7 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
 
         // Registering Listeners
+        MinecraftForge.EVENT_BUS.register(PlayerInfo.instance);
         MinecraftForge.EVENT_BUS.register(new HitListener());
         MinecraftForge.EVENT_BUS.register(new KeyListener());
         MinecraftForge.EVENT_BUS.register(new RenderListener());

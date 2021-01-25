@@ -17,7 +17,6 @@ public class ReachDisplayWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
 
         if (this.getPosition().getX() == -1) {
             ScaledResolution res = new ScaledResolution(mc);

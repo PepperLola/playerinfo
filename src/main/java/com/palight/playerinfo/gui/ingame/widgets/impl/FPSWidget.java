@@ -12,7 +12,6 @@ public class FPSWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         super.render(mc);
 
         int fps = Minecraft.getDebugFPS();

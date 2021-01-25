@@ -19,7 +19,6 @@ public class ArmorWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         RenderHelper.enableGUIStandardItemLighting();
         int offset = 0;
         List<ItemStack> items;

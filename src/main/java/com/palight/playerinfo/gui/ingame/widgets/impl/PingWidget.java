@@ -13,7 +13,6 @@ public class PingWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         super.render(mc);
 
         NetworkPlayerInfo networkPlayerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().getSession().getProfile().getId());

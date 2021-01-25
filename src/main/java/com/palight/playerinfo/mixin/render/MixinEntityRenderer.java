@@ -3,12 +3,14 @@ package com.palight.playerinfo.mixin.render;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
+import com.palight.playerinfo.gui.screens.impl.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.shader.ShaderGroup;
@@ -50,10 +52,15 @@ public class MixinEntityRenderer {
     private void setupOverlayRendering(CallbackInfo ci) {
         if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().thePlayer == null) return;
         // render custom gui elements
-        for (Module module : PlayerInfo.getModules().values()) {
-            GuiIngameWidget widget = module.getWidget();
-            if (widget == null || !widget.shouldRender(module) || widget instanceof ScoreboardWidget) continue;
-            widget.render(Minecraft.getMinecraft());
+        if (!Minecraft.getMinecraft().gameSettings.hideGUI &&
+                (Minecraft.getMinecraft().currentScreen instanceof GuiChat ||
+                        Minecraft.getMinecraft().currentScreen instanceof WidgetEditorGui ||
+                        Minecraft.getMinecraft().currentScreen == null)) {
+            for (Module module : PlayerInfo.getModules().values()) {
+                GuiIngameWidget widget = module.getWidget();
+                if (widget == null || !widget.shouldRender(module) || widget instanceof ScoreboardWidget) continue;
+                widget.render(Minecraft.getMinecraft());
+            }
         }
     }
 

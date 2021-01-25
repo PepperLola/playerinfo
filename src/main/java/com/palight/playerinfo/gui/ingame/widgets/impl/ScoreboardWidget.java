@@ -34,7 +34,6 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
     public void render(ScoreObjective objective, ScaledResolution resolution) {
         if (ModConfiguration.scoreboardModEnabled && !ModConfiguration.scoreboardEnabled) return;
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
 
         headerColor = ModConfiguration.scoreboardHeaderColor;
         bodyColor = ModConfiguration.scoreboardBodyColor;

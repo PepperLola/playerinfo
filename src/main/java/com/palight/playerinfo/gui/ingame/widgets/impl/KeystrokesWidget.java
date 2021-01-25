@@ -130,7 +130,6 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         GL11.glPushMatrix();
 
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);

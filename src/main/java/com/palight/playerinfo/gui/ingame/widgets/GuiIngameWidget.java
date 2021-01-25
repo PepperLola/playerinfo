@@ -25,7 +25,6 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void render(Minecraft mc) {
-        if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
         GlStateManager.resetColor();
     }
