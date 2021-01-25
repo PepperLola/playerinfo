@@ -15,6 +15,7 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
 
     private GuiCheckBox disableWater;
     private GuiCheckBox lowerFire;
+    private GuiCheckBox windowedFullscreen;
 
     public DisplayTweaksGui() {
         super(I18n.format("screen.displayTweaks"));
@@ -28,10 +29,12 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
 
         disableWater = new GuiCheckBox(0, buttonX, buttonY, "Disable water overlay", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_DISPLAY, "disableWaterOverlay"));
         lowerFire = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable lower fire", ModConfiguration.lowerFire);
+        windowedFullscreen = new GuiCheckBox(2, buttonX, buttonY + 64, "Enable windowed fullscreen", ModConfiguration.windowedFullscreen);
 
         this.guiElements.addAll(Arrays.asList(
                 this.disableWater,
-                this.lowerFire
+                this.lowerFire,
+                this.windowedFullscreen
         ));
     }
 
@@ -41,6 +44,8 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "disableWaterOverlay", disableWater.checked);
         } else if (widget.id == lowerFire.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "lowerFire", lowerFire.checked);
+        } else if (widget.id == windowedFullscreen.id) {
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "windowedFullscreen", windowedFullscreen.checked);
         }
 
         ModConfiguration.syncFromGUI();
