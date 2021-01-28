@@ -1,4 +1,4 @@
-package com.palight.playerinfo.mixin.gui;
+package com.palight.playerinfo.mixin.client.gui;
 
 
 import com.palight.playerinfo.events.ServerJoinEvent;

@@ -7,10 +7,11 @@
   "mixins": [
     "MixinMinecraft",
     "client.MixinAbstractClientPlayer",
+    "client.gui.MixinGuiChat",
+    "client.gui.MixinGuiConnecting",
+    "client.gui.MixinGuiIngame",
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
-    "gui.MixinGuiConnecting",
-    "gui.MixinGuiIngame",
     "render.IMixinItemRenderer",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",

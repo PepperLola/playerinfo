@@ -46,9 +46,9 @@ public class CommonProxy {
 
         // Registering Keybinds
         // key codes at https://computercraft.info/wiki/images/thumb/8/81/CC-Keyboard-Charcodes.png/963px-CC-Keyboard-Charcodes.png
-        keybinds.put("key.zoom", new KeyBinding("key.zoom", 21, "Player Info"));
-        keybinds.put("key.main", new KeyBinding("key.main", 35, "Player Info"));
-        keybinds.put("key.perspective", new KeyBinding("key.perspective", 29, "Player Info"));
+        keybinds.put("key.zoom", new KeyBinding("key.zoom", 21, KeyListener.MOD_CATEGORY));
+        keybinds.put("key.main", new KeyBinding("key.main", 35, KeyListener.MOD_CATEGORY));
+        keybinds.put("key.perspective", new KeyBinding("key.perspective", 29, KeyListener.MOD_CATEGORY));
 
         keybinds.values().forEach(ClientRegistry::registerKeyBinding);
 
