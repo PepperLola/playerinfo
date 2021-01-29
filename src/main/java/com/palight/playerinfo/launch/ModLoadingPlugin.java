@@ -14,7 +14,7 @@ public class ModLoadingPlugin implements IFMLLoadingPlugin {
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins.playerinfo.json");
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
-
+//
 //        if (environment.getObfuscationContext() == null) {
 //            environment.setObfuscationContext("notch");
 //        }

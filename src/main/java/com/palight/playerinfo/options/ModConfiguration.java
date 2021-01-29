@@ -94,6 +94,7 @@ public abstract class ModConfiguration {
         private static final boolean disableWaterOverlay = false;
         private static final boolean lowerFire = false;
         private static final boolean windowedFullscreen = false;
+        private static final boolean hardcoreHeartsEnabled = false;
 
         private static final boolean mustHoldPerspectiveKey = true;
 
@@ -162,6 +163,7 @@ public abstract class ModConfiguration {
     public static boolean disableWaterOverlay = DefaultValues.disableWaterOverlay;
     public static boolean lowerFire = DefaultValues.lowerFire;
     public static boolean windowedFullscreen = DefaultValues.windowedFullscreen;
+    public static boolean hardcoreHeartsEnabled = DefaultValues.hardcoreHeartsEnabled;
 
     public static boolean mustHoldPerspectiveKey = DefaultValues.mustHoldPerspectiveKey;
 
@@ -361,12 +363,14 @@ public abstract class ModConfiguration {
         Property disableWaterOverlay = config.get(CATEGORY_DISPLAY, "disableWaterOverlay", DefaultValues.disableWaterOverlay, "Disable water overlay");
         Property lowerFire = config.get(CATEGORY_DISPLAY, "lowerFire", DefaultValues.lowerFire, "Fire offset to change the height of the fire overlay");
         Property windowedFullscreen = config.get(CATEGORY_DISPLAY, "windowedFullscreen", DefaultValues.windowedFullscreen, "Enable windowed fullscreen mode");
+        Property hardcoreHeartsEnabled = config.get(CATEGORY_DISPLAY, "hardcoreHeartsEnabled", DefaultValues.hardcoreHeartsEnabled, "Enable hardcore hearts when your bed is broken in bedwars");
 
         List<String> propOrderDisplay = new ArrayList<>();
         propOrderDisplay.addAll(Arrays.asList(
                 disableWaterOverlay.getName(),
                 lowerFire.getName(),
-                windowedFullscreen.getName()
+                windowedFullscreen.getName(),
+                hardcoreHeartsEnabled.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
@@ -448,6 +452,7 @@ public abstract class ModConfiguration {
             disableWaterOverlay.setConfigEntryClass(BooleanEntry.class);
             lowerFire.setConfigEntryClass(BooleanEntry.class);
             windowedFullscreen.setConfigEntryClass(BooleanEntry.class);
+            hardcoreHeartsEnabled.setConfigEntryClass(BooleanEntry.class);
 
             mustHoldPerspectiveKey.setConfigEntryClass(BooleanEntry.class);
 
@@ -521,6 +526,7 @@ public abstract class ModConfiguration {
             ModConfiguration.disableWaterOverlay = disableWaterOverlay.getBoolean();
             ModConfiguration.lowerFire = lowerFire.getBoolean();
             ModConfiguration.windowedFullscreen = windowedFullscreen.getBoolean();
+            ModConfiguration.hardcoreHeartsEnabled = hardcoreHeartsEnabled.getBoolean();
 
             ModConfiguration.mustHoldPerspectiveKey = mustHoldPerspectiveKey.getBoolean();
 
@@ -591,6 +597,7 @@ public abstract class ModConfiguration {
         disableWaterOverlay.set(ModConfiguration.disableWaterOverlay);
         lowerFire.set(ModConfiguration.lowerFire);
         windowedFullscreen.set(ModConfiguration.windowedFullscreen);
+        hardcoreHeartsEnabled.set(ModConfiguration.hardcoreHeartsEnabled);
 
         mustHoldPerspectiveKey.set(ModConfiguration.mustHoldPerspectiveKey);
 

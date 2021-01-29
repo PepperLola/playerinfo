@@ -7,9 +7,12 @@
   "mixins": [
     "MixinMinecraft",
     "client.MixinAbstractClientPlayer",
+    "client.gui.IMixinGuiIngame",
+    "client.gui.IMixinGuiIngameForge",
     "client.gui.MixinGuiChat",
     "client.gui.MixinGuiConnecting",
     "client.gui.MixinGuiIngame",
+    "client.gui.MixinGuiIngameForge",
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
     "render.IMixinItemRenderer",
@@ -18,5 +21,8 @@
     "render.MixinItemRenderer",
     "render.MixinLayerHeldItem",
     "util.MixinScreenShotHelper"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
