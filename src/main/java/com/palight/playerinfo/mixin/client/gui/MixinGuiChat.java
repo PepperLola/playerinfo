@@ -134,6 +134,7 @@ public class MixinGuiChat extends GuiScreen {
         // tab = 15
         if (filteredNames.size() > 0) {
             if (Keyboard.getEventKey() == 15) {
+                if (lastWord.length() == 0) return;
                 this.inputField.setText(this.inputField.getText().substring(0, this.inputField.getText().lastIndexOf(lastWord)) + String.format(":%s:", getSelectedEmoji()));
             } else if (Keyboard.getEventKey() == 200) {
                 selectedIndex++;
@@ -152,7 +153,9 @@ public class MixinGuiChat extends GuiScreen {
     @Inject(method = "keyTyped", at = @At("RETURN"))
     protected void keyTypedReturn(char character, int keyCode, CallbackInfo ci) {
         words = this.inputField.getText().split(" ");
+        if (words.length <= 0) return;
         lastWord = words[words.length - 1];
+        if (lastWord.length() == 0) return;
         filteredNames.clear();
 
         for (String name : TextReplacementMod.nameList) {
