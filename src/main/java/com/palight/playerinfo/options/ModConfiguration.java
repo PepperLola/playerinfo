@@ -95,6 +95,7 @@ public abstract class ModConfiguration {
         private static final boolean lowerFire = false;
         private static final boolean windowedFullscreen = false;
         private static final boolean hardcoreHeartsEnabled = false;
+        private static final boolean renderPingAsText = false;
 
         private static final boolean mustHoldPerspectiveKey = true;
 
@@ -164,6 +165,7 @@ public abstract class ModConfiguration {
     public static boolean lowerFire = DefaultValues.lowerFire;
     public static boolean windowedFullscreen = DefaultValues.windowedFullscreen;
     public static boolean hardcoreHeartsEnabled = DefaultValues.hardcoreHeartsEnabled;
+    public static boolean renderPingAsText = DefaultValues.renderPingAsText;
 
     public static boolean mustHoldPerspectiveKey = DefaultValues.mustHoldPerspectiveKey;
 
@@ -364,13 +366,15 @@ public abstract class ModConfiguration {
         Property lowerFire = config.get(CATEGORY_DISPLAY, "lowerFire", DefaultValues.lowerFire, "Fire offset to change the height of the fire overlay");
         Property windowedFullscreen = config.get(CATEGORY_DISPLAY, "windowedFullscreen", DefaultValues.windowedFullscreen, "Enable windowed fullscreen mode");
         Property hardcoreHeartsEnabled = config.get(CATEGORY_DISPLAY, "hardcoreHeartsEnabled", DefaultValues.hardcoreHeartsEnabled, "Enable hardcore hearts when your bed is broken in bedwars");
+        Property renderPingAsText = config.get(CATEGORY_DISPLAY, "renderPingAsText", DefaultValues.renderPingAsText, "Enable rendering ping as text in the tab menu");
 
         List<String> propOrderDisplay = new ArrayList<>();
         propOrderDisplay.addAll(Arrays.asList(
                 disableWaterOverlay.getName(),
                 lowerFire.getName(),
                 windowedFullscreen.getName(),
-                hardcoreHeartsEnabled.getName()
+                hardcoreHeartsEnabled.getName(),
+                renderPingAsText.getName()
         ));
         config.setCategoryPropertyOrder(CATEGORY_DISPLAY, propOrderDisplay);
 
@@ -453,6 +457,7 @@ public abstract class ModConfiguration {
             lowerFire.setConfigEntryClass(BooleanEntry.class);
             windowedFullscreen.setConfigEntryClass(BooleanEntry.class);
             hardcoreHeartsEnabled.setConfigEntryClass(BooleanEntry.class);
+            renderPingAsText.setConfigEntryClass(BooleanEntry.class);
 
             mustHoldPerspectiveKey.setConfigEntryClass(BooleanEntry.class);
 
@@ -527,6 +532,7 @@ public abstract class ModConfiguration {
             ModConfiguration.lowerFire = lowerFire.getBoolean();
             ModConfiguration.windowedFullscreen = windowedFullscreen.getBoolean();
             ModConfiguration.hardcoreHeartsEnabled = hardcoreHeartsEnabled.getBoolean();
+            ModConfiguration.renderPingAsText = renderPingAsText.getBoolean();
 
             ModConfiguration.mustHoldPerspectiveKey = mustHoldPerspectiveKey.getBoolean();
 
@@ -598,6 +604,7 @@ public abstract class ModConfiguration {
         lowerFire.set(ModConfiguration.lowerFire);
         windowedFullscreen.set(ModConfiguration.windowedFullscreen);
         hardcoreHeartsEnabled.set(ModConfiguration.hardcoreHeartsEnabled);
+        renderPingAsText.set(ModConfiguration.renderPingAsText);
 
         mustHoldPerspectiveKey.set(ModConfiguration.mustHoldPerspectiveKey);
 

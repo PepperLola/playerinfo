@@ -13,6 +13,7 @@
     "client.gui.MixinGuiConnecting",
     "client.gui.MixinGuiIngame",
     "client.gui.MixinGuiIngameForge",
+    "client.gui.MixinGuiPlayerTabOverlay",
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
     "render.IMixinItemRenderer",

@@ -52,7 +52,7 @@ public class MixinGuiChat extends GuiScreen {
         if (pickerEnabled)
             emojiPicker.drawWidget(Minecraft.getMinecraft(), mouseX, mouseY);
 
-        // draw autocomplete menu
+        // draw autocomplete menuTab
         if (words != null && words.length > 0) {
             String lastWord = words[words.length - 1];
             if (!lastWord.equals("") && !lastWord.equals(":") && lastWord.startsWith(":") && !lastWord.endsWith(":")) {

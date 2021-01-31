@@ -17,6 +17,7 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
     private GuiCheckBox lowerFire;
     private GuiCheckBox windowedFullscreen;
     private GuiCheckBox hardcoreHeartsEnabled;
+    private GuiCheckBox renderPingAsText;
 
     public DisplayTweaksGui() {
         super(I18n.format("screen.displayTweaks"));
@@ -32,12 +33,14 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
         lowerFire = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable lower fire", ModConfiguration.lowerFire);
         windowedFullscreen = new GuiCheckBox(2, buttonX, buttonY + 64, "Enable windowed fullscreen", ModConfiguration.windowedFullscreen);
         hardcoreHeartsEnabled = new GuiCheckBox(3, buttonX, buttonY + 96, "Enable hardcore hearts", ModConfiguration.hardcoreHeartsEnabled);
+        renderPingAsText = new GuiCheckBox(4, buttonX, buttonY + 128, "Render ping as text", ModConfiguration.renderPingAsText);
 
         this.guiElements.addAll(Arrays.asList(
                 this.disableWater,
                 this.lowerFire,
                 this.windowedFullscreen,
-                this.hardcoreHeartsEnabled
+                this.hardcoreHeartsEnabled,
+                this.renderPingAsText
         ));
     }
 
@@ -51,6 +54,8 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "windowedFullscreen", windowedFullscreen.checked);
         } else if (widget.id == hardcoreHeartsEnabled.id) {
             ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "hardcoreHeartsEnabled", hardcoreHeartsEnabled.checked);
+        } else if (widget.id == renderPingAsText.id) {
+            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISPLAY, "renderPingAsText", renderPingAsText.checked);
         }
 
         ModConfiguration.syncFromGUI();
