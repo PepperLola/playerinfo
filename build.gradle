@@ -18,16 +18,16 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+compileJava.options.encoding = 'UTF-8'
+
+sourceSets {
     main.java.srcDirs += 'src/main/java'
-
-    apply plugin: 'org.spongepowered.mixin'
-    apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
-
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-    compileJava.options.encoding = 'UTF-8'
-
-    sourceSets { main.java.srcDirs += '../shared/main/javxa'
+    main.java.srcDirs += '../shared/main/java'
     main.resources.srcDirs += '../shared/main/resources'
 }
 
