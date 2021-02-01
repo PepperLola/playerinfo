@@ -10,35 +10,50 @@
 ---
 
 ### Features
-* Cosmetics (Somewhat, full ETA TBD)
-* Coordinate Hub
-* FPS Display
-* Ping Display
 * Scoreboard Mod
-* CPS Display
-* Discord Rich Presence
+* Lifx Mod
+  * Allows you to configure a LIFX light in-game.
 * Background Blur
-* ToggleSprint
 * Display Tweaks
-  * Remove water overlay
-  * Remove pumpkin overlay, and replace it with a pumpkin icon somewhere on the screen
+  * Remove water overlay. 
+  * Remove pumpkin overlay, and replace it with a pumpkin icon somewhere on the screen.
+  * Lowers fire animation. 
+* Note Block Helper
+  * Shows the runing of note blocks in chat when you change it. 
+* Coordinate HUD
+  * Shows current coordinates on screen.
+* Movement
+  * Toggle Sprint
+  * Toggle Crouch
+* Bedwars Resources
+  * Shows how much of each resource you have in your inventory.
+* CPS Display
+* FPS Display
+* Reach Display
+  * Shows how far away the player is that you hit.
+* Hypixel Events
+  * Shows a notification and plays a sound in-game when something happens on Hypixel.
+  * Currently only supports a friend joining or leaving, but posts an event to the event bus when that happens.
+* Discord RPC
+  * Shows the game and mode you're playing on Hypixel.
+* Ping Display
+  * Only works in lobbies.
+* Particle Mod
+  * Allows you to change which particles are creates as crit particles.
+* Armor HUD
+  * Shows what type of armor and durability of armor on scren.
+* Perspective Mod
+  * Allows you to change the camera angle around you like in f5 but without moving your head. 
+* Time Changer
+  * Changes the time in game. 
+* Old Animations
+  * Uses old 1.7 blockhit, bow, rod, eating, sword, and held item animations. 
 * Custom Main Menu
   * Configurable to be either black and white or chroma.
 * Super Zoom
   * Zooms in farther than Optifine zoom, but Optifine is still recommended.
 * Calculator
   * Parses expression into a tree, then evaluates recursively.
-* Particle Mod
-  * Allows you to change which particles are created as crit particles
-* Lifx Mod
-  * Allows you to configure a LIFX light in-game.
-* Hypixel Events
-  * Shows a notification and plays a sound in-game when something happens on Hypixel.
-  * Currently only supports a friend joining or leaving, but posts an event to the event bus when that happens.
-* Note Block Mod
-  * Shows the tuning of a note block in chat when you change it.
-* Hypixel integration with Discord RPC
-  * Shows the game and mode you're playing on Hypixel.
 * Player Information
   * Gets information about a Minecraft player.
   * Namesake and initial function of the mod.

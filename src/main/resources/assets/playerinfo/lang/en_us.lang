@@ -20,3 +20,5 @@ screen.perspective=Perspective Mod
 screen.timeChanger=Time Changer
 screen.oldAnimations=1.7 Animations
 screen.keystrokes=Keystrokes
+
+upload.success=Upload successful
