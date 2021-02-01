@@ -187,8 +187,6 @@ public class MixinGuiIngameForge extends GuiIngame {
                 if (!title.equals("") && subtitle.equals("")) {
                     MinecraftForge.EVENT_BUS.post(new RenderTitleEvent(title, subtitle));
                     sentTitle = true;
-
-                    System.out.println("TITLE HAPPENED | TITLE=" + title + " | SUBTITLE=" + subtitle);
                 }
             }
             this.mc.mcProfiler.startSection("titleAndSubtitle");
