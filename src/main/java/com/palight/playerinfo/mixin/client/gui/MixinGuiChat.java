@@ -31,7 +31,7 @@ public class MixinGuiChat extends GuiScreen {
     private String[] words;
     private String lastWord;
 
-    private List<String> filteredNames = new ArrayList<>();
+    private final List<String> filteredNames = new ArrayList<>();
 
     @Inject(method = "initGui", at = @At("RETURN"))
     public void initGui(CallbackInfo ci) {
