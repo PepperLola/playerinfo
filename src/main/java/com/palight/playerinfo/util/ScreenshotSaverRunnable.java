@@ -1,5 +1,8 @@
 package com.palight.playerinfo.util;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
@@ -8,11 +11,14 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.imageio.ImageIO;
+import javax.net.ssl.HttpsURLConnection;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -98,6 +104,43 @@ public class ScreenshotSaverRunnable implements Runnable {
                 Minecraft.getMinecraft().thePlayer.addChatMessage(modChatComponent.appendSibling(chatComponent).appendSibling(fileComponent));
             } else {
                 // imgur uploading here...
+                String clientID = "bc4822c9436aef3";
+                URL url = new URL("https://api.imgur.com/3/upload");
+                HttpsURLConnection https = (HttpsURLConnection) url.openConnection();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(image, "png", baos);
+                byte[] bytearray = baos.toByteArray();
+                String base64 = Base64.encodeBase64String(bytearray);
+                String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(base64, "UTF-8");
+                https.setDoOutput(true);
+                https.setDoInput(true);
+                https.setRequestMethod("POST");
+                https.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                https.connect();
+                OutputStreamWriter osw = new OutputStreamWriter(https.getOutputStream());
+                osw.write(data);
+                osw.flush();
+                BufferedReader br = new BufferedReader(new InputStreamReader(https.getInputStream()));
+                JsonParser json = new JsonParser();
+                JsonObject jsonObject = json.parse(new InputStreamReader(https.getInputStream())).getAsJsonObject();
+                JsonObject jsonData = jsonObject.getAsJsonObject("data");
+                String link = jsonData.get("link").getAsString();
+
+                IChatComponent modChatComponent = new ChatComponentText("[playerinfo] ");
+                modChatComponent.getChatStyle().setColor(EnumChatFormatting.RED);
+
+                IChatComponent chatComponent = new ChatComponentTranslation("upload.success");
+                chatComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
+
+                IChatComponent urlComponent = new ChatComponentText(screenshot.getName());
+                urlComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
+                urlComponent.getChatStyle().setUnderlined(true);
+                urlComponent.getChatStyle().setColor(EnumChatFormatting.BLUE);
+
+                Minecraft.getMinecraft().thePlayer.addChatMessage(modChatComponent.appendSibling(chatComponent).appendSibling(urlComponent));
+                osw.close();
+                br.close();
+                https.disconnect();
             }
         } catch (IOException e) {
             e.printStackTrace();

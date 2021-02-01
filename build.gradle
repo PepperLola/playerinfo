@@ -7,7 +7,7 @@ buildscript {
 
         maven { url 'https://files.minecraftforge.net/maven' }
         maven { url 'https://plugins.gradle.org/m2' }
-        maven { url 'https://repo.spongepowered.org/maven' }
+        maven { url 'https://repo.spongepowered.org/repository/maven-public/' }
     }
 
     dependencies {
@@ -18,20 +18,20 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
-
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-compileJava.options.encoding = 'UTF-8'
-
-sourceSets {
     main.java.srcDirs += 'src/main/java'
-    main.java.srcDirs += '../shared/main/java'
+
+    apply plugin: 'org.spongepowered.mixin'
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+    compileJava.options.encoding = 'UTF-8'
+
+    sourceSets { main.java.srcDirs += '../shared/main/javxa'
     main.resources.srcDirs += '../shared/main/resources'
 }
 
-version = "1.16.24"
+version = "1.16.25"
 group= "com.palight.playerinfo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "playerinfo"
 
