@@ -10,8 +10,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
 public class MixinAbstractClientPlayer extends EntityPlayer {
@@ -32,17 +34,14 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
 
     /**
      * @author palight
-     * @return ResourceLocation for the cape texture.
      * @reason Added custom cape textures.
      */
-    @Overwrite
-    public ResourceLocation getLocationCape() {
+    @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
+    public void getLocationCape(CallbackInfoReturnable<ResourceLocation> ci) {
         if (this.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
-            return new ResourceLocation(PlayerInfo.MODID, "textures/capes/glitch_cape.gif");
+            ci.setReturnValue(new ResourceLocation(PlayerInfo.MODID, "textures/capes/walter_cape.png"));
+            ci.cancel();
         }
-
-        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
     }
 
     @Override
