@@ -39,6 +39,9 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
     @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
     public void getLocationCape(CallbackInfoReturnable<ResourceLocation> ci) {
         if (this.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
+            ci.setReturnValue(new ResourceLocation(PlayerInfo.MODID, "textures/capes/glitch_cape.png"));
+            ci.cancel();
+        } else if (this.getUniqueID().toString().equals("eae049b6-86e4-4213-ab85-084ddb7bf690")) {
             ci.setReturnValue(new ResourceLocation(PlayerInfo.MODID, "textures/capes/walter_cape.png"));
             ci.cancel();
         }
