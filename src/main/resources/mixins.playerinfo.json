@@ -16,6 +16,7 @@
     "client.gui.MixinGuiPlayerTabOverlay",
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
+    "client.world.MixinChunk",
     "render.IMixinItemRenderer",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",

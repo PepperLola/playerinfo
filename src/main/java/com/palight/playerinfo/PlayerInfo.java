@@ -80,6 +80,7 @@ public class PlayerInfo
         modules.put("oldAnimations", new OldAnimationsMod());
         modules.put("keystrokes", new KeystrokesMod());
         modules.put("textReplacement", new TextReplacementMod());
+        modules.put("fullBright", new FullBrightMod());
     }
 
     @EventHandler
