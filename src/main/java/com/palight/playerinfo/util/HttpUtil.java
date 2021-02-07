@@ -65,6 +65,30 @@ public class HttpUtil {
         return null;
     }
 
+    public static void httpGet(final String url, final HttpUtilResponseHandler handler) {
+        Thread reqThread = new Thread(() -> {
+            try {
+                CloseableHttpClient httpclient = HttpClients.custom()
+                        .setHostnameVerifier(new AllowAllHostnameVerifier())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                            @Override
+                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                                return true;
+                            }
+                        }).build())
+                        .build();
+                HttpGet httpPut = new HttpGet(url);
+                if (handler != null) {
+                    handler.handleResponse(httpclient.execute(httpPut));
+                }
+            } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+                e.printStackTrace();
+            }
+        });
+
+        reqThread.start();
+    }
+
     public static void httpPut(final String url, final Map<String, String> headers, final String data, final HttpUtilResponseHandler handler) {
         Thread reqThread = new Thread(() -> {
             try {

@@ -1,7 +1,8 @@
 package com.palight.playerinfo.mixin.client;
 
 import com.mojang.authlib.GameProfile;
-import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.rendering.Cape;
+import com.palight.playerinfo.rendering.CapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -38,11 +39,8 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
      */
     @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
     public void getLocationCape(CallbackInfoReturnable<ResourceLocation> ci) {
-        if (this.getUniqueID().toString().equals("d512bc73-9d3f-43f9-8992-1b9506adc867")) {
-            ci.setReturnValue(new ResourceLocation(PlayerInfo.MODID, "textures/capes/glitch_cape.png"));
-            ci.cancel();
-        } else if (this.getUniqueID().toString().equals("eae049b6-86e4-4213-ab85-084ddb7bf690")) {
-            ci.setReturnValue(new ResourceLocation(PlayerInfo.MODID, "textures/capes/walter_cape.png"));
+        if (CapeHandler.CAPES.containsKey(this.getUniqueID()) && CapeHandler.CAPES.get(this.getUniqueID()) != Cape.NONE) {
+            ci.setReturnValue(CapeHandler.CAPES.get(this.getUniqueID()).getLocation());
             ci.cancel();
         }
     }

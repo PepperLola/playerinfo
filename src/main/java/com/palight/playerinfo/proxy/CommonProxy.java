@@ -7,6 +7,7 @@ import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.macro.MacroConfig;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.rendering.CapeHandler;
 import com.palight.playerinfo.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -40,6 +41,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new MainScreenHandler());
         MinecraftForge.EVENT_BUS.register(new ChatListener());
         MinecraftForge.EVENT_BUS.register(new MacroEventHandler());
+        MinecraftForge.EVENT_BUS.register(new CapeHandler());
 
         // Registering Commands
         ClientCommandHandler.instance.registerCommand(new CalcCommand());

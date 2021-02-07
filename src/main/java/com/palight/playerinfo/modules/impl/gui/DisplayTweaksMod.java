@@ -1,10 +1,9 @@
 package com.palight.playerinfo.modules.impl.gui;
 
-import com.palight.playerinfo.events.RenderTitleEvent;
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.DisplayTweaksGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -37,13 +36,26 @@ public class DisplayTweaksMod extends Module {
         }
     }
 
+//    @SubscribeEvent
+//    public void onRenderTitle(RenderTitleEvent event) {
+//        System.out.println("TITLE IN LISTENER: " + event.getTitle() + " | " + EnumChatFormatting.getTextWithoutFormattingCodes(event.getTitle()));
+//        if (!ModConfiguration.hardcoreHeartsEnabled) return;
+//
+//        String unformattedTitle = EnumChatFormatting.getTextWithoutFormattingCodes(event.getTitle());
+//
+//        if (unformattedTitle.equalsIgnoreCase("BED DESTROYED!")) {
+//            DisplayTweaksMod.hardcoreHearts = true;
+//        }
+//    }
+
     @SubscribeEvent
-    public void onRenderTitle(RenderTitleEvent event) {
+    public void onChatMessage(ClientChatReceivedEvent event) {
         if (!ModConfiguration.hardcoreHeartsEnabled) return;
 
-        String unformattedTitle = EnumChatFormatting.getTextWithoutFormattingCodes(event.getTitle());
+        String unformatted = event.message.getUnformattedText();
+        String pattern = "BED DESTRUCTION > Your Bed";
 
-        if (unformattedTitle.equalsIgnoreCase("BED DESTROYED!")) {
+        if (unformatted.startsWith(pattern)) {
             DisplayTweaksMod.hardcoreHearts = true;
         }
     }
