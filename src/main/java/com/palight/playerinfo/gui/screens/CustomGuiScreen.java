@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
+import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
@@ -109,7 +110,7 @@ public class CustomGuiScreen extends GuiScreen {
      * @param widget Widget that was clicked.
      */
     protected void widgetClicked(GuiCustomWidget widget) {
-
+        ModConfiguration.syncFromGUI();
     }
 
     /**

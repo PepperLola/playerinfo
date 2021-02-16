@@ -2,6 +2,7 @@ package com.palight.playerinfo.modules;
 
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
+import com.palight.playerinfo.options.ConfigOption;
 import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
@@ -11,6 +12,7 @@ public abstract class Module {
     private ModuleType type;
     private String name;
     private String description;
+    @ConfigOption
     protected boolean enabled;
     protected CustomGuiScreen optionsGui;
 
@@ -37,11 +39,6 @@ public abstract class Module {
             this.getWidget().setModule(this);
         }
     }
-
-    /**
-     * Override with this.setEnabled with the appropriate ModConfiguration parameter
-     */
-    public abstract void init();
 
     /**
      * Starts editing the widget (e.g. moving it around). Most widgets display differently in editing mode than they do in-game.

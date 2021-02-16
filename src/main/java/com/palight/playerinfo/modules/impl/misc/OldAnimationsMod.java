@@ -13,18 +13,6 @@ public class OldAnimationsMod extends Module {
         super("old-animations", "Old Animations", "Use 1.7 animations.", ModuleType.MISC, new OldAnimationsGui(), null);
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.oldAnimationsModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "oldAnimationsModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     public void attemptSwing() {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.thePlayer.getItemInUseCount() > 0) {

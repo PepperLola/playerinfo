@@ -13,18 +13,6 @@ public class TimeChangerMod extends Module {
         super("time-changer", "Time Changer", "Lets you change the in game time for you.", Module.ModuleType.MISC, new TimeChangerGui(), null);
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.timeChangerModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "timeChangerModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();

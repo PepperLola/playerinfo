@@ -1,18 +1,22 @@
 package com.palight.playerinfo.options;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.util.ReflectionUtil;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.BooleanEntry;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.StringEntry;
 import net.minecraftforge.fml.common.Loader;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.*;
 
 public abstract class ModConfiguration {
     private static Configuration config;
@@ -203,11 +207,65 @@ public abstract class ModConfiguration {
     }
 
     public static void syncFromFile() {
-        syncConfig(true, true);
+//        syncConfig(true, true);
+        config = new Configuration(file);
+        config.load();
+        Set<String> categoryNames = config.getCategoryNames();
+
+        for (String name : categoryNames) {
+            Module module = null;
+            for (Module storedModule : PlayerInfo.getModules().values()) {
+                if (storedModule.getId().equals(name)) {
+                    module = storedModule;
+                    break;
+                }
+            }
+            if (module == null) continue;
+            ConfigCategory moduleCategory = config.getCategory(name);
+            List<Property> properties = moduleCategory.getOrderedValues();
+            Field[] fields = module.getClass().getFields();
+            for (Field field : fields) {
+                if (!field.isAccessible())
+                    field.setAccessible(true);
+                for (Property property : properties) {
+                    if (field.getName().equals(property.getName())) {
+                        try {
+                            field.set(module, ModConfiguration.getValue(property));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static void syncFromGUI() {
-        syncConfig(false, true);
+//        syncConfig(false, true);
+
+        config = new Configuration(file);
+        config.load();
+        Collection<Module> modules = PlayerInfo.getModules().values();
+
+        for (Module module : modules) {
+            List<Field> fields = ReflectionUtil.getAllFields(new ArrayList<>(), module.getClass());
+
+            for (Field field : fields) {
+                if (!field.isAccessible())
+                    field.setAccessible(true);
+                boolean hasAnnotation = field.isAnnotationPresent(ConfigOption.class);
+
+                if (hasAnnotation) {
+                    try {
+                        System.out.println("STORING VALUE OF " + field.getName() + ": " + field.get(module));
+
+                        setProperty(config, field, module);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private static void syncConfig(boolean loadConfigFromFile, boolean readFieldsFromConfig) {
@@ -880,5 +938,45 @@ public abstract class ModConfiguration {
             config.save();
         }
         return false;
+    }
+
+    public static Object getValue(Property property) {
+        switch (property.getType()) {
+            case INTEGER:
+                return property.getInt();
+            case DOUBLE:
+                return property.getDouble();
+            case BOOLEAN:
+                return property.getBoolean();
+            case STRING:
+            default:
+                return property.getString();
+        }
+    }
+
+    public static Class<? extends GuiConfigEntries.IConfigEntry> getConfigEntryClass(Field field) {
+        if (Boolean.class.equals(field.getType())) {
+            return GuiConfigEntries.BooleanEntry.class;
+        } else if (Double.class.equals(field.getType())) {
+            return GuiConfigEntries.DoubleEntry.class;
+        } else if (String.class.equals(field.getType())) {
+            return StringEntry.class;
+        }
+
+        return GuiConfigEntries.IntegerEntry.class;
+    }
+
+    public static void setProperty(Configuration config, Field field, Module module) throws IllegalAccessException {
+        if (Boolean.class.equals(field.getType())) {
+            writeConfig(module.getId(), field.getName(), (boolean) field.get(module));
+        } else if (String.class.equals(field.getType())) {
+            writeConfig(module.getId(), field.getName(), String.valueOf(field.get(module)));
+        } else if (Double.class.equals(field.getType())) {
+            writeConfig(module.getId(), field.getName(), (double) field.get(module));
+        } else if (Integer.class.equals(field.getType())) {
+            writeConfig(module.getId(), field.getName(), (int) field.get(module));
+        }
+
+        config.save();
     }
 }

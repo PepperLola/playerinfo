@@ -67,10 +67,6 @@ public class CommonProxy {
 
         MacroConfig.syncFromFile();
 
-        for (Module module : PlayerInfo.getModules().values()) {
-            module.init();
-        }
-
         PlayerInfo.DATA_FOLDER = Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "/playerinfo/";
 
         Display.setTitle("playerinfo v" + PlayerInfo.VERSION + " (" + PlayerInfo.commitHash.substring(0, 7) + "/" + PlayerInfo.defaultBranchName + ")");

@@ -14,18 +14,6 @@ public class NoteBlockMod extends Module {
         super("noteBlockHelper", "Note Block Helper", "Shows the tuning of note blocks.", ModuleType.UTIL, null, null);
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "noteBlockModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.noteBlockModEnabled);
-    }
-
     @SubscribeEvent
     public void onNoteBlockChange(NoteBlockEvent.Change event) {
         if (isEnabled()) {

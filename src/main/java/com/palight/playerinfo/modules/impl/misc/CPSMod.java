@@ -18,18 +18,6 @@ public class CPSMod extends Module {
         super("cps", "CPS Mod", "Display your CPS", ModuleType.MISC, null, new CPSWidget(4, 64));
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.cpsModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "cpsModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     public static int getLeftClicks() {
         return leftClicks.size();
     }

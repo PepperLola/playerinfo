@@ -18,18 +18,6 @@ public class BlurMod extends Module {
         super("backgroundBlur", "Background Blur", "Blurs the backgrounds of menus.", ModuleType.MISC, null, null);
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "blurModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.blurModEnabled);
-    }
-
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent event) {

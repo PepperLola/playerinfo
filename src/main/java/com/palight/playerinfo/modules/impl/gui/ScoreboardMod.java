@@ -11,16 +11,4 @@ public class ScoreboardMod extends Module {
     public ScoreboardMod() {
         super("scoreboard", "Scoreboard", "Customize your scoreboard!", ModuleType.GUI, new ScoreboardGui(), new ScoreboardWidget(Minecraft.getMinecraft()));
     }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.scoreboardModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "scoreboardModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
 }

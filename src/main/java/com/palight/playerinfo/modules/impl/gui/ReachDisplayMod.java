@@ -20,20 +20,6 @@ public class ReachDisplayMod extends Module {
         super("reachDisplay", "Reach Display", "Displays the distance between you and the person you hit.", ModuleType.GUI, null, new ReachDisplayWidget());
     }
 
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.reachDisplayModEnabled);
-    }
-
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "reachDisplayModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-    }
-
     @SubscribeEvent
     public void onAttack(AttackEntityEvent event) {
         Minecraft mc = Minecraft.getMinecraft();

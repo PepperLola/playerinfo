@@ -24,6 +24,21 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class DiscordRichPresenceMod extends Module {
     public DiscordRichPresenceMod() {
         super("discord-rpc", "Discord RPC", "Enabled Discord Rich Presence", ModuleType.MISC, null, null);
+        if (this.enabled) {
+            /* Discord Rich Presence */
+            client = new IPCClient(applicationId);
+            client.setListener(new IPCListener() {
+                @Override
+                public void onReady(IPCClient client) {
+                    updateDiscord();
+                }
+            });
+            try {
+                client.connect();
+            } catch (NoDiscordClientException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static long applicationId = 568255570407063553L;
@@ -45,33 +60,6 @@ public class DiscordRichPresenceMod extends Module {
                 client.sendRichPresence(builder.build());
             }).start();
         }
-    }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.discordRPCEnabled);
-        if (ModConfiguration.discordRPCEnabled) {
-            /* Discord Rich Presence */
-            client = new IPCClient(applicationId);
-            client.setListener(new IPCListener() {
-                @Override
-                public void onReady(IPCClient client) {
-                    updateDiscord();
-                }
-            });
-            try {
-                client.connect();
-            } catch (NoDiscordClientException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_DISCORD, "discordRPCEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
     }
 
     public void setDiscordState(DiscordState state) {

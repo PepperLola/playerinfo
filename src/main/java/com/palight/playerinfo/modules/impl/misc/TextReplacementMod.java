@@ -36,18 +36,6 @@ public class TextReplacementMod extends Module {
         super("textReplacement", "Text Replacement", "Replace specific keywords with emoji/unicode characters.", ModuleType.MISC, null, null);
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.textReplacementModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "textReplacementModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
         if (ModConfiguration.textReplacementModEnabled) {

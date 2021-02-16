@@ -24,18 +24,6 @@ public class ToggleSprintMod extends Module {
         super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(-1, -1));
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.toggleSprintModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "toggleSprintModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void clientTick(TickEvent.ClientTickEvent event) {

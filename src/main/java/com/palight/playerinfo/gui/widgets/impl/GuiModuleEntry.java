@@ -34,7 +34,6 @@ public class GuiModuleEntry extends GuiCustomWidget {
     }
 
     public void init() {
-        module.init();
         setButtonText();
     }
 

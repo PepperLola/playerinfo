@@ -15,18 +15,6 @@ public class LifxMod extends Module {
         super("lifx", "Lifx", "Provides a LIFX integration", ModuleType.MISC, new LifxGui(), null);
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.lifxModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "lifxModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         EntityPlayer clientPlayer = Minecraft.getMinecraft().thePlayer;

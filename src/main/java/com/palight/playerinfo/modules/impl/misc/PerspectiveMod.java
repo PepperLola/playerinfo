@@ -23,18 +23,6 @@ public class PerspectiveMod extends Module {
         super("perspective", "Perspective Mod", "Lets you change your camera orientation in F5 without rotating your character.", ModuleType.MISC, new PerspectiveGui(), null);
     }
 
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.perspectiveModEnabled);
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "perspectiveModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-        super.setEnabled(enabled);
-    }
-
     @SubscribeEvent
     public void onKeyEvent(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getMinecraft();

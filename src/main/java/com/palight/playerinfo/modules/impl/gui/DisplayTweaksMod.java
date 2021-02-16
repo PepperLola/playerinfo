@@ -16,18 +16,6 @@ public class DisplayTweaksMod extends Module {
         super("displayTweaks", "Display Tweaks", "Some useful gui/display tweaks.", ModuleType.GUI, new DisplayTweaksGui(), null);
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MODS, "displayModEnabled", enabled);
-        ModConfiguration.syncFromGUI();
-    }
-
-    @Override
-    public void init() {
-        this.setEnabled(ModConfiguration.displayModEnabled);
-    }
-
     @SubscribeEvent
     public void onRenderWaterOverlay(RenderBlockOverlayEvent event) {
         if (!this.isEnabled()) return;
