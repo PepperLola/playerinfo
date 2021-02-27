@@ -5,7 +5,6 @@ import com.palight.playerinfo.gui.widgets.impl.GuiDropdown;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
@@ -25,7 +24,7 @@ public class BedwarsGui extends CustomGuiScreen {
     private String[] bedwars_modes = new String[]{"bedwars_eight_one", "bedwars_eight_two", "bedwars_four_three", "bedwars_four_four"};
 
     public BedwarsGui() {
-        super(I18n.format("screen.hypixel"));
+        super("screen.hypixel");
     }
 
 

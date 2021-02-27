@@ -1,12 +1,13 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.gui;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.gui.widgets.impl.GuiDropdown;
+import com.palight.playerinfo.modules.impl.gui.KeystrokesMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class KeystrokesGui extends CustomGuiScreenScrollable {
     private GuiButton setKeystrokesModeButton;
 
     public KeystrokesGui() {
-        super(I18n.format("screen.keystrokes"));
+        super("screen.keystrokes");
     }
 
     @Override
@@ -42,7 +43,7 @@ public class KeystrokesGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         super.widgetClicked(widget);
         if (widget.id == setKeystrokesModeButton.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "keystrokesMode", keystrokesMode.getSelectedItem().toLowerCase());
+            ((KeystrokesMod) PlayerInfo.getModules().get("keystrokes")).keystrokesMode = keystrokesMode.getSelectedItem().toLowerCase();
             ModConfiguration.syncFromGUI();
         }
     }

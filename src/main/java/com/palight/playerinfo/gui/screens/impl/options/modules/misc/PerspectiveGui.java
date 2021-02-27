@@ -6,7 +6,6 @@ import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;
 import com.palight.playerinfo.options.ModConfiguration;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.Arrays;
@@ -18,7 +17,7 @@ public class PerspectiveGui extends CustomGuiScreenScrollable {
     private GuiButton mustHoldPerspectiveKeyButton;
 
     public PerspectiveGui() {
-        super(I18n.format("screen.perspective"));
+        super("screen.perspective");
     }
 
     @Override
@@ -28,7 +27,7 @@ public class PerspectiveGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        String buttonText = ModConfiguration.mustHoldPerspectiveKey ? EnumChatFormatting.GREEN + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.RED + "Toggle" : EnumChatFormatting.RED + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.GREEN + "Toggle";
+        String buttonText = ((PerspectiveMod) PlayerInfo.getModules().get("perspective")).mustHoldKey ? EnumChatFormatting.GREEN + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.RED + "Toggle" : EnumChatFormatting.RED + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.GREEN + "Toggle";
 
         mustHoldPerspectiveKeyButton = new GuiButton(1, buttonX, buttonY, 64, 20, buttonText);
 
@@ -41,12 +40,10 @@ public class PerspectiveGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         super.widgetClicked(widget);
         if (widget.id == mustHoldPerspectiveKeyButton.id) {
-
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_PERSPECTIVE, "mustHoldPerspectiveKey", !ModConfiguration.mustHoldPerspectiveKey);
+            ((PerspectiveMod) PlayerInfo.getModules().get("perspective")).mustHoldKey = mustHoldPerspectiveKeyButton.enabled;
             ModConfiguration.syncFromGUI();
 
-            mustHoldPerspectiveKeyButton.displayString = ModConfiguration.mustHoldPerspectiveKey ? EnumChatFormatting.GREEN + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.RED + "Toggle" : EnumChatFormatting.RED + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.GREEN + "Toggle";
-            ((PerspectiveMod) PlayerInfo.getModules().get("perspective")).setMustHoldKey(ModConfiguration.mustHoldPerspectiveKey);
+            mustHoldPerspectiveKeyButton.displayString = ((PerspectiveMod) PlayerInfo.getModules().get("perspective")).mustHoldKey ? EnumChatFormatting.GREEN + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.RED + "Toggle" : EnumChatFormatting.RED + "Hold" + EnumChatFormatting.RESET + "/" + EnumChatFormatting.GREEN + "Toggle";
         }
     }
 }

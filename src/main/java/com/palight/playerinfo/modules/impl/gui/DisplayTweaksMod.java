@@ -2,7 +2,7 @@ package com.palight.playerinfo.modules.impl.gui;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.DisplayTweaksGui;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.options.ConfigOption;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -10,6 +10,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DisplayTweaksMod extends Module {
 
+    @ConfigOption
+    public boolean disableWaterOverlay = false;
+    @ConfigOption
+    public boolean lowerFire = false;
+    @ConfigOption
+    public boolean windowedFullscreen = false;
+    @ConfigOption
+    public boolean hardcoreHeartsEnabled = false;
+    @ConfigOption
+    public boolean renderPingAsText = false;
     public static boolean hardcoreHearts = false;
 
     public DisplayTweaksMod() {
@@ -20,7 +30,7 @@ public class DisplayTweaksMod extends Module {
     public void onRenderWaterOverlay(RenderBlockOverlayEvent event) {
         if (!this.isEnabled()) return;
         if (event.overlayType == RenderBlockOverlayEvent.OverlayType.WATER) {
-            event.setCanceled(ModConfiguration.disableWaterOverlay);
+            event.setCanceled(disableWaterOverlay);
         }
     }
 
@@ -38,7 +48,7 @@ public class DisplayTweaksMod extends Module {
 
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
-        if (!ModConfiguration.hardcoreHeartsEnabled) return;
+        if (!hardcoreHeartsEnabled) return;
 
         String unformatted = event.message.getUnformattedText();
         String pattern = "BED DESTRUCTION > Your Bed";

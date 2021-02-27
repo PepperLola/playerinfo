@@ -2,7 +2,6 @@ package com.palight.playerinfo.mixin.client.network;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketThreadUtil;
@@ -31,7 +30,7 @@ public class MixinNetHandlerPlayClient {
             return;
         }
 
-        TimeChangerMod.Time time = TimeChangerMod.Time.getTime(ModConfiguration.selectedTime);
+        TimeChangerMod.Time time = TimeChangerMod.Time.getTime(((TimeChangerMod) PlayerInfo.getModules().get("timeChanger")).selectedTime);
 
         if (time == null) {
             handleActualPacket(p);

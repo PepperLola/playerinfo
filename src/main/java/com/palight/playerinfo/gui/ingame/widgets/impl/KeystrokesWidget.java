@@ -15,8 +15,8 @@ public class KeystrokesWidget extends GuiIngameWidget {
     public enum KeystrokesMode {
         WASD(Key.W, Key.A, Key.S, Key.D),
         WASD_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB),
-        WASD_SPRINT(Key.W, Key.A, Key.S, Key.D, new Key("Sprint", Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 41, 58, 18)),
-        WASD_SPRINT_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB, new Key("Sprint", Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 61, 58, 18));
+        WASD_SPRINT(Key.W, Key.A, Key.S, Key.D, new Key("Sprint", () -> Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 41, 58, 18)),
+        WASD_SPRINT_MOUSE(Key.W, Key.A, Key.S, Key.D, Key.LMB, Key.RMB, new Key("Sprint", () -> Minecraft.getMinecraft().gameSettings.keyBindSprint, 1, 61, 58, 18));
 
         private final Key[] keys;
         private int width;
@@ -56,24 +56,29 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
     private static class Key {
 
-        private static final Key W = new Key("W", Minecraft.getMinecraft().gameSettings.keyBindForward, 21, 1, 18, 18);
-        private static final Key A = new Key("A", Minecraft.getMinecraft().gameSettings.keyBindLeft, 1, 21, 18, 18);
-        private static final Key S = new Key("S", Minecraft.getMinecraft().gameSettings.keyBindBack, 21, 21, 18, 18);
-        private static final Key D = new Key("D", Minecraft.getMinecraft().gameSettings.keyBindRight, 41, 21, 18, 18);
+        interface KeybindLambda {
+            KeyBinding getKeybinding();
+        }
 
-        private static final Key LMB = new Key("LMB", Minecraft.getMinecraft().gameSettings.keyBindAttack, 1, 41, 28, 18);
-        private static final Key RMB = new Key("RMB", Minecraft.getMinecraft().gameSettings.keyBindUseItem, 31, 41, 28, 18);
+        private static final Key W = new Key("W", () -> Minecraft.getMinecraft().gameSettings.keyBindForward, 21, 1, 18, 18);
+        private static final Key A = new Key("A", () -> Minecraft.getMinecraft().gameSettings.keyBindLeft, 1, 21, 18, 18);
+        private static final Key S = new Key("S", () -> Minecraft.getMinecraft().gameSettings.keyBindBack, 21, 21, 18, 18);
+        private static final Key D = new Key("D", () -> Minecraft.getMinecraft().gameSettings.keyBindRight, 41, 21, 18, 18);
+
+        private static final Key LMB = new Key("LMB", () -> Minecraft.getMinecraft().gameSettings.keyBindAttack, 1, 41, 28, 18);
+        private static final Key RMB = new Key("RMB", () -> Minecraft.getMinecraft().gameSettings.keyBindUseItem, 31, 41, 28, 18);
 
         private final String name;
-        private final KeyBinding keyBinding;
+        private KeyBinding keyBinding;
+        private final KeybindLambda keybindLambda;
         private final int x;
         private final int y;
         private final int width;
         private final int height;
 
-        public Key(String name, KeyBinding keyBinding, int x, int y, int width, int height) {
+        public Key(String name, KeybindLambda keybindLambda, int x, int y, int width, int height) {
             this.name = name;
-            this.keyBinding = keyBinding;
+            this.keybindLambda = keybindLambda;
             this.x = x;
             this.y = y;
             this.width = width;
@@ -81,7 +86,7 @@ public class KeystrokesWidget extends GuiIngameWidget {
         }
 
         public boolean isDown() {
-            return keyBinding.isKeyDown();
+            return getKeyBinding().isKeyDown();
         }
 
         public String getName() {
@@ -89,6 +94,9 @@ public class KeystrokesWidget extends GuiIngameWidget {
         }
 
         public KeyBinding getKeyBinding() {
+            if (keyBinding == null) {
+                keyBinding = keybindLambda.getKeybinding();
+            }
             return keyBinding;
         }
 
@@ -111,13 +119,10 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
     private KeystrokesMode mode = KeystrokesMode.WASD_SPRINT_MOUSE;
 
+    private ScaledResolution res;
+
     public KeystrokesWidget() {
         super(-1, -1, 59, 59);
-
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-
-        this.getPosition().setX(res.getScaledWidth() - this.width - 4);
-        this.getPosition().setY(res.getScaledHeight() - this.height - 4);
     }
 
     public KeystrokesMode getMode() {
@@ -130,6 +135,13 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
     @Override
     public void render(Minecraft mc) {
+        if (res == null) {
+            res = new ScaledResolution(Minecraft.getMinecraft());
+
+            this.getPosition().setX(res.getScaledWidth() - this.width - 4);
+            this.getPosition().setY(res.getScaledHeight() - this.height - 4);
+        }
+
         GL11.glPushMatrix();
 
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);

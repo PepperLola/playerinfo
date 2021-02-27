@@ -22,21 +22,24 @@ import java.util.List;
 
 public class ScoreboardWidget extends GuiIngameWidget {
 
-    private final Minecraft mc;
+    private Minecraft mc;
     private int defaultX;
     private int defaultY;
     private int headerColor = 1610612736;
     private int bodyColor = 1342177280;
     public ScoreObjective scoreObjective;
 
-    public ScoreboardWidget(Minecraft mc) {
+    public ScoreboardWidget() {
         super(-1, -1, 100, 100);
-        this.mc = mc;
         this.movable = false;
     }
 
     public void render(ScoreObjective objective, ScaledResolution resolution) {
         if (ModConfiguration.scoreboardModEnabled && !ModConfiguration.scoreboardEnabled) return;
+
+        if (mc == null) {
+            mc = Minecraft.getMinecraft();
+        }
 
         if (scoreObjective != null && objective != null) {
             if (!ColorUtil.stripColor(scoreObjective.getDisplayName()).equals(ColorUtil.stripColor(objective.getDisplayName()))) {

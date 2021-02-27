@@ -3,6 +3,7 @@ package com.palight.playerinfo.modules.impl.movement;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ToggleSprintWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.movement.ToggleSprintGui;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -14,11 +15,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ToggleSprintMod extends Module {
 
+    @ConfigOption
+    public boolean toggleSprintWidgetEnabled = false;
+
+    @ConfigOption
+    public boolean toggleSneakEnabled = false;
+
     private static boolean sprintingToggled = false;
     private static boolean sneakingToggled = false;
 
-    private static KeyBinding sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
-    private static KeyBinding sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
+    private static KeyBinding sprintKey;
+    private static KeyBinding sneakKey;
 
     public ToggleSprintMod() {
         super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(-1, -1));
@@ -28,6 +35,14 @@ public class ToggleSprintMod extends Module {
     @SubscribeEvent
     public void clientTick(TickEvent.ClientTickEvent event) {
         if (!this.isEnabled()) return;
+
+        if (sprintKey == null) {
+            sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
+        }
+        if (sneakKey == null) {
+            sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
+        }
+
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null) return;
 

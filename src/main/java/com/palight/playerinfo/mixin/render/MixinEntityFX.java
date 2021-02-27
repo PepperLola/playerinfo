@@ -1,5 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.ParticleMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.random.RandomUtil;
@@ -25,6 +27,8 @@ public abstract class MixinEntityFX {
 
     @Shadow protected int particleTextureIndexY;
 
+    private ParticleMod particleMod = ((ParticleMod) PlayerInfo.getModules().get("particle"));
+
     @Inject(method = "renderParticle", at = @At("HEAD"))
     public void renderParticle(WorldRenderer p_renderParticle_1_, Entity p_renderParticle_2_, float p_renderParticle_3_, float p_renderParticle_4_, float p_renderParticle_5_, float p_renderParticle_6_, float p_renderParticle_7_, float p_renderParticle_8_, CallbackInfo ci) {
         // crit particles have x=1, y=4
@@ -32,7 +36,7 @@ public abstract class MixinEntityFX {
             if (this.particleTextureIndexX == 1 && this.particleTextureIndexY == 4) {
                 if (selectedParticle == null) {
                     // finding corresponding enum value for saved name
-                    String selectedName = ModConfiguration.selectedParticle;
+                    String selectedName = particleMod.selectedParticle;
                     for (MCUtil.ParticleTypes type : MCUtil.ParticleTypes.values()) {
                         if (type.name.equals(selectedName)) {
                             selectedParticle = type;
@@ -43,7 +47,7 @@ public abstract class MixinEntityFX {
                 if (selectedParticle != null) {
                     this.particleTextureIndexX = selectedParticle.x;
                     this.particleTextureIndexY = selectedParticle.y;
-                } else if (ModConfiguration.selectedParticle.equals("random")) {
+                } else if (particleMod.selectedParticle.equals("random")) {
                     // selectedParticle will be null if particle is random, and we want to keep it that way
                     MCUtil.ParticleTypes randomParticleType = MCUtil.ParticleTypes.values()[RandomUtil.randomRange(0, MCUtil.ParticleTypes.values().length - 1)];
                     this.particleTextureIndexX = randomParticleType.x;

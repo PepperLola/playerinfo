@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin;
 
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -17,11 +18,13 @@ public class MixinMinecraft {
     @Shadow public int displayWidth;
     @Shadow private boolean fullscreen;
 
+    private DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
+
     @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
     private void displayFix(CallbackInfo ci) throws LWJGLException {
         Display.setFullscreen(false);
         if (fullscreen) {
-            if (ModConfiguration.windowedFullscreen) {
+            if (displayTweaksMod.windowedFullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
             } else {
                 Display.setFullscreen(true);
@@ -30,7 +33,7 @@ public class MixinMinecraft {
                 Minecraft.getMinecraft().displayHeight = Math.max(1, displaymode.getHeight());
             }
         } else {
-            if (ModConfiguration.windowedFullscreen) {
+            if (displayTweaksMod.windowedFullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
             } else {
                 Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));
@@ -46,7 +49,7 @@ public class MixinMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", remap = false, target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
-        if (ModConfiguration.windowedFullscreen) {
+        if (displayTweaksMod.windowedFullscreen) {
             if (fullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
                 Display.setDisplayMode(Display.getDesktopDisplayMode());

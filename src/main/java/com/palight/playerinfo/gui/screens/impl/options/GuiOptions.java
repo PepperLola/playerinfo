@@ -8,7 +8,6 @@ import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.gui.widgets.impl.GuiCheckBox;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -27,7 +26,7 @@ public class GuiOptions extends CustomGuiScreenScrollable {
     private GuiButton configButton;
 
     public GuiOptions() {
-        super(I18n.format("screen.options"));
+        super("screen.options");
     }
 
     @Override

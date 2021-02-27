@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.client.gui;
 
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
@@ -27,7 +28,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
      */
     @Overwrite
     protected void drawPing(int p_drawPing_1_, int p_drawPing_2_, int p_drawPing_3_, NetworkPlayerInfo info) {
-        if (ModConfiguration.renderPingAsText) {
+        if (((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText) {
             String ping = String.valueOf(info.getResponseTime());
             this.mc.fontRendererObj.drawString(ping, p_drawPing_2_ + p_drawPing_1_ - this.mc.fontRendererObj.getStringWidth(ping), p_drawPing_3_, 0xffffffff);
         } else {

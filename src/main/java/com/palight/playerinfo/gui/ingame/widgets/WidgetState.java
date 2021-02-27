@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.Module;
 import org.apache.commons.lang3.StringUtils;
 
 public class WidgetState {
@@ -70,6 +71,11 @@ public class WidgetState {
         int x = Integer.parseInt(split[1]);
         int y = Integer.parseInt(split[2]);
         boolean chroma = Boolean.parseBoolean(split[3]);
+
+        Module module = PlayerInfo.getModules().get(moduleId);
+        if (module == null) {
+            return null;
+        }
 
         return new WidgetState(PlayerInfo.getModules().get(moduleId).getWidget(), x, y, chroma);
     }

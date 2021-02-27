@@ -46,23 +46,11 @@ public class UnicodeFontRenderer {
     private int prevScaleFactor = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
     private String name;
     private float size;
+    private ScaledResolution resolution;
 
     public UnicodeFontRenderer(String fontName, float fontSize) {
         name = fontName;
         size = fontSize;
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-
-        try {
-            prevScaleFactor = resolution.getScaleFactor();
-            unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * prevScaleFactor / 2));
-            unicodeFont.addAsciiGlyphs();
-            unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-            unicodeFont.loadGlyphs();
-        } catch (FontFormatException | IOException | SlickException e) {
-            e.printStackTrace();
-        }
-
-        this.antiAliasingFactor = resolution.getScaleFactor();
     }
 
     public UnicodeFontRenderer(Font font) {
@@ -97,6 +85,22 @@ public class UnicodeFontRenderer {
 
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
+
+        if (resolution == null) {
+            resolution = new ScaledResolution(Minecraft.getMinecraft());
+
+            try {
+                prevScaleFactor = resolution.getScaleFactor();
+                unicodeFont = new UnicodeFont(getFontByName(name).deriveFont(size * prevScaleFactor / 2));
+                unicodeFont.addAsciiGlyphs();
+                unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+                unicodeFont.loadGlyphs();
+            } catch (FontFormatException | IOException | SlickException e) {
+                e.printStackTrace();
+            }
+
+            this.antiAliasingFactor = resolution.getScaleFactor();
+        }
 
         if (!ModConfiguration.unicodeFontRendererEnabled) {
             Minecraft.getMinecraft().fontRendererObj.drawString(text, (int) x, (int) y, color);

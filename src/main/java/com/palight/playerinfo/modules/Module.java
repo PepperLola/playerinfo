@@ -3,7 +3,6 @@ package com.palight.playerinfo.modules;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.options.ConfigOption;
-import net.minecraftforge.common.MinecraftForge;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +33,6 @@ public abstract class Module {
         this.description = description;
         this.optionsGui = optionsGui;
         this.widget = widget;
-        MinecraftForge.EVENT_BUS.register(this);
         if (this.getWidget() != null) {
             this.getWidget().setModule(this);
         }

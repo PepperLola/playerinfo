@@ -2,15 +2,29 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.OldAnimationsGui;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.options.ConfigOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
 public class OldAnimationsMod extends Module {
+
+    @ConfigOption
+    public boolean blockHitAnimationEnabled = false;
+    @ConfigOption
+    public boolean bowAnimationEnabled = false;
+    @ConfigOption
+    public boolean rodAnimationEnabled = false;
+    @ConfigOption
+    public boolean eatingAnimationEnabled = false;
+    @ConfigOption
+    public boolean swordAnimationEnabled = false;
+    @ConfigOption
+    public boolean heldAnimationEnabled = false;
+
     public OldAnimationsMod() {
-        super("old-animations", "Old Animations", "Use 1.7 animations.", ModuleType.MISC, new OldAnimationsGui(), null);
+        super("oldAnimations", "Old Animations", "Use 1.7 animations.", ModuleType.MISC, new OldAnimationsGui(), null);
     }
 
     public void attemptSwing() {

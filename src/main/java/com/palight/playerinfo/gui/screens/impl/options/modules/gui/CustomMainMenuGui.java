@@ -1,10 +1,11 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.gui;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiCheckBox;
+import com.palight.playerinfo.modules.impl.gui.CustomMainMenuMod;
 import com.palight.playerinfo.options.ModConfiguration;
-import net.minecraft.client.resources.I18n;
 
 import java.util.Arrays;
 
@@ -16,7 +17,7 @@ public class CustomMainMenuGui extends CustomGuiScreenScrollable {
     private GuiCheckBox chromaEnabled;
 
     public CustomMainMenuGui() {
-        super(I18n.format("screen.customMainMenu"));
+        super("screen.customMainMenu");
     }
 
     @Override
@@ -26,7 +27,7 @@ public class CustomMainMenuGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        chromaEnabled = new GuiCheckBox(0, buttonX, buttonY, "Chroma enabled", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_MAIN_MENU, "mainMenuChroma"));
+        chromaEnabled = new GuiCheckBox(0, buttonX, buttonY, "Chroma enabled", ((CustomMainMenuMod) PlayerInfo.getModules().get("mainMenu")).mainMenuChroma);
 
         this.guiElements.addAll(Arrays.asList(
                 this.chromaEnabled
@@ -37,7 +38,7 @@ public class CustomMainMenuGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         super.widgetClicked(widget);
         if (widget.id == chromaEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_MAIN_MENU, "mainMenuChroma", chromaEnabled.checked);
+            ((CustomMainMenuMod) PlayerInfo.getModules().get("mainMenu")).mainMenuChroma = chromaEnabled.checked;
         }
         ModConfiguration.syncFromGUI();
     }

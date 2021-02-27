@@ -127,7 +127,9 @@ public class PlayerInfo
     public static void setModuleStates() {
         for (String widgetState : ModConfiguration.widgetStates) {
             WidgetState state = WidgetState.fromString(widgetState);
-            state.getModule().setPosition(state);
+            if (state != null) {
+                state.getModule().setPosition(state);
+            }
         }
     }
 }

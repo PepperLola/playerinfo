@@ -1,16 +1,13 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.gui;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.gui.widgets.impl.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.impl.GuiColorPicker;
+import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import com.palight.playerinfo.options.ModConfiguration;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.world.World;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,8 +24,11 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
     private GuiButton secondaryColorButton;
     private GuiButton resetColorsButton;
 
+    private final ScoreboardMod module;
+
     public ScoreboardGui() {
-        super(I18n.format("screen.scoreboard"));
+        super("screen.scoreboard");
+        module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
     }
 
     @Override
@@ -37,8 +37,8 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        scoreboardEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable scoreboard", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GUI, "scoreboardEnabled"));
-        scoreboardNumbersEnabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable scoreboard numbers", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_GUI, "scoreboardNumbersEnabled"));
+        scoreboardEnabled = new GuiCheckBox(0, buttonX, buttonY, "Enable scoreboard", module.scoreboardEnabled);
+        scoreboardNumbersEnabled = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable scoreboard numbers", module.scoreboardNumbersEnabled);
         colorPicker = new GuiColorPicker(2, buttonX, buttonY + 64);
         int buttonWidth = (xSize - 3 * leftOffset - 2) / 3;
         int buttonLeft = guiX + leftOffset + 2;
@@ -58,21 +58,17 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
 
     @Override
     protected void widgetClicked(GuiCustomWidget widget) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        World playerWorld = player.getEntityWorld();
-        BlockPos playerLocation = player.getPosition();
-
         if (widget.id == scoreboardEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardEnabled", scoreboardEnabled.checked);
+            module.scoreboardEnabled = scoreboardEnabled.checked;
         } else if (widget.id == scoreboardNumbersEnabled.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardNumbersEnabled", scoreboardNumbersEnabled.checked);
+            module.scoreboardNumbersEnabled = scoreboardNumbersEnabled.checked;
         } else if (widget.id == primaryColorButton.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardHeaderColor", colorPicker.getColor());
+            module.scoreboardHeaderColor = colorPicker.getColor();
         } else if (widget.id == secondaryColorButton.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardBodyColor", colorPicker.getColor());
+            module.scoreboardBodyColor = colorPicker.getColor();
         } else if (widget.id == resetColorsButton.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardHeaderColor", 1610612736);
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_GUI, "scoreboardBodyColor", 1342177280);
+            module.scoreboardHeaderColor = 1610612736;
+            module.scoreboardBodyColor = 1342177280;
         }
 
         ModConfiguration.syncFromGUI();

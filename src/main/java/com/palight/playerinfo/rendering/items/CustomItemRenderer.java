@@ -1,7 +1,8 @@
 package com.palight.playerinfo.rendering.items;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.mixin.render.IMixinItemRenderer;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.modules.impl.misc.OldAnimationsMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,25 +20,29 @@ public class CustomItemRenderer {
     private ItemRenderer parent;
     private Minecraft mc;
 
+    private OldAnimationsMod oldAnimationsMod = ((OldAnimationsMod) PlayerInfo.getModules().get("oldAnimations"));
+
     public CustomItemRenderer(ItemRenderer parent) {
         this.parent = parent;
-        mc = Minecraft.getMinecraft();
     }
 
     public void transformFirstPersonItem(float equipProgress, float swingProgress) {
-        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.bowAnimationEnabled && mc != null && mc.thePlayer != null &&
+        if (mc == null) {
+            mc = Minecraft.getMinecraft();
+        }
+        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.bowAnimationEnabled && mc != null && mc.thePlayer != null &&
                 mc.thePlayer.getItemInUse() != null && mc.thePlayer.getItemInUse().getItem() != null &&
                 Item.getIdFromItem(mc.thePlayer.getItemInUse().getItem()) == 261) {
             GlStateManager.translate(0.0f, 0.05f, 0.04f);
         }
 
-        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.rodAnimationEnabled && mc != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() !=
+        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.rodAnimationEnabled && mc != null && mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() !=
                 null && Item.getIdFromItem(mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
             GlStateManager.translate(0.08f, -0.027f, -0.33f);
             GlStateManager.scale(0.93f, 1.0f, 1.0f);
         }
 
-        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.blockHitAnimationEnabled && mc != null && mc.thePlayer != null && mc.thePlayer.isSwingInProgress && mc.thePlayer.getCurrentEquippedItem() !=
+        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.blockHitAnimationEnabled && mc != null && mc.thePlayer != null && mc.thePlayer.isSwingInProgress && mc.thePlayer.getCurrentEquippedItem() !=
                 null && !mc.thePlayer.isEating() && !mc.thePlayer.isBlocking()) {
             GlStateManager.scale(0.85f, 0.85f, 0.85f);
             GlStateManager.translate(-0.078f, 0.003f, 0.05f);
@@ -56,6 +61,9 @@ public class CustomItemRenderer {
     }
 
     public void renderItemInFirstPerson(float partialTicks, float prevEquippedProgress, float equippedProgress, ItemStack itemToRender) {
+        if (mc == null) {
+            mc = Minecraft.getMinecraft();
+        }
         float f = 1.0F - (prevEquippedProgress + (equippedProgress - prevEquippedProgress) * partialTicks);
         EntityPlayerSP entityPlayerSP = mc.thePlayer;
         float f1 = entityPlayerSP.getSwingProgress(partialTicks);
@@ -70,7 +78,7 @@ public class CustomItemRenderer {
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
                 ((IMixinItemRenderer) parent).callRenderItemMap(entityPlayerSP, f2, f, f1);
-            } else if ((itemToRender.getItem() instanceof ItemSword) && !mc.thePlayer.isBlocking() && ModConfiguration.oldAnimationsModEnabled && ModConfiguration.swordAnimationEnabled) {
+            } else if ((itemToRender.getItem() instanceof ItemSword) && !mc.thePlayer.isBlocking() && oldAnimationsMod.isEnabled() && oldAnimationsMod.swordAnimationEnabled) {
                 transformFirstPersonItem(f, f1);
             } else if (entityPlayerSP.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();
@@ -82,14 +90,14 @@ public class CustomItemRenderer {
                     case EAT:
                     case DRINK:
                         ((IMixinItemRenderer) parent).callPerformDrinking(entityPlayerSP, partialTicks);
-                        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.eatingAnimationEnabled) {
+                        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.eatingAnimationEnabled) {
                             transformFirstPersonItem(f, f1);
                         } else {
                             transformFirstPersonItem(f, 0.0F);
                         }
                         break;
                     case BLOCK:
-                        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.blockHitAnimationEnabled) {
+                        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.blockHitAnimationEnabled) {
                             transformFirstPersonItem(f, f1);
                             ((IMixinItemRenderer) parent).callDoBlockTransformations();
                             GlStateManager.scale(0.83f, 0.88f, 0.85f);
@@ -101,7 +109,7 @@ public class CustomItemRenderer {
                         break;
 
                     case BOW:
-                        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.bowAnimationEnabled) {
+                        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.bowAnimationEnabled) {
                             transformFirstPersonItem(f, f1);
                             ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);

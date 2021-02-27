@@ -58,6 +58,7 @@ public class GuiModuleEntry extends GuiCustomWidget {
     public void mouseClicked(int mouseX, int mouseY) {
         if (NumberUtil.pointIsBetween(mouseX, mouseY, buttonX, buttonY, buttonX + width - 20, buttonY + height)) {
             module.setEnabled(!module.isEnabled());
+            System.out.println(module.getName() + ": " + module.hashCode());
             setButtonText();
         } else if (NumberUtil.pointIsBetween(mouseX, mouseY, buttonX + width - 20, buttonY, buttonX + width, buttonY + height)) {
             Minecraft.getMinecraft().displayGuiScreen(module.getOptionsGui());

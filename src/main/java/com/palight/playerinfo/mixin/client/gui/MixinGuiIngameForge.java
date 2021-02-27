@@ -7,7 +7,6 @@ import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -18,7 +17,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -121,7 +119,7 @@ public class MixinGuiIngameForge extends GuiIngame {
                 regen = this.updateCounter % 25;
             }
 
-            int TOP = 9 * (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled() || ModConfiguration.hardcoreHeartsEnabled && DisplayTweaksMod.hardcoreHearts ? 5 : 0);
+            int TOP = 9 * (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled() || ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).hardcoreHeartsEnabled && DisplayTweaksMod.hardcoreHearts ? 5 : 0);
             int BACKGROUND = highlight ? 25 : 16;
             int MARGIN = 16;
             if (player.isPotionActive(Potion.poison)) {
@@ -182,12 +180,10 @@ public class MixinGuiIngameForge extends GuiIngame {
     @Overwrite
     protected void renderTitle(int width, int height, float partialTicks) {
         if (this.titlesTimer > 0) {
-            System.out.println("RENDERING TITLE " + ((IMixinGuiIngame) this).getDisplayedTitle());
             if (!sentTitle) {
                 String title = ((IMixinGuiIngame) this).getDisplayedTitle();
                 String subtitle = ((IMixinGuiIngame) this).getDisplayedSubTitle();
                 if (!title.equals("") && subtitle.equals("")) {
-                    System.out.println("TITLE IN MIXIN: " + title + " | " + EnumChatFormatting.getTextWithoutFormattingCodes(title));
                     MinecraftForge.EVENT_BUS.post(new RenderTitleEvent(title, subtitle));
                     sentTitle = true;
                 }

@@ -2,7 +2,6 @@ package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.rendering.items.CustomItemRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -19,6 +18,8 @@ public class MixinItemRenderer {
     @Shadow private ItemStack itemToRender;
     @Shadow private float equippedProgress;
     @Shadow private float prevEquippedProgress;
+
+    private DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
 
     private CustomItemRenderer customItemRenderer = new CustomItemRenderer((ItemRenderer) (Object) this);
 
@@ -42,8 +43,7 @@ public class MixinItemRenderer {
 
     @Inject(method = "renderFireInFirstPerson", at = @At("HEAD"))
     private void preRenderFire(float partialTicks, CallbackInfo ci) {
-        DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
-        if (displayTweaksMod.isEnabled() && ModConfiguration.lowerFire) {
+        if (displayTweaksMod.isEnabled() && displayTweaksMod.lowerFire) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(0, -0.20, 0);
         }
@@ -51,8 +51,7 @@ public class MixinItemRenderer {
 
     @Inject(method = "renderFireInFirstPerson", at = @At("RETURN"))
     private void postRenderFire(float partialTicks, CallbackInfo ci) {
-        DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
-        if (displayTweaksMod.isEnabled() && ModConfiguration.lowerFire) {
+        if (displayTweaksMod.isEnabled() && displayTweaksMod.lowerFire) {
             GlStateManager.popMatrix();
         }
     }

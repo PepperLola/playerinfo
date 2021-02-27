@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
@@ -19,14 +20,15 @@ public class CustomGuiScreen extends GuiScreen {
 
     protected int leftOffset = 15;
 
+    private String screenNameKey;
     private String screenName;
 
     /**
      * Constructor for CustomGuiScreen class.
-     * @param screenName Name to be displayed when in the GUI.
+     * @param screenNameKey Name to be displayed when in the GUI.
      */
-    public CustomGuiScreen(String screenName) {
-        this.screenName = screenName;
+    public CustomGuiScreen(String screenNameKey) {
+        this.screenNameKey = screenNameKey;
     }
 
     protected int headerWidth = 76;
@@ -79,7 +81,7 @@ public class CustomGuiScreen extends GuiScreen {
         drawTexturedModalRect(headerX, headerY, 0, 0, headerWidth, headerHeight);
 //        }
 
-        this.mc.fontRendererObj.drawString(screenName, guiX + (headerWidth / 2) - (mc.fontRendererObj.getStringWidth(screenName) / 2), guiY + (int) Math.floor((headerHeight / 2)) - 5, 0xffffffff);
+        this.mc.fontRendererObj.drawString(getScreenName(), guiX + (headerWidth / 2) - (mc.fontRendererObj.getStringWidth(getScreenName()) / 2), guiY + (int) Math.floor((headerHeight / 2)) - 5, 0xffffffff);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -162,14 +164,14 @@ public class CustomGuiScreen extends GuiScreen {
      * @return Screen name.
      */
     public String getScreenName() {
+        if (screenName == null) {
+            try {
+                screenName = I18n.format(screenNameKey);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return screenNameKey;
+            }
+        }
         return screenName;
-    }
-
-    /**
-     * Sets screen name directly.
-     * @param screenName Name to be displayed when in the GUI.
-     */
-    public void setScreenName(String screenName) {
-        this.screenName = screenName;
     }
 }

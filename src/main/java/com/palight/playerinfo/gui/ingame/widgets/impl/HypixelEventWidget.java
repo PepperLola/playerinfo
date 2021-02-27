@@ -3,7 +3,7 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.modules.impl.misc.HypixelEventsMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,18 +14,20 @@ public class HypixelEventWidget extends GuiIngameWidget {
     private int ticksToExist = 0;
     private String title = "";
     private String subtitle = "";
-    private final ScaledResolution res;
+    private ScaledResolution res;
 
     public HypixelEventWidget() {
         super(-1, -1, 64, 32);
-        res = new ScaledResolution(Minecraft.getMinecraft());
-        this.getPosition().setX((res.getScaledWidth() - this.width) / 2);
-        this.getPosition().setY((res.getScaledHeight() - this.height) / 2);
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
     public void render(Minecraft mc) {
+        if (res == null) {
+            res = new ScaledResolution(Minecraft.getMinecraft());
+            this.getPosition().setX((res.getScaledWidth() - this.width) / 2);
+            this.getPosition().setY((res.getScaledHeight() - this.height) / 2);
+            MinecraftForge.EVENT_BUS.register(this);
+        }
         if (ticksToExist <= 0) {
             title = "";
             subtitle = "";
@@ -45,7 +47,7 @@ public class HypixelEventWidget extends GuiIngameWidget {
 
     @SubscribeEvent
     public void onFriendJoin(HypixelEvent.FriendEvent event) {
-        if (!ModConfiguration.friendAlertsEnabled) return;
+        if (!((HypixelEventsMod) PlayerInfo.getModules().get("hypixelEvents")).friendAlerts) return;
         this.title = event.getUsername();
         this.subtitle = HypixelEvent.FriendEvent.FriendEventType.getStringToUse(event.getType()) + " the server.";
         this.ticksToExist = 4 * 20; // seconds * ticks per second

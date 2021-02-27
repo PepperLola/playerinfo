@@ -2,7 +2,7 @@ package com.palight.playerinfo.gui.screens.impl;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.widgets.impl.GuiTexturedButton;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.modules.impl.gui.CustomMainMenuMod;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
@@ -49,7 +49,9 @@ public class MainMenuGui extends GuiScreen {
         this.drawDefaultBackground();
 //        System.out.println("CHROMA: " + ModConfiguration.mainMenuChroma);
 
-        if (ModConfiguration.mainMenuChroma) {
+        CustomMainMenuMod mainMenuMod = (CustomMainMenuMod) PlayerInfo.getModules().get("mainMenu");
+
+        if (mainMenuMod != null && mainMenuMod.mainMenuChroma) {
             this.drawGradientRect(0, 0, this.width, this.height, ColorUtil.getChromaColor(), ColorUtil.getChromaColor(1000));
             this.drawString(this.fontRendererObj, "Made by palight", 4, this.height - 20, 0xffffffff);
 

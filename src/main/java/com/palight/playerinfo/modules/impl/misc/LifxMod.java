@@ -2,6 +2,7 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.LifxGui;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class LifxMod extends Module {
+
+    @ConfigOption
+    public String lifxToken = "";
+    @ConfigOption
+    public String lifxSelector = "";
+    @ConfigOption
+    public boolean lifxTeamMode = false;
+
     public LifxMod() {
         super("lifx", "Lifx", "Provides a LIFX integration", ModuleType.MISC, new LifxGui(), null);
     }

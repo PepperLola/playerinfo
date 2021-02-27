@@ -4,6 +4,7 @@ import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.gui.ingame.widgets.impl.HypixelEventWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.HypixelEventsGui;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -17,6 +18,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HypixelEventsMod extends Module {
+
+    @ConfigOption
+    public boolean friendAlerts = false;
+
+    @ConfigOption
+    public String alertSound = "none";
 
     public HypixelEventsMod() {
         super("hypixelEvents", "Hypixel Events", "Useful events for Hypixel.", ModuleType.MISC, new HypixelEventsGui(), new HypixelEventWidget());

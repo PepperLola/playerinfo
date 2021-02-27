@@ -1,5 +1,6 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.misc;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
@@ -7,7 +8,6 @@ import com.palight.playerinfo.gui.widgets.impl.GuiDropdown;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
     private GuiSlider fastTimeMultiplierSlider;
 
     public TimeChangerGui() {
-        super(I18n.format("screen.timeChanger"));
+        super("screen.timeChanger");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
         timePicker = new GuiDropdown(0, buttonX, buttonY, times);
         setTimeButton = new GuiButton(1, buttonX + 64, buttonY, 64, 20, "Set Time");
 
-        fastTimeMultiplierSlider = new GuiSlider(2, buttonX, buttonY + 32, 128, 20, "Time Multiplier: ", "", 0D, 4D, ModConfiguration.fastTimeMultiplier, true, true);
+        fastTimeMultiplierSlider = new GuiSlider(2, buttonX, buttonY + 32, 128, 20, "Time Multiplier: ", "", 0D, 4D, ((TimeChangerMod) PlayerInfo.getModules().get("timeChanger")).fastTimeMultiplier, true, true);
 
         this.guiElements.addAll(Arrays.asList(
                 this.timePicker,
@@ -62,7 +62,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         super.widgetClicked(widget);
         if (widget.id == setTimeButton.id) {
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_PARTICLE, "selectedTime", timePicker.getSelectedItem().toLowerCase());
+            ((TimeChangerMod) PlayerInfo.getModules().get("timeChanger")).selectedTime = timePicker.getSelectedItem();
             ModConfiguration.syncFromGUI();
         }
     }
@@ -78,7 +78,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
     protected void mouseReleased(int p_mouseReleased_1_, int p_mouseReleased_2_, int p_mouseReleased_3_) {
         super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_2_, p_mouseReleased_3_);
         fastTimeMultiplierSlider.mouseReleased(p_mouseReleased_1_, p_mouseReleased_2_);
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_TIME, "fastTimeMultiplier", fastTimeMultiplierSlider.sliderValue);
+        ((TimeChangerMod) PlayerInfo.getModules().get("timeChanger")).fastTimeMultiplier = fastTimeMultiplierSlider.sliderValue;
         ModConfiguration.syncFromGUI();
     }
 }

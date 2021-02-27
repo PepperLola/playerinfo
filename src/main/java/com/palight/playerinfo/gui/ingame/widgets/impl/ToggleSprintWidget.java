@@ -18,12 +18,19 @@ public class ToggleSprintWidget extends GuiIngameWidget {
 
     public ToggleSprintWidget(int xPosition, int yPosition) {
         super(xPosition, yPosition, -1, -1);
-        sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
-        sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
     }
 
     public void render(Minecraft mc) {
         if (!ModConfiguration.toggleSprintWidgetEnabled) return;
+
+        if (sprintKey == null) {
+            sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
+        }
+
+        if (sneakKey == null) {
+            sneakKey = Minecraft.getMinecraft().gameSettings.keyBindSneak;
+        }
+
         UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
         this.height = (int) (fr.getHeight("[Sprinting (Toggled)]") + 1);
         String displayText = "";

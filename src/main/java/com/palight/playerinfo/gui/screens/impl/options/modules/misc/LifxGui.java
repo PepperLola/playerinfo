@@ -1,15 +1,16 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.misc;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.widgets.impl.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.impl.GuiColorPicker;
+import com.palight.playerinfo.modules.impl.misc.LifxMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HttpUtilResponseHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -38,8 +39,11 @@ public class LifxGui extends CustomGuiScreen {
     public static int TEAM_COLOR;
     public static boolean TEAM_MODE;
 
+    private final LifxMod module;
+
     public LifxGui() {
-        super(I18n.format("screen.lifx"));
+        super("screen.lifx");
+        module = ((LifxMod) PlayerInfo.getModules().get("lifx"));
     }
 
     @Override
@@ -167,29 +171,30 @@ public class LifxGui extends CustomGuiScreen {
     }
 
     public static void setToken(String token) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_LIFX, "lifxToken", token);
+        ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxToken = token;
         ModConfiguration.syncFromGUI();
     }
 
     public static String getToken() {
-        return ModConfiguration.lifxToken;
+        return ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxToken;
     }
 
     public static void setSelector(String selector) {
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_LIFX, "lifxSelector", selector);
+        ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxSelector = selector;
         ModConfiguration.syncFromGUI();
     }
 
     public static String getSelector() {
-        return ModConfiguration.lifxSelector;
+        return ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxSelector;
     }
 
     public static void setTeamMode(boolean teams) {
         TEAM_MODE = teams;
-        ModConfiguration.writeConfig(ModConfiguration.CATEGORY_LIFX, "lifxTeamMode", teams);
+        ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxTeamMode = teams;
+        ModConfiguration.syncFromGUI();
     }
 
     public static boolean getTeamMode() {
-        return ModConfiguration.getBoolean(ModConfiguration.CATEGORY_LIFX, "lifxTeamMode");
+        return ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxTeamMode;
     }
 }

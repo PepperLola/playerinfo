@@ -1,13 +1,14 @@
 package com.palight.playerinfo.gui.screens.impl.options.modules.misc;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
 import com.palight.playerinfo.gui.widgets.impl.GuiDropdown;
+import com.palight.playerinfo.modules.impl.misc.ParticleMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.MCUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +23,11 @@ public class ParticleGui extends CustomGuiScreenScrollable {
     private GuiDropdown particlePicker;
     private GuiButton setParticleButton;
 
+    private ParticleMod module;
+
     public ParticleGui() {
-        super(I18n.format("screen.particle"));
+        super("screen.particle");
+        module = ((ParticleMod) PlayerInfo.getModules().get("particle"));
     }
 
     @Override
@@ -51,8 +55,7 @@ public class ParticleGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         super.widgetClicked(widget);
         if (widget.id == setParticleButton.id) {
-            System.out.println("SETTING CUSTOM CRIT PARTICLE TO " + particlePicker.getSelectedItem().toUpperCase());
-            ModConfiguration.writeConfig(ModConfiguration.CATEGORY_PARTICLE, "selectedParticle", particlePicker.getSelectedItem().toLowerCase());
+            module.selectedParticle = particlePicker.getSelectedItem().toLowerCase();
             ModConfiguration.syncFromGUI();
         }
     }

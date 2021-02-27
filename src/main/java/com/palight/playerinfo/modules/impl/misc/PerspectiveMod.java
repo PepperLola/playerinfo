@@ -2,7 +2,7 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.PerspectiveGui;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -11,7 +11,8 @@ import org.lwjgl.input.Keyboard;
 
 public class PerspectiveMod extends Module {
 
-    private boolean mustHoldKey = ModConfiguration.mustHoldPerspectiveKey; // if true, the player must hold the key to stay in perspective mode, otherwise it'll toggle
+    @ConfigOption
+    public boolean mustHoldKey = false; // if true, the player must hold the key to stay in perspective mode, otherwise it'll toggle
     private boolean perspectiveToggled = false;
 
     private float cameraYaw = 0F;

@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -48,7 +47,7 @@ public class MainGui extends CustomGuiScreenScrollable {
     List<GuiModuleEntry> modules = new ArrayList<>();
 
     public MainGui() {
-        super(I18n.format("screen.main"));
+        super("screen.main");
     }
 
 

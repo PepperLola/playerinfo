@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DiscordRichPresenceMod extends Module {
     public DiscordRichPresenceMod() {
-        super("discord-rpc", "Discord RPC", "Enabled Discord Rich Presence", ModuleType.MISC, null, null);
+        super("discordPresence", "Discord RPC", "Enabled Discord Rich Presence", ModuleType.MISC, null, null);
         if (this.enabled) {
             /* Discord Rich Presence */
             client = new IPCClient(applicationId);

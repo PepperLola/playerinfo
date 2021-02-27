@@ -2,21 +2,23 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.TimeChangerGui;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TimeChangerMod extends Module {
 
+    public String selectedTime = "time";
+    public double fastTimeMultiplier = 1.0D;
+
     public TimeChangerMod() {
-        super("time-changer", "Time Changer", "Lets you change the in game time for you.", Module.ModuleType.MISC, new TimeChangerGui(), null);
+        super("timeChanger", "Time Changer", "Lets you change the in game time for you.", Module.ModuleType.MISC, new TimeChangerGui(), null);
     }
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
-        if (this.isEnabled() && mc.theWorld != null && ModConfiguration.selectedTime != null && Time.getTime(ModConfiguration.selectedTime) == Time.FAST) {
+        if (this.isEnabled() && mc.theWorld != null && selectedTime != null && Time.getTime(selectedTime) == Time.FAST) {
             Minecraft.getMinecraft().theWorld.setWorldTime(getTime(Time.FAST));
         }
     }
@@ -30,7 +32,7 @@ public class TimeChangerMod extends Module {
             case DUSK:
                 return 12542;
             case FAST:
-                return (long) (System.currentTimeMillis() * ModConfiguration.fastTimeMultiplier) % 24000;
+                return (long) (System.currentTimeMillis() * fastTimeMultiplier) % 24000;
             case DAY:
             default:
                 return 6000;

@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.OldAnimationsMod;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
@@ -24,6 +25,8 @@ public class MixinLayerHeldItem {
 
     @Shadow @Final private RendererLivingEntity<?> livingEntityRenderer;
 
+    private OldAnimationsMod oldAnimationsMod = ((OldAnimationsMod) PlayerInfo.getModules().get("oldAnimations"));
+
     /**
      * @author palight
      * @reason 1.7 blocking animation
@@ -42,7 +45,7 @@ public class MixinLayerHeldItem {
             }
             Label_0327:
             if (entity instanceof EntityPlayer) {
-                if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.blockHitAnimationEnabled) {
+                if (oldAnimationsMod.isEnabled() && oldAnimationsMod.blockHitAnimationEnabled) {
                     if (((EntityPlayer) entity).isBlocking()) {
                         if (entity.isSneaking()) {
                             ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
@@ -65,11 +68,11 @@ public class MixinLayerHeldItem {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
                 }
 
-                if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.heldAnimationEnabled) {
+                if (oldAnimationsMod.isEnabled() && oldAnimationsMod.heldAnimationEnabled) {
                     GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
                 } else {
                     if (!((EntityPlayer) entity).isBlocking()) {
-                        if (ModConfiguration.oldAnimationsModEnabled && ModConfiguration.heldAnimationEnabled) {
+                        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.heldAnimationEnabled) {
                             GlStateManager.translate(-0.0855f, 0.4775f, 0.1585f);
                             GlStateManager.rotate(-19.0f, 20.0f, 0.0f, -6.0f);
                             break Label_0327;
