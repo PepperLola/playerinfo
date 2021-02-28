@@ -24,16 +24,20 @@ public class ScoreboardGui extends CustomGuiScreenScrollable {
     private GuiButton secondaryColorButton;
     private GuiButton resetColorsButton;
 
-    private final ScoreboardMod module;
+    private ScoreboardMod module;
 
     public ScoreboardGui() {
         super("screen.scoreboard");
-        module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
     }
 
     @Override
     public void initGui() {
         super.initGui();
+
+        if (module == null) {
+            module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
+        }
+
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 

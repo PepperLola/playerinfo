@@ -18,12 +18,15 @@ public class ToggleSprintGui extends CustomGuiScreenScrollable {
 
     public ToggleSprintGui() {
         super("screen.toggleSprint");
-        module = ((ToggleSprintMod) PlayerInfo.getModules().get("toggleSprint"));
     }
 
     @Override
     public void initGui() {
         super.initGui();
+
+        if (module == null) {
+            module = ((ToggleSprintMod) PlayerInfo.getModules().get("toggleSprint"));
+        }
 
         int buttonX = guiX + leftOffset + 6;
         int buttonY = guiY + headerHeight + 16;

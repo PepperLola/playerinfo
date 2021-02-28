@@ -4,7 +4,6 @@ import com.palight.playerinfo.gui.ingame.widgets.impl.ToggleSprintWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.movement.ToggleSprintGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ConfigOption;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,7 +53,7 @@ public class ToggleSprintMod extends Module {
             KeyBinding.setKeyBindState(sprintKey.getKeyCode(), true);
         }
 
-        if (ModConfiguration.toggleSneakModEnabled) {
+        if (toggleSneakEnabled) {
             if (sneakKey.isPressed()) {
                 sneakingToggled = !sneakingToggled;
             }

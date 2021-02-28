@@ -27,12 +27,15 @@ public class ParticleGui extends CustomGuiScreenScrollable {
 
     public ParticleGui() {
         super("screen.particle");
-        module = ((ParticleMod) PlayerInfo.getModules().get("particle"));
     }
 
     @Override
     public void initGui() {
         super.initGui();
+
+        if (module == null) {
+            module = ((ParticleMod) PlayerInfo.getModules().get("particle"));
+        }
 
         buttonX = guiX + 32;
         buttonY = guiY + 32;

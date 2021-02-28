@@ -5,7 +5,6 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.InfoCommand;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -39,7 +38,7 @@ public class MCUtil {
     }
 
     public static String getPlayerStatus(UUID uuid) {
-        String res = HttpUtil.httpGet("https://api.hypixel.net/status?uuid=" + uuid.toString() + "&key=" + ModConfiguration.hypixelApiKey);
+        String res = HttpUtil.httpGet("https://api.hypixel.net/status?uuid=" + uuid.toString() + "&key=" + ((DiscordRichPresenceMod) PlayerInfo.getModules().get("discordRPC")).hypixelApiKey);
         Map<String, Object> data = (Map<String, Object>) ((Map<String, Object>) PlayerInfo.gson.fromJson(res, new TypeToken<Map<String, Object>>(){}.getType())).get("session");
         return data.get("gameType") + " " + data.get("mode");
     }

@@ -20,6 +20,8 @@ public class DisplayTweaksMod extends Module {
     public boolean hardcoreHeartsEnabled = false;
     @ConfigOption
     public boolean renderPingAsText = false;
+    @ConfigOption
+    public boolean unicodeFontRendererEnabled = false;
     public static boolean hardcoreHearts = false;
 
     public DisplayTweaksMod() {

@@ -22,16 +22,20 @@ public class HypixelEventsGui extends CustomGuiScreenScrollable {
     private GuiButton setSoundButton;
     private GuiCheckBox friendAlertCheckbox;
 
-    private final HypixelEventsMod module;
+    private HypixelEventsMod module;
 
     public HypixelEventsGui() {
         super("screen.hypixelEventsGui");
-        module = ((HypixelEventsMod) PlayerInfo.getModules().get("hypixelEvents"));
     }
 
     @Override
     public void initGui() {
         super.initGui();
+
+        if (module == null) {
+            module = ((HypixelEventsMod) PlayerInfo.getModules().get("hypixelEvents"));
+        }
+
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 

@@ -3,7 +3,6 @@ package com.palight.playerinfo.modules.impl.misc;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.LifxGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ConfigOption;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -28,7 +27,7 @@ public class LifxMod extends Module {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         EntityPlayer clientPlayer = Minecraft.getMinecraft().thePlayer;
         if (clientPlayer == null) return;
-        if (!ModConfiguration.lifxModEnabled) return;
+        if (!enabled) return;
 
         ItemStack helmet = clientPlayer.getCurrentArmor(3);
 

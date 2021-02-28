@@ -1,7 +1,6 @@
 package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,7 +37,7 @@ public class TextReplacementMod extends Module {
 
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
-        if (ModConfiguration.textReplacementModEnabled) {
+        if (this.enabled) {
             String message = event.message.getFormattedText();
             for (String s : directReplacements.keySet()) {
                 message = message.replaceAll(s, directReplacements.get(s));

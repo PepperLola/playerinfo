@@ -1,6 +1,7 @@
 package com.palight.playerinfo.rendering.font;
 
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -48,6 +49,8 @@ public class UnicodeFontRenderer {
     private float size;
     private ScaledResolution resolution;
 
+    private DisplayTweaksMod module;
+
     public UnicodeFontRenderer(String fontName, float fontSize) {
         name = fontName;
         size = fontSize;
@@ -86,6 +89,10 @@ public class UnicodeFontRenderer {
     public int drawString(String text, float x, float y, int color) {
         if (text == null) return 0;
 
+        if (module == null) {
+            module = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
+        }
+
         if (resolution == null) {
             resolution = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -102,7 +109,7 @@ public class UnicodeFontRenderer {
             this.antiAliasingFactor = resolution.getScaleFactor();
         }
 
-        if (!ModConfiguration.unicodeFontRendererEnabled) {
+        if (!module.unicodeFontRendererEnabled) {
             Minecraft.getMinecraft().fontRendererObj.drawString(text, (int) x, (int) y, color);
             return 0;
         }
@@ -219,7 +226,10 @@ public class UnicodeFontRenderer {
     }
 
     public float getWidth(String text) {
-        if (!ModConfiguration.unicodeFontRendererEnabled) {
+        if (module == null) {
+            module = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
+        }
+        if (!module.unicodeFontRendererEnabled) {
             return (float) Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
         }
         if (cachedStringWidth.size() > 1000) cachedStringWidth.clear();
@@ -231,7 +241,10 @@ public class UnicodeFontRenderer {
     }
 
     public float getHeight(String s) {
-        if (!ModConfiguration.unicodeFontRendererEnabled) {
+        if (module == null) {
+            module = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
+        }
+        if (!module.unicodeFontRendererEnabled) {
             return Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
         }
         return unicodeFont.getHeight(s) / 2.0F;

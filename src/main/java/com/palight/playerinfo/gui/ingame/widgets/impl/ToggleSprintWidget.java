@@ -4,7 +4,6 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -16,12 +15,17 @@ public class ToggleSprintWidget extends GuiIngameWidget {
     private static KeyBinding sprintKey;
     private static KeyBinding sneakKey;
 
+    private ToggleSprintMod module;
+
     public ToggleSprintWidget(int xPosition, int yPosition) {
         super(xPosition, yPosition, -1, -1);
     }
 
     public void render(Minecraft mc) {
-        if (!ModConfiguration.toggleSprintWidgetEnabled) return;
+        if (module == null) {
+            module = ((ToggleSprintMod) PlayerInfo.getModules().get("toggleSprint"));
+        }
+        if (!module.isEnabled()) return;
 
         if (sprintKey == null) {
             sprintKey = Minecraft.getMinecraft().gameSettings.keyBindSprint;
@@ -52,14 +56,14 @@ public class ToggleSprintWidget extends GuiIngameWidget {
                 displayText = "[Sneaking (%s)]";
                 if (sneakKey.isKeyDown() && !ToggleSprintMod.isSneakingToggled()) {
                     displayText = String.format(displayText, "Key Held");
-                } else if (ModConfiguration.toggleSneakModEnabled && ToggleSprintMod.isSneakingToggled()) {
+                } else if (module.toggleSneakEnabled && ToggleSprintMod.isSneakingToggled()) {
                     displayText = String.format(displayText, "Toggled");
                 }
             } else if (player.isSprinting()) {
                 displayText = "[Sprinting (%s)]";
                 if (sprintKey.isKeyDown() && !ToggleSprintMod.isSprintingToggled()) {
                     displayText = String.format(displayText, "Key Held");
-                } else if (ModConfiguration.toggleSprintModEnabled && ToggleSprintMod.isSprintingToggled()) {
+                } else if (module.isEnabled() && ToggleSprintMod.isSprintingToggled()) {
                     displayText = String.format(displayText, "Toggled");
                 } else {
                     displayText = String.format(displayText, "Vanilla");
@@ -85,6 +89,6 @@ public class ToggleSprintWidget extends GuiIngameWidget {
 
     @Override
     public boolean shouldRender(Module module) {
-        return ModConfiguration.toggleSprintWidgetEnabled;
+        return ((ToggleSprintMod) PlayerInfo.getModules().get("toggleSprint")).toggleSprintWidgetEnabled;
     }
 }

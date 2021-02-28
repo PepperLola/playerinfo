@@ -162,7 +162,7 @@ public class LifxGui extends CustomGuiScreen {
         headers.put("content-type", "application/json");
         headers.put("Authorization", "Bearer " + token);
 
-        HttpUtil.httpPut(String.format("https://api.lifx.com/v1/lights/%s/state", ModConfiguration.lifxSelector), headers, String.format("{\"power\": \"on\", \"color\": \"rgb:%d,%d,%d\",\"brightness\":%f}", red, green, blue, alpha / 255.0), new HttpUtilResponseHandler() {
+        HttpUtil.httpPut(String.format("https://api.lifx.com/v1/lights/%s/state", ((LifxMod) PlayerInfo.getModules().get("lifx")).lifxSelector), headers, String.format("{\"power\": \"on\", \"color\": \"rgb:%d,%d,%d\",\"brightness\":%f}", red, green, blue, alpha / 255.0), new HttpUtilResponseHandler() {
             @Override
             public void handleResponse(HttpResponse response) {
                 System.out.println(response.getStatusLine().getStatusCode());

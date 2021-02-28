@@ -9,7 +9,7 @@ import com.palight.playerinfo.events.ScoreboardTitleChangeEvent;
 import com.palight.playerinfo.events.ServerJoinEvent;
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.CustomMainMenuGui;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.util.MCUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -41,6 +41,9 @@ public class DiscordRichPresenceMod extends Module {
         }
     }
 
+    @ConfigOption
+    public String hypixelApiKey = "";
+
     public static long applicationId = 568255570407063553L;
     public static String steamId = "";
     public static String serverIp = "";
@@ -50,7 +53,7 @@ public class DiscordRichPresenceMod extends Module {
     private static IPCClient client;
 
     public static void updateDiscord() {
-        if (ModConfiguration.discordRPCEnabled) {
+        if (PlayerInfo.getModules().get("discordRPC").isEnabled()) {
             new Thread(() -> {
                 System.out.println("DISCORD STATE: " + DiscordState.getDisplayString(discordState));
                 RichPresence.Builder builder = new RichPresence.Builder();
@@ -116,7 +119,7 @@ public class DiscordRichPresenceMod extends Module {
                 case SINGLEPLAYER:
                     return "In a singleplayer world";
                 case MULTIPLAYER:
-                    if (serverIp.contains("hypixel.net") && !ModConfiguration.hypixelApiKey.equals("")) {
+                    if (serverIp.contains("hypixel.net") && !((DiscordRichPresenceMod) PlayerInfo.getModules().get("discordRP")).hypixelApiKey.equals("")) {
                         return "Playing " + MCUtil.getPlayerStatus() + " on Hypixel";
                     }
                     return "Playing on " + serverIp;

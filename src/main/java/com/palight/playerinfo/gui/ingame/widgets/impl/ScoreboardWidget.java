@@ -2,9 +2,10 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.ScoreboardTitleChangeEvent;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
-import com.palight.playerinfo.options.ModConfiguration;
+import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -29,13 +30,18 @@ public class ScoreboardWidget extends GuiIngameWidget {
     private int bodyColor = 1342177280;
     public ScoreObjective scoreObjective;
 
+    private ScoreboardMod module;
+
     public ScoreboardWidget() {
         super(-1, -1, 100, 100);
         this.movable = false;
     }
 
     public void render(ScoreObjective objective, ScaledResolution resolution) {
-        if (ModConfiguration.scoreboardModEnabled && !ModConfiguration.scoreboardEnabled) return;
+        if (module == null) {
+            module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
+        }
+        if (module.isEnabled() && !module.scoreboardEnabled) return;
 
         if (mc == null) {
             mc = Minecraft.getMinecraft();
@@ -48,8 +54,8 @@ public class ScoreboardWidget extends GuiIngameWidget {
         }
         scoreObjective = objective;
 
-        headerColor = ModConfiguration.scoreboardHeaderColor;
-        bodyColor = ModConfiguration.scoreboardBodyColor;
+        headerColor = module.scoreboardHeaderColor;
+        bodyColor = module.scoreboardBodyColor;
 
         Scoreboard scoreboard = objective.getScoreboard();
         Collection<Score> sortedScores = scoreboard.getSortedScores(objective);
@@ -72,7 +78,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
             displayString = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
 
-            if (!ModConfiguration.scoreboardModEnabled || ModConfiguration.scoreboardNumbersEnabled) {
+            if (!module.isEnabled() || module.scoreboardNumbersEnabled) {
                 displayString += ": " + EnumChatFormatting.RED + score.getScorePoints();
             }
         }
@@ -93,7 +99,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
             ScorePlayerTeam teamScore = scoreboard.getPlayersTeam(score.getPlayerName());
 
             String formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
-            String scoreString = !ModConfiguration.scoreboardModEnabled || ModConfiguration.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
+            String scoreString = !module.isEnabled() || module.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
 
             int lineY = getPosition().getY() - (i * mc.fontRendererObj.FONT_HEIGHT);
 

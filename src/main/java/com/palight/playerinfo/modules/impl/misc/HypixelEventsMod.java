@@ -5,7 +5,6 @@ import com.palight.playerinfo.gui.ingame.widgets.impl.HypixelEventWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.HypixelEventsGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ConfigOption;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -42,7 +41,7 @@ public class HypixelEventsMod extends Module {
                 HypixelEvent.FriendEvent.FriendEventType eventType = HypixelEvent.FriendEvent.FriendEventType.getType(eventTypeString);
                 MinecraftForge.EVENT_BUS.post(new HypixelEvent.FriendEvent(username, eventType));
 
-                if (!ModConfiguration.alertSound.equals("none")) playAlert(AlertType.FRIEND);
+                if (!alertSound.equals("none")) playAlert(AlertType.FRIEND);
             }
         }
     }
@@ -51,7 +50,7 @@ public class HypixelEventsMod extends Module {
         SoundHandler sh = Minecraft.getMinecraft().getSoundHandler();
         switch (type) {
             case FRIEND:
-                sh.playSound(PositionedSoundRecord.create(new ResourceLocation(ModConfiguration.alertSound), 1.0f));
+                sh.playSound(PositionedSoundRecord.create(new ResourceLocation(alertSound), 1.0f));
                 break;
             default:
                 break;

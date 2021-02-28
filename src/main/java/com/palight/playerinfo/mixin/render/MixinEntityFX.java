@@ -2,7 +2,6 @@ package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.ParticleMod;
-import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.random.RandomUtil;
 import net.minecraft.client.particle.EntityFX;
@@ -32,7 +31,7 @@ public abstract class MixinEntityFX {
     @Inject(method = "renderParticle", at = @At("HEAD"))
     public void renderParticle(WorldRenderer p_renderParticle_1_, Entity p_renderParticle_2_, float p_renderParticle_3_, float p_renderParticle_4_, float p_renderParticle_5_, float p_renderParticle_6_, float p_renderParticle_7_, float p_renderParticle_8_, CallbackInfo ci) {
         // crit particles have x=1, y=4
-        if (ModConfiguration.particleModEnabled) {
+        if (particleMod.isEnabled()) {
             if (this.particleTextureIndexX == 1 && this.particleTextureIndexY == 4) {
                 if (selectedParticle == null) {
                     // finding corresponding enum value for saved name

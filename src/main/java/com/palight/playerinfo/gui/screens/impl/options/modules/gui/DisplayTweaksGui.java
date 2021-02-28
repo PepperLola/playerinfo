@@ -19,6 +19,7 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
     private GuiCheckBox windowedFullscreen;
     private GuiCheckBox hardcoreHeartsEnabled;
     private GuiCheckBox renderPingAsText;
+    private GuiCheckBox renderUnicodeText;
 
     public DisplayTweaksGui() {
         super("screen.displayTweaks");
@@ -35,13 +36,15 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
         windowedFullscreen = new GuiCheckBox(2, buttonX, buttonY + 64, "Enable windowed fullscreen", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).windowedFullscreen);
         hardcoreHeartsEnabled = new GuiCheckBox(3, buttonX, buttonY + 96, "Enable hardcore hearts", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).hardcoreHeartsEnabled);
         renderPingAsText = new GuiCheckBox(4, buttonX, buttonY + 128, "Render ping as text", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText);
+        renderUnicodeText = new GuiCheckBox(4, buttonX, buttonY + 160, "Render custom unicode font", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).unicodeFontRendererEnabled);
 
         this.guiElements.addAll(Arrays.asList(
                 this.disableWater,
                 this.lowerFire,
                 this.windowedFullscreen,
                 this.hardcoreHeartsEnabled,
-                this.renderPingAsText
+                this.renderPingAsText,
+                this.renderUnicodeText
         ));
     }
 
@@ -57,6 +60,8 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
             ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).hardcoreHeartsEnabled = hardcoreHeartsEnabled.checked;
         } else if (widget.id == renderPingAsText.id) {
             ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText = renderPingAsText.checked;
+        } else if (widget.id == renderUnicodeText.id) {
+            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).unicodeFontRendererEnabled = renderUnicodeText.checked;
         }
 
         ModConfiguration.syncFromGUI();
