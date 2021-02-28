@@ -3,6 +3,9 @@ package com.palight.playerinfo.modules.impl.gui;
 import com.palight.playerinfo.gui.screens.impl.options.modules.gui.DisplayTweaksGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ConfigOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -22,7 +25,14 @@ public class DisplayTweaksMod extends Module {
     public boolean renderPingAsText = false;
     @ConfigOption
     public boolean unicodeFontRendererEnabled = false;
+    @ConfigOption
+    public boolean stackChatMessages = false;
+
     public static boolean hardcoreHearts = false;
+
+    private String lastMessage = "";
+    private int line;
+    private int amount;
 
     public DisplayTweaksMod() {
         super("displayTweaks", "Display Tweaks", "Some useful gui/display tweaks.", ModuleType.GUI, new DisplayTweaksGui(), null);
@@ -57,6 +67,33 @@ public class DisplayTweaksMod extends Module {
 
         if (unformatted.startsWith(pattern)) {
             DisplayTweaksMod.hardcoreHearts = true;
+        }
+    }
+
+    @SubscribeEvent
+    public void onChatMessageToStack(ClientChatReceivedEvent event) {
+        if (stackChatMessages && !event.isCanceled() && event.type == 0) {
+            GuiNewChat guiNewChat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
+            if (this.lastMessage.equals(event.message.getUnformattedText())) {
+                guiNewChat.deleteChatLine(this.line);
+                this.amount ++;
+                this.lastMessage = event.message.getUnformattedText();
+                event.message.appendText(EnumChatFormatting.RED + " [" + EnumChatFormatting.GRAY + "x" + this.amount + EnumChatFormatting.RED + "]");
+            } else {
+                this.amount = 1;
+                this.lastMessage = event.message.getUnformattedText();
+            }
+
+            this.line ++;
+            if (!event.isCanceled()) {
+                guiNewChat.printChatMessageWithOptionalDeletion(event.message, this.line);
+            }
+
+            if (this.line > 256) {
+                this.line = 0;
+            }
+
+            event.setCanceled(true);
         }
     }
 

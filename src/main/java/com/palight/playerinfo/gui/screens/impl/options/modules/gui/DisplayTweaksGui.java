@@ -20,6 +20,9 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
     private GuiCheckBox hardcoreHeartsEnabled;
     private GuiCheckBox renderPingAsText;
     private GuiCheckBox renderUnicodeText;
+    private GuiCheckBox stackChatMessages;
+
+    private DisplayTweaksMod module;
 
     public DisplayTweaksGui() {
         super("screen.displayTweaks");
@@ -31,12 +34,17 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        disableWater = new GuiCheckBox(0, buttonX, buttonY, "Disable water overlay", ModConfiguration.getBoolean(ModConfiguration.CATEGORY_DISPLAY, "disableWaterOverlay"));
-        lowerFire = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable lower fire", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).lowerFire);
-        windowedFullscreen = new GuiCheckBox(2, buttonX, buttonY + 64, "Enable windowed fullscreen", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).windowedFullscreen);
-        hardcoreHeartsEnabled = new GuiCheckBox(3, buttonX, buttonY + 96, "Enable hardcore hearts", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).hardcoreHeartsEnabled);
-        renderPingAsText = new GuiCheckBox(4, buttonX, buttonY + 128, "Render ping as text", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText);
-        renderUnicodeText = new GuiCheckBox(4, buttonX, buttonY + 160, "Render custom unicode font", ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).unicodeFontRendererEnabled);
+        if (module == null) {
+            module = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
+        }
+
+        disableWater = new GuiCheckBox(0, buttonX, buttonY, "Disable water overlay", module.disableWaterOverlay);
+        lowerFire = new GuiCheckBox(1, buttonX, buttonY + 32, "Enable lower fire", module.lowerFire);
+        windowedFullscreen = new GuiCheckBox(2, buttonX, buttonY + 64, "Enable windowed fullscreen", module.windowedFullscreen);
+        hardcoreHeartsEnabled = new GuiCheckBox(3, buttonX, buttonY + 96, "Enable hardcore hearts", module.hardcoreHeartsEnabled);
+        renderPingAsText = new GuiCheckBox(4, buttonX, buttonY + 128, "Render ping as text", module.renderPingAsText);
+        renderUnicodeText = new GuiCheckBox(5, buttonX, buttonY + 160, "Render custom unicode font", module.unicodeFontRendererEnabled);
+        stackChatMessages = new GuiCheckBox(6, buttonX, buttonY + 192, "Stack chat messages", module.stackChatMessages);
 
         this.guiElements.addAll(Arrays.asList(
                 this.disableWater,
@@ -44,24 +52,27 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
                 this.windowedFullscreen,
                 this.hardcoreHeartsEnabled,
                 this.renderPingAsText,
-                this.renderUnicodeText
+                this.renderUnicodeText,
+                this.stackChatMessages
         ));
     }
 
     @Override
     protected void widgetClicked(GuiCustomWidget widget) {
         if (widget.id == disableWater.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).disableWaterOverlay = disableWater.checked;
+            module.disableWaterOverlay = disableWater.checked;
         } else if (widget.id == lowerFire.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).lowerFire = lowerFire.checked;
+            module.lowerFire = lowerFire.checked;
         } else if (widget.id == windowedFullscreen.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).windowedFullscreen = windowedFullscreen.checked;
+            module.windowedFullscreen = windowedFullscreen.checked;
         } else if (widget.id == hardcoreHeartsEnabled.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).hardcoreHeartsEnabled = hardcoreHeartsEnabled.checked;
+            module.hardcoreHeartsEnabled = hardcoreHeartsEnabled.checked;
         } else if (widget.id == renderPingAsText.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText = renderPingAsText.checked;
+            module.renderPingAsText = renderPingAsText.checked;
         } else if (widget.id == renderUnicodeText.id) {
-            ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).unicodeFontRendererEnabled = renderUnicodeText.checked;
+            module.unicodeFontRendererEnabled = renderUnicodeText.checked;
+        } else if (widget.id == stackChatMessages.id) {
+            module.stackChatMessages = stackChatMessages.checked;
         }
 
         ModConfiguration.syncFromGUI();

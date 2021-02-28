@@ -229,11 +229,28 @@ public class UnicodeFontRenderer {
         if (module == null) {
             module = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
         }
+        if (resolution == null) {
+            resolution = new ScaledResolution(Minecraft.getMinecraft());
+
+            try {
+                prevScaleFactor = resolution.getScaleFactor();
+                unicodeFont = new UnicodeFont(getFontByName(name).deriveFont(size * prevScaleFactor / 2));
+                unicodeFont.addAsciiGlyphs();
+                unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+                unicodeFont.loadGlyphs();
+            } catch (FontFormatException | IOException | SlickException e) {
+                e.printStackTrace();
+            }
+
+            this.antiAliasingFactor = resolution.getScaleFactor();
+        }
         if (!module.unicodeFontRendererEnabled) {
             return (float) Minecraft.getMinecraft().fontRendererObj.getStringWidth(text);
         }
         if (cachedStringWidth.size() > 1000) cachedStringWidth.clear();
-        return cachedStringWidth.computeIfAbsent(text, e -> unicodeFont.getWidth(ColorUtil.stripColor(text)) / antiAliasingFactor);
+        return cachedStringWidth.computeIfAbsent(text, e ->
+                unicodeFont.getWidth(ColorUtil.stripColor(text)) / antiAliasingFactor
+        );
     }
 
     public float getCharWidth(char c) {

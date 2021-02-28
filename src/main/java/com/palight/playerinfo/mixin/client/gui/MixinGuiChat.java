@@ -134,7 +134,7 @@ public class MixinGuiChat extends GuiScreen {
         // tab = 15
         if (filteredNames.size() > 0) {
             if (Keyboard.getEventKey() == 15) {
-                if (lastWord.length() == 0) return;
+                if (lastWord.length() == 0 || !lastWord.startsWith(":")) return;
                 this.inputField.setText(this.inputField.getText().substring(0, this.inputField.getText().lastIndexOf(lastWord)) + String.format(":%s:", getSelectedEmoji()));
             } else if (Keyboard.getEventKey() == 200) {
                 selectedIndex++;
