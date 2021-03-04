@@ -5,7 +5,7 @@ import org.apache.http.HttpResponse;
 import java.io.IOException;
 
 public class ApiUtil {
-    public static final String API_URL = "http://localhost:2733";
+    public static final String API_URL = "htt://localhost:2733";
     public static String TOKEN;
 
     public static void authenticate(String username, String password, String userId) throws IOException {

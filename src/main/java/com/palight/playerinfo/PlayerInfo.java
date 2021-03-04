@@ -81,6 +81,7 @@ public class PlayerInfo
         modules.put("keystrokes", new KeystrokesMod());
         modules.put("textReplacement", new TextReplacementMod());
         modules.put("fullBright", new FullBrightMod());
+        modules.put("stats", new StatsMod());
     }
 
     @EventHandler
