@@ -1,0 +1,24 @@
+key.main=PlayerInfo GUI
+key.zoom=Super Zoom
+key.perspective=Pasar Perspectiva
+
+screen.main=playerinfo
+screen.options=Opciónes
+screen.info=Información
+screen.login=Entrar
+screen.calc=Calculadora
+screen.serverSelector=Servidores
+screen.hypixel=Bedwars
+screen.widgetEditor=Editor de Widgets
+screen.toggleSprint=Pasar el Sprint
+screen.lifx=Lifx
+screen.scoreboard=Marcador
+screen.displayTweaks=Ajustes de Visualización
+screen.customMainMenu=Menú Principal Personalizado
+screen.particle=Mod de Partículas
+screen.perspective=Mod de Perspectiva
+screen.timeChanger=Cambiador de Tiempo
+screen.oldAnimations=Animaciones de 1.7
+screen.keystrokes=Claves
+
+upload.success=Subir con éxito
