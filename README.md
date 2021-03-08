@@ -19,7 +19,7 @@
   * Remove pumpkin overlay, and replace it with a pumpkin icon somewhere on the screen.
   * Lowers fire animation. 
 * Note Block Helper
-  * Shows the runing of note blocks in chat when you change it. 
+  * Shows the tuning of note blocks in chat when you change it. 
 * Coordinate HUD
   * Shows current coordinates on screen.
 * Movement
@@ -46,12 +46,13 @@
   * Allows you to change the camera angle around you like in F5 but without moving your head. 
 * Time Changer
   * Changes the time in game. 
+  * Supports fast mode, which will make time go by faster.
 * Old Animations
   * Uses old 1.7 blockhit, bow, rod, eating, sword, and held item animations. 
 * Custom Main Menu
   * Configurable to be either black and white or chroma.
 * Super Zoom
-  * Zooms in farther than Optifine zoom, but Optifine is still recommended.
+  * Zooms in farther than Optifine zoom, but Optifine is still highly recommended.
 * Calculator
   * Parses expression into a tree, then evaluates recursively.
 * Player Information
