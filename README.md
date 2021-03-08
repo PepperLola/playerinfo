@@ -41,9 +41,9 @@
 * Particle Mod
   * Allows you to change which particles are creates as crit particles.
 * Armor HUD
-  * Shows what type of armor and durability of armor on scren.
+  * Shows what type of armor and durability of armor on screen.
 * Perspective Mod
-  * Allows you to change the camera angle around you like in f5 but without moving your head. 
+  * Allows you to change the camera angle around you like in F5 but without moving your head. 
 * Time Changer
   * Changes the time in game. 
 * Old Animations
