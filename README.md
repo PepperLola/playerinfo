@@ -61,4 +61,4 @@
   * Lets the player write small scripts that are bound to an event, and run when that event is triggered.
 
 ### Note
-This project was created for fun, and I don't expect anyone but myself (and maybe some friends) to actually use it. I would recommend instead using a more well-known, well-made and well-maintained PvP client such as LunarClient or Badlion Client.
+This project was created for fun, and I don't expect anyone but myself (and maybe some friends) to actually use it. I would recommend instead using a more well-known, well-made and well-maintained PvP client such as LunarClient. I would recommend Badlion but ewww.
