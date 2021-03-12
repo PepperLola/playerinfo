@@ -2,13 +2,16 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.TimeChangerGui;
 import com.palight.playerinfo.modules.Module;
+import com.palight.playerinfo.options.ConfigOption;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TimeChangerMod extends Module {
 
+    @ConfigOption
     public String selectedTime = "time";
+    @ConfigOption
     public double fastTimeMultiplier = 1.0D;
 
     public TimeChangerMod() {
