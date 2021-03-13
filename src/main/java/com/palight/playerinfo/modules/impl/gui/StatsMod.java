@@ -3,26 +3,20 @@ package com.palight.playerinfo.modules.impl.gui;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.impl.StatsOverlayWidget;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
-import com.palight.playerinfo.rendering.Cape;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.HttpUtil;
-import com.palight.playerinfo.util.HttpUtilResponseHandler;
-import jdk.nashorn.internal.parser.JSONParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,12 +37,13 @@ public class StatsMod extends Module {
 
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
+
         if (!(event.entity instanceof EntityPlayer)) return;
         EntityPlayer player = ((EntityPlayer) event.entity);
         EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
         if (player.getUniqueID().equals(clientPlayer.getUniqueID())) {
             for (UUID uuid : getPlayerStats().keySet()) {
-                if (!uuid.equals(clientPlayer.getUniqueID()) && isInGame) {
+                if (!uuid.equals(clientPlayer.getUniqueID())) {
                     getPlayerStats().remove(uuid);
                 }
             }
@@ -135,13 +130,12 @@ public class StatsMod extends Module {
         public String name;
         public UUID uuid;
         public int level;
-        public int karma;
         public int gameLevel;
         public double kdr;
         public double fkdr;
         public double wlr;
         public double bblr;
-        public boolean nicked;
+        public boolean nicked = false;
 
         public PlayerStats(String name, UUID uuid, GameType gameType) {
             this.name = name;
@@ -175,19 +169,18 @@ public class StatsMod extends Module {
                     JsonObject obj = element.getAsJsonObject();
 
                     System.out.println(obj.toString());
-                } else {
 
+                    level = obj.get("level").getAsInt();
+                    gameLevel = obj.get("gameLevel").getAsInt();
+                    kdr = obj.get("kdr").getAsDouble();
+                    wlr = obj.get("wlr").getAsDouble();
+                    fkdr = obj.get("fkdr").getAsDouble();
+                    bblr = obj.get("bblr").getAsDouble();
+
+                } else {
+                    nicked = true;
                 }
             });
-
-            level = -1;
-            karma = -1;
-            gameLevel = -1;
-            kdr = -1;
-            fkdr = -1;
-            wlr = -1;
-            bblr = -1;
-            nicked = false;
         }
 
         public GameType getGameType() {

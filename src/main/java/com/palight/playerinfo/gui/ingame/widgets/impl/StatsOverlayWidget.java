@@ -46,7 +46,6 @@ public class StatsOverlayWidget extends GuiIngameWidget {
             String playerName = playerStats.name;
             boolean nicked = playerStats.nicked;
             int level = playerStats.level;
-            int karma = playerStats.karma;
             double wlr = playerStats.wlr;
             double kdr = playerStats.kdr;
 
