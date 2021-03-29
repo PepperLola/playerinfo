@@ -3,9 +3,14 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.impl.gui.StatsMod;
+import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.UUID;
+
 
 public class StatsOverlayWidget extends GuiIngameWidget {
     private StatsMod module;
@@ -18,13 +23,12 @@ public class StatsOverlayWidget extends GuiIngameWidget {
     @Override
     public void render(Minecraft mc) {
         ScaledResolution res = new ScaledResolution(mc);
-        if(this.getPosition().getX() == -1) {
-            this.getPosition().setX(res.getScaledWidth()-this.width-4);
+        if (this.getPosition().getX() == -1) {
+            this.getPosition().setX(res.getScaledWidth() - this.width - 4);
         }
-        if(module == null){
+        if (module == null) {
             module = ((StatsMod) PlayerInfo.getModules().get("stats"));
         }
-        super.render(mc);
 
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
@@ -32,13 +36,26 @@ public class StatsOverlayWidget extends GuiIngameWidget {
         int y = this.getPosition().getY();
 
         int offset = 30;
+        int padding = 2;
+        UUID clientUUID = Minecraft.getMinecraft().thePlayer.getUniqueID();
+        if (!module.getPlayerStats().containsKey(clientUUID) || module.getPlayerStats().size() <= 0) return;
+        super.render(mc);
 
-        drawText("NAME", x+2,y+2);
-        drawText("TAG", x+2+100,y+2);
-        drawText("LEVEL", x+2+100+offset-10,y+2);
-        drawText("WLR", x+2+100+offset*2,y+2);
-        drawText("KDR", x+2+100+offset*3,y+2);
-
+        drawText("NAME", x + padding, y + padding);
+        drawText("TAG", x + padding + 100, y + padding);
+        drawText("LEVEL", x + padding + 100 + offset - 10, y + padding);
+        drawText("WLR", x + padding + 100 + offset * 2, y + padding);
+        drawText("KDR", x + padding + 100 + offset * 3, y + padding);
+        StatsMod.PlayerStats userStats = module.getPlayerStats().get(clientUUID);
+        switch (userStats.getGameType()) {
+            case BEDWARS:
+                drawText("STARS", x + padding + 100 + offset * 4, y + padding);
+                drawText("FKDR", x + padding + 100 + offset * 5, y + padding);
+                drawText("BBLR", x + padding + 100 + offset * 6, y + padding);
+                break;
+            case DUELS:
+                drawText("TITLE", x + padding + 100 + offset * 4, y + padding);
+        }
 
 
         int i = 0;
@@ -46,28 +63,40 @@ public class StatsOverlayWidget extends GuiIngameWidget {
             String playerName = playerStats.name;
             boolean nicked = playerStats.nicked;
             int level = playerStats.level;
-            double wlr = playerStats.wlr;
-            double kdr = playerStats.kdr;
+            double wlr = NumberUtil.round(playerStats.wlr, 2);
+            double kdr = NumberUtil.round(playerStats.kdr, 2);
+            int gameLevel = playerStats.gameLevel;
 
-            int rowY = y + (2 + fr.FONT_HEIGHT) * (i+1);
+            int rowY = y + (2 + fr.FONT_HEIGHT) * (i + 1);
 
-            drawText(playerName,x+2,rowY);
-            if (nicked){
-                drawText("NICKED" ,x+2+100, rowY);
+            drawText(playerName, x + padding, rowY);
+            if (nicked) {
+                drawText("NICKED", x + padding + 90, rowY);
             } else {
 
-                drawText(String.valueOf(level), x+2+100+offset-10,rowY);
-                drawText(String.valueOf(wlr), x+2+100+offset*2,rowY);
-                drawText(String.valueOf(kdr), x+2+100+offset*3,rowY);
+                drawText(String.valueOf(level) + "✫", x + padding + 100 + offset - 10, rowY);
+                drawText(String.valueOf(wlr), x + padding + 100 + offset * 2, rowY);
+                drawText(String.valueOf(kdr), x + padding + 100 + offset * 3, rowY);
 
                 StatsMod.GameType gameType = playerStats.getGameType();
-                if(gameType == null) continue;
+                if (gameType == null) continue;
                 switch (playerStats.getGameType()) {
                     case BEDWARS:
+
+                        double fkdr = NumberUtil.round(playerStats.fkdr, 2);
+                        double bblr = NumberUtil.round(playerStats.bblr, 2);
+                        drawText(String.valueOf(gameLevel), x + padding + 100 + offset * 4, rowY);
+                        drawText(String.valueOf(fkdr), x + padding + 100 + offset * 5, rowY);
+                        drawText(String.valueOf(bblr), x + padding + 100 + offset * 6, rowY);
+                        break;
+                    case DUELS:
+                        String title = playerStats.title;
+                        int prestige = playerStats.prestige;
+                        drawText(StringUtils.capitalize(title) + " " + prestige, x + padding + 100 + offset * 4, rowY);
                         break;
                 }
             }
-            i ++;
+            i++;
         }
     }
 }
