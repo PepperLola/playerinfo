@@ -27,6 +27,8 @@ public class DisplayTweaksMod extends Module {
     public boolean unicodeFontRendererEnabled = false;
     @ConfigOption
     public boolean stackChatMessages = false;
+    @ConfigOption
+    public boolean transparentChat = false;
 
     public static boolean hardcoreHearts = false;
 
