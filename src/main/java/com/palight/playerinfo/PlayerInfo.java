@@ -29,7 +29,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.16.36";
+    public static final String VERSION = "1.16.37";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -82,6 +82,7 @@ public class PlayerInfo
         modules.put("textReplacement", new TextReplacementMod());
         modules.put("fullBright", new FullBrightMod());
         modules.put("clock", new ClockMod());
+        modules.put("memory", new MemoryMod());
     }
 
     @EventHandler
