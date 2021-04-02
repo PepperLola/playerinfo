@@ -64,7 +64,7 @@ public class DisplayTweaksMod extends Module {
     public void onChatMessage(ClientChatReceivedEvent event) {
         if (!hardcoreHeartsEnabled) return;
 
-        String unformatted = event.message.getUnformattedText();
+        String unformatted = EnumChatFormatting.getTextWithoutFormattingCodes(event.message.getUnformattedText());
         String pattern = "BED DESTRUCTION > Your Bed";
 
         if (unformatted.startsWith(pattern)) {
