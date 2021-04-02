@@ -19,8 +19,8 @@ public class FPSWidget extends GuiIngameWidget {
         String displayString = fps + " fps";
 
         this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
-        this.height = (int) PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2;
+        this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString));
 
-        drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
+        drawTextVerticallyCentered(displayString, getPosition().getX() + 2, getPosition().getY() + this.height / 2 + 1);
     }
 }

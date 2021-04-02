@@ -24,8 +24,10 @@ public class HypixelEventWidget extends GuiIngameWidget {
     public void render(Minecraft mc) {
         if (res == null) {
             res = new ScaledResolution(Minecraft.getMinecraft());
-            this.getPosition().setX((res.getScaledWidth() - this.width) / 2);
-            this.getPosition().setY((res.getScaledHeight() - this.height) / 2);
+            if (this.getPosition().getX() == -1)
+                this.getPosition().setX((res.getScaledWidth() - this.width) / 2);
+            if (this.getPosition().getY() == -1)
+                this.getPosition().setY((res.getScaledHeight() - this.height) / 2);
             MinecraftForge.EVENT_BUS.register(this);
         }
         if (ticksToExist <= 0) {
@@ -40,8 +42,8 @@ public class HypixelEventWidget extends GuiIngameWidget {
             this.width = (int) Math.max(PlayerInfo.instance.fontRendererObj.getWidth(title) + 8, PlayerInfo.instance.fontRendererObj.getWidth(subtitle) + 8);
 //            this.xPosition = (res.getScaledWidth() - this.width) / 2;
             super.render(mc);
-            drawText(title, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(title)) / 2), (int) (getPosition().getY() + (PlayerInfo.instance.fontRendererObj.getHeight(this.title) / 2)));
-            drawText(subtitle, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(subtitle)) / 2), (int) (getPosition().getY() + (this.height + PlayerInfo.instance.fontRendererObj.getHeight(this.subtitle)) / 2));
+            drawTextVerticallyCentered(title, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(title)) / 2), (int) (getPosition().getY() + (PlayerInfo.instance.fontRendererObj.getHeight(this.title) / 2)));
+            drawTextVerticallyCentered(subtitle, (int) (getPosition().getX() + (this.width - PlayerInfo.instance.fontRendererObj.getWidth(subtitle)) / 2), (int) (getPosition().getY() + (this.height + PlayerInfo.instance.fontRendererObj.getHeight(this.subtitle)) / 2));
         }
     }
 

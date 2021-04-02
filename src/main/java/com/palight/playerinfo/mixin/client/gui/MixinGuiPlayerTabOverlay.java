@@ -23,7 +23,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
     @Shadow private long lastTimeOpened;
     @Shadow private boolean isBeingRendered;
     /**
-     * Add ability to render ping as text instead of bars
+     * @reason Add ability to render ping as text instead of bars
      * @author palight
      */
     @Overwrite

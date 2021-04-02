@@ -13,7 +13,7 @@ public class ClockWidget extends GuiIngameWidget {
     private ClockMod module;
 
     public ClockWidget() {
-        super(-1, -1, 32, 16);
+        super(-1, -1, 32, 12);
     }
 
     @Override
@@ -25,7 +25,9 @@ public class ClockWidget extends GuiIngameWidget {
         int width = (int) Math.floor(PlayerInfo.instance.fontRendererObj.getWidth(time));
         if (width + 4 > this.width || Math.abs(this.width - width) > 16)
             this.width = width + 4;
+
+        this.height = (int) PlayerInfo.instance.fontRendererObj.getHeight(time) + 1;
         super.render(mc);
-        this.drawText(time, this.getPosition().getX() + 2, this.getPosition().getY() + 2);
+        this.drawTextVerticallyCentered(time, this.getPosition().getX() + 2, this.getPosition().getY() + (this.height / 2));
     }
 }

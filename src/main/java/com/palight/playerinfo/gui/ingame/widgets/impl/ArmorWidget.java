@@ -46,5 +46,7 @@ public class ArmorWidget extends GuiIngameWidget {
             }
             offset += 16;
         }
+
+        RenderHelper.disableStandardItemLighting();
     }
 }

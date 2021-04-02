@@ -138,8 +138,13 @@ public class KeystrokesWidget extends GuiIngameWidget {
         if (res == null) {
             res = new ScaledResolution(Minecraft.getMinecraft());
 
-            this.getPosition().setX(res.getScaledWidth() - this.width - 4);
-            this.getPosition().setY(res.getScaledHeight() - this.height - 4);
+            if (this.getPosition().getX() == -1) {
+                this.getPosition().setX(res.getScaledWidth() - this.width - 4);
+            }
+
+            if (this.getPosition().getY() == -1) {
+                this.getPosition().setY(res.getScaledHeight() - this.height - 4);
+            }
         }
 
         GL11.glPushMatrix();
@@ -159,10 +164,10 @@ public class KeystrokesWidget extends GuiIngameWidget {
                     key.isDown() ? new Color(255, 255, 255, 102).getRGB() : new Color(0, 0, 0, 102).getRGB()
             );
 
-            this.drawText(
+            this.drawTextVerticallyCentered(
                     key.getName(),
                     this.getPosition().getX() + key.getX() + (key.getWidth() - textWidth) / 2,
-                    this.getPosition().getY() + key.getY() + key.getHeight() / 2 - 4,
+                    this.getPosition().getY() + key.getY() + key.getHeight() / 2,
                     key.isDown()
             );
         }

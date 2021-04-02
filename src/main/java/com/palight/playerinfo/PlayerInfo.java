@@ -29,7 +29,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.16.37";
+    public static final String VERSION = "1.16.38";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -38,7 +38,7 @@ public class PlayerInfo
     public static String DATA_FOLDER;
     public static File configFile = new File(DATA_FOLDER + "config.json");
 
-    public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("segoeuisb", 16.0F);
+    public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("robotosb", 16.0F);
 
     public static Random random = new Random();
 
