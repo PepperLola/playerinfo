@@ -22,7 +22,7 @@ public class ArmorWidget extends GuiIngameWidget {
         int offset = 0;
         List<ItemStack> items;
         if (this.getState() == WidgetEditingState.EDITING) {
-            items = Arrays.asList(new ItemStack(Items.diamond_helmet), new ItemStack(Items.diamond_chestplate), new ItemStack(Items.diamond_leggings), new ItemStack(Items.diamond_boots));
+            items = Arrays.asList(new ItemStack(Items.diamond_boots), new ItemStack(Items.diamond_leggings), new ItemStack(Items.diamond_chestplate), new ItemStack(Items.diamond_helmet));
         } else {
             items = new ArrayList<>(Arrays.asList(mc.thePlayer.inventory.armorInventory));
         }
