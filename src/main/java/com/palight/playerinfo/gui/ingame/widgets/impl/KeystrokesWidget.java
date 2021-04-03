@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.opengl.GL11;
 
@@ -151,17 +152,19 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
 
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
 
         for (Key key : mode.getKeys()) {
             int textWidth = (int) PlayerInfo.instance.fontRendererObj.getWidth(key.getName());
+
+            Color color = key.isDown() ? new Color(255, 255, 255, 102) : new Color(0, 0, 0, 102);
 
             Gui.drawRect(
                     this.getPosition().getX() + key.getX(),
                     this.getPosition().getY() + key.getY(),
                     this.getPosition().getX() + key.getX() + key.getWidth(),
                     this.getPosition().getY() + key.getY() + key.getHeight(),
-                    key.isDown() ? new Color(255, 255, 255, 102).getRGB() : new Color(0, 0, 0, 102).getRGB()
+                    color.getRGB()
             );
 
             this.drawTextVerticallyCentered(
