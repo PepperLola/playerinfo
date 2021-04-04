@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.screens.impl;
 
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
+import com.palight.playerinfo.gui.widgets.impl.GuiPasswordField;
 import com.palight.playerinfo.util.ApiUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class LoginGui extends CustomGuiScreen {
 
     private GuiTextField username;
-    private GuiTextField password;
+    private GuiPasswordField password;
     private GuiButton login;
 
     private int userX;
@@ -20,29 +21,28 @@ public class LoginGui extends CustomGuiScreen {
     private int passX;
     private int passY;
 
-    public static final int SUBMIT_BUTTON_ID = 0;
-
     public LoginGui() {
         super("screen.login");
     }
 
     @Override
     public void initGui() {
-        userX = width / 2 - fontRendererObj.getStringWidth("Username:") - 4;
-        userY = (height - ySize) / 2 + 32;
 
-        passX = width / 2 - fontRendererObj.getStringWidth("Password:") - 4;
+        userX = (this.width - xSize) / 2 + 16;
+        userY = (this.height - ySize) / 2 + headerHeight + 16;
+
+        passX = userX;
         passY = userY + 32;
 
-        this.username = new GuiTextField(0, this.fontRendererObj, width / 2 + 4, userY - 5, 64, 18);
+        this.username = new GuiTextField(0, this.fontRendererObj, userX + Minecraft.getMinecraft().fontRendererObj.getStringWidth("Username: ") + 4, userY - 5, 64, 18);
         username.setMaxStringLength(24);
         username.setFocused(true);
 
-        this.password = new GuiTextField(1, this.fontRendererObj, width / 2 + 4, passY - 5, 64, 18);
+        this.password = new GuiPasswordField(1, this.fontRendererObj, passX + Minecraft.getMinecraft().fontRendererObj.getStringWidth("Password: ") + 4, passY - 5, 64, 18);
         password.setMaxStringLength(24);
         password.setFocused(false);
 
-        login = new GuiButton(SUBMIT_BUTTON_ID, width / 2 - 32, (height + xSize) / 2 - 32, 64, 20, "Submit");
+        this.login = new GuiButton(0, (this.width - xSize) / 2 - 32, (height + ySize) / 2 - 32, 64, 20, "Submit");
         this.buttonList.add(login);
     }
 
@@ -72,19 +72,18 @@ public class LoginGui extends CustomGuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if (button.id == SUBMIT_BUTTON_ID) {
+        if (button.id == this.login.id) {
             String playerUsername = username.getText();
             String playerPassword = password.getText();
-            String playerId = Minecraft.getSessionInfo().get("X-Minecraft-UUID");
-            ApiUtil.authenticate(playerUsername, playerPassword, playerId);
+            System.out.println("MAKING API REQUEST WITH USERNAME " + playerUsername);
+            ApiUtil.authenticate(playerUsername, playerPassword);
         }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-
-        fontRendererObj.drawString("Login", (width - xSize) / 2 + 8, (height - ySize) / 2 + 8, 1);
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
         fontRendererObj.drawString("Username:", userX, userY, 1);
         fontRendererObj.drawString("Password:", passX, passY, 1);
@@ -92,6 +91,5 @@ public class LoginGui extends CustomGuiScreen {
         this.username.drawTextBox();
         this.password.drawTextBox();
 
-        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

@@ -29,6 +29,8 @@ public class DisplayTweaksMod extends Module {
     public boolean stackChatMessages = false;
     @ConfigOption
     public boolean transparentChat = false;
+    @ConfigOption
+    public boolean renderOwnName = false;
 
     public static boolean hardcoreHearts = false;
 

@@ -1,6 +1,8 @@
 package com.palight.playerinfo;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
@@ -13,14 +15,17 @@ import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.proxy.CommonProxy;
 import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
+import com.palight.playerinfo.util.ApiUtil;
 import com.palight.playerinfo.util.HttpUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Mod(modid = PlayerInfo.MODID, version = PlayerInfo.VERSION)
@@ -29,14 +34,15 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.16.40";
+    public static final String VERSION = "1.16.41";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
-    public static File configFile = new File(DATA_FOLDER + "config.json");
+    public static String CONFIG_FILE;
+    public static String TOKEN;
 
     public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("robotosb", 16.0F);
 
@@ -86,10 +92,12 @@ public class PlayerInfo
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) throws IllegalAccessException {
+    public void init(FMLInitializationEvent event) throws IllegalAccessException, IOException {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
         createDataFolder();
+        loadToken();
+        startSendingOnline();
     }
 
     @EventHandler
@@ -97,11 +105,16 @@ public class PlayerInfo
         proxy.postInit(event);
     }
 
-    public void createDataFolder() {
+    public void createDataFolder() throws IOException {
         File dataFolder = new File(DATA_FOLDER);
 
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
+        }
+
+        File settingsFile = new File(CONFIG_FILE);
+        if (!settingsFile.exists()) {
+            settingsFile.createNewFile();
         }
     }
 
@@ -124,6 +137,49 @@ public class PlayerInfo
         }
         ModConfiguration.writeConfig(ModConfiguration.CATEGORY_WIDGETS, "widgetStates", positions.toArray(new String[0]));
         ModConfiguration.syncFromGUI();
+    }
+
+    public void loadToken() throws IOException {
+        File settingsFile = new File(CONFIG_FILE);
+        String contents = FileUtils.readFileToString(settingsFile);
+        JsonElement element = new JsonParser().parse(contents);
+        if (element == null || element.isJsonNull()) return;
+        JsonObject obj = element.getAsJsonObject();
+        if (obj == null) return;
+        JsonElement token = obj.get("token");
+        if (token != null) {
+            PlayerInfo.TOKEN = token.getAsString();
+        }
+
+        System.out.println("PLAYERINFO TOKEN: " + PlayerInfo.TOKEN);
+    }
+
+    public void setConfigValue(String key, String value) throws IOException {
+        File settingsFile = new File(CONFIG_FILE);
+        String contents = FileUtils.readFileToString(settingsFile);
+        JsonElement element = new JsonParser().parse(contents);
+        if (element.isJsonNull()) {
+            element = new JsonObject();
+        }
+        element.getAsJsonObject().addProperty(key, value);
+        FileUtils.write(settingsFile, element.toString());
+    }
+
+    public void startSendingOnline() {
+        Thread thread = new Thread(() -> {
+            while (true) {
+                try {
+                    System.out.println("SENDING ONLINE!");
+                    ApiUtil.sendOnline();
+                    ApiUtil.testToken();
+                    Thread.sleep(30000); // keepalive every 30s
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public static void setModuleStates() {

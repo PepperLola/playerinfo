@@ -17,7 +17,6 @@ import net.minecraft.client.gui.GuiScreenServerList;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -76,11 +75,6 @@ public class DiscordRichPresenceMod extends Module {
         if (event.gui instanceof GuiMainMenu || event.gui instanceof CustomMainMenuGui || event.gui instanceof GuiScreenServerList) {
             setDiscordState(DiscordState.MAIN_MENU);
         }
-    }
-
-    @SubscribeEvent
-    public void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        setDiscordState(event.isLocal ? DiscordState.SINGLEPLAYER : DiscordState.MULTIPLAYER);
     }
 
     @SubscribeEvent

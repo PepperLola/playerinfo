@@ -21,6 +21,7 @@ public class MainMenuGui extends GuiScreen {
     private GuiButton singlePlayerButton;
     private GuiButton multiPlayerButton;
     private GuiButton quitButton;
+    private GuiTexturedButton optionsButton;
 
     public MainMenuGui() {
 
@@ -33,11 +34,14 @@ public class MainMenuGui extends GuiScreen {
         // setup buttons
         this.singlePlayerButton = new GuiButton(1, this.width / 2 - 100, this.height / 4 + 48, I18n.format("menu.singleplayer"));
         this.multiPlayerButton = new GuiButton(2, this.width / 2 - 100, this.height / 4 + 48 + 24, I18n.format("menu.multiplayer"));
-        this.quitButton = new GuiTexturedButton(3, res.getScaledWidth() - 22, 2, 20, 20, 1, 0);
+        this.optionsButton = new GuiTexturedButton(3, this.width - 20 - 2, this.height - 30 - 2, 20, 20, 0, 0);
+        this.quitButton = new GuiTexturedButton(4, res.getScaledWidth() - 22, 2, 20, 20, 1, 0);
+
 
         this.buttonList.addAll(Arrays.asList(
                 this.singlePlayerButton,
                 this.multiPlayerButton,
+                this.optionsButton,
                 this.quitButton
         ));
 
@@ -115,6 +119,8 @@ public class MainMenuGui extends GuiScreen {
             this.mc.displayGuiScreen(new GuiSelectWorld(this));
         } else if (b.id == multiPlayerButton.id) {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
+        } else if (b.id == optionsButton.id) {
+            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         } else if (b.id == quitButton.id) {
             this.mc.shutdown();
         }

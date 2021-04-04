@@ -9,6 +9,7 @@
     "client.MixinAbstractClientPlayer",
     "client.gui.IMixinGuiIngame",
     "client.gui.IMixinGuiIngameForge",
+    "client.gui.IMixinGuiPlayerTabOverlay",
     "client.gui.MixinGuiChat",
     "client.gui.MixinGuiConnecting",
     "client.gui.MixinGuiIngame",
@@ -19,10 +20,13 @@
     "client.resources.MixinLocale",
     "client.world.MixinChunk",
     "render.IMixinItemRenderer",
+    "render.IMixinRender",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",
     "render.MixinItemRenderer",
     "render.MixinLayerHeldItem",
+    "render.MixinRender",
+    "render.MixinRendererLivingEntity",
     "util.MixinScreenShotHelper"
   ],
   "injectors": {

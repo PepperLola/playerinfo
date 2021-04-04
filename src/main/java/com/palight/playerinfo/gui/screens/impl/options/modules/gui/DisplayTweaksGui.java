@@ -22,6 +22,7 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
     private GuiCheckBox renderUnicodeText;
     private GuiCheckBox stackChatMessages;
     private GuiCheckBox transparentChat;
+    private GuiCheckBox renderOwnName;
 
     private DisplayTweaksMod module;
 
@@ -47,6 +48,7 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
         renderUnicodeText = new GuiCheckBox(5, buttonX, buttonY + 160, "Render custom unicode font", module.unicodeFontRendererEnabled);
         stackChatMessages = new GuiCheckBox(6, buttonX, buttonY + 192, "Stack chat messages", module.stackChatMessages);
         transparentChat = new GuiCheckBox(7, buttonX, buttonY + 224, "Transparent Chat", module.transparentChat);
+        renderOwnName = new GuiCheckBox(8, buttonX, buttonY + 256, "Render Own Name", module.renderOwnName);
 
         this.guiElements.addAll(Arrays.asList(
                 this.disableWater,
@@ -56,7 +58,8 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
                 this.renderPingAsText,
                 this.renderUnicodeText,
                 this.stackChatMessages,
-                this.transparentChat
+                this.transparentChat,
+                this.renderOwnName
         ));
     }
 
@@ -78,6 +81,8 @@ public class DisplayTweaksGui extends CustomGuiScreenScrollable {
             module.stackChatMessages = stackChatMessages.checked;
         } else if (widget.id == transparentChat.id) {
             module.transparentChat = transparentChat.checked;
+        } else if (widget.id == renderOwnName.id) {
+            module.renderOwnName = renderOwnName.checked;
         }
 
         ModConfiguration.syncFromGUI();
