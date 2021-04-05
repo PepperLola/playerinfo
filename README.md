@@ -14,7 +14,7 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    * <a href="#features">Features</a></li>
+    <li><a href="#features">Features</a></li>
   </ol>
 </details>
 
