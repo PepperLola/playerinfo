@@ -17,8 +17,12 @@ screen.displayTweaks=Ajustes de Visualización
 screen.customMainMenu=Menú Principal Personalizado
 screen.particle=Mod de Partículas
 screen.perspective=Mod de Perspectiva
+screen.hypixelEvents=Eventos de Hypixel
 screen.timeChanger=Cambiador de Tiempo
 screen.oldAnimations=Animaciones de 1.7
 screen.keystrokes=Claves
+screen.clock=Reloj
+screen.memory=Memoría
+screen.potions=Pociónes
 
 upload.success=Subir con éxito
