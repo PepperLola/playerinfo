@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApiUtil {
-    public static final String API_URL = "https://api.jerlshoba.com/";
+    public static final String API_URL = "https://api.jerlshoba.com";
     public static String TOKEN;
 
     public static void authenticate(String username, String password) {
