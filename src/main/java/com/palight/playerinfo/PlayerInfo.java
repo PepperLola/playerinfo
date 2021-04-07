@@ -34,7 +34,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.17.0";
+    public static final String VERSION = "1.17.1";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -90,10 +90,11 @@ public class PlayerInfo
         modules.put("stats", new StatsMod());
         modules.put("clock", new ClockMod());
         modules.put("memory", new MemoryMod());
+        modules.put("potions", new PotionsMod());
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) throws IllegalAccessException, IOException {
+    public void init(FMLInitializationEvent event) throws IOException {
         System.out.println("(PLAYERINFO) INITIALIZING MOD!");
         proxy.init(event);
         createDataFolder();

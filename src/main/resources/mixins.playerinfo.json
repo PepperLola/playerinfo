@@ -16,6 +16,7 @@
     "client.gui.MixinGuiIngameForge",
     "client.gui.MixinGuiNewChat",
     "client.gui.MixinGuiPlayerTabOverlay",
+    "client.gui.MixinInventoryEffectRenderer",
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
     "client.world.MixinChunk",

@@ -39,7 +39,7 @@ public class StatsMod extends Module {
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
 
-        if (!(event.entity instanceof EntityPlayer)) return;
+        if (!(event.entity instanceof EntityPlayer) || !event.world.isRemote) return;
         EntityPlayer player = ((EntityPlayer) event.entity);
         EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
         if (player.getUniqueID().equals(clientPlayer.getUniqueID())) {

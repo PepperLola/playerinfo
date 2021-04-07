@@ -31,6 +31,8 @@ public class DisplayTweaksMod extends Module {
     public boolean transparentChat = false;
     @ConfigOption
     public boolean renderOwnName = false;
+    @ConfigOption
+    public boolean disableInventoryShift = false;
 
     public static boolean hardcoreHearts = false;
 

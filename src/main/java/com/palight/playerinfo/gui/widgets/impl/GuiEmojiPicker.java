@@ -66,6 +66,7 @@ public class GuiEmojiPicker extends GuiCustomWidget {
         int y = (mouseY - this.yPosition) / this.cellHeight;
 
         int i = offset + (y * rows) + x;
+        if (i >= TextReplacementMod.nameList.size()) return "";
 
         return TextReplacementMod.nameList.get(i);
     }
