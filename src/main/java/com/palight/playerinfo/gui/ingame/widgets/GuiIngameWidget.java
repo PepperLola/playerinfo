@@ -69,16 +69,24 @@ public class GuiIngameWidget extends Gui {
     }
 
     protected void drawText(String text, int x, int y) {
-        drawText(text, x, y, false);
+        drawText(text, x, y, false, -1);
     }
 
     protected void drawText(String text, int x, int y, boolean invertColors) {
+        drawText(text, x, y, invertColors, -1);
+    }
+
+    protected void drawText(String text, int x, int y, int color) {
+        drawText(text, x, y, false, color);
+    }
+
+    protected void drawText(String text, int x, int y, boolean invertColors, int color) {
         if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         int leftOffset = 0;
         int character = 0;
         if (text == null) return;
         for (String sub : text.split("")) {
-            PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, getChromaColor(character * -300L, invertColors));
+            PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, color == -1 ? getChromaColor(character * -300L, invertColors) : color);
             leftOffset += PlayerInfo.instance.fontRendererObj.getWidth(sub);
             character ++;
             GlStateManager.resetColor();
