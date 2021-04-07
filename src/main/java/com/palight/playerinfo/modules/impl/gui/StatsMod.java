@@ -9,6 +9,7 @@ import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.HttpUtil;
+import com.palight.playerinfo.util.HypixelUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +27,7 @@ import java.util.regex.Pattern;
 public class StatsMod extends Module {
 
     private static DiscordRichPresenceMod module;
-    private final Map<UUID, PlayerStats> playerStats = new ConcurrentHashMap<>();
+    private static final Map<UUID, PlayerStats> playerStats = new ConcurrentHashMap<>();
     private boolean isInGame = false;
     private Pattern whereAmIPattern = Pattern.compile("You are currently connected to server ([\\w\\d]+)");
     public static String currentDuelsType;
@@ -52,10 +53,12 @@ public class StatsMod extends Module {
                         if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
                             String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
                             System.out.println("SCOREBOARD TITLE: " + scoreboardTitle);
+                            //getting scoreboard title
 
                             if (playerStats.containsKey(player.getUniqueID())) return;
                             System.out.println("ADDING PLAYER: " + player.getDisplayNameString());
                             playerStats.put(player.getUniqueID(), new PlayerStats(player.getDisplayNameString(), player.getUniqueID(), GameType.getGameType(scoreboardTitle)));
+                            //adds people to the list to be displayed
                         }
                         this.stop();
                     }
@@ -72,21 +75,22 @@ public class StatsMod extends Module {
         String message = ColorUtil.stripColor(event.message.getUnformattedText());
         Matcher matcher = whereAmIPattern.matcher(message);
         if (!matcher.matches()) return;
-        System.out.println("GROUP 0: " + matcher.group(0));
-        System.out.println("GROUP 1: " + matcher.group(1));
         String serverName = matcher.group(1);
-        System.out.println("SERVER NAME: " + serverName + " | EQUALS: " + matcher.group(1).equals(serverName));
-        System.out.println("CONTAINS MINI: " + serverName.contains("mini") + " | CONTAINS LOBBY: " + serverName.contains("lobby"));
+        System.out.println("[playerinfo] SERVER NAME: " + serverName + " | EQUALS: " + matcher.group(1).equals(serverName));
+        System.out.println("[playerinfo] CONTAINS MINI: " + serverName.contains("mini") + " | CONTAINS LOBBY: " + serverName.contains("lobby"));
         int players = Minecraft.getMinecraft().theWorld.playerEntities.size();
-        System.out.println("PLAYERS IN LOBBY: " + players + " | LESS THAN THRESHOLD: " + (players <= 16));
-        isInGame = serverName.contains("mini") && players <= 16 && !serverName.contains("lobby");
+        int PLAYER_THRESHOLD = 24;
+        System.out.println("PLAYERS IN LOBBY: " + players + " | LESS THAN THRESHOLD: " + (players <= PLAYER_THRESHOLD));
+        // server name must contain mini (for minigame server), not contain lobby, and have less than a specific amount of players
+        isInGame = serverName.contains("mini") && players <= PLAYER_THRESHOLD && !serverName.contains("lobby");
         System.out.println("SERVER NAME: " + serverName + " | IS IN GAME: " + isInGame);
         if (isInGame) {
             Thread thread = new Thread() {
                 public void run() {
+                    // get scoreboard title
                     if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
                         String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
-                        System.out.println("SCOREBOARD TITLE: " + scoreboardTitle);
+                        // add players to cache
                         for (EntityPlayer worldPlayer : Minecraft.getMinecraft().theWorld.playerEntities) {
                             if (playerStats.containsKey(worldPlayer.getUniqueID())) continue;
                             playerStats.put(worldPlayer.getUniqueID(), new PlayerStats(worldPlayer.getDisplayNameString(), worldPlayer.getUniqueID(), GameType.getGameType(scoreboardTitle)));
@@ -102,8 +106,8 @@ public class StatsMod extends Module {
     }
 
 
-    public Map<UUID, PlayerStats> getPlayerStats() {
-        return this.playerStats;
+    public static Map<UUID, PlayerStats> getPlayerStats() {
+        return StatsMod.playerStats;
     }
 
     public enum GameType {
@@ -134,6 +138,7 @@ public class StatsMod extends Module {
         public String getRequestName() { return this.requestName; }
     }
 
+    //initializing a bunch of stuff
     public static class PlayerStats {
         private final GameType gameType;
         public String name;
@@ -147,6 +152,8 @@ public class StatsMod extends Module {
         public int ws;
         public String title;
         public int prestige;
+        public HypixelUtil.Rank rank;
+        public HypixelUtil.PlusColor plusColor;
 
         public boolean nicked = false;
 
@@ -154,6 +161,7 @@ public class StatsMod extends Module {
             this.name = name;
             this.uuid = uuid;
             this.gameType = gameType;
+            this.rank = HypixelUtil.Rank.NONE;
             getStats();
         }
 
@@ -163,40 +171,73 @@ public class StatsMod extends Module {
             }
 
             if (module.hypixelApiKey == null || module.hypixelApiKey.isEmpty()) {
-                System.out.println("HYPIXEL API KEY IS UNDEFINED!");
+                System.out.println("[playerinfo] HYPIXEL API KEY IS UNDEFINED!");
                 return;
             } else {
-                System.out.println("HYPIXEL API KEY IS DEFINED!");
+                System.out.println("[playerinfo] HYPIXEL API KEY IS DEFINED!");
             }
             String requestGameType = this.gameType.getRequestName();
+            // fetch player stats from playerinfo api
             String url = "https://api.jerlshoba.com/hypixel/stats/" + uuid.toString() + "/" + requestGameType + "?key=" + module.hypixelApiKey + "&get_status=true";
-            System.out.println("URL FOR HYPIXEL REQUEST: " + url);
             HttpUtil.httpGet(url, response -> {
                 String entity = EntityUtils.toString(response.getEntity());
-                System.out.println("HYPIXEL RESPONSE ENTITY: " + entity);
 
                 int statusCode = response.getStatusLine().getStatusCode();
-                System.out.println("HYPIXEL RESPONSE STATUS CODE: " + statusCode);
+                System.out.println("[playerinfo] HYPIXEL RESPONSE STATUS CODE: " + statusCode);
+
+                JsonParser parser = new JsonParser();
+                JsonElement element = parser.parse(entity);
+                JsonObject obj = element.getAsJsonObject();
+
+                // parse data if the request succeeds
                 if (statusCode >= 200 && statusCode < 300) {
-                    System.out.println("HYPIXEL REQUEST IS OK");
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(entity);
-                    JsonObject obj = element.getAsJsonObject();
+                    System.out.println("[playerinfo] HYPIXEL REQUEST IS OK");
 
-                    System.out.println(obj.toString());
+                    boolean online = obj.get("online").getAsBoolean();
 
-                    level = obj.get("level").getAsInt();
-                    kdr = obj.get("kdr").getAsDouble();
-                    wlr = obj.get("wlr").getAsDouble();
-                    ws = obj.get("winstreak").getAsInt();
+                    if (!online) {
+                        StatsMod.getPlayerStats().remove(this.uuid);
+                    }
 
-                    System.out.println("HYPIXEL GAME TYPE: " + this.gameType.toString());
+                    // sometimes some of these are null for some reason
+                    // so we have to handle that by checking if they're null
+                    String rank = "NONE";
+                    if (obj.get("rank") != null) {
+                        rank = obj.get("rank").getAsString();
+                    }
 
+                    String plusColor = "RED";
+                    if (obj.get("plusColor") != null) {
+                        plusColor = obj.get("plusColor").getAsString();
+                    }
+
+                    if(obj.get("level") != null) {
+                        level = obj.get("level").getAsInt();
+                    }
+
+                    if (obj.get("kdr") != null)
+                        kdr = obj.get("kdr").getAsDouble();
+
+                    if (obj.get("wlr") != null)
+                        wlr = obj.get("wlr").getAsDouble();
+
+                    if (obj.get("ws") != null)
+                        ws = obj.get("winstreak").getAsInt();
+
+                    this.rank = HypixelUtil.Rank.getRankFromAPIName(rank);
+                    this.plusColor = HypixelUtil.PlusColor.getPlusColorFromName(plusColor);
+
+                    System.out.println("[playerinfo] HYPIXEL GAME TYPE: " + this.gameType.toString());
+
+                    // set game-specific stats
                     switch (this.gameType){
                         case BEDWARS:
-                            fkdr = obj.get("fkdr").getAsDouble();
-                            bblr = obj.get("bblr").getAsDouble();
-                            gameLevel = obj.get("gameLevel").getAsInt();
+                            if (obj.get("fkdr") != null)
+                                fkdr = obj.get("fkdr").getAsDouble();
+                            if (obj.get("bblr") != null)
+                                bblr = obj.get("bblr").getAsDouble();
+                            if (obj.get("gameLevel") != null)
+                                gameLevel = obj.get("gameLevel").getAsInt();
                             break;
                         case DUELS:
                             title = obj.get("title").getAsString();
@@ -209,10 +250,22 @@ public class StatsMod extends Module {
                     }
 
                 } else {
-                    System.out.println("HYPIXEL STATUS CODE IS NOT OK");
-                    nicked = true;
+                    System.out.println("[playerinfo] HYPIXEL STATUS CODE IS NOT OK");
+                    // if the request fails and the player is nicked, they're a nick
+                    // otherwise it's watchdog
+                    if (statusCode == 404) {
+                        boolean success = obj.get("success").getAsBoolean();
+                        boolean isNicked = obj.get("nicked").getAsBoolean();
+                        if (isNicked) {
+                            nicked = true;
+                        } else {
+                            // remove watchdog
+                            StatsMod.getPlayerStats().remove(this.uuid);
+                        }
+                    }
                 }
             });
+
         }
 
         public GameType getGameType() {
