@@ -27,6 +27,10 @@ public class DisplayTweaksMod extends Module {
     public boolean unicodeFontRendererEnabled = false;
     @ConfigOption
     public boolean stackChatMessages = false;
+    @ConfigOption
+    public boolean transparentChat = false;
+    @ConfigOption
+    public boolean renderOwnName = false;
 
     public static boolean hardcoreHearts = false;
 
@@ -62,7 +66,7 @@ public class DisplayTweaksMod extends Module {
     public void onChatMessage(ClientChatReceivedEvent event) {
         if (!hardcoreHeartsEnabled) return;
 
-        String unformatted = event.message.getUnformattedText();
+        String unformatted = EnumChatFormatting.getTextWithoutFormattingCodes(event.message.getUnformattedText());
         String pattern = "BED DESTRUCTION > Your Bed";
 
         if (unformatted.startsWith(pattern)) {

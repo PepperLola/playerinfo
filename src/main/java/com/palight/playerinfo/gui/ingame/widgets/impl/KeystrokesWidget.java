@@ -5,6 +5,7 @@ import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.opengl.GL11;
 
@@ -138,31 +139,38 @@ public class KeystrokesWidget extends GuiIngameWidget {
         if (res == null) {
             res = new ScaledResolution(Minecraft.getMinecraft());
 
-            this.getPosition().setX(res.getScaledWidth() - this.width - 4);
-            this.getPosition().setY(res.getScaledHeight() - this.height - 4);
+            if (this.getPosition().getX() == -1) {
+                this.getPosition().setX(res.getScaledWidth() - this.width - 4);
+            }
+
+            if (this.getPosition().getY() == -1) {
+                this.getPosition().setY(res.getScaledHeight() - this.height - 4);
+            }
         }
 
         GL11.glPushMatrix();
 
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
 
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
 
         for (Key key : mode.getKeys()) {
             int textWidth = (int) PlayerInfo.instance.fontRendererObj.getWidth(key.getName());
+
+            Color color = key.isDown() ? new Color(255, 255, 255, 102) : new Color(0, 0, 0, 102);
 
             Gui.drawRect(
                     this.getPosition().getX() + key.getX(),
                     this.getPosition().getY() + key.getY(),
                     this.getPosition().getX() + key.getX() + key.getWidth(),
                     this.getPosition().getY() + key.getY() + key.getHeight(),
-                    key.isDown() ? new Color(255, 255, 255, 102).getRGB() : new Color(0, 0, 0, 102).getRGB()
+                    color.getRGB()
             );
 
-            this.drawText(
+            this.drawTextVerticallyCentered(
                     key.getName(),
                     this.getPosition().getX() + key.getX() + (key.getWidth() - textWidth) / 2,
-                    this.getPosition().getY() + key.getY() + key.getHeight() / 2 - 4,
+                    this.getPosition().getY() + key.getY() + key.getHeight() / 2,
                     key.isDown()
             );
         }

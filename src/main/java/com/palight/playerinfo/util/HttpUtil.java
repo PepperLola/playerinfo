@@ -77,9 +77,36 @@ public class HttpUtil {
                             }
                         }).build())
                         .build();
-                HttpGet httpPut = new HttpGet(url);
+                HttpGet httpGet = new HttpGet(url);
                 if (handler != null) {
-                    handler.handleResponse(httpclient.execute(httpPut));
+                    handler.handleResponse(httpclient.execute(httpGet));
+                }
+            } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+                e.printStackTrace();
+            }
+        });
+
+        reqThread.start();
+    }
+
+    public static void httpGet(final String url, Map<String, String> headers, final HttpUtilResponseHandler handler) {
+        Thread reqThread = new Thread(() -> {
+            try {
+                CloseableHttpClient httpclient = HttpClients.custom()
+                        .setHostnameVerifier(new AllowAllHostnameVerifier())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                            @Override
+                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                                return true;
+                            }
+                        }).build())
+                        .build();
+                HttpGet httpGet = new HttpGet(url);
+                for (String header : headers.keySet()) {
+                    httpGet.addHeader(header, headers.get(header));
+                }
+                if (handler != null) {
+                    handler.handleResponse(httpclient.execute(httpGet));
                 }
             } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
                 e.printStackTrace();
@@ -102,6 +129,34 @@ public class HttpUtil {
                         }).build())
                         .build();
                 HttpPut httpPut = new HttpPut(url);
+                httpPut.setEntity(new StringEntity(data));
+                for (String header : headers.keySet()) {
+                    httpPut.addHeader(header, headers.get(header));
+                }
+                if (handler != null) {
+                    handler.handleResponse(httpclient.execute(httpPut));
+                }
+            } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+                e.printStackTrace();
+            }
+        });
+
+        reqThread.start();
+    }
+
+    public static void httpPost(final String url, final Map<String, String> headers, final String data, final HttpUtilResponseHandler handler) {
+        Thread reqThread = new Thread(() -> {
+            try {
+                CloseableHttpClient httpclient = HttpClients.custom()
+                        .setHostnameVerifier(new AllowAllHostnameVerifier())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                            @Override
+                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                                return true;
+                            }
+                        }).build())
+                        .build();
+                HttpPost httpPut = new HttpPost(url);
                 httpPut.setEntity(new StringEntity(data));
                 for (String header : headers.keySet()) {
                     httpPut.addHeader(header, headers.get(header));

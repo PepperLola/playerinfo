@@ -23,29 +23,21 @@ public class ReachDisplayWidget extends GuiIngameWidget {
             this.getPosition().setX(res.getScaledWidth() / 2 - this.width / 2);
         }
 
-        if (getState() == WidgetEditingState.EDITING) {
+        String displayString = "";
 
-            super.render(mc);
-
-            String displayString = "3 blocks";
-
-            this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
-            this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2);
-
-            drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
-
-        } else if (System.currentTimeMillis() - ReachDisplayMod.lastAttackTime < ReachDisplayMod.displayTime) {
-
-            super.render(mc);
-
-            String displayString = NumberUtil.round(ReachDisplayMod.reach, 2) + " blocks";
-
-            this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
-            this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2);
-
-            drawText(displayString, getPosition().getX() + 2, getPosition().getY() + 1);
+        if (getState() == WidgetEditingState.INGAME && System.currentTimeMillis() - ReachDisplayMod.lastAttackTime < ReachDisplayMod.displayTime) {
+            displayString = NumberUtil.round(ReachDisplayMod.reach, 2) + " blocks";
+        } else if (getState() == WidgetEditingState.EDITING) {
+            displayString = "3 blocks";
         }
 
+        if (!displayString.equals("")) {
+            this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString)) + 4;
+            this.height = (int) (PlayerInfo.instance.fontRendererObj.getHeight(displayString) + 2);
+
+            super.render(mc);
+            drawTextVerticallyCentered(displayString, getPosition().getX() + 2, getPosition().getY() + this.height / 2 + 1);
+        }
     }
 
 }

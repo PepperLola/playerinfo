@@ -14,8 +14,6 @@ public class OldAnimationsGui extends CustomGuiScreenScrollable {
     private GuiCheckBox bowAnimationEnabled;
     private GuiCheckBox rodAnimationEnabled;
     private GuiCheckBox eatingAnimationEnabled;
-    private GuiCheckBox swordAnimationEnabled;
-    private GuiCheckBox heldAnimationEnabled;
 
     private OldAnimationsMod module;
 
@@ -38,16 +36,12 @@ public class OldAnimationsGui extends CustomGuiScreenScrollable {
         bowAnimationEnabled = new GuiCheckBox(1, buttonX, buttonY + 20, "Bow Animation Enabled", module.bowAnimationEnabled);
         rodAnimationEnabled = new GuiCheckBox(2, buttonX, buttonY + 40, "Rod Animation Enabled", module.rodAnimationEnabled);
         eatingAnimationEnabled = new GuiCheckBox(3, buttonX, buttonY + 60, "Eating Animation Enabled", module.eatingAnimationEnabled);
-        swordAnimationEnabled = new GuiCheckBox(4, buttonX, buttonY + 80, "Sword Animation Enabled", module.swordAnimationEnabled);
-        heldAnimationEnabled = new GuiCheckBox(5, buttonX, buttonY + 100, "Held Item Enabled", module.heldAnimationEnabled);
 
         this.guiElements.addAll(Arrays.asList(
                 this.blockHitAnimationEnabled,
                 this.bowAnimationEnabled,
                 this.rodAnimationEnabled,
-                this.eatingAnimationEnabled,
-                this.swordAnimationEnabled,
-                this.heldAnimationEnabled
+                this.eatingAnimationEnabled
         ));
     }
 
@@ -62,10 +56,6 @@ public class OldAnimationsGui extends CustomGuiScreenScrollable {
             module.rodAnimationEnabled = rodAnimationEnabled.checked;
         } else if (widget.id == eatingAnimationEnabled.id) {
             module.eatingAnimationEnabled = eatingAnimationEnabled.checked;
-        } else if (widget.id == swordAnimationEnabled.id) {
-            module.swordAnimationEnabled = swordAnimationEnabled.checked;
-        } else if (widget.id == heldAnimationEnabled.id) {
-            module.heldAnimationEnabled = heldAnimationEnabled.checked;
         }
         ModConfiguration.syncFromGUI();
     }

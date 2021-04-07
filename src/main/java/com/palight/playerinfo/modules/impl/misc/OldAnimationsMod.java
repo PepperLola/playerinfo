@@ -7,6 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class OldAnimationsMod extends Module {
 
@@ -18,13 +20,16 @@ public class OldAnimationsMod extends Module {
     public boolean rodAnimationEnabled = false;
     @ConfigOption
     public boolean eatingAnimationEnabled = false;
-    @ConfigOption
-    public boolean swordAnimationEnabled = false;
-    @ConfigOption
-    public boolean heldAnimationEnabled = false;
 
     public OldAnimationsMod() {
         super("oldAnimations", "Old Animations", "Use 1.7 animations.", ModuleType.MISC, new OldAnimationsGui(), null);
+    }
+
+    @SubscribeEvent
+    public void onRenderFirstHand(RenderHandEvent e) {
+        if (!e.isCanceled() && Minecraft.getMinecraft().thePlayer.getItemInUse() != null) {
+            this.attemptSwing();
+        }
     }
 
     public void attemptSwing() {

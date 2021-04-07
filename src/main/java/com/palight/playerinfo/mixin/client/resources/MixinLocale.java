@@ -24,6 +24,7 @@ public abstract class MixinLocale {
     private String injectI18nData(String format, Object[] args) {
         try {
             loadLocaleData(MixinLocale.class.getResourceAsStream("/assets/playerinfo/lang/en_us.lang"));
+            loadLocaleData(MixinLocale.class.getResourceAsStream("/assets/playerinfo/lang/es_es.lang"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -99,7 +99,7 @@ public class MixinGuiChat extends GuiScreen {
         return filteredNames.get(getSelectedEmojiIndex());
     }
 
-    @Inject(method = "mouseClicked", at = @At("HEAD"))
+    @Inject(method = "mouseClicked", at = @At("RETURN"))
     public void mouseClicked(int mouseX, int mouseY, int btn, CallbackInfo ci) {
         String emoji = this.emojiPicker.widgetClicked(mouseX, mouseY);
         if (!emoji.equals("")) {
@@ -115,7 +115,7 @@ public class MixinGuiChat extends GuiScreen {
         super.actionPerformed(button);
     }
 
-    @Inject(method = "handleMouseInput", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "handleMouseInput", at = @At("HEAD"))
     public void handleMouseInput(CallbackInfo ci) {
         int i = Mouse.getEventDWheel();
         ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());

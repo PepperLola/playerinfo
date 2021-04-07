@@ -20,6 +20,7 @@ public class RenderListener {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
+        if (PlayerInfo.TOKEN != null && !PlayerInfo.TOKEN.isEmpty()) return;
         if (event.gui instanceof GuiOptions) {
             GuiScreen gui = event.gui;
 

@@ -36,7 +36,6 @@ public class ToggleSprintWidget extends GuiIngameWidget {
         }
 
         UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
-        this.height = (int) (fr.getHeight("[Sprinting (Toggled)]") + 1);
         String displayText = "";
 
         if (getPosition().getX() == -1 || getPosition().getY() == -1) {
@@ -79,11 +78,12 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             }
         }
 
-        this.width = (int) (fr.getWidth(displayText) + 2);
 
         if (!displayText.equals("")) {
+            this.width = (int) (fr.getWidth(displayText)) + 2;
+            this.height = (int) PlayerInfo.instance.fontRendererObj.getHeight(displayText) + 2;
             super.render(mc);
-            drawText(displayText, getPosition().getX() + 1, getPosition().getY() + 1);
+            drawTextVerticallyCentered(displayText, getPosition().getX() + 1, getPosition().getY() + this.height / 2 + 1);
         }
     }
 

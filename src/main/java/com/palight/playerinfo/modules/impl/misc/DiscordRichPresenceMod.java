@@ -17,7 +17,6 @@ import net.minecraft.client.gui.GuiScreenServerList;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -79,11 +78,6 @@ public class DiscordRichPresenceMod extends Module {
     }
 
     @SubscribeEvent
-    public void onConnectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        setDiscordState(event.isLocal ? DiscordState.SINGLEPLAYER : DiscordState.MULTIPLAYER);
-    }
-
-    @SubscribeEvent
     public void clientTickEvent(TickEvent.ClientTickEvent event) {
         if (updateTicks >= updateTicksMax) {
             updateDiscord();
@@ -119,7 +113,7 @@ public class DiscordRichPresenceMod extends Module {
                 case SINGLEPLAYER:
                     return "In a singleplayer world";
                 case MULTIPLAYER:
-                    if (serverIp.contains("hypixel.net") && !((DiscordRichPresenceMod) PlayerInfo.getModules().get("discordRP")).hypixelApiKey.equals("")) {
+                    if (serverIp.contains("hypixel.net") && !((DiscordRichPresenceMod) PlayerInfo.getModules().get("discordRPC")).hypixelApiKey.equals("")) {
                         return "Playing " + MCUtil.getPlayerStatus() + " on Hypixel";
                     }
                     return "Playing on " + serverIp;

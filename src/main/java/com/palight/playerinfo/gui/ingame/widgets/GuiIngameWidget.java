@@ -59,6 +59,15 @@ public class GuiIngameWidget extends Gui {
         return state;
     }
 
+    protected void drawTextVerticallyCentered(String text, int x, int y) {
+        drawTextVerticallyCentered(text, x, y, false);
+    }
+
+    protected void drawTextVerticallyCentered(String text, int x, int y, boolean invertColors) {
+        float height = PlayerInfo.instance.fontRendererObj.getHeight(text);
+        drawText(text, x, (int) Math.ceil(y - (3 * height) / 4), invertColors);
+    }
+
     protected void drawText(String text, int x, int y) {
         drawText(text, x, y, false, -1);
     }
@@ -80,7 +89,7 @@ public class GuiIngameWidget extends Gui {
             PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, color == -1 ? getChromaColor(character * -300L, invertColors) : color);
             leftOffset += PlayerInfo.instance.fontRendererObj.getWidth(sub);
             character ++;
-            GlStateManager.color(1f, 1f, 1f);
+            GlStateManager.resetColor();
         }
     }
 

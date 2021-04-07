@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.mixin.render.IMixinItemRenderer;
 import com.palight.playerinfo.modules.impl.misc.OldAnimationsMod;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -13,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.MathHelper;
 
 public class CustomItemRenderer {
@@ -48,7 +48,6 @@ public class CustomItemRenderer {
             GlStateManager.translate(-0.078f, 0.003f, 0.05f);
         }
 
-
         GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
         GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
@@ -78,8 +77,6 @@ public class CustomItemRenderer {
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
                 ((IMixinItemRenderer) parent).callRenderItemMap(entityPlayerSP, f2, f, f1);
-            } else if ((itemToRender.getItem() instanceof ItemSword) && !mc.thePlayer.isBlocking() && oldAnimationsMod.isEnabled() && oldAnimationsMod.swordAnimationEnabled) {
-                transformFirstPersonItem(f, f1);
             } else if (entityPlayerSP.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();
 
@@ -99,24 +96,21 @@ public class CustomItemRenderer {
                     case BLOCK:
                         if (oldAnimationsMod.isEnabled() && oldAnimationsMod.blockHitAnimationEnabled) {
                             transformFirstPersonItem(f, f1);
-                            ((IMixinItemRenderer) parent).callDoBlockTransformations();
-                            GlStateManager.scale(0.83f, 0.88f, 0.85f);
-                            GlStateManager.translate(-0.3f, 0.1f, 0.0f);
+//                            GlStateManager.scale(0.83f, 0.88f, 0.85f);
+//                            GlStateManager.translate(-0.3f, 0.1f, 0.0f);
                         } else {
                             transformFirstPersonItem(f, 0f);
-                            ((IMixinItemRenderer) parent).callDoBlockTransformations();
                         }
+                        ((IMixinItemRenderer) parent).callDoBlockTransformations();
                         break;
 
                     case BOW:
                         if (oldAnimationsMod.isEnabled() && oldAnimationsMod.bowAnimationEnabled) {
                             transformFirstPersonItem(f, f1);
-                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
-                            GlStateManager.translate(0.0F, 0.1F, -0.15F);
                         } else {
                             transformFirstPersonItem(f, 0.0F);
-                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                         }
+                        ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                 }
             } else {
                 ((IMixinItemRenderer) parent).callDoItemUsedTransformations(f1);
@@ -131,5 +125,37 @@ public class CustomItemRenderer {
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
+    }
+
+    public void performDrinking(AbstractClientPlayer p_performDrinking_1_, float p_performDrinking_2_, ItemStack itemToRender) {
+        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.eatingAnimationEnabled) {
+            float f = (float) p_performDrinking_1_.getItemInUseCount() - p_performDrinking_2_ + 1.0F;
+            float f1 = 1.0f - f / (float) itemToRender.getMaxItemUseDuration();
+            float f2 = 1.0f - f1;
+            f2 = f2 * f2 * f2;
+            f2 = f2 * f2 * f2;
+            f2 = f2 * f2 * f2;
+            float f3 = 1.0F - f2;
+
+            GlStateManager.translate(0.0F, MathHelper.abs(MathHelper.cos(f / 4.0F * (float)Math.PI) * 0.1F) * (float)((double)f1 > 0.2D ? 1 : 0), 0.0F);
+            GlStateManager.translate(f3 * 0.6F, f3 * -0.5F, f3 * 0.0F);
+            GlStateManager.rotate(f3 * 90.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(f3 * 10.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(f3 * 30.0F, 0.0F, 0.0F, 1.0F);
+        } else {
+            float f = (float) p_performDrinking_1_.getItemInUseCount() - p_performDrinking_2_ + 1.0F;
+            float f1 = f / (float) itemToRender.getMaxItemUseDuration();
+            float f2 = MathHelper.abs(MathHelper.cos(f / 4.0F * 3.1415927F) * 0.1F);
+            if (f1 >= 0.8F) {
+                f2 = 0.0F;
+            }
+
+            GlStateManager.translate(0.0F, f2, 0.0F);
+            float f3 = 1.0F - (float) Math.pow(f1, 27.0D);
+            GlStateManager.translate(f3 * 0.6F, f3 * -0.5F, f3 * 0.0F);
+            GlStateManager.rotate(f3 * 90.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(f3 * 10.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(f3 * 30.0F, 0.0F, 0.0F, 1.0F);
+        }
     }
 }

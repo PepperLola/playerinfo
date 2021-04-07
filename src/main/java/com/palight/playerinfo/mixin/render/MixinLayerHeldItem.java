@@ -43,7 +43,6 @@ public class MixinLayerHeldItem {
                 GlStateManager.rotate(-20.0f, -1.0f, 0.0f, 0.0f);
                 GlStateManager.scale(f, f, f);
             }
-            Label_0327:
             if (entity instanceof EntityPlayer) {
                 if (oldAnimationsMod.isEnabled() && oldAnimationsMod.blockHitAnimationEnabled) {
                     if (((EntityPlayer) entity).isBlocking()) {
@@ -68,25 +67,10 @@ public class MixinLayerHeldItem {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
                 }
 
-                if (oldAnimationsMod.isEnabled() && oldAnimationsMod.heldAnimationEnabled) {
-                    GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
-                } else {
-                    if (!((EntityPlayer) entity).isBlocking()) {
-                        if (oldAnimationsMod.isEnabled() && oldAnimationsMod.heldAnimationEnabled) {
-                            GlStateManager.translate(-0.0855f, 0.4775f, 0.1585f);
-                            GlStateManager.rotate(-19.0f, 20.0f, 0.0f, -6.0f);
-                            break Label_0327;
-                        }
-                    }
-
-                    if (((EntityPlayer) entity).isBlocking()) {
-                        GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
-                    }
-                }
             } else {
                 ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
-                GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
             }
+            GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
 
             if (entity instanceof EntityPlayer && ((EntityPlayer) entity).fishEntity != null) {
                 itemstack = new ItemStack(Items.fishing_rod, 0);

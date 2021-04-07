@@ -39,16 +39,19 @@ public class LifxGui extends CustomGuiScreen {
     public static int TEAM_COLOR;
     public static boolean TEAM_MODE;
 
-    private final LifxMod module;
+    private LifxMod module;
 
     public LifxGui() {
         super("screen.lifx");
-        module = ((LifxMod) PlayerInfo.getModules().get("lifx"));
     }
 
     @Override
     public void initGui() {
         TEAM_MODE = getTeamMode();
+
+        if (module == null) {
+            module = ((LifxMod) PlayerInfo.getModules().get("lifx"));
+        }
 
         buttonX = (this.width - xSize) / 2 + 16;
         buttonY = (this.height - ySize) / 2 + headerHeight;

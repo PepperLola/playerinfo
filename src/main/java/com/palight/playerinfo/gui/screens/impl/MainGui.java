@@ -87,16 +87,16 @@ public class MainGui extends CustomGuiScreenScrollable {
         List<Module> filteredModules = new ArrayList<>();
 
         System.out.println("FILTER TEXT: " + filterTextInput.getText());
-//        if (filterTextInput.getText().equals("")) {
+        if (filterTextInput.getText().equals("")) {
             filteredModules.addAll(PlayerInfo.getModules().values());
-//        } else {
-//            for (Module module : PlayerInfo.getModules().values()) {
-//                String filterText = filterTextInput.getText().toLowerCase();
-//                if (module.getName().toLowerCase().contains(filterText) || module.getDescription().toLowerCase().contains(filterText)) {
-//                    filteredModules.add(module);
-//                }
-//            }
-//        }
+        } else {
+            for (Module module : PlayerInfo.getModules().values()) {
+                String filterText = filterTextInput.getText().toLowerCase();
+                if (module.getName().toLowerCase().contains(filterText) || module.getDescription().toLowerCase().contains(filterText)) {
+                    filteredModules.add(module);
+                }
+            }
+        }
 
         for (int i = 0; i < filteredModules.size(); i++) {
             Module module = filteredModules.get(i);

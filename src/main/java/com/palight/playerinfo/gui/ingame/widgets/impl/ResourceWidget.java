@@ -35,9 +35,9 @@ public class ResourceWidget extends GuiIngameWidget {
         mc.getTextureManager().bindTexture(overlayLocation);
         this.drawTexturedModalRect(getPosition().getX(), getPosition().getY(), 0, 0, width, height);
 
-        this.drawText(String.valueOf(iron), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(iron)) / 2), (int) (getPosition().getY() + 8 - PlayerInfo.instance.fontRendererObj.getHeight(String.valueOf(iron)) / 2));
-        this.drawText(String.valueOf(gold), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(gold)) / 2), (int) (getPosition().getY() + 24 - PlayerInfo.instance.fontRendererObj.getHeight(String.valueOf(gold)) / 2));
-        this.drawText(String.valueOf(diamond), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(diamond)) / 2), (int) (getPosition().getY() + 40 - PlayerInfo.instance.fontRendererObj.getHeight(String.valueOf(diamond)) / 2));
-        this.drawText(String.valueOf(emerald), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(emerald)) / 2), (int) (getPosition().getY() + 56 - PlayerInfo.instance.fontRendererObj.getHeight(String.valueOf(emerald)) / 2));
+        this.drawTextVerticallyCentered(String.valueOf(iron), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(iron)) / 2), getPosition().getY() + 8);
+        this.drawTextVerticallyCentered(String.valueOf(gold), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(gold)) / 2), getPosition().getY() + 24);
+        this.drawTextVerticallyCentered(String.valueOf(diamond), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(diamond)) / 2), getPosition().getY() + 40);
+        this.drawTextVerticallyCentered(String.valueOf(emerald), (int) (getPosition().getX() + 24 - PlayerInfo.instance.fontRendererObj.getWidth(String.valueOf(emerald)) / 2), getPosition().getY() + 56);
     }
 }

@@ -70,6 +70,10 @@ public class UnicodeFontRenderer {
             return getFontFromInput("/assets/playerinfo/fonts/Segoe-UI.ttf");
         } else if (unformatted.equals("segoeuisb")) {
             return getFontFromInput("/assets/playerinfo/fonts/Segoe-UI-Semi-Bold.ttf");
+        } else if (unformatted.equals("roboto")) {
+            return getFontFromInput("/assets/playerinfo/fonts/RobotoMono-Regular.ttf");
+        } else if (unformatted.equals("robotosb")) {
+            return getFontFromInput("/assets/playerinfo/fonts/RobotoMono-SemiBold.ttf");
         }
         return getFontFromInput("/assets/playerinfo/fonts/" + name + ".ttf");
     }
