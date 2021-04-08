@@ -71,4 +71,8 @@ public class NumberUtil {
         double multiplier = Math.pow(10, decimalPlaces);
         return Math.round(input * multiplier) / multiplier;
     }
+
+    public static int clamp(int n, int low, int high) {
+        return n < low ? low : Math.min(n, high);
+    }
 }

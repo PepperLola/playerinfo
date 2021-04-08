@@ -41,8 +41,9 @@ public class MixinRender<T extends Entity> {
             GlStateManager.pushMatrix();
             GlStateManager.translate((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+            int xMult = Minecraft.getMinecraft().gameSettings.thirdPersonView == 2 ? -1 : 1;
             GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(xMult * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);

@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class ToggleSprintGui extends CustomGuiScreenScrollable {
 
     private GuiCheckBox widgetEnabled;
+    private GuiCheckBox hideWidgetWhenNotMoving;
     private GuiCheckBox toggleSneakEnabled;
 
     private ToggleSprintMod module;
@@ -32,10 +33,12 @@ public class ToggleSprintGui extends CustomGuiScreenScrollable {
         int buttonY = guiY + headerHeight + 16;
 
         widgetEnabled = new GuiCheckBox(0, buttonX, buttonY, "Widget enabled", module.toggleSprintWidgetEnabled);
-        toggleSneakEnabled = new GuiCheckBox(1, buttonX, buttonY + 20, "Toggle Sneak enabled", module.toggleSneakEnabled);
+        hideWidgetWhenNotMoving = new GuiCheckBox(1, buttonX, buttonY + 20, "Hide widget when not moving", module.hideWidgetWhenNotMoving);
+        toggleSneakEnabled = new GuiCheckBox(2, buttonX, buttonY + 40, "Toggle Sneak enabled", module.toggleSneakEnabled);
 
         this.guiElements.addAll(Arrays.asList(
                 this.widgetEnabled,
+                this.hideWidgetWhenNotMoving,
                 this.toggleSneakEnabled
         ));
     }
@@ -45,6 +48,8 @@ public class ToggleSprintGui extends CustomGuiScreenScrollable {
         super.widgetClicked(widget);
         if (widget.id == widgetEnabled.id) {
             module.toggleSprintWidgetEnabled = widgetEnabled.checked;
+        } else if (widget.id == hideWidgetWhenNotMoving.id) {
+            module.hideWidgetWhenNotMoving = hideWidgetWhenNotMoving.checked;
         } else if (widget.id == toggleSneakEnabled.id) {
             module.toggleSneakEnabled = toggleSneakEnabled.checked;
         }

@@ -13,6 +13,8 @@ public class PerspectiveMod extends Module {
 
     @ConfigOption
     public boolean mustHoldKey = false; // if true, the player must hold the key to stay in perspective mode, otherwise it'll toggle
+    @ConfigOption
+    public boolean invertVertical = false;
     private boolean perspectiveToggled = false;
 
     private float cameraYaw = 0F;

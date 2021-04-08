@@ -3,7 +3,6 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.impl.gui.PotionsMod;
-import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -42,7 +41,7 @@ public class PotionsWidget extends GuiIngameWidget {
                 itemHeight = 132 / (collection.size() - 1);
             }
 
-            if (module.renderTransparentBackground) {
+            if (!module.renderTransparentBackground) {
                 this.height = collection.size() * itemHeight;
                 super.render(mc);
             }

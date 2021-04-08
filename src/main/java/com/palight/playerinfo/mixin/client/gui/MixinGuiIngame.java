@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.events.RenderTitleEvent;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.modules.impl.gui.PumpkinMod;
+import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
@@ -27,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame extends Gui {
     private boolean sentTitle = false;
+    private ScoreboardMod module;
     @Final
     @Shadow
     protected static ResourceLocation pumpkinBlurTexPath;
@@ -68,14 +70,14 @@ public abstract class MixinGuiIngame extends Gui {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableAlpha();
             this.mc.getTextureManager().bindTexture(pumpkinBlurTexPath);
-            Tessellator lvt_2_1_ = Tessellator.getInstance();
-            WorldRenderer lvt_3_1_ = lvt_2_1_.getWorldRenderer();
-            lvt_3_1_.begin(7, DefaultVertexFormats.POSITION_TEX);
-            lvt_3_1_.pos(0.0D, res.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-            lvt_3_1_.pos(res.getScaledWidth(), res.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-            lvt_3_1_.pos(res.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-            lvt_3_1_.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-            lvt_2_1_.draw();
+            Tessellator tessellator = Tessellator.getInstance();
+            WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldRenderer.pos(0.0D, res.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldRenderer.pos(res.getScaledWidth(), res.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldRenderer.pos(res.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+            worldRenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+            tessellator.draw();
             GlStateManager.depthMask(true);
             GlStateManager.enableDepth();
             GlStateManager.enableAlpha();
@@ -87,8 +89,14 @@ public abstract class MixinGuiIngame extends Gui {
      * @author palight
      * @reason Render custom scoreboard
      */
-    @Overwrite
-    protected void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
-        ((ScoreboardWidget) PlayerInfo.getModules().get("scoreboard").getWidget()).render(objective, resolution);
+    @Inject(method = "renderScoreboard", at = @At("HEAD"), cancellable = true)
+    protected void renderScoreboard(ScoreObjective objective, ScaledResolution resolution, CallbackInfo ci) {
+        if (module == null) {
+            module = (ScoreboardMod) PlayerInfo.getModules().get("scoreboard");
+        }
+        if (module.isEnabled()) {
+            ((ScoreboardWidget) PlayerInfo.getModules().get("scoreboard").getWidget()).render(objective, resolution);
+            ci.cancel();
+        }
     }
 }

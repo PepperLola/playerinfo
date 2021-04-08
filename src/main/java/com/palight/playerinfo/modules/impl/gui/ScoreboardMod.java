@@ -7,7 +7,7 @@ import com.palight.playerinfo.options.ConfigOption;
 
 public class ScoreboardMod extends Module {
     @ConfigOption
-    public boolean scoreboardEnabled = false;
+    public boolean scoreboardEnabled = true;
 
     @ConfigOption
     public boolean scoreboardNumbersEnabled = false;

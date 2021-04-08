@@ -78,6 +78,10 @@ public class ToggleSprintWidget extends GuiIngameWidget {
             }
         }
 
+        if (displayText.isEmpty() && module.isEnabled() && !module.hideWidgetWhenNotMoving && ToggleSprintMod.isSprintingToggled()) {
+            displayText = "[Sprinting (Toggled)]";
+        }
+
 
         if (!displayText.equals("")) {
             this.width = (int) (fr.getWidth(displayText)) + 2;

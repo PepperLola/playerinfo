@@ -18,6 +18,9 @@ public class ToggleSprintMod extends Module {
     public boolean toggleSprintWidgetEnabled = false;
 
     @ConfigOption
+    public boolean hideWidgetWhenNotMoving = false;
+
+    @ConfigOption
     public boolean toggleSneakEnabled = false;
 
     private static boolean sprintingToggled = false;
