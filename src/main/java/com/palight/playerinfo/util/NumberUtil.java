@@ -28,7 +28,6 @@ public class NumberUtil {
     }
 
     public static String integerToRoman(int number) {
-        System.out.println("TO ROMAN: " + number);
         if (number <= 0) return "";
         int l = treemap.floorKey(number);
         if (number == l) {
