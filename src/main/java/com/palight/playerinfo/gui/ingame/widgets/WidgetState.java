@@ -6,11 +6,18 @@ import org.apache.commons.lang3.StringUtils;
 
 public class WidgetState {
     private GuiIngameWidget widget;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private boolean chroma = false;
 
     public WidgetState(GuiIngameWidget widget, int x, int y, boolean chroma) {
+        this.widget = widget;
+        this.x = x;
+        this.y = y;
+        this.chroma = chroma;
+    }
+
+    public WidgetState(GuiIngameWidget widget, double x, double y, boolean chroma) {
         this.widget = widget;
         this.x = x;
         this.y = y;
@@ -33,7 +40,7 @@ public class WidgetState {
     }
 
     public int getX() {
-        return x;
+        return (int) x;
     }
 
     public void setX(int x) {
@@ -41,12 +48,20 @@ public class WidgetState {
     }
 
     public int getY() {
-        return y;
+        return (int) y;
     }
 
     public void setY(int y) {
         this.y = y;
     }
+
+    public void setX(double x) { this.x = x; }
+
+    public void setY(double y) { this.y = y; }
+
+    public double getX_double() { return x; }
+
+    public double getY_double() { return y; }
 
     public GuiIngameWidget getWidget() {
         return widget;
@@ -68,8 +83,8 @@ public class WidgetState {
         String data = StringUtils.substringBetween(in, "(", ")");
         String[] split = data.split(",");
         String moduleId = split[0];
-        int x = Integer.parseInt(split[1]);
-        int y = Integer.parseInt(split[2]);
+        double x = Double.parseDouble(split[1]);
+        double y = Double.parseDouble(split[2]);
         boolean chroma = Boolean.parseBoolean(split[3]);
 
         Module module = PlayerInfo.getModules().get(moduleId);
@@ -82,6 +97,6 @@ public class WidgetState {
 
     @Override
     public String toString() {
-        return String.format("WidgetState(%s,%d,%d,%b)", getModule().getModule().getId(), this.x, this.y, this.chroma);
+        return String.format("WidgetState(%s,%f,%f,%b)", getModule().getModule().getId(), this.x, this.y, this.chroma);
     }
 }

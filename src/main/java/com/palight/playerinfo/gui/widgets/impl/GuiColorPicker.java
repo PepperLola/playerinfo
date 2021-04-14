@@ -5,7 +5,6 @@ import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 public class GuiColorPicker extends GuiCustomWidget {
@@ -19,16 +18,16 @@ public class GuiColorPicker extends GuiCustomWidget {
     public float bP = 0f;
     public float aP = 1f;
 
-    private int previewX;
+    private final int previewX;
     private int previewY;
 
-    private int previewX2;
+    private final int previewX2;
     private int previewY2;
 
-    private int rX; // r bar x
-    private int gX;
-    private int bX;
-    private int aX;
+    private final int rX; // r bar x
+    private final int gX;
+    private final int bX;
+    private final int aX;
 
     private int barY;
 
@@ -56,11 +55,38 @@ public class GuiColorPicker extends GuiCustomWidget {
 
             super.drawWidget(mc, mouseX, mouseY);
 
-            FontRenderer fr = mc.fontRendererObj;
-
             this.drawTexturedModalRect(xPosition, yPosition, 48, 0, width, height);
 
             setColors(mouseX, mouseY);
+
+            // Draw red bar
+            this.drawGradientRect(rX + 3, barY, rX + 3 + barWidth, barY + barHeight,
+                    ColorUtil.getColorInt(255, 0, 0, 255),
+                    0
+            );
+
+            // draw green bar
+            this.drawGradientRect(gX + 3, barY, gX + 3 + barWidth, barY + barHeight,
+                    ColorUtil.getColorInt(0, 255, 0, 255),
+                    0
+            );
+
+            // draw blue bar
+            this.drawGradientRect(bX + 3, barY, bX + 3 + barWidth, barY + barHeight,
+                    ColorUtil.getColorInt(0, 0, 255, 255),
+                    0
+            );
+
+            int color = this.getColor();
+            int[] rgba = ColorUtil.getColorRGB(color);
+            color = ColorUtil.getColorInt(rgba[0], rgba[1], rgba[2], 255);
+
+            // draw alpha bar
+            this.drawGradientRect(aX + 3, barY, aX + 3 + barWidth, barY + barHeight,
+                    color,
+                    0
+            );
+
             drawArrows(mc);
         }
     }

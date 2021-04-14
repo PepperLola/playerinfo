@@ -18,6 +18,12 @@ public class ScoreboardMod extends Module {
     @ConfigOption
     public int scoreboardBodyColor = 1342177280;
 
+    @ConfigOption
+    public int offsetX = 0;
+
+    @ConfigOption
+    public int offsetY = 0;
+
     public ScoreboardMod() {
         super("scoreboard", "Scoreboard", "Customize your scoreboard!", ModuleType.GUI, new ScoreboardGui(), new ScoreboardWidget());
     }

@@ -48,6 +48,10 @@ public class NumberUtil {
         return isBetween(x, lowX, highX) && isBetween(y, lowY, highY);
     }
 
+    public static boolean pointIsBetween(double x, double y, double lowX, double lowY, double highX, double highY) {
+        return isBetween(x, lowX, highX) && isBetween(y, lowY, highY);
+    }
+
     public static int roundDown(int in, int max) {
         return Math.min(in, max);
     }

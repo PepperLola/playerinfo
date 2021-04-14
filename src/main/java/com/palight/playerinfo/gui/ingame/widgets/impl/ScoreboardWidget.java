@@ -7,7 +7,6 @@ import com.palight.playerinfo.events.ScoreboardTitleChangeEvent;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import com.palight.playerinfo.util.ColorUtil;
-import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.Score;
@@ -25,14 +24,6 @@ import java.util.stream.Collectors;
 public class ScoreboardWidget extends GuiIngameWidget {
 
     private Minecraft mc;
-    private int defaultX = -1;
-    private int defaultY = -1;
-    private int lastScaledWidth = -1;
-    private int lastScaledHeight = -1;
-    private double lastXDiff = 0;
-    private double lastYDiff = 0;
-    private int headerColor = 1610612736;
-    private int bodyColor = 1342177280;
     public ScoreObjective scoreObjective;
 
     private ScoreboardMod module;
@@ -52,23 +43,12 @@ public class ScoreboardWidget extends GuiIngameWidget {
             mc = Minecraft.getMinecraft();
         }
 
-        if (lastScaledWidth == -1) {
-            lastScaledWidth = resolution.getScaledWidth();
-        }
-
-        if (lastScaledHeight == -1) {
-            lastScaledHeight = resolution.getScaledHeight();
-        }
-
         if (scoreObjective != null && objective != null) {
             if (!ColorUtil.stripColor(scoreObjective.getDisplayName()).equals(ColorUtil.stripColor(objective.getDisplayName()))) {
                 MinecraftForge.EVENT_BUS.post(new ScoreboardTitleChangeEvent(scoreObjective.getDisplayName(), objective.getDisplayName()));
             }
         }
         scoreObjective = objective;
-
-        headerColor = module.scoreboardHeaderColor;
-        bodyColor = module.scoreboardBodyColor;
 
         Scoreboard scoreboard = objective.getScoreboard();
         Collection<Score> sortedScores = scoreboard.getSortedScores(objective);
@@ -98,41 +78,15 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
         this.height = (list.size() + 1) * mc.fontRendererObj.FONT_HEIGHT;
 
-        int padding = 3;
+        this.getPosition().setX(resolution.getScaledWidth() - this.width - 3);
+        this.getPosition().setY(resolution.getScaledHeight() / 2 - this.height / 2);
 
-        if (defaultX == -1) {
-            defaultX = resolution.getScaledWidth() - stringWidth - padding;
-        }
-
-        if (defaultY == -1) {
-            defaultY = (resolution.getScaledHeight() - this.height) / 2;
-        }
-
-        if (resolution.getScaledWidth() != lastScaledWidth) {
-            defaultX = resolution.getScaledWidth() - stringWidth - padding;
-            this.getPosition().setX(NumberUtil.clamp(defaultX + (int) (lastXDiff * resolution.getScaledWidth_double()), 0, resolution.getScaledWidth()));
-            lastScaledWidth = resolution.getScaledWidth();
-        }
-
-        if (resolution.getScaledHeight() != lastScaledHeight) {
-            defaultY = (resolution.getScaledHeight() - this.height) / 2;
-            this.getPosition().setY(NumberUtil.clamp(defaultY + (int) (lastYDiff * resolution.getScaledHeight_double()), 0, resolution.getScaledHeight()));
-            lastScaledHeight = resolution.getScaledHeight();
-        }
-
-        if (this.getPosition().getY() == -1) {
-            getPosition().setY(defaultY);
-        }
-        if (this.getPosition().getX() == -1) {
-            getPosition().setX(defaultX);
-        }
-
-        lastXDiff = (this.getPosition().getX() - defaultX) / resolution.getScaledWidth_double();
-        lastYDiff = (this.getPosition().getY() - defaultY) / resolution.getScaledHeight_double();
+        int scoreboardX = this.getPosition().getX() + module.offsetX;
+        int scoreboardY = this.getPosition().getY() + module.offsetY;
 
         this.width = stringWidth + 2;
 
-        int xEnd = getPosition().getX() + this.width;
+        int xEnd = scoreboardX + this.width;
 
         for (int i = 0; i < list.size(); i++) {
             Score score = list.get(i);
@@ -142,39 +96,26 @@ public class ScoreboardWidget extends GuiIngameWidget {
             String formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
             String scoreString = !module.isEnabled() || module.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
 
-            int lineY = getPosition().getY() + ((list.size() - i) * mc.fontRendererObj.FONT_HEIGHT);
+            int lineY = scoreboardY + ((list.size() - i) * mc.fontRendererObj.FONT_HEIGHT);
 
-            drawRect(getPosition().getX() - 2, lineY, xEnd, lineY + mc.fontRendererObj.FONT_HEIGHT, bodyColor);
+            drawRect(scoreboardX - 2, lineY, xEnd, lineY + mc.fontRendererObj.FONT_HEIGHT, module.scoreboardBodyColor);
 
-            mc.fontRendererObj.drawString(formattedPlayerName, getPosition().getX(), lineY, 553648127);
+            mc.fontRendererObj.drawString(formattedPlayerName, scoreboardX, lineY, 553648127);
             mc.fontRendererObj.drawString(scoreString, xEnd - mc.fontRendererObj.getStringWidth(scoreString), lineY, 553648127);
         }
 
         String objectiveDisplayName = objective.getDisplayName();
 
-        drawRect(getPosition().getX() - 2, getPosition().getY(), xEnd, getPosition().getY() + mc.fontRendererObj.FONT_HEIGHT, headerColor);
+        drawRect(scoreboardX - 2, scoreboardY, xEnd, scoreboardY + mc.fontRendererObj.FONT_HEIGHT, module.scoreboardHeaderColor);
 
-        mc.fontRendererObj.drawString(objectiveDisplayName, getPosition().getX() + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, getPosition().getY(), 553648127);
+        mc.fontRendererObj.drawString(objectiveDisplayName, scoreboardX + stringWidth / 2 - mc.fontRendererObj.getStringWidth(objectiveDisplayName) / 2, scoreboardY, 553648127);
     }
 
     public void resetPosition() {
-        this.getPosition().setX(-1);
-        this.getPosition().setY(-1);
-    }
-
-    public int getHeaderColor() {
-        return headerColor;
-    }
-
-    public void setHeaderColor(int headerColor) {
-        this.headerColor = headerColor;
-    }
-
-    public int getBodyColor() {
-        return bodyColor;
-    }
-
-    public void setBodyColor(int bodyColor) {
-        this.bodyColor = bodyColor;
+        if (module == null) {
+            module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
+        }
+        module.offsetX = 0;
+        module.offsetY = 0;
     }
 }

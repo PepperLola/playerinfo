@@ -14,6 +14,7 @@ public class GuiIngameWidget extends Gui {
     public int width;
     public int height;
     public boolean movable = true;
+    public boolean adjusting = false;
 
     private WidgetEditingState state;
 
