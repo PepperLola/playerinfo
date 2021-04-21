@@ -88,7 +88,7 @@ public class GuiIngameWidget extends Gui {
         if (text == null) return;
         for (String sub : text.split("")) {
             PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, color == -1 ? getChromaColor(character * -300L, invertColors) : color);
-            leftOffset += PlayerInfo.instance.fontRendererObj.getWidth(sub);
+            leftOffset += (int) PlayerInfo.instance.fontRendererObj.getWidth(sub);
             character ++;
             GlStateManager.resetColor();
         }
