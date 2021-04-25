@@ -15,7 +15,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreenServerList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -85,17 +87,42 @@ public class DiscordRichPresenceMod extends Module {
         }
     }
 
+    /**
+     * Update every so often to set Discord state
+     * @param event
+     */
     @SubscribeEvent
     public void clientTickEvent(TickEvent.ClientTickEvent event) {
         if (updateTicks >= updateTicksMax) {
-            setDiscordState(Minecraft.getMinecraft().theWorld != null && Minecraft.getMinecraft().theWorld.isRemote ? DiscordState.MULTIPLAYER : DiscordState.SINGLEPLAYER);
-            updateDiscord();
+            if (Minecraft.getMinecraft().theWorld != null) {
+                setDiscordState(Minecraft.getMinecraft().theWorld.isRemote ? DiscordState.MULTIPLAYER : DiscordState.SINGLEPLAYER);
+                updateDiscord();
+            }
             updateTicks = 0;
         }
 
         updateTicks ++;
     }
 
+    /**
+     * Handle singleplayer world join
+     * @param event
+     */
+    @SubscribeEvent
+    public void onWorldJoin(EntityJoinWorldEvent event) {
+        if (event.entity instanceof EntityPlayer &&
+                event.entity.getUniqueID().toString().replaceAll("-", "")
+                        .equals(Minecraft.getSessionInfo().get("X-Minecraft-UUID"))) {
+            if (event.world != null && !event.world.isRemote) {
+                setDiscordState(DiscordState.SINGLEPLAYER);
+            }
+        }
+    }
+
+    /**
+     * Handle multiplayer server join
+     * @param event
+     */
     @SubscribeEvent
     public void onServerJoin(ServerJoinEvent event) {
         System.out.printf("CONNECTED TO: %s%n", event.getServer());
@@ -104,6 +131,10 @@ public class DiscordRichPresenceMod extends Module {
         updateDiscord();
     }
 
+    /**
+     * Updates on scoreboard change to update Hypixel minigame in presence
+     * @param event
+     */
     @SubscribeEvent
     public void onScoreboardUpdate(ScoreboardTitleChangeEvent event) {
         if (serverIp.contains("hypixel")) {

@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.http.util.EntityUtils;
 
 import java.util.Map;
@@ -29,8 +30,10 @@ public class StatsMod extends Module {
     private static DiscordRichPresenceMod module;
     private static final Map<UUID, PlayerStats> playerStats = new ConcurrentHashMap<>();
     private boolean isInGame = false;
-    private Pattern whereAmIPattern = Pattern.compile("You are currently connected to server ([\\w\\d]+)");
+    private final Pattern whereAmIPattern = Pattern.compile("You are currently connected to server ([\\w\\d]+)");
     public static String currentDuelsType;
+    private long lastJoinTimestamp = 0;
+    private static final long joinCooldown = 2000; // 2 seconds
 
     public StatsMod() {
         super("stats", "Stats Overlay", "Shows the Hypixel stats of people in your game", ModuleType.GUI, null, new StatsOverlayWidget());
@@ -39,24 +42,25 @@ public class StatsMod extends Module {
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
 
-        if (!(event.entity instanceof EntityPlayer) || !event.world.isRemote) return;
+        if (!(event.entity instanceof EntityPlayer) || !event.world.isRemote || !DiscordRichPresenceMod.serverIp.contains("hypixel")) return;
         EntityPlayer player = ((EntityPlayer) event.entity);
         EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
         if (player.getUniqueID().equals(clientPlayer.getUniqueID())) {
-            isInGame = false;
-            getPlayerStats().clear();
-            clientPlayer.sendChatMessage("/whereami");
+            if (System.currentTimeMillis() - lastJoinTimestamp > joinCooldown) {
+                lastJoinTimestamp = System.currentTimeMillis();
+                isInGame = false;
+                getPlayerStats().clear();
+                clientPlayer.sendChatMessage("/whereami");
+            }
         } else {
             if (isInGame) {
                 Thread thread = new Thread() {
                     public void run() {
                         if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
-                            String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
-                            System.out.println("SCOREBOARD TITLE: " + scoreboardTitle);
                             //getting scoreboard title
-
-                            if (playerStats.containsKey(player.getUniqueID())) return;
-                            System.out.println("ADDING PLAYER: " + player.getDisplayNameString());
+                            String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
+                            if (player.getUniqueID().version() == 2 || // Hypixel NPCs have uuid version 2
+                                    playerStats.containsKey(player.getUniqueID())) return;
                             playerStats.put(player.getUniqueID(), new PlayerStats(player.getDisplayNameString(), player.getUniqueID(), GameType.getGameType(scoreboardTitle)));
                             //adds people to the list to be displayed
                         }
@@ -68,6 +72,20 @@ public class StatsMod extends Module {
             }
         }
 
+    }
+
+    @SubscribeEvent
+    public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        handleLeave(event.player);
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        handleLeave(event.player);
+    }
+
+    public void handleLeave(EntityPlayer player) {
+        playerStats.remove(player.getUniqueID());
     }
 
     @SubscribeEvent
