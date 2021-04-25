@@ -14,7 +14,6 @@ public class ArmorGui extends CustomGuiScreenScrollable {
     private int buttonX;
     private int buttonY;
 
-    private GuiCheckBox transparentBackground;
     private GuiCheckBox hideDurability;
 
     private ArmorMod module;
@@ -34,11 +33,9 @@ public class ArmorGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        transparentBackground = new GuiCheckBox(0, buttonX, buttonY, "Transparent background", module.transparentBackground);
         hideDurability = new GuiCheckBox(1, buttonX, buttonY + 20, "Hide durability", module.hideDurability);
 
         this.guiElements.addAll(Arrays.asList(
-                this.transparentBackground,
                 this.hideDurability
         ));
     }
@@ -50,9 +47,7 @@ public class ArmorGui extends CustomGuiScreenScrollable {
         }
 
         super.widgetClicked(widget);
-        if (widget.id == transparentBackground.id) {
-            module.transparentBackground = transparentBackground.checked;
-        } else if (widget.id == hideDurability.id) {
+        if (widget.id == hideDurability.id) {
             module.hideDurability = hideDurability.checked;
         }
         ModConfiguration.syncFromGUI();

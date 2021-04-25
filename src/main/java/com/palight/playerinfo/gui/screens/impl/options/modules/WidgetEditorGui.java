@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
+import com.palight.playerinfo.gui.widgets.impl.GuiWidgetOptions;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import com.palight.playerinfo.util.NumberUtil;
@@ -12,11 +13,15 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WidgetEditorGui extends CustomGuiScreen {
 
     private final List<GuiIngameWidget> widgets = new ArrayList<>();
+
+    private final Map<GuiIngameWidget, GuiWidgetOptions> optionsMap = new HashMap<>();
 
     private GuiIngameWidget editingWidget;
 
@@ -29,10 +34,20 @@ public class WidgetEditorGui extends CustomGuiScreen {
 
     @Override
     public void initGui() {
+        int i = 0;
         for (Module module : PlayerInfo.getModules().values()) {
             GuiIngameWidget widget = module.getWidget();
             if (widget != null) {
                 widgets.add(widget);
+                this.optionsMap.put(widget, new GuiWidgetOptions(
+                        widget,
+                        i,
+                        widget.getPosition().getX(),
+                        widget.getPosition().getY() + widget.height + 2,
+                        widget.getPosition().getX() + widget.width,
+                        widget.getPosition().getY() + widget.height + 18
+                ));
+                i ++;
             }
             module.startEditingWidgets();
         }
@@ -51,6 +66,11 @@ public class WidgetEditorGui extends CustomGuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
+
+        this.optionsMap.forEach((widget, optionWidget) -> {
+            optionWidget.mouseClicked(mouseX, mouseY);
+        });
+
         editingWidget = getClickedWidget(mouseX, mouseY);
         if (editingWidget == null) return;
         if (!editingWidget.movable) return;
@@ -61,7 +81,6 @@ public class WidgetEditorGui extends CustomGuiScreen {
             int widgetY = editingWidget.getPosition().getY();
 
             if (editingWidget instanceof ScoreboardWidget) {
-                ScoreboardWidget scoreboardWidget = (ScoreboardWidget) editingWidget;
                 ScoreboardMod scoreboardMod = (ScoreboardMod) PlayerInfo.getModules().get("scoreboard");
                 widgetX += scoreboardMod.offsetX;
                 widgetY += scoreboardMod.offsetY;
@@ -129,6 +148,29 @@ public class WidgetEditorGui extends CustomGuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        super.drawScreen(mouseX, mouseY, partialTicks);
+
+        this.optionsMap.forEach((widget, optionWidget) -> {
+            if (NumberUtil.pointIsBetween(
+                    mouseX,
+                    mouseY,
+                    widget.getPosition().getX(),
+                    optionWidget.isReversed() ?
+                            widget.getPosition().getY() - 2 - optionWidget.height :
+                        widget.getPosition().getY(),
+                    widget.getPosition().getX() + widget.width,
+                    optionWidget.isReversed() ?
+                        widget.getPosition().getY() + widget.height :
+                        widget.getPosition().getY() + widget.height + (optionWidget.isShouldShow() ? optionWidget.height : 0))) {
+
+                optionWidget.setShouldShow(true);
+            } else {
+                optionWidget.setShouldShow(false);
+            }
+
+            if (optionWidget.isShouldShow()) {
+                optionWidget.drawWidget(mc, mouseX, mouseY);
+            }
+        });
     }
 
     @Override

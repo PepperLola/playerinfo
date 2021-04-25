@@ -159,13 +159,15 @@ public class KeystrokesWidget extends GuiIngameWidget {
 
             Color color = key.isDown() ? new Color(255, 255, 255, 102) : new Color(0, 0, 0, 102);
 
-            Gui.drawRect(
-                    this.getPosition().getX() + key.getX(),
-                    this.getPosition().getY() + key.getY(),
-                    this.getPosition().getX() + key.getX() + key.getWidth(),
-                    this.getPosition().getY() + key.getY() + key.getHeight(),
-                    color.getRGB()
-            );
+            if (getModule().shouldRenderBackground() || key.isDown()) {
+                Gui.drawRect(
+                        this.getPosition().getX() + key.getX(),
+                        this.getPosition().getY() + key.getY(),
+                        this.getPosition().getX() + key.getX() + key.getWidth(),
+                        this.getPosition().getY() + key.getY() + key.getHeight(),
+                        color.getRGB()
+                );
+            }
 
             this.drawTextVerticallyCentered(
                     key.getName(),

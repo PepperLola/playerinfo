@@ -41,10 +41,8 @@ public class PotionsWidget extends GuiIngameWidget {
                 itemHeight = 132 / (collection.size() - 1);
             }
 
-            if (!module.renderTransparentBackground) {
-                this.height = collection.size() * itemHeight;
-                super.render(mc);
-            }
+            this.height = collection.size() * itemHeight;
+            super.render(mc);
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableLighting();

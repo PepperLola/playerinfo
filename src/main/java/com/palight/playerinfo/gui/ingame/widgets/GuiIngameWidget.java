@@ -14,7 +14,6 @@ public class GuiIngameWidget extends Gui {
     public int width;
     public int height;
     public boolean movable = true;
-    public boolean adjusting = false;
 
     private WidgetEditingState state;
 
@@ -26,8 +25,10 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void render(Minecraft mc) {
-        this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
-        GlStateManager.resetColor();
+        if (getModule().shouldRenderBackground()) {
+            this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
+            GlStateManager.resetColor();
+        }
     }
 
     public void startEditing() {

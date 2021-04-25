@@ -13,6 +13,10 @@ public abstract class Module {
     private String description;
     @ConfigOption
     protected boolean enabled;
+
+    @ConfigOption
+    protected boolean renderBackground = true;
+
     protected CustomGuiScreen optionsGui;
 
     protected GuiIngameWidget widget;
@@ -178,6 +182,22 @@ public abstract class Module {
      */
     public void setOptionsGui(CustomGuiScreen optionsGui) {
         this.optionsGui = optionsGui;
+    }
+
+    /**
+     * Gets whether the module's widget should have a background
+     * @return Whether the widget should render a background
+     */
+    public boolean shouldRenderBackground() {
+        return renderBackground;
+    }
+
+    /**
+     * Sets whether the widget should have a background
+     * @param renderBackground Whether the widget should render a background
+     */
+    public void setRenderBackground(boolean renderBackground) {
+        this.renderBackground = renderBackground;
     }
 
     /**

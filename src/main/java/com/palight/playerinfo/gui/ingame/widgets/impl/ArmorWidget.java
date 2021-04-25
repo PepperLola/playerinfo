@@ -36,8 +36,8 @@ public class ArmorWidget extends GuiIngameWidget {
         if (nonNullItems == 0) {
             return;
         }
-        if (!module.transparentBackground)
-            super.render(mc);
+
+        super.render(mc);
 
         int i = 0;
         for (ItemStack is : items) {

@@ -31,4 +31,32 @@ public abstract class GuiCustomWidget extends Gui {
     public void mouseClicked(int mouseX, int mouseY) {
 
     }
+
+    /**
+     * Arguments
+     * 1: X position
+     * 2: Y position
+     * 3: X offset of target portion from top left of image
+     * 4: Y offset "
+     * 5: Width of target portion
+     * 6: Height of target portion
+     * 7: Scaled width to display
+     * 8: Scaled height to display
+     * 9: Total width of image (specified in resource location)
+     * 10: Total height of image
+     */
+    public void drawScaledCustomSizeModalRect(
+            int x,
+            int y,
+            int xOffset,
+            int yOffset,
+            int actualWidth,
+            int actualHeight,
+            int scaledWidth,
+            int scaledHeight,
+            int imageWidth,
+            int imageHeight
+    ) {
+        Gui.drawScaledCustomSizeModalRect(x, y, xOffset, yOffset, actualWidth, actualHeight, scaledWidth, scaledHeight, imageWidth, imageHeight);
+    }
 }

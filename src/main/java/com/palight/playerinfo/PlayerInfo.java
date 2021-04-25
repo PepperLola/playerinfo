@@ -34,7 +34,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.17.4";
+    public static final String VERSION = "1.17.5";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;

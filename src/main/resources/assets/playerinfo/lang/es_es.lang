@@ -24,5 +24,6 @@ screen.keystrokes=Claves
 screen.clock=Reloj
 screen.memory=Memoría
 screen.potions=Pociónes
+screen.armor=Armadura
 
 upload.success=Subir con éxito

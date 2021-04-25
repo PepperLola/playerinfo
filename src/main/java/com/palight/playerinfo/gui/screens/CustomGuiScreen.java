@@ -83,6 +83,10 @@ public class CustomGuiScreen extends GuiScreen {
 
         this.mc.fontRendererObj.drawString(getScreenName(), guiX + (headerWidth / 2) - (mc.fontRendererObj.getStringWidth(getScreenName()) / 2), guiY + (int) Math.floor((headerHeight / 2)) - 5, 0xffffffff);
 
+//        for (GuiCustomWidget widget : guiElements) {
+//            widget.drawWidget(mc, mouseX, mouseY);
+//        }
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
