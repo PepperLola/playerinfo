@@ -25,5 +25,6 @@ screen.clock=Reloj
 screen.memory=Memoría
 screen.potions=Pociónes
 screen.armor=Armadura
+screen.screenshotHelper=Ayuda de Captura de Pantalla
 
 upload.success=Subir con éxito

@@ -1,8 +1,9 @@
 package com.palight.playerinfo.util;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.ScreenshotHelperMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.Framebuffer;
@@ -15,6 +16,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import javax.imageio.ImageIO;
 import javax.net.ssl.HttpsURLConnection;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
@@ -30,6 +32,8 @@ public class ScreenshotSaverRunnable implements Runnable {
     private final Framebuffer framebuffer;
     private final File screenshotDir;
     private final boolean upload;
+
+    private ScreenshotHelperMod module;
 
     public ScreenshotSaverRunnable(final int width, final int height, final int[] pixelValues, final Framebuffer framebuffer, final File screenshotDir, final boolean upload) {
         this.width = width;
@@ -65,6 +69,9 @@ public class ScreenshotSaverRunnable implements Runnable {
 
     @Override
     public void run() {
+        if (module == null) {
+            module = (ScreenshotHelperMod) PlayerInfo.getModules().get("screenshotHelper");
+        }
         processPixelValues(pixelValues, width, height);
 
         BufferedImage image;
@@ -88,6 +95,16 @@ public class ScreenshotSaverRunnable implements Runnable {
             }
 
             ImageIO.write(image, "png", screenshot);
+
+            if (module == null) {
+                module = (ScreenshotHelperMod) PlayerInfo.getModules().get("screenshotHelper");
+            }
+
+            if (module.copyToClipboard) {
+                System.out.println("COPYING SCREENSHOT TO CLIPBOARD!");
+                ImageSelection imageSelection = new ImageSelection(image);
+                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imageSelection, null);
+            }
 
             if (!upload) {
                 IChatComponent modChatComponent = new ChatComponentText("[playerinfo] ");

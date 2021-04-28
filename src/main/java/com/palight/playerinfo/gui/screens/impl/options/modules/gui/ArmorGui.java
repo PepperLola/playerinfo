@@ -33,7 +33,7 @@ public class ArmorGui extends CustomGuiScreenScrollable {
         buttonX = guiX + 32;
         buttonY = guiY + 32;
 
-        hideDurability = new GuiCheckBox(1, buttonX, buttonY + 20, "Hide durability", module.hideDurability);
+        hideDurability = new GuiCheckBox(1, buttonX, buttonY, "Hide durability", module.hideDurability);
 
         this.guiElements.addAll(Arrays.asList(
                 this.hideDurability

@@ -1,5 +1,7 @@
 package com.palight.playerinfo.mixin.util;
 
+import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.ScreenshotHelperMod;
 import com.palight.playerinfo.util.ScreenshotSaverRunnable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +19,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
 import java.nio.IntBuffer;
@@ -32,12 +37,17 @@ public class MixinScreenShotHelper {
     @Shadow private static int[] pixelValues;
     private static final boolean upload = false;
 
+    private static ScreenshotHelperMod module;
+
     /**
      * @author palight
      * @reason Custom screenshot helper
      */
-    @Overwrite
-    public static IChatComponent saveScreenshot(File screenshotFile, String name, int width, int height, Framebuffer framebuffer) {
+    @Inject(method="saveScreenshot(Ljava/io/File;Ljava/lang/String;IILnet/minecraft/client/shader/Framebuffer;)Lnet/minecraft/util/IChatComponent;", at = @At("HEAD"), cancellable = true)
+    private static void saveScreenshot(File screenshotFile, String name, int width, int height, Framebuffer framebuffer, CallbackInfoReturnable<IChatComponent> ci) {
+        if (module == null) {
+            module = (ScreenshotHelperMod) PlayerInfo.getModules().get("screenshotHelper");
+        }
         final File file1 = new File(Minecraft.getMinecraft().mcDataDir, "screenshots");
         file1.mkdir();
 
@@ -65,19 +75,27 @@ public class MixinScreenShotHelper {
         }
         pixelBuffer.get(pixelValues);
 
-        new Thread(new ScreenshotSaverRunnable(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
+        if (module.isEnabled()) {
+            ScreenshotSaverRunnable runnable = new ScreenshotSaverRunnable(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload);
+            if (module.asyncScreenshotSaving) {
+                new Thread(runnable).start();
+            } else {
+                runnable.run();
+            }
 
-        IChatComponent modChatComponent = new ChatComponentText("[playerinfo] ");
-        modChatComponent.getChatStyle().setColor(EnumChatFormatting.RED);
-        IChatComponent chatComponent = new ChatComponentText("Capturing...");
-        chatComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
+            IChatComponent modChatComponent = new ChatComponentText("[playerinfo] ");
+            modChatComponent.getChatStyle().setColor(EnumChatFormatting.RED);
+            IChatComponent chatComponent = new ChatComponentText("Capturing...");
+            chatComponent.getChatStyle().setColor(EnumChatFormatting.WHITE);
 
-        if (!upload) {
-            return modChatComponent.appendSibling(chatComponent);
+            if (!upload) {
+                ci.setReturnValue(modChatComponent.appendSibling(chatComponent));
+                return;
+            }
+
+            chatComponent = new ChatComponentText("Uploading...");
+            ci.setReturnValue(modChatComponent.appendSibling(chatComponent));
         }
-
-        chatComponent = new ChatComponentText("Uploading...");
-        return modChatComponent.appendSibling(chatComponent);
     }
 
     /**
@@ -86,7 +104,7 @@ public class MixinScreenShotHelper {
      */
     @Overwrite
     private static File getTimestampedPNGFileForDirectory(File screenshotFile) {
-        String date = dateFormat.format(new Date()).toString();
+        String date = dateFormat.format(new Date());
         int i = 1;
 
         while(true) {

@@ -25,5 +25,6 @@ screen.clock=Clock
 screen.memory=Memory
 screen.potions=Potions
 screen.armor=Armor
+screen.screenshotHelper=Screenshot Helper
 
 upload.success=Upload successful
