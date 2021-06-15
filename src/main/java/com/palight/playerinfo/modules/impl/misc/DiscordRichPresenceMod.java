@@ -23,6 +23,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.time.OffsetDateTime;
+
 public class DiscordRichPresenceMod extends Module {
 
     @ConfigOption
@@ -67,7 +69,8 @@ public class DiscordRichPresenceMod extends Module {
                 RichPresence.Builder builder = new RichPresence.Builder();
                 builder.setState(DiscordState.getDisplayString(discordState))
                         .setLargeImage(serverIp.contains("hypixel") ? currentGame : "minecraft", Minecraft.getMinecraft().getSession().getUsername())
-                        .setSmallImage("playerinfo", PlayerInfo.MODID + " v" + PlayerInfo.VERSION);
+                        .setSmallImage("playerinfo", PlayerInfo.MODID + " v" + PlayerInfo.VERSION)
+                        .setStartTimestamp(OffsetDateTime.now());
                 client.sendRichPresence(builder.build());
             }).start();
         }
