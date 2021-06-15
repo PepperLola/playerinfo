@@ -20,10 +20,13 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 public class DiscordRichPresenceMod extends Module {
 
@@ -37,6 +40,8 @@ public class DiscordRichPresenceMod extends Module {
     int updateTicksMax = 20 * 60;
     int updateTicks = 0;
     private static IPCClient client;
+
+    public static long START_TIME = -1;
 
     public DiscordRichPresenceMod() {
         super("discordRPC", "Discord RPC", "Enabled Discord Rich Presence", ModuleType.MISC, null, null);
@@ -70,7 +75,7 @@ public class DiscordRichPresenceMod extends Module {
                 builder.setState(DiscordState.getDisplayString(discordState))
                         .setLargeImage(serverIp.contains("hypixel") ? currentGame : "minecraft", Minecraft.getMinecraft().getSession().getUsername())
                         .setSmallImage("playerinfo", PlayerInfo.MODID + " v" + PlayerInfo.VERSION)
-                        .setStartTimestamp(OffsetDateTime.now());
+                        .setStartTimestamp(OffsetDateTime.ofInstant(Instant.ofEpochMilli(START_TIME), ZoneId.systemDefault()));
                 client.sendRichPresence(builder.build());
             }).start();
         }
@@ -131,7 +136,15 @@ public class DiscordRichPresenceMod extends Module {
         System.out.printf("CONNECTED TO: %s%n", event.getServer());
         setDiscordState(DiscordState.MULTIPLAYER);
         serverIp = event.getServer();
+        START_TIME = System.currentTimeMillis();
         updateDiscord();
+    }
+
+    @SubscribeEvent
+    public void onServerLeave(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+        System.out.println("DISCONNECTED FROM " + serverIp);
+        START_TIME = -1;
+        serverIp = "";
     }
 
     /**

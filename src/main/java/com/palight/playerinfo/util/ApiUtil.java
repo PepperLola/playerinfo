@@ -1,8 +1,10 @@
 package com.palight.playerinfo.util;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
 import net.minecraft.client.Minecraft;
 import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,7 +47,23 @@ public class ApiUtil {
     }
 
     public static void sendOnline() {
-        String data = String.format("{\"minecraft_uuid\": \"%s\"}", Minecraft.getSessionInfo().get("X-Minecraft-UUID"));
+        String data = String.format(
+                "{\"minecraft_uuid\": \"%s\"}",
+                Minecraft.getSessionInfo().get("X-Minecraft-UUID")
+        );
+
+        if (DiscordRichPresenceMod.START_TIME != -1 && !DiscordRichPresenceMod.serverIp.isEmpty()) {
+            JSONObject obj = new JSONObject()
+                    .put("minecraft_uuid", Minecraft.getSessionInfo().get("X-Minecraft-UUID"))
+                    .put("start_time", DiscordRichPresenceMod.START_TIME)
+                    .put("server_ip", DiscordRichPresenceMod.serverIp)
+                    .put("mod_version", PlayerInfo.VERSION);
+
+            data = obj.toString();
+        }
+
+
+
         Map<String, String> HEADERS = new HashMap<>();
         HEADERS.put("Content-Type", "application/json");
         HttpUtil.httpPut(API_URL + "/user/online", HEADERS, data, response -> {
