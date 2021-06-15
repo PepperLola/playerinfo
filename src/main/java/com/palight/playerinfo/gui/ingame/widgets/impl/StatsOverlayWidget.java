@@ -10,6 +10,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 
@@ -38,30 +40,38 @@ public class StatsOverlayWidget extends GuiIngameWidget {
         int y = this.getPosition().getY();
 
         int offset = 30; //distance between the stats
-        int padding = 2; //padding
+        int edgePadding = 2;
+        int padding = edgePadding + 18; //padding
         UUID clientUUID = Minecraft.getMinecraft().thePlayer.getUniqueID();
         if (!StatsMod.getPlayerStats().containsKey(clientUUID) || StatsMod.getPlayerStats().size() <= 0) return;
         super.render(mc);
 
-        drawText("NAME", x + padding, y + padding);
-        drawText("TAG", x + padding + 125, y + padding);
-        drawText("LEVEL", x + padding + 125 + offset - 10, y + padding);
-        drawText("WLR", x + padding + 125 + offset * 2, y + padding);
-        drawText("KDR", x + padding + 125 + offset * 3, y + padding);
+        drawText("NAME", x + padding, y + edgePadding);
+        drawText("TAG", x + padding + 125, y + edgePadding);
+        drawText("LEVEL", x + padding + 125 + offset - 10, y + edgePadding);
+        drawText("WLR", x + padding + 125 + offset * 2, y + edgePadding);
+        drawText("KDR", x + padding + 125 + offset * 3, y + edgePadding);
         StatsMod.PlayerStats userStats = StatsMod.getPlayerStats().get(clientUUID);
         switch (userStats.getGameType()) {
             case BEDWARS:
-                drawText("STARS", x + padding + 125 + offset * 4, y + padding);
-                drawText("FKDR", x + padding + 125 + offset * 5, y + padding);
-                drawText("BBLR", x + padding + 125 + offset * 6, y + padding);
+                drawText("STARS", x + padding + 125 + offset * 4, y + edgePadding);
+                drawText("FKDR", x + padding + 125 + offset * 5, y + edgePadding);
+                drawText("BBLR", x + padding + 125 + offset * 6, y + edgePadding);
                 break;
             case DUELS:
-                drawText("TITLE", x + padding + 125 + offset * 4, y + padding);
+                drawText("TITLE", x + padding + 125 + offset * 4, y + edgePadding);
         }
 
+        if (module.toDisplay.size() != StatsMod.getPlayerStats().values().size()) {
+            System.out.println("DISPLAY: " + module.toDisplay.toString());
+            module.toDisplay = new ArrayList<>(StatsMod.getPlayerStats().values());
+
+            Collections.sort(module.toDisplay);
+            System.out.println("SORTED: " + module.toDisplay.toString());
+        }
 
         int i = 0;
-        for (StatsMod.PlayerStats playerStats : StatsMod.getPlayerStats().values()) {
+        for (StatsMod.PlayerStats playerStats : module.toDisplay) {
             String playerName = playerStats.name;
             boolean nicked = playerStats.nicked;
             int level = playerStats.level;
@@ -70,9 +80,9 @@ public class StatsOverlayWidget extends GuiIngameWidget {
             int gameLevel = playerStats.gameLevel;
             HypixelUtil.Rank rank = playerStats.rank;
 
-
             int rowY = y + (2 + fr.FONT_HEIGHT) * (i + 1);
 
+//            Minecraft.getMinecraft().getTextureManager().bindTexture(playerStats.networkPlayerInfo.getLocationSkin());
 
             if(rank == HypixelUtil.Rank.NONE) {
                 drawText(playerName, x + padding, rowY, rank.getColor());
