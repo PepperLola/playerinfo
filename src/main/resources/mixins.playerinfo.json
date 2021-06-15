@@ -30,6 +30,7 @@
     "render.MixinLayerHeldItem",
     "render.MixinRender",
     "render.MixinRendererLivingEntity",
+    "render.MixinRenderPlayer",
     "util.MixinScreenShotHelper"
   ],
   "injectors": {
