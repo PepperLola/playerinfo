@@ -12,6 +12,7 @@ import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HypixelUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -19,6 +20,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.http.util.EntityUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +32,7 @@ public class StatsMod extends Module {
 
     private static DiscordRichPresenceMod module;
     private static final Map<UUID, PlayerStats> playerStats = new ConcurrentHashMap<>();
+    public List<PlayerStats> toDisplay = new ArrayList<>();
     private boolean isInGame = false;
     private final Pattern whereAmIPattern = Pattern.compile("You are currently connected to server ([\\w\\d]+)");
     public static String currentDuelsType;
@@ -61,8 +65,16 @@ public class StatsMod extends Module {
                             String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
                             if (player.getUniqueID().version() == 2 || // Hypixel NPCs have uuid version 2
                                     playerStats.containsKey(player.getUniqueID())) return;
-                            playerStats.put(player.getUniqueID(), new PlayerStats(player.getDisplayNameString(), player.getUniqueID(), GameType.getGameType(scoreboardTitle)));
                             //adds people to the list to be displayed
+                            playerStats.put(
+                                    player.getUniqueID(),
+                                    new PlayerStats(
+                                            player.getDisplayNameString(),
+                                            player.getUniqueID(),
+                                            Minecraft.getMinecraft().getNetHandler().getPlayerInfo(player.getUniqueID()),
+                                            GameType.getGameType(scoreboardTitle)
+                                    )
+                            );
                         }
                         this.stop();
                     }
@@ -85,6 +97,7 @@ public class StatsMod extends Module {
     }
 
     public void handleLeave(EntityPlayer player) {
+        System.out.println(player.getName() + " | " + player.getUniqueID());
         playerStats.remove(player.getUniqueID());
     }
 
@@ -111,7 +124,15 @@ public class StatsMod extends Module {
                         // add players to cache
                         for (EntityPlayer worldPlayer : Minecraft.getMinecraft().theWorld.playerEntities) {
                             if (playerStats.containsKey(worldPlayer.getUniqueID())) continue;
-                            playerStats.put(worldPlayer.getUniqueID(), new PlayerStats(worldPlayer.getDisplayNameString(), worldPlayer.getUniqueID(), GameType.getGameType(scoreboardTitle)));
+                            playerStats.put(
+                                    worldPlayer.getUniqueID(),
+                                    new PlayerStats(
+                                            worldPlayer.getDisplayNameString(),
+                                            worldPlayer.getUniqueID(),
+                                            Minecraft.getMinecraft().getNetHandler().getPlayerInfo(worldPlayer.getUniqueID()),
+                                            GameType.getGameType(scoreboardTitle)
+                                    )
+                            );
                         }
                     }
                     this.stop();
@@ -157,7 +178,7 @@ public class StatsMod extends Module {
     }
 
     //initializing a bunch of stuff
-    public static class PlayerStats {
+    public static class PlayerStats implements Comparable<PlayerStats> {
         private final GameType gameType;
         public String name;
         public UUID uuid;
@@ -172,12 +193,14 @@ public class StatsMod extends Module {
         public int prestige;
         public HypixelUtil.Rank rank;
         public HypixelUtil.PlusColor plusColor;
+        public NetworkPlayerInfo networkPlayerInfo;
 
         public boolean nicked = false;
 
-        public PlayerStats(String name, UUID uuid, GameType gameType) {
+        public PlayerStats(String name, UUID uuid, NetworkPlayerInfo networkPlayerInfo, GameType gameType) {
             this.name = name;
             this.uuid = uuid;
+            this.networkPlayerInfo = networkPlayerInfo;
             this.gameType = gameType;
             this.rank = HypixelUtil.Rank.NONE;
             getStats();
@@ -286,8 +309,30 @@ public class StatsMod extends Module {
 
         }
 
+        @Override
+        public int compareTo(PlayerStats otherComparable) {
+            System.out.println();
+            if (otherComparable.nicked || otherComparable.getThreat() > this.getThreat()) {
+                return 1;
+            } else if (otherComparable.getThreat() < this.getThreat()) {
+                return -1;
+            }
+
+            return 0;
+        }
+
+        public double getThreat() {
+            // I made this up and have no idea if it's accurate
+            return 10D * kdr + 10D * wlr + ws + + (level / 10D) + (this.nicked ? 1000 : 0);
+        }
+
         public GameType getGameType() {
             return gameType;
+        }
+
+        @Override
+        public String toString() {
+            return "PlayerStats[name=" + this.name + ", nicked=" + this.nicked + ", threat=" + this.getThreat() + "]";
         }
     }
 
