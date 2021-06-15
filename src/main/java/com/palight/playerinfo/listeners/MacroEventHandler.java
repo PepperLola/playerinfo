@@ -3,7 +3,12 @@ package com.palight.playerinfo.listeners;
 import com.palight.playerinfo.events.HypixelEvent;
 import com.palight.playerinfo.macro.Macro;
 import com.palight.playerinfo.macro.MacroConfig;
+import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -29,13 +34,27 @@ public class MacroEventHandler {
             replacements.put(declaredField.getName(), declaredField.get(e).toString());
         }
 
+        replacements.put("server", DiscordRichPresenceMod.serverIp.isEmpty() ? "" : DiscordRichPresenceMod.serverIp);
+        replacements.put("playerName", Minecraft.getMinecraft().getSession().getUsername());
+        replacements.put("playerUUID", Minecraft.getMinecraft().getSession().getPlayerID());
+
         if (e instanceof HypixelEvent.FriendEvent) {
             HypixelEvent.FriendEvent friendEvent = (HypixelEvent.FriendEvent) e;
             replacements.put("username", friendEvent.getUsername());
             replacements.put("type", friendEvent.getType().toString().toLowerCase());
         } else if (e instanceof ClientChatReceivedEvent) {
             ClientChatReceivedEvent clientChatReceivedEvent = (ClientChatReceivedEvent) e;
-            replacements.put("message", clientChatReceivedEvent.message.getUnformattedText());
+            replacements.put("message", EnumChatFormatting.getTextWithoutFormattingCodes(clientChatReceivedEvent.message.getUnformattedText()));
+        } else if (e instanceof EntityJoinWorldEvent) {
+            EntityJoinWorldEvent entityJoinWorldEvent = ((EntityJoinWorldEvent) e);
+            replacements.put("name", entityJoinWorldEvent.entity.getName());
+            replacements.put("uuid", entityJoinWorldEvent.entity.getUniqueID().toString());
+            replacements.put("unformattedUUID", entityJoinWorldEvent.entity.getUniqueID().toString().replaceAll("-", ""));
+            if (entityJoinWorldEvent.entity instanceof EntityPlayer) {
+                replacements.put("isPlayer", "true");
+            } else {
+                replacements.put("isPlayer", "false");
+            }
         }
 
         macro.run(replacements);
