@@ -29,7 +29,7 @@ public class MixinLayerCape {
         if (player.hasPlayerInfo() && !player.isInvisible() && player.isWearing(EnumPlayerModelParts.CAPE) && player.getLocationCape() != null) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-            int capeTextureId = RenderUtil.bindCapeTexture(player, playerRenderer);
+            RenderUtil.bindCapeTexture(player, playerRenderer);
 
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, 0.0F, 0.125F);
@@ -59,10 +59,6 @@ public class MixinLayerCape {
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             this.playerRenderer.getMainModel().renderCape(0.0625F);
             GlStateManager.popMatrix();
-
-//            if (capeTextureId != -1) {
-//                GlStateManager.deleteTexture(capeTextureId);
-//            }
         }
     }
 }

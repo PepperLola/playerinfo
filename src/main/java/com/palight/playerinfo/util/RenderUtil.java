@@ -163,7 +163,7 @@ public class RenderUtil {
         return data.getGlTextureId();
     }
 
-    public static int bindCapeTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
+    public static void bindCapeTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
         CapeHandler.PlayerData data = CapeHandler.PLAYER_DATA.get(player.getUniqueID());
         if (data != null && data.getCape() != null) {
             Integer dataId = data.getDataId(data.getFrame());
@@ -172,13 +172,9 @@ public class RenderUtil {
                 data.setDataId(data.getFrame(), dataId);
             }
             GlStateManager.bindTexture(dataId);
-
-            return dataId;
         } else {
             playerRenderer.bindTexture(player.getLocationCape());
         }
-
-        return -1;
     }
 
     public static void renderGlint(RenderPlayer playerRenderer, EntityLivingBase entity, ModelBase modelBase, float p_renderGlint_3_, float p_renderGlint_4_, float p_renderGlint_5_, float p_renderGlint_6_, float p_renderGlint_7_, float p_renderGlint_8_, float p_renderGlint_9_) {
