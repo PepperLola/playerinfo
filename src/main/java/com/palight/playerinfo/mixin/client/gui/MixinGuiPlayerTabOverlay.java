@@ -4,7 +4,7 @@ import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
-import com.palight.playerinfo.rendering.CapeHandler;
+import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;

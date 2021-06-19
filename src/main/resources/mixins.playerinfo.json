@@ -27,6 +27,7 @@
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",
     "render.MixinItemRenderer",
+    "render.MixinLayerCape",
     "render.MixinLayerHeldItem",
     "render.MixinRender",
     "render.MixinRendererLivingEntity",

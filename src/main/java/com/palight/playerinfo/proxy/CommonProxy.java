@@ -1,5 +1,9 @@
 package com.palight.playerinfo.proxy;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.CalcCommand;
 import com.palight.playerinfo.gui.GuiHandler;
@@ -7,7 +11,10 @@ import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.macro.MacroConfig;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.options.ModConfiguration;
-import com.palight.playerinfo.rendering.CapeHandler;
+import com.palight.playerinfo.rendering.cosmetics.Cape;
+import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
+import com.palight.playerinfo.rendering.cosmetics.Cosmetics;
+import com.palight.playerinfo.util.ApiUtil;
 import com.palight.playerinfo.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -15,9 +22,13 @@ import net.minecraft.util.Util;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import org.apache.http.util.EntityUtils;
 import org.lwjgl.opengl.Display;
 
 import java.io.IOException;
@@ -29,6 +40,12 @@ import java.util.Map;
 public class CommonProxy {
 
     public static Map<String, KeyBinding> keybinds = new HashMap<>();
+
+    public void preInit(FMLPreInitializationEvent event) {
+        if (FMLCommonHandler.instance().getEffectiveSide() != Side.CLIENT) {
+            throw new RuntimeException(String.format("%s (version %s) should only be run on the client!", PlayerInfo.MODID, PlayerInfo.VERSION));
+        }
+    }
 
     public void init(FMLInitializationEvent event) {
 
@@ -90,6 +107,30 @@ public class CommonProxy {
             PlayerInfo.saveWidgetPositions();
         }
         PlayerInfo.setModuleStates();
+
+        // fetch capes
+        new Thread(() -> {
+            ApiUtil.getCosmetics(response -> {
+                String entityString = EntityUtils.toString(response.getEntity());
+                JsonElement element = new JsonParser().parse(entityString);
+                JsonElement capes = element.getAsJsonObject().get("capes");
+                JsonArray capesArray = capes.getAsJsonArray();
+
+                for (JsonElement capeElement : capesArray) {
+                    JsonObject capeObj = capeElement.getAsJsonObject();
+                    String name = capeObj.get("name").getAsString();
+                    int fps = capeObj.get("fps").getAsInt();
+                    int frames = capeObj.get("frames").getAsInt();
+                    boolean animated = capeObj.get("animated").getAsBoolean();
+
+                    Cape cape = new Cape(name, frames, fps, animated);
+
+                    System.out.println(cape.toString());
+
+                    Cosmetics.addCape(name, cape);
+                }
+            });
+        }).start();
     }
 
     public void postInit(FMLPostInitializationEvent event) {

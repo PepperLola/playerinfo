@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 
 public class ImageSelection implements Transferable {
     private Image image;
@@ -28,8 +27,7 @@ public class ImageSelection implements Transferable {
 
     // Returns image
     public Object getTransferData(DataFlavor flavor)
-            throws UnsupportedFlavorException, IOException
-    {
+            throws UnsupportedFlavorException {
         if (!DataFlavor.imageFlavor.equals(flavor))
         {
             throw new UnsupportedFlavorException(flavor);

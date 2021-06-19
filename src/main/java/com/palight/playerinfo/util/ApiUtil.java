@@ -4,9 +4,13 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
 import net.minecraft.client.Minecraft;
 import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +48,18 @@ public class ApiUtil {
                 }
             }
         });
+    }
+
+    public static void getCosmetics(HttpUtilResponseHandler handler) {
+        HttpUtil.httpGet(API_URL + "/cosmetics/all", handler);
+    }
+
+    public static BufferedImage downloadImage(String imageURL) throws IOException {
+        HttpResponse response = HttpUtil.httpGetResponse(imageURL);
+
+        if (response == null) return null;
+        InputStream is = response.getEntity().getContent();
+        return ImageIO.read(is);
     }
 
     public static void sendOnline() {

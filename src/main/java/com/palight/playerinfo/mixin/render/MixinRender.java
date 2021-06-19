@@ -1,7 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.rendering.CapeHandler;
+import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

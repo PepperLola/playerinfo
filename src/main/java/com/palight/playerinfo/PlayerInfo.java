@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.ingame.widgets.WidgetState;
 import com.palight.playerinfo.modules.Module;
@@ -22,7 +21,10 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,9 +62,14 @@ public class PlayerInfo
     private static final Map<String, Module> modules = new HashMap<>();
 
     static {
-        String responseBody = HttpUtil.httpGet(githubAPIURL);
-        Map<String, Object> responseData = gson.fromJson(responseBody, new TypeToken<HashMap<String, Object>>(){}.getType());
-        commitHash = ((Map<String, String>) responseData.get("object")).get("sha");
+        HttpUtil.httpGet(githubAPIURL, response -> {
+            HttpEntity entity = response.getEntity();
+            String entityString = EntityUtils.toString(entity);
+            JsonObject githubObj = parser.parse(entityString).getAsJsonObject();
+            JsonObject objectObj = githubObj.get("object").getAsJsonObject();
+            commitHash = objectObj.get("sha").getAsString();
+        });
+
         modules.put("scoreboard", new ScoreboardMod());
         modules.put("lifx", new LifxMod());
         modules.put("backgroundBlur", new BlurMod());
@@ -93,6 +100,11 @@ public class PlayerInfo
         modules.put("potions", new PotionsMod());
         modules.put("screenshotHelper", new ScreenshotHelperMod());
         modules.put("playerHider", new PlayerHiderMod());
+    }
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        proxy.preInit(event);
     }
 
     @EventHandler

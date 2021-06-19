@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -19,11 +18,24 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.Map;
 
 public class HttpUtil {
+    public static HttpResponse httpGetResponse(String url) {
+        try {
+            CloseableHttpClient httpclient = HttpClients.custom()
+                    .setHostnameVerifier(new AllowAllHostnameVerifier())
+                    .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build())
+                    .build();
+            HttpGet httpGet = new HttpGet(url);
+            return httpclient.execute(httpGet);
+        } catch (IOException | NoSuchAlgorithmException | KeyStoreException | KeyManagementException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static String httpGet(String url) {
         try {
             CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -70,12 +82,7 @@ public class HttpUtil {
             try {
                 CloseableHttpClient httpclient = HttpClients.custom()
                         .setHostnameVerifier(new AllowAllHostnameVerifier())
-                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                            @Override
-                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                                return true;
-                            }
-                        }).build())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build())
                         .build();
                 HttpGet httpGet = new HttpGet(url);
                 if (handler != null) {
@@ -94,12 +101,7 @@ public class HttpUtil {
             try {
                 CloseableHttpClient httpclient = HttpClients.custom()
                         .setHostnameVerifier(new AllowAllHostnameVerifier())
-                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                            @Override
-                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                                return true;
-                            }
-                        }).build())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build())
                         .build();
                 HttpGet httpGet = new HttpGet(url);
                 for (String header : headers.keySet()) {
@@ -121,12 +123,7 @@ public class HttpUtil {
             try {
                 CloseableHttpClient httpclient = HttpClients.custom()
                         .setHostnameVerifier(new AllowAllHostnameVerifier())
-                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                            @Override
-                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                                return true;
-                            }
-                        }).build())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build())
                         .build();
                 HttpPut httpPut = new HttpPut(url);
                 httpPut.setEntity(new StringEntity(data));
@@ -149,12 +146,7 @@ public class HttpUtil {
             try {
                 CloseableHttpClient httpclient = HttpClients.custom()
                         .setHostnameVerifier(new AllowAllHostnameVerifier())
-                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
-                            @Override
-                            public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                                return true;
-                            }
-                        }).build())
+                        .setSslcontext(new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build())
                         .build();
                 HttpPost httpPut = new HttpPost(url);
                 httpPut.setEntity(new StringEntity(data));

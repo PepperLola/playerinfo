@@ -1,11 +1,12 @@
 package com.palight.playerinfo.util;
 
 import com.palight.playerinfo.gui.SkinManager;
+import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.ResourceLocation;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,6 +29,7 @@ import java.util.Arrays;
 import java.util.Base64;
 
 public class RenderUtil {
+    protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     public static void drawEntityOnScreen(int x, int y, int scale, float yaw, float pitch, EntityLivingBase entity) {
         GlStateManager.enableColorMaterial();
 
@@ -111,7 +114,7 @@ public class RenderUtil {
 
         byte[] imageBytes = bos.toByteArray();
 
-        String encodedImage = Base64.getEncoder().encode(imageBytes).toString();
+        String encodedImage = Arrays.toString(Base64.getEncoder().encode(imageBytes));
 
         bos.close();
 
@@ -131,5 +134,83 @@ public class RenderUtil {
         Arrays.stream(aint).map(i -> i << 8 | (i >> 24 & 255)).forEach(bytebuffer::putInt);
         bytebuffer.flip();
         return bytebuffer;
+    }
+
+    public static BufferedImage readImage(InputStream inputStream) throws IOException {
+        return ImageIO.read(inputStream);
+    }
+
+    public static InputStream getResourceAsInputStream(String path) {
+        if (!path.startsWith("/assets/playerinfo/")) {
+            path = "/assets/playerinfo/" + path;
+        }
+        return Minecraft.class.getResourceAsStream(path);
+    }
+
+    public static String convertResourceLocationToPath(ResourceLocation loc) {
+        String path = loc.getResourcePath();
+        if (!path.startsWith("/assets/playerinfo/")) {
+            path = "/assets/playerinfo/" + path;
+        }
+
+        return path;
+    }
+
+    public static int loadBind(ResourceLocation loc, BufferedImage image) {
+        ThreadDownloadImageData data = new ThreadDownloadImageData(null, loc.getResourcePath(), loc, new ImageBufferDownload());
+        data.setBufferedImage(image);
+
+        return data.getGlTextureId();
+    }
+
+    public static int bindCapeTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
+        CapeHandler.PlayerData data = CapeHandler.PLAYER_DATA.get(player.getUniqueID());
+        if (data != null && data.getCape() != null) {
+            Integer dataId = data.getDataId(data.getFrame());
+            if (dataId == null) {
+                dataId = RenderUtil.loadBind(player.getLocationCape(), data.getCape().getFrames().get(data.getFrame()));
+                data.setDataId(data.getFrame(), dataId);
+            }
+            GlStateManager.bindTexture(dataId);
+
+            return dataId;
+        } else {
+            playerRenderer.bindTexture(player.getLocationCape());
+        }
+
+        return -1;
+    }
+
+    public static void renderGlint(RenderPlayer playerRenderer, EntityLivingBase entity, ModelBase modelBase, float p_renderGlint_3_, float p_renderGlint_4_, float p_renderGlint_5_, float p_renderGlint_6_, float p_renderGlint_7_, float p_renderGlint_8_, float p_renderGlint_9_) {
+        float f = (float)entity.ticksExisted + p_renderGlint_5_;
+        playerRenderer.bindTexture(ENCHANTED_ITEM_GLINT_RES);
+        GlStateManager.enableBlend();
+        GlStateManager.depthFunc(514);
+        GlStateManager.depthMask(false);
+        float f1 = 0.5F;
+        GlStateManager.color(f1, f1, f1, 1.0F);
+
+        for(int i = 0; i < 2; ++i) {
+            GlStateManager.disableLighting();
+            GlStateManager.blendFunc(768, 1);
+            float f2 = 0.76F;
+            GlStateManager.color(0.5F * f2, 0.25F * f2, 0.8F * f2, 1.0F);
+            GlStateManager.matrixMode(5890);
+            GlStateManager.loadIdentity();
+            float f3 = 0.33333334F;
+            GlStateManager.scale(f3, f3, f3);
+            GlStateManager.rotate(30.0F - (float)i * 60.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.translate(0.0F, f * (0.001F + (float)i * 0.003F) * 20.0F, 0.0F);
+            GlStateManager.matrixMode(5888);
+            modelBase.render(entity, p_renderGlint_3_, p_renderGlint_4_, p_renderGlint_6_, p_renderGlint_7_, p_renderGlint_8_, p_renderGlint_9_);
+        }
+
+        GlStateManager.matrixMode(5890);
+        GlStateManager.loadIdentity();
+        GlStateManager.matrixMode(5888);
+        GlStateManager.enableLighting();
+        GlStateManager.depthMask(true);
+        GlStateManager.depthFunc(515);
+        GlStateManager.disableBlend();
     }
 }
