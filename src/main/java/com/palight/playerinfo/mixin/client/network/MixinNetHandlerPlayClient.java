@@ -6,12 +6,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(NetHandlerPlayClient.class)
-
+@SideOnly(Side.CLIENT)
 public class MixinNetHandlerPlayClient {
     @Shadow
     private Minecraft gameController;

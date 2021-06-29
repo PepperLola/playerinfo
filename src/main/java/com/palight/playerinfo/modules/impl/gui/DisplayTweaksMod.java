@@ -85,21 +85,22 @@ public class DisplayTweaksMod extends Module {
                 this.amount ++;
                 this.lastMessage = event.message.getUnformattedText();
                 event.message.appendText(EnumChatFormatting.RED + " [" + EnumChatFormatting.GRAY + "x" + this.amount + EnumChatFormatting.RED + "]");
+
+                System.out.println("CANCELING CHAT EVENT");
+                event.setCanceled(true);
             } else {
                 this.amount = 1;
                 this.lastMessage = event.message.getUnformattedText();
             }
 
             this.line ++;
-            if (!event.isCanceled()) {
-                guiNewChat.printChatMessageWithOptionalDeletion(event.message, this.line);
-            }
+//            if (!event.isCanceled()) {
+//                guiNewChat.printChatMessageWithOptionalDeletion(event.message, this.line);
+//            }
 
             if (this.line > 256) {
                 this.line = 0;
             }
-
-            event.setCanceled(true);
         }
     }
 

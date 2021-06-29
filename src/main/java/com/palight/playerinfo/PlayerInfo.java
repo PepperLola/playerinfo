@@ -36,7 +36,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.17.8";
+    public static final String VERSION = "1.17.10";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -100,6 +100,7 @@ public class PlayerInfo
         modules.put("potions", new PotionsMod());
         modules.put("screenshotHelper", new ScreenshotHelperMod());
         modules.put("playerHider", new PlayerHiderMod());
+        modules.put("autogg", new AutoGGMod());
     }
 
     @EventHandler

@@ -39,4 +39,25 @@ public class HypixelEvent extends Event {
             }
         }
     }
+
+    public static class GameEvent extends HypixelEvent {
+        private GameEventType type;
+
+        public GameEvent(GameEventType type) {
+            this.type = type;
+        }
+
+        public GameEventType getType() {
+            return type;
+        }
+
+        public void setType(GameEventType type) {
+            this.type = type;
+        }
+
+        public enum GameEventType {
+            WIN,
+            LOSS;
+        }
+    }
 }
