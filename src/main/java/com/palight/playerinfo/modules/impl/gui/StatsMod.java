@@ -5,11 +5,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.impl.StatsOverlayWidget;
+import com.palight.playerinfo.gui.screens.impl.options.modules.gui.StatsGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
+import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.util.ColorUtil;
 import com.palight.playerinfo.util.HttpUtil;
 import com.palight.playerinfo.util.HypixelUtil;
+import com.palight.playerinfo.util.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -18,6 +21,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
@@ -35,12 +39,15 @@ public class StatsMod extends Module {
     public List<PlayerStats> toDisplay = new ArrayList<>();
     private boolean isInGame = false;
     private final Pattern whereAmIPattern = Pattern.compile("You are currently connected to server ([\\w\\d]+)");
-    public static String currentDuelsType;
+    public static String currentDuelsType = "";
     private long lastJoinTimestamp = 0;
     private static final long joinCooldown = 2000; // 2 seconds
 
+    @ConfigOption
+    public boolean onlyShowOwnStats = false;
+
     public StatsMod() {
-        super("stats", "Stats Overlay", "Shows the Hypixel stats of people in your game", ModuleType.GUI, null, new StatsOverlayWidget());
+        super("stats", "Stats Overlay", "Shows the Hypixel stats of people in your game", ModuleType.GUI, new StatsGui(), new StatsOverlayWidget());
     }
 
     @SubscribeEvent
@@ -58,8 +65,8 @@ public class StatsMod extends Module {
             }
         } else {
             if (isInGame) {
-                Thread thread = new Thread() {
-                    public void run() {
+                Multithreading.runAsync(
+                    () -> {
                         if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
                             //getting scoreboard title
                             String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
@@ -76,11 +83,7 @@ public class StatsMod extends Module {
                                     )
                             );
                         }
-                        this.stop();
-                    }
-                };
-
-                thread.start();
+                });
             }
         }
 
@@ -99,6 +102,7 @@ public class StatsMod extends Module {
     public void handleLeave(EntityPlayer player) {
         System.out.println(player.getName() + " | " + player.getUniqueID());
         playerStats.remove(player.getUniqueID());
+        currentDuelsType = "";
     }
 
     @SubscribeEvent
@@ -116,8 +120,8 @@ public class StatsMod extends Module {
         isInGame = serverName.contains("mini") && players <= PLAYER_THRESHOLD && !serverName.contains("lobby");
         System.out.println("SERVER NAME: " + serverName + " | IS IN GAME: " + isInGame);
         if (isInGame) {
-            Thread thread = new Thread() {
-                public void run() {
+            Multithreading.runAsync(
+                () -> {
                     // get scoreboard title
                     if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
                         String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
@@ -135,11 +139,7 @@ public class StatsMod extends Module {
                             );
                         }
                     }
-                    this.stop();
-                }
-            };
-
-            thread.start();
+            });
         }
 
     }
@@ -177,6 +177,51 @@ public class StatsMod extends Module {
         public String getRequestName() { return this.requestName; }
     }
 
+    public enum DuelsDivision {
+        NONE(0),
+        ROOKIE(50),
+        IRON(100),
+        GOLD(250),
+        DIAMOND(500),
+        MASTER(1000),
+        LEGEND(2000),
+        GRANDMASTER(5000),
+        GODLIKE(10000);
+
+        int requiredWins;
+
+        DuelsDivision(int requiredWins) {
+            this.requiredWins = requiredWins;
+        }
+
+        public static DuelsDivision getDuelsDivision(int wins) {
+            DuelsDivision[] values = DuelsDivision.values();
+            ArrayUtils.reverse(values);
+
+            for (int i = 0; i < values.length; i++) {
+                DuelsDivision div = values[i];
+                System.out.println(String.format("WINS: %d | REQUIRED: %d", wins, div.getRequiredWins()));
+                if (wins > div.requiredWins) return div;
+            }
+
+            return DuelsDivision.NONE;
+        }
+
+        public static DuelsDivision getNext(DuelsDivision current) {
+            DuelsDivision[] values = DuelsDivision.values();
+            for (int i = 0; i < values.length - 1; i++) {
+                DuelsDivision div = values[i];
+                if (div == current) return values[i + 1];
+            }
+
+            return DuelsDivision.NONE;
+        }
+
+        public int getRequiredWins() {
+            return requiredWins;
+        }
+    }
+
     //initializing a bunch of stuff
     public static class PlayerStats implements Comparable<PlayerStats> {
         private final GameType gameType;
@@ -188,12 +233,15 @@ public class StatsMod extends Module {
         public double fkdr;
         public double wlr;
         public double bblr;
+        public int wins;
+        public int losses;
         public int ws;
         public String title;
         public int prestige;
         public HypixelUtil.Rank rank;
         public HypixelUtil.PlusColor plusColor;
         public NetworkPlayerInfo networkPlayerInfo;
+        public DuelsDivision division;
 
         public boolean nicked = false;
 
@@ -225,6 +273,8 @@ public class StatsMod extends Module {
 
                 int statusCode = response.getStatusLine().getStatusCode();
                 System.out.println("[playerinfo] HYPIXEL RESPONSE STATUS CODE: " + statusCode);
+
+                System.out.println("ENTITY: " + entity);
 
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(entity);
@@ -265,6 +315,12 @@ public class StatsMod extends Module {
                     if (obj.get("ws") != null)
                         ws = obj.get("winstreak").getAsInt();
 
+                    if (obj.get("wins") != null)
+                        wins = obj.get("wins").getAsInt();
+
+                    if (obj.get("losses") != null)
+                        losses = obj.get("losses").getAsInt();
+
                     this.rank = HypixelUtil.Rank.getRankFromAPIName(rank);
                     this.plusColor = HypixelUtil.PlusColor.getPlusColorFromName(plusColor);
 
@@ -282,6 +338,7 @@ public class StatsMod extends Module {
                             break;
                         case DUELS:
                             title = obj.get("title").getAsString();
+                            this.division = DuelsDivision.getDuelsDivision(this.wins);
                             prestige = obj.get("prestige").getAsInt();
                             String duelsType = obj.get("gameType").getAsString();
                             if ((currentDuelsType == null || currentDuelsType.isEmpty()) && (duelsType != null && !duelsType.isEmpty())) {

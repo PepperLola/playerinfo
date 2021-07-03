@@ -18,7 +18,7 @@ import java.util.UUID;
 public class StatsOverlayWidget extends GuiIngameWidget {
     private StatsMod module;
 
-    private static final String[] ROMAN_NUMERALS = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
+    private static final String[] ROMAN_NUMERALS = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
 
     public StatsOverlayWidget() {
         super(-1, 4, 288, 256);
@@ -70,63 +70,78 @@ public class StatsOverlayWidget extends GuiIngameWidget {
             System.out.println("SORTED: " + module.toDisplay.toString());
         }
 
-        int i = 0;
-        for (StatsMod.PlayerStats playerStats : module.toDisplay) {
-            String playerName = playerStats.name;
-            boolean nicked = playerStats.nicked;
-            int level = playerStats.level;
-            double wlr = NumberUtil.round(playerStats.wlr, 2);
-            double kdr = NumberUtil.round(playerStats.kdr, 2);
-            int gameLevel = playerStats.gameLevel;
-            HypixelUtil.Rank rank = playerStats.rank;
+        if (module.onlyShowOwnStats) {
+            if (StatsMod.getPlayerStats().containsKey(clientUUID)) {
+                renderStats(StatsMod.getPlayerStats().get(clientUUID), fr, x, y, 0, padding, offset);
+            }
+        } else {
+            int i = 0;
+            for (StatsMod.PlayerStats playerStats : module.toDisplay) {
+                renderStats(playerStats, fr, x, y, i, padding, offset);
+                i++;
+            }
+        }
+    }
 
-            int rowY = y + (2 + fr.FONT_HEIGHT) * (i + 1);
+    public void renderStats(StatsMod.PlayerStats playerStats, FontRenderer fr, int x, int y, int i, int padding, int offset) {
+        String playerName = playerStats.name;
+        boolean nicked = playerStats.nicked;
+        int level = playerStats.level;
+        double wlr = NumberUtil.round(playerStats.wlr, 2);
+        double kdr = NumberUtil.round(playerStats.kdr, 2);
+        int gameLevel = playerStats.gameLevel;
+        HypixelUtil.Rank rank = playerStats.rank;
+
+        int rowY = y + (2 + fr.FONT_HEIGHT) * (i + 1);
 
 //            Minecraft.getMinecraft().getTextureManager().bindTexture(playerStats.networkPlayerInfo.getLocationSkin());
 
-            if(rank == HypixelUtil.Rank.NONE) {
-                drawText(playerName, x + padding, rowY, rank.getColor());
-            } else {
-                String rankTextBeforePlus = "[" + rank.getDisplayName().replaceAll("[+]", "");
-                drawText(rankTextBeforePlus, x + padding, rowY, rank.getColor());
-                int textWidth = (int) Math.floor(PlayerInfo.instance.fontRendererObj.getWidth(rankTextBeforePlus));
-                String plusText = "+" + (rank == HypixelUtil.Rank.SUPERSTAR ? "+" : "");
-                if (rank == HypixelUtil.Rank.MVP_PLUS || rank == HypixelUtil.Rank.SUPERSTAR) {
-                    drawText(plusText, x + padding + textWidth, rowY, playerStats.plusColor.getColor());
-                } else if (rank == HypixelUtil.Rank.VIP_PLUS) {
-                    drawText("+", x + padding + textWidth, rowY, HypixelUtil.PlusColor.GOLD.getColor());
-                }
-                if (rank != HypixelUtil.Rank.VIP && rank != HypixelUtil.Rank.MVP) {
-                    textWidth += (int) Math.floor(PlayerInfo.instance.fontRendererObj.getWidth(plusText));
-                }
-                drawText("] " + playerName, x + padding + textWidth, rowY, rank.getColor());
+        if(rank == HypixelUtil.Rank.NONE) {
+            drawText(playerName, x + padding, rowY, rank.getColor());
+        } else {
+            String rankTextBeforePlus = "[" + rank.getDisplayName().replaceAll("[+]", "");
+            drawText(rankTextBeforePlus, x + padding, rowY, rank.getColor());
+            int textWidth = (int) Math.floor(PlayerInfo.instance.fontRendererObj.getWidth(rankTextBeforePlus));
+            String plusText = "+" + (rank == HypixelUtil.Rank.SUPERSTAR ? "+" : "");
+            HypixelUtil.PlusColor plusColor = playerStats.plusColor;
+            if (plusColor == null) plusColor = HypixelUtil.PlusColor.RED;
+            if (rank == HypixelUtil.Rank.MVP_PLUS || rank == HypixelUtil.Rank.SUPERSTAR) {
+                drawText(plusText, x + padding + textWidth, rowY, plusColor.getColor());
+            } else if (rank == HypixelUtil.Rank.VIP_PLUS) {
+                drawText("+", x + padding + textWidth, rowY, HypixelUtil.PlusColor.GOLD.getColor());
             }
-
-            if (nicked) {
-                drawText("NICKED", x + padding + 90, rowY, 11141120);
-            } else {
-
-                drawText(String.valueOf(level), x + padding + 125 + offset - 10, rowY);
-                drawText(String.valueOf(wlr), x + padding + 125 + offset * 2, rowY);
-                drawText(String.valueOf(kdr), x + padding + 125 + offset * 3, rowY);
-                StatsMod.GameType gameType = playerStats.getGameType();
-                if (gameType == null) continue;
-                switch (playerStats.getGameType()) {
-                    case BEDWARS:
-                        double fkdr = NumberUtil.round(playerStats.fkdr, 2);
-                        double bblr = NumberUtil.round(playerStats.bblr, 2);
-                        drawText(String.valueOf(gameLevel) + "✫", x + padding + 125 + offset * 4, rowY);
-                        drawText(String.valueOf(fkdr), x + padding + 125 + offset * 5, rowY);
-                        drawText(String.valueOf(bblr), x + padding + 125 + offset * 6, rowY);
-                        break;
-                    case DUELS:
-                        String title = playerStats.title;
-                        int prestige = playerStats.prestige;
-                        drawText(StringUtils.capitalize(title) + " " + ROMAN_NUMERALS[prestige], x + padding + 125 + offset * 4, rowY, HypixelUtil.TitleColor.getTitleColorFromName(title).getTitleColor());
-                        break;
-                }
+            if (rank != HypixelUtil.Rank.VIP && rank != HypixelUtil.Rank.MVP) {
+                textWidth += (int) Math.floor(PlayerInfo.instance.fontRendererObj.getWidth(plusText));
             }
-            i++;
+            drawText("] " + playerName, x + padding + textWidth, rowY, rank.getColor());
+        }
+
+        if (nicked) {
+            drawText("NICKED", x + padding + 90, rowY, 11141120);
+        } else {
+
+            drawText(String.valueOf(level), x + padding + 125 + offset - 10, rowY);
+            drawText(String.valueOf(wlr), x + padding + 125 + offset * 2, rowY);
+            drawText(String.valueOf(kdr), x + padding + 125 + offset * 3, rowY);
+            StatsMod.GameType gameType = playerStats.getGameType();
+            if (gameType == null) return;
+            switch (playerStats.getGameType()) {
+                case BEDWARS:
+                    double fkdr = NumberUtil.round(playerStats.fkdr, 2);
+                    double bblr = NumberUtil.round(playerStats.bblr, 2);
+                    drawText(gameLevel + "✫", x + padding + 125 + offset * 4, rowY);
+                    drawText(String.valueOf(fkdr), x + padding + 125 + offset * 5, rowY);
+                    drawText(String.valueOf(bblr), x + padding + 125 + offset * 6, rowY);
+                    break;
+                case DUELS:
+                    StatsMod.DuelsDivision division = playerStats.division;
+                    if (division == null) return;
+                    String title = division.toString();
+                    int prestige = playerStats.prestige;
+                    if (prestige == 0) prestige = 1;
+                    drawText(StringUtils.capitalize(title.toLowerCase()) + " " + ROMAN_NUMERALS[prestige - 1], x + padding + 125 + offset * 4, rowY, HypixelUtil.TitleColor.getTitleColorFromName(title).getTitleColor());
+                    break;
+            }
         }
     }
 }

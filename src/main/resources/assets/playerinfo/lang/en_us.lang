@@ -26,5 +26,7 @@ screen.memory=Memory
 screen.potions=Potions
 screen.armor=Armor
 screen.screenshotHelper=Screenshot Helper
+screen.autogg=Auto GG
+screen.stats=Stats Mod
 
 upload.success=Upload successful

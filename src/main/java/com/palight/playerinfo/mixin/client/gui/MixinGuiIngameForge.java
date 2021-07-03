@@ -7,11 +7,10 @@ import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.gui.screens.impl.options.modules.WidgetEditorGui;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
+import com.palight.playerinfo.modules.impl.gui.StatsMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -21,7 +20,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
-import org.spongepowered.asm.mixin.Final;
+import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,25 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = GuiIngameForge.class, remap = false)
 public class MixinGuiIngameForge extends GuiIngame {
-    @Shadow @Final private static int WHITE;
-    @Shadow public static boolean renderHelmet;
-    @Shadow public static boolean renderPortal;
-    @Shadow public static boolean renderHotbar;
-    @Shadow public static boolean renderCrosshairs;
-    @Shadow public static boolean renderBossHealth;
-    @Shadow public static boolean renderHealth;
-    @Shadow public static boolean renderArmor;
-    @Shadow public static boolean renderFood;
-    @Shadow public static boolean renderHealthMount;
-    @Shadow public static boolean renderAir;
     @Shadow public static boolean renderExperiance;
-    @Shadow public static boolean renderJumpBar;
-    @Shadow public static boolean renderObjective;
     @Shadow public static int left_height;
-    @Shadow public static int right_height;
-    @Shadow private ScaledResolution res;
-    @Shadow private FontRenderer fontrenderer;
-    @Shadow private RenderGameOverlayEvent eventParent;
 
     private boolean sentTitle = false;
 
@@ -222,6 +204,75 @@ public class MixinGuiIngameForge extends GuiIngame {
             this.mc.mcProfiler.endSection();
         } else {
             sentTitle = false;
+        }
+    }
+
+    /**
+     * @author palight
+     * @reason Render Hypixel Duels division
+     */
+    @Overwrite
+    public void renderExperience(int width, int height) {
+        handleRenderExperience(width, height);
+    }
+
+    private void handleRenderExperience(int width, int height) {
+        ((IMixinGuiIngameForge) this).callBind(icons);
+        if (!((IMixinGuiIngameForge) this).callPre(RenderGameOverlayEvent.ElementType.EXPERIENCE)) {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.disableBlend();
+            if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
+                this.mc.mcProfiler.startSection("expBar");
+                int cap = this.mc.thePlayer.xpBarCap();
+                int left = width / 2 - 91;
+                // color initially is actually the width of the filled-in bar
+                int color;
+                StatsMod.PlayerStats clientStats = null;
+                if (Minecraft.getMinecraft().thePlayer != null) {
+                    clientStats = StatsMod.getPlayerStats().get(Minecraft.getMinecraft().thePlayer.getUniqueID());
+                }
+                if (cap > 0 || !StatsMod.currentDuelsType.isEmpty()) {
+                    short barWidth = 182;
+                    color = (int)(this.mc.thePlayer.experience * (float)(barWidth + 1));
+                    if (!StatsMod.currentDuelsType.isEmpty()) {
+                        if (clientStats != null && clientStats.division != null) {
+                            StatsMod.DuelsDivision nextDiv = StatsMod.DuelsDivision.getNext(clientStats.division);
+                            color = (int) Math.floor(((clientStats.wins * 1.0f) / nextDiv.getRequiredWins()) * (float)(barWidth + 1));
+                        }
+                    }
+                    int top = height - 32 + 3;
+                    this.drawTexturedModalRect(left, top, 0, 64, barWidth, 5);
+                    if (color > 0) {
+                        this.drawTexturedModalRect(left, top, 0, 69, color, 5);
+                    }
+                }
+
+                this.mc.mcProfiler.endSection();
+                if (this.mc.playerController.gameIsSurvivalOrAdventure() && this.mc.thePlayer.experienceLevel > 0 || !StatsMod.currentDuelsType.isEmpty()) {
+                    this.mc.mcProfiler.startSection("expLevel");
+                    color = 8453920;
+                    String text = "" + this.mc.thePlayer.experienceLevel;
+
+                    if (!StatsMod.currentDuelsType.isEmpty()) {
+                        if (clientStats != null && clientStats.division != null) {
+                            text = StringUtils.capitalize(clientStats.division.name().toLowerCase()) + " " + (clientStats.prestige);
+                        }
+                    }
+
+                    int x = (width - this.getFontRenderer().getStringWidth(text)) / 2;
+                    int y = height - 31 - 4;
+                    this.getFontRenderer().drawString(text, x + 1, y, 0);
+                    this.getFontRenderer().drawString(text, x - 1, y, 0);
+                    this.getFontRenderer().drawString(text, x, y + 1, 0);
+                    this.getFontRenderer().drawString(text, x, y - 1, 0);
+                    this.getFontRenderer().drawString(text, x, y, color);
+                    this.mc.mcProfiler.endSection();
+                }
+            }
+
+            GlStateManager.enableBlend();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            ((IMixinGuiIngameForge) this).callPost(RenderGameOverlayEvent.ElementType.EXPERIENCE);
         }
     }
 }
