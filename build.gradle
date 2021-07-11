@@ -38,7 +38,7 @@ sourceSets {
     main.resources.srcDirs += '../shared/main/resources'
 }
 
-version = "1.17.11"
+version = "1.17.12"
 group= "com.palight.playerinfo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "playerinfo"
 
@@ -144,6 +144,10 @@ configurations {
     mods
     external
     compile.extendsFrom external
+}
+
+task getVersion << {
+    println "$project.version"
 }
 
 build.dependsOn shadowJar

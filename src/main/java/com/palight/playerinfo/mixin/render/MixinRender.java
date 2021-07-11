@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;
 import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -27,12 +28,18 @@ public class MixinRender<T extends Entity> {
     @Final
     protected RenderManager renderManager;
 
+    private PerspectiveMod perspectiveMod;
+
     /**
      * @reason Render playerinfo icon next to name
      * @author palight
      */
     @Overwrite
     protected void renderLivingLabel(T entity, String str, double x, double y, double z, int maxDistance) {
+        if (perspectiveMod == null) {
+            perspectiveMod = (PerspectiveMod) PlayerInfo.getModules().get("perspective");
+        }
+
         double distance = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
         if (!(distance > (double) (maxDistance * maxDistance))) {
             FontRenderer fr = ((IMixinRender) this).callGetFontRendererFromRenderManager();
@@ -42,8 +49,12 @@ public class MixinRender<T extends Entity> {
             GlStateManager.translate((float) x + 0.0F, (float) y + entity.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             int xMult = Minecraft.getMinecraft().gameSettings.thirdPersonView == 2 ? -1 : 1;
-            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(xMult * this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+
+            float yRotation = -1 * (perspectiveMod.isPerspectiveToggled() ? perspectiveMod.getCameraYaw() : this.renderManager.playerViewY);
+            float xRotation = xMult * (perspectiveMod.isPerspectiveToggled() ? perspectiveMod.getCameraPitch() : this.renderManager.playerViewX);
+
+            GlStateManager.rotate(yRotation, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(xRotation, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);

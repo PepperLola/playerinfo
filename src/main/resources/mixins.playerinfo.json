@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "verbose": true,
   "mixins": [
+    "IMixinMinecraft",
     "MixinMinecraft",
     "client.MixinAbstractClientPlayer",
     "client.gui.IMixinGuiIngame",
@@ -22,6 +23,7 @@
     "client.network.MixinNetHandlerPlayClient",
     "client.resources.MixinLocale",
     "client.world.MixinChunk",
+    "entity.MixinEntityFishHook",
     "render.IMixinItemRenderer",
     "render.IMixinRender",
     "render.MixinEntityFX",
