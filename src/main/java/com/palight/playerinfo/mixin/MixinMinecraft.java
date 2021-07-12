@@ -18,7 +18,7 @@ public class MixinMinecraft {
     @Shadow public int displayWidth;
     @Shadow private boolean fullscreen;
 
-    private DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
+    private final DisplayTweaksMod displayTweaksMod = ((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks"));
 
     @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
     private void displayFix(CallbackInfo ci) throws LWJGLException {

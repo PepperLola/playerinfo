@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.regex.Pattern;
+
 @Mixin(RenderPlayer.class)
 public class MixinRenderPlayer {
 
@@ -21,8 +23,13 @@ public class MixinRenderPlayer {
             playerHiderMod = (PlayerHiderMod) PlayerInfo.getModules().get("playerHider");
         }
 
-        if (playerHiderMod.isEnabled() && !EnumChatFormatting.getTextWithoutFormattingCodes(player.getDisplayName().getUnformattedText()).matches(playerHiderMod.showName)) {
-            ci.cancel();
+        if (playerHiderMod.isEnabled()) {
+            String playerName = EnumChatFormatting.getTextWithoutFormattingCodes(player.getDisplayName().getUnformattedText());
+            Pattern namePattern = Pattern.compile(playerHiderMod.showNamePattern);
+
+            if (!namePattern.matcher(playerName).find() && !namePattern.matcher(player.getUniqueID().toString()).find()) {
+                ci.cancel();
+            }
         }
     }
 }
