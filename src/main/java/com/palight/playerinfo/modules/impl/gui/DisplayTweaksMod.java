@@ -41,7 +41,7 @@ public class DisplayTweaksMod extends Module {
     private int amount;
 
     public DisplayTweaksMod() {
-        super("displayTweaks", "Display Tweaks", "Some useful gui/display tweaks.", ModuleType.GUI, new DisplayTweaksGui(), null);
+        super("displayTweaks", ModuleType.GUI, new DisplayTweaksGui(), null);
     }
 
     @SubscribeEvent

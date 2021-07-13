@@ -2,7 +2,6 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -15,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlurMod extends Module {
     public BlurMod() {
-        super("backgroundBlur", "Background Blur", "Blurs the backgrounds of menus.", ModuleType.MISC, null, null);
+        super("backgroundBlur", ModuleType.MISC, null, null);
     }
 
     @SideOnly(Side.CLIENT)

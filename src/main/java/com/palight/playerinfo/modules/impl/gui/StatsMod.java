@@ -47,7 +47,7 @@ public class StatsMod extends Module {
     public boolean onlyShowOwnStats = false;
 
     public StatsMod() {
-        super("stats", "Stats Overlay", "Shows the Hypixel stats of people in your game", ModuleType.GUI, new StatsGui(), new StatsOverlayWidget());
+        super("stats", ModuleType.GUI, new StatsGui(), new StatsOverlayWidget());
     }
 
     @SubscribeEvent

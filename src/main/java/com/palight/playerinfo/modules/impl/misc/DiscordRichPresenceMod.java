@@ -44,7 +44,7 @@ public class DiscordRichPresenceMod extends Module {
     public static long START_TIME = -1;
 
     public DiscordRichPresenceMod() {
-        super("discordRPC", "Discord RPC", "Enabled Discord Rich Presence", ModuleType.MISC, null, null);
+        super("discordRPC", ModuleType.MISC, null, null);
     }
 
     public static void updateDiscord() {

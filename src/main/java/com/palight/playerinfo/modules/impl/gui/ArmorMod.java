@@ -11,6 +11,6 @@ public class ArmorMod extends Module {
     @ConfigOption
     public boolean hideDurability = false;
     public ArmorMod() {
-        super("armor", "Armor Status", "Shows which type of armor you're wearing, as well as its durability.", ModuleType.GUI, new ArmorGui(), new ArmorWidget());
+        super("armor", ModuleType.GUI, new ArmorGui(), new ArmorWidget());
     }
 }

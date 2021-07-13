@@ -27,7 +27,7 @@ public class LifxMod extends Module {
     public static int TEAM_COLOR;
 
     public LifxMod() {
-        super("lifx", "Lifx", "Provides a LIFX integration", ModuleType.MISC, new LifxGui(), null);
+        super("lifx", ModuleType.MISC, new LifxGui(), null);
     }
 
     @SubscribeEvent

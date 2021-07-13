@@ -10,10 +10,8 @@ public class PotionsMod extends Module {
     public boolean renderBackground = true;
     @ConfigOption
     public boolean renderLevelAsNumber = false;
-    @ConfigOption
-    public boolean renderTransparentBackground = false;
 
     public PotionsMod() {
-        super("potions", "Potions", "Displays active potion effects.", ModuleType.GUI, new PotionsGui(), new PotionsWidget());
+        super("potions", ModuleType.GUI, new PotionsGui(), new PotionsWidget());
     }
 }

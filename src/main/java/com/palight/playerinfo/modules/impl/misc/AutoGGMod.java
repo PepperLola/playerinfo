@@ -41,7 +41,7 @@ public class AutoGGMod extends Module {
     private Server currentServer;
 
     public AutoGGMod() {
-        super("autogg", "AutoGG", "Sends GG after games on Hypixel.", ModuleType.MISC, new AutoGGGui(), null);
+        super("autogg", ModuleType.MISC, new AutoGGGui(), null);
 
         HttpUtil.httpGet(ApiUtil.API_URL + "/resources/autogg-triggers", response -> {
             HttpEntity entity = response.getEntity();

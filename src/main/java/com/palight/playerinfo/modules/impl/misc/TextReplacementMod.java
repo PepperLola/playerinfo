@@ -32,7 +32,7 @@ public class TextReplacementMod extends Module {
     }
 
     public TextReplacementMod() {
-        super("textReplacement", "Text Replacement", "Replace specific keywords with emoji/unicode characters.", ModuleType.MISC, null, null);
+        super("textReplacement", ModuleType.MISC, null, null);
     }
 
     @SubscribeEvent

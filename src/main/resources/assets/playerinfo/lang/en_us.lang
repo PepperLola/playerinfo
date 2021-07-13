@@ -29,6 +29,7 @@ screen.screenshotHelper=Screenshot Helper
 screen.autogg=Auto GG
 screen.stats=Stats Mod
 screen.playerHider=Player Hider
+screen.entityRenderTweaks=Entity Render Tweaks
 
 module.armor.name=Armor Status
 module.resources.name=Bedwars Resources
@@ -62,6 +63,7 @@ module.timeChanger.name=Time Changer
 module.toggleSprint.name=Toggle Sprint
 module.automation.name=Automation
 module.noteBlockHelper.name=Note Block Helper
+module.entityRenderTweaks.name=Entity Render Tweaks
 
 module.armor.description=Shows which type of armor you're wearing, as well as its durability.
 module.resources.description=Shows a resources count for bedwars.
@@ -95,5 +97,6 @@ module.timeChanger.description=Lets you change the in game time for you.
 module.toggleSprint.description=Toggle sprint and sneak.
 module.automation.description=Automates menial Minecraft tasks.
 module.noteBlockHelper.description=Shows the tuning of note blocks.
+module.entityRenderTweaks.description=Some useful/cosmetic tweaks for rendering entities.
 
 upload.success=Upload successful

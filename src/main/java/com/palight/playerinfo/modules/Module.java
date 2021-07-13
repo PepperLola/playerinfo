@@ -9,8 +9,6 @@ import javax.annotation.Nullable;
 public abstract class Module {
     private String id;
     private ModuleType type;
-    private String name;
-    private String description;
     @ConfigOption
     protected boolean enabled;
 
@@ -24,17 +22,13 @@ public abstract class Module {
     /**
      * Constructor for module class
      * @param id Unique ID for the module.
-     * @param name Module name that will be displayed in the menu.
-     * @param description Module description. Also will be displayed in the menu.
      * @param type Module type.
      * @param optionsGui Options GUI. If not null, an options button will display in the menu.
      * @param widget Module widget. If not null, the widget will be rendered in-game.
      */
-    public Module(String id, String name, String description, ModuleType type, @Nullable CustomGuiScreen optionsGui, GuiIngameWidget widget) {
+    public Module(String id, ModuleType type, @Nullable CustomGuiScreen optionsGui, GuiIngameWidget widget) {
         this.id = id;
         this.type = type;
-        this.name = name;
-        this.description = description;
         this.optionsGui = optionsGui;
         this.widget = widget;
         if (this.getWidget() != null) {
@@ -134,38 +128,6 @@ public abstract class Module {
      */
     public void setType(ModuleType type) {
         this.type = type;
-    }
-
-    /**
-     * Gets module name.
-     * @return Module name.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets module name directly.
-     * @param name Module name.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets module description.
-     * @return Module description.
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Sets module description directly.
-     * @param description Module description.
-     */
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     /**

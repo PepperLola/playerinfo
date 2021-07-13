@@ -22,7 +22,7 @@ public class OldAnimationsMod extends Module {
     public boolean eatingAnimationEnabled = false;
 
     public OldAnimationsMod() {
-        super("oldAnimations", "Old Animations", "Use 1.7 animations.", ModuleType.MISC, new OldAnimationsGui(), null);
+        super("oldAnimations", ModuleType.MISC, new OldAnimationsGui(), null);
     }
 
     @SubscribeEvent

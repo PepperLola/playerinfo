@@ -104,6 +104,14 @@ public class GuiColorPicker extends GuiCustomWidget {
         return ColorUtil.getColorInt(r, g, b, a);
     }
 
+    public void setColor(int color) {
+        float[] colors = ColorUtil.getColorRGBFloats(color);
+        rP = colors[0];
+        gP = colors[1];
+        bP = colors[2];
+        aP = colors[3];
+    }
+
     public void setColors(int mouseX, int mouseY) {
         int hoveredBar = getHoveredBar(mouseX, mouseY);
         System.out.println(hoveredBar);

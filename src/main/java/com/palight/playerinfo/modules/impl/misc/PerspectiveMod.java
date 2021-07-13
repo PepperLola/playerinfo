@@ -23,7 +23,7 @@ public class PerspectiveMod extends Module {
     private int previousPerspective = 0; // previous f5 state
 
     public PerspectiveMod() {
-        super("perspective", "Perspective Mod", "Lets you change your camera orientation in F5 without rotating your character.", ModuleType.MISC, new PerspectiveGui(), null);
+        super("perspective", ModuleType.MISC, new PerspectiveGui(), null);
     }
 
     @SubscribeEvent

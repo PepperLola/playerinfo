@@ -23,6 +23,16 @@ public class ColorUtil {
         return new int[]{r, g, b, alpha};
     }
 
+    public static float[] getColorRGBFloats(int color) {
+        int[] colors = getColorRGB(color);
+        float[] toReturn = new float[4];
+        for (int i = 0; i < Math.min(colors.length, 4); i++) {
+            toReturn[i] = colors[i] / 255f;
+        }
+
+        return toReturn;
+    }
+
     public static int getChromaColor() {
         return getChromaColor(0);
     }

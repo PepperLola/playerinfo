@@ -9,6 +9,6 @@ public class KeystrokesMod extends Module {
     public String keystrokesMode = "WASD_SPRINT_MOUSE";
 
     public KeystrokesMod() {
-        super("keystrokes", "Keystrokes", "Shows pressed keys on screen.", ModuleType.GUI, null, new KeystrokesWidget());
+        super("keystrokes", ModuleType.GUI, null, new KeystrokesWidget());
     }
 }

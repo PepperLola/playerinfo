@@ -2,7 +2,6 @@ package com.palight.playerinfo.modules.impl.misc;
 
 import com.palight.playerinfo.gui.ingame.widgets.impl.CPSWidget;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -15,7 +14,7 @@ public class CPSMod extends Module {
     private static ArrayDeque<Long> rightClicks = new ArrayDeque<>();
 
     public CPSMod() {
-        super("cps", "CPS Mod", "Display your CPS", ModuleType.MISC, null, new CPSWidget(4, 64));
+        super("cps", ModuleType.MISC, null, new CPSWidget(4, 64));
     }
 
     public static int getLeftClicks() {

@@ -10,6 +10,6 @@ public class MemoryMod extends Module {
     public String format = "PERCENT";
 
     public MemoryMod() {
-        super("memory", "Memory", "Displays your current memory usage.", ModuleType.MISC, new MemoryGui(), new MemoryWidget());
+        super("memory", ModuleType.MISC, new MemoryGui(), new MemoryWidget());
     }
 }

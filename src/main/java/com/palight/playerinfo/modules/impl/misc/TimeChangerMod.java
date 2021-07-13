@@ -25,7 +25,7 @@ public class TimeChangerMod extends Module {
     public boolean bounce = false;
 
     public TimeChangerMod() {
-        super("timeChanger", "Time Changer", "Lets you change the in game time for you.", Module.ModuleType.MISC, new TimeChangerGui(), null);
+        super("timeChanger", Module.ModuleType.MISC, new TimeChangerGui(), null);
     }
 
     @SubscribeEvent

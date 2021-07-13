@@ -103,6 +103,7 @@ public class PlayerInfo
         modules.put("playerHider", new PlayerHiderMod());
         modules.put("autogg", new AutoGGMod());
         modules.put("automation", new AutomationMod());
+        modules.put("entityRenderTweaks", new EntityRenderTweaksMod());
     }
 
     @EventHandler

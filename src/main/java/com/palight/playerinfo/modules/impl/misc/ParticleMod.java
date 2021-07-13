@@ -10,6 +10,6 @@ public class ParticleMod extends Module {
     public String selectedParticle = "crit";
 
     public ParticleMod() {
-        super("particle", "Particles", "Allows you to make modifications to particles.", ModuleType.MISC, new ParticleGui(), null);
+        super("particle", ModuleType.MISC, new ParticleGui(), null);
     }
 }

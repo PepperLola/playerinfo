@@ -25,6 +25,6 @@ public class ScoreboardMod extends Module {
     public int offsetY = 0;
 
     public ScoreboardMod() {
-        super("scoreboard", "Scoreboard", "Customize your scoreboard!", ModuleType.GUI, new ScoreboardGui(), new ScoreboardWidget());
+        super("scoreboard", ModuleType.GUI, new ScoreboardGui(), new ScoreboardWidget());
     }
 }

@@ -10,6 +10,6 @@ public class ClockMod extends Module {
     public String dateFormat = "hh:mm:ss a";
 
     public ClockMod() {
-        super("clock", "Clock", "Shows the current time.", ModuleType.GUI, new ClockGui(), new ClockWidget());
+        super("clock", ModuleType.GUI, new ClockGui(), new ClockWidget());
     }
 }

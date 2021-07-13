@@ -14,7 +14,7 @@ public class AutomationMod extends Module {
     private final Queue<QueuedAction> queuedActions = new ArrayDeque<>();
 
     public AutomationMod() {
-        super("automation", "Automation", "Automates menial Minecraft tasks", ModuleType.UTIL, null, null);
+        super("automation", ModuleType.UTIL, null, null);
     }
 
     public void addQueuedAction(QueuedAction action) {

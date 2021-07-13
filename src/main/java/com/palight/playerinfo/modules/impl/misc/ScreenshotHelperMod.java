@@ -12,6 +12,6 @@ public class ScreenshotHelperMod extends Module {
     public boolean copyToClipboard = false;
 
     public ScreenshotHelperMod() {
-        super("screenshotHelper", "Screenshot Helper", "Enhancements to the Minecraft screenshot helper", ModuleType.MISC, new ScreenshotHelperGui(), null);
+        super("screenshotHelper", ModuleType.MISC, new ScreenshotHelperGui(), null);
     }
 }

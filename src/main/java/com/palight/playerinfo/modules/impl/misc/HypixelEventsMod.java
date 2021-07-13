@@ -25,7 +25,7 @@ public class HypixelEventsMod extends Module {
     public String alertSound = "none";
 
     public HypixelEventsMod() {
-        super("hypixelEvents", "Hypixel Events", "Useful events for Hypixel.", ModuleType.MISC, new HypixelEventsGui(), new HypixelEventWidget());
+        super("hypixelEvents", ModuleType.MISC, new HypixelEventsGui(), new HypixelEventWidget());
     }
 
     @SubscribeEvent

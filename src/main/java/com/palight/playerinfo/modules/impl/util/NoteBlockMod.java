@@ -1,7 +1,6 @@
 package com.palight.playerinfo.modules.impl.util;
 
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.util.MCUtil;
 import com.palight.playerinfo.util.NoteBlockUtil;
 import net.minecraft.client.Minecraft;
@@ -11,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class NoteBlockMod extends Module {
     public NoteBlockMod() {
-        super("noteBlockHelper", "Note Block Helper", "Shows the tuning of note blocks.", ModuleType.UTIL, null, null);
+        super("noteBlockHelper", ModuleType.UTIL, null, null);
     }
 
     @SubscribeEvent

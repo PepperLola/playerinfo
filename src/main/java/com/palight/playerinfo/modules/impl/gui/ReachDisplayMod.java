@@ -2,7 +2,6 @@ package com.palight.playerinfo.modules.impl.gui;
 
 import com.palight.playerinfo.gui.ingame.widgets.impl.ReachDisplayWidget;
 import com.palight.playerinfo.modules.Module;
-import com.palight.playerinfo.options.ModConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -17,7 +16,7 @@ public class ReachDisplayMod extends Module {
     public static long lastAttackTime;
 
     public ReachDisplayMod() {
-        super("reachDisplay", "Reach Display", "Displays the distance between you and the person you hit.", ModuleType.GUI, null, new ReachDisplayWidget());
+        super("reachDisplay", ModuleType.GUI, null, new ReachDisplayWidget());
     }
 
     @SubscribeEvent

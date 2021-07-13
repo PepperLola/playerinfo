@@ -30,7 +30,7 @@ public class ToggleSprintMod extends Module {
     private static KeyBinding sneakKey;
 
     public ToggleSprintMod() {
-        super("toggleSprint", "Toggle Sprint", "Toggle sprint and sneak", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(-1, -1));
+        super("toggleSprint", ModuleType.MOVEMENT, new ToggleSprintGui(), new ToggleSprintWidget(-1, -1));
     }
 
     @SideOnly(Side.CLIENT)
