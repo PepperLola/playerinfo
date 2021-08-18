@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.CalcCommand;
+import com.palight.playerinfo.commands.TextTransformCommand;
 import com.palight.playerinfo.gui.GuiHandler;
 import com.palight.playerinfo.listeners.*;
 import com.palight.playerinfo.macro.MacroConfig;
@@ -66,6 +67,7 @@ public class CommonProxy {
 
         // Registering Commands
         ClientCommandHandler.instance.registerCommand(new CalcCommand());
+        ClientCommandHandler.instance.registerCommand(new TextTransformCommand());
 
         // Registering Keybinds
         // key codes at https://computercraft.info/wiki/images/thumb/8/81/CC-Keyboard-Charcodes.png/963px-CC-Keyboard-Charcodes.png

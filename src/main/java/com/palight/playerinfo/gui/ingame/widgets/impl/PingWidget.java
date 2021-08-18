@@ -2,8 +2,8 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
+import com.palight.playerinfo.modules.impl.gui.PingMod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetworkPlayerInfo;
 
 public class PingWidget extends GuiIngameWidget {
 
@@ -15,11 +15,7 @@ public class PingWidget extends GuiIngameWidget {
     public void render(Minecraft mc) {
         super.render(mc);
 
-        NetworkPlayerInfo networkPlayerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().getSession().getProfile().getId());
-
-        long ping = networkPlayerInfo == null ? 0 : networkPlayerInfo.getResponseTime();
-
-        String displayString = ping + " ms";
+        String displayString = ((PingMod) getModule()).currentPing + " ms";
 
         this.width = (int) (PlayerInfo.instance.fontRendererObj.getWidth(displayString) + 4);
         this.height = (int) PlayerInfo.instance.fontRendererObj.getHeight(displayString);

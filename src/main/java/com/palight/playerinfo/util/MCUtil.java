@@ -5,12 +5,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.commands.InfoCommand;
 import com.palight.playerinfo.gui.ingame.widgets.impl.ScoreboardWidget;
 import com.palight.playerinfo.modules.impl.misc.DiscordRichPresenceMod;
-import com.palight.playerinfo.modules.impl.util.AutomationMod;
-import com.palight.playerinfo.util.automation.QueuedKeyUnpress;
-import com.palight.playerinfo.util.automation.QueuedKeypress;
-import com.palight.playerinfo.util.random.RandomUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
@@ -23,34 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MCUtil {
-
-    private static AutomationMod automationMod;
-
-    private static KeyBinding[] antiAfkButtons = new KeyBinding[]{
-            Minecraft.getMinecraft().gameSettings.keyBindForward,
-            Minecraft.getMinecraft().gameSettings.keyBindBack,
-            Minecraft.getMinecraft().gameSettings.keyBindLeft,
-            Minecraft.getMinecraft().gameSettings.keyBindRight,
-            Minecraft.getMinecraft().gameSettings.keyBindSneak,
-            Minecraft.getMinecraft().gameSettings.keyBindJump
-    };
-
-    public static void antiAFK() {
-        if (automationMod == null) {
-            automationMod = ((AutomationMod) PlayerInfo.getModules().get("automation"));
-        }
-
-        KeyBinding afkButton = antiAfkButtons[RandomUtil.randomRange(0, antiAfkButtons.length - 1)];
-
-        int delay1 = RandomUtil.randomRange(3, 4);
-        int delay2 = RandomUtil.randomRange(3, 4);
-
-        automationMod.addQueuedAction(new QueuedKeypress(delay1, afkButton.getKeyCode()));
-//        KeyBinding.setKeyBindState(afkButton.getKeyCode(), true);
-
-        automationMod.addQueuedAction(new QueuedKeyUnpress(delay2, afkButton.getKeyCode()));
-//        KeyBinding.setKeyBindState(afkButton.getKeyCode(), false);
-    }
 
     public static void sendPlayerMessage(EntityPlayer player, String message) {
         player.addChatMessage(new ChatComponentText(message));

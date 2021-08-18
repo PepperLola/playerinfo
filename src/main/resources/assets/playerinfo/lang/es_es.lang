@@ -61,7 +61,6 @@ module.screenshotHelper.name=Ayudante de Captura de Pantalla
 module.textReplacement.name=Reemplazo de Texto
 module.timeChanger.name=Cambiador de Tiempo
 module.toggleSprint.name=Alternar Sprint
-module.automation.name=Automatización
 module.noteBlockHelper.name=Aydante de Bloque de Notas
 module.entityRenderTweaks.name=Ajustes de Visualización de Entidades
 
@@ -95,7 +94,6 @@ module.screenshotHelper.description=Mejoras en el asistente de captura de pantal
 module.textReplacement.description=Reemplace palabras clave específicas con caracteres emoji/Unicode.
 module.timeChanger.description=Te permite cambiar el tiempo de juego por ti.
 module.toggleSprint.description=Alternar sprint y sneak.
-module.automation.description=Automatiza las tareas de poca importancia de Minecraft.
 module.noteBlockHelper.description=Muestra la afinación de bloques de notas.
 module.entityRenderTweaks.description=Algunos ajustes útiles/cosméticos para renderizar entidades.
 

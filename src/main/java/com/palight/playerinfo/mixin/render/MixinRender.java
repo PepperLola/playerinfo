@@ -19,6 +19,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
 
@@ -113,5 +116,10 @@ public class MixinRender<T extends Entity> {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.popMatrix();
         }
+    }
+
+    @Inject(method = "bindTexture", at = @At("HEAD"), cancellable = true)
+    public void bindTexture(ResourceLocation loc, CallbackInfo ci) {
+
     }
 }

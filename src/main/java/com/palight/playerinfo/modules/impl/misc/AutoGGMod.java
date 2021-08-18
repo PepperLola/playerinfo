@@ -93,6 +93,7 @@ public class AutoGGMod extends Module {
         if (!this.isEnabled()) return;
         String unformatted = EnumChatFormatting.getTextWithoutFormattingCodes(event.message.getUnformattedText());
 
+        if (winPattern == null) return;
         if (winPattern.matcher(unformatted).find()) {
             // player won!
             System.out.println("YOU WON A GAME!");

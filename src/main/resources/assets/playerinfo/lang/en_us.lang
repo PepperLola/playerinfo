@@ -61,7 +61,6 @@ module.screenshotHelper.name=Screenshot Helper
 module.textReplacement.name=Text Replacement
 module.timeChanger.name=Time Changer
 module.toggleSprint.name=Toggle Sprint
-module.automation.name=Automation
 module.noteBlockHelper.name=Note Block Helper
 module.entityRenderTweaks.name=Entity Render Tweaks
 
@@ -95,7 +94,6 @@ module.screenshotHelper.description=Enhancements to the Minecraft screenshot hel
 module.textReplacement.description=Replace specific keywords with emoji/unicode characters.
 module.timeChanger.description=Lets you change the in game time for you.
 module.toggleSprint.description=Toggle sprint and sneak.
-module.automation.description=Automates menial Minecraft tasks.
 module.noteBlockHelper.description=Shows the tuning of note blocks.
 module.entityRenderTweaks.description=Some useful/cosmetic tweaks for rendering entities.
 

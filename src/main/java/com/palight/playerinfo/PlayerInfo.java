@@ -10,7 +10,6 @@ import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.modules.impl.gui.*;
 import com.palight.playerinfo.modules.impl.misc.*;
 import com.palight.playerinfo.modules.impl.movement.ToggleSprintMod;
-import com.palight.playerinfo.modules.impl.util.AutomationMod;
 import com.palight.playerinfo.modules.impl.util.NoteBlockMod;
 import com.palight.playerinfo.options.ModConfiguration;
 import com.palight.playerinfo.proxy.CommonProxy;
@@ -102,7 +101,6 @@ public class PlayerInfo
         modules.put("screenshotHelper", new ScreenshotHelperMod());
         modules.put("playerHider", new PlayerHiderMod());
         modules.put("autogg", new AutoGGMod());
-        modules.put("automation", new AutomationMod());
         modules.put("entityRenderTweaks", new EntityRenderTweaksMod());
     }
 

@@ -55,7 +55,7 @@ public class CalcCommand implements ICommand {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender iCommandSender, String[] strings, BlockPos blockPos) {
-        return new ArrayList<String>(Arrays.asList("calc"));
+        return new ArrayList<>(Arrays.asList("calc"));
     }
 
     @Override

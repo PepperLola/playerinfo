@@ -6,7 +6,7 @@ import com.palight.playerinfo.options.ConfigOption;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLiving;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EntityRenderTweaksMod extends Module {
@@ -22,7 +22,7 @@ public class EntityRenderTweaksMod extends Module {
     }
 
     @SubscribeEvent
-    public void onRenderLiving(Event) {
+    public void onRenderLiving(RenderLivingEvent<EntityLiving> event) {
         if (!(event.entity instanceof EntityLiving)) return;
         EntityLiving entityLiving = (EntityLiving) event.entity;
 

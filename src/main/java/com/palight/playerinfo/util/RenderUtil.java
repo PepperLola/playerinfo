@@ -166,14 +166,28 @@ public class RenderUtil {
     public static void bindCapeTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
         CapeHandler.PlayerData data = CapeHandler.PLAYER_DATA.get(player.getUniqueID());
         if (data != null && data.getCape() != null) {
-            Integer dataId = data.getDataId(data.getFrame());
+            Integer dataId = data.getCapeDataId(data.getCapeFrame());
             if (dataId == null) {
-                dataId = RenderUtil.loadBind(player.getLocationCape(), data.getCape().getFrames().get(data.getFrame()));
-                data.setDataId(data.getFrame(), dataId);
+                dataId = RenderUtil.loadBind(player.getLocationCape(), data.getCape().getFrames().get(data.getCapeFrame()));
+                data.setCapeDataId(data.getCapeFrame(), dataId);
             }
             GlStateManager.bindTexture(dataId);
         } else {
             playerRenderer.bindTexture(player.getLocationCape());
+        }
+    }
+
+    public static void bindSkinTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
+        CapeHandler.PlayerData data = CapeHandler.PLAYER_DATA.get(player.getUniqueID());
+        if (data != null && data.getSkin() != null) {
+            Integer dataId = data.getSkinDataId(data.getSkinFrame());
+            if (dataId != null) {
+                dataId = RenderUtil.loadBind(player.getLocationSkin(), data.getSkin().getFrames().get(data.getSkinFrame()));
+                data.setCapeDataId(data.getCapeFrame(), dataId);
+            }
+            GlStateManager.bindTexture(dataId);
+        } else {
+            playerRenderer.bindTexture(player.getLocationSkin());
         }
     }
 
