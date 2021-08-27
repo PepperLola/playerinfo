@@ -177,20 +177,6 @@ public class RenderUtil {
         }
     }
 
-    public static void bindSkinTexture(AbstractClientPlayer player, RenderPlayer playerRenderer) {
-        CapeHandler.PlayerData data = CapeHandler.PLAYER_DATA.get(player.getUniqueID());
-        if (data != null && data.getSkin() != null) {
-            Integer dataId = data.getSkinDataId(data.getSkinFrame());
-            if (dataId != null) {
-                dataId = RenderUtil.loadBind(player.getLocationSkin(), data.getSkin().getFrames().get(data.getSkinFrame()));
-                data.setCapeDataId(data.getCapeFrame(), dataId);
-            }
-            GlStateManager.bindTexture(dataId);
-        } else {
-            playerRenderer.bindTexture(player.getLocationSkin());
-        }
-    }
-
     public static void renderGlint(RenderPlayer playerRenderer, EntityLivingBase entity, ModelBase modelBase, float p_renderGlint_3_, float p_renderGlint_4_, float p_renderGlint_5_, float p_renderGlint_6_, float p_renderGlint_7_, float p_renderGlint_8_, float p_renderGlint_9_) {
         float f = (float)entity.ticksExisted + p_renderGlint_5_;
         playerRenderer.bindTexture(ENCHANTED_ITEM_GLINT_RES);

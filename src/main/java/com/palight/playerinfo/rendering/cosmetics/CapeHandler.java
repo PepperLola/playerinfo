@@ -42,7 +42,6 @@ public class CapeHandler {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode >= 200 && statusCode < 300) {
                     String capeName = obj.get("cape").getAsString().toLowerCase();
-                    String skinName = obj.get("skin").getAsString().toLowerCase();
 
                     boolean online = obj.get("online").getAsBoolean();
                     String minecraft_uuid = obj.get("minecraft_uuid").getAsString();
@@ -50,7 +49,6 @@ public class CapeHandler {
                     long lastOnline = obj.get("last_online").getAsLong();
 
                     Cape cape = Cosmetics.getCape(capeName);
-                    Skin skin = Cosmetics.getSkin(skinName);
 
                     if (cape.getImage() == null) {
                         cape.setImage(ApiUtil.downloadImage(
@@ -59,14 +57,9 @@ public class CapeHandler {
                         cape.calculateFrames();
                     }
 
-                    if (skin.getImage() == null) {
-                        skin.setImage(ApiUtil.downloadImage(ApiUtil.API_URL + "/cosmetics/skins/texture/" + skinName.toLowerCase()));
-                        skin.calculateFrames();
-                    }
-
-                    PLAYER_DATA.put(uuid, new PlayerData(cape, skin, online, minecraft_uuid, lastOnline));
+                    PLAYER_DATA.put(uuid, new PlayerData(cape, online, minecraft_uuid, lastOnline));
                 } else {
-                    PLAYER_DATA.put(uuid, new PlayerData(null, null, false, null, 0));
+                    PLAYER_DATA.put(uuid, new PlayerData(null, false, null, 0));
                 }
             });
     }
@@ -88,10 +81,8 @@ public class CapeHandler {
         counter %= 20;
 
         PLAYER_DATA.forEach((uuid, data) -> {
-            if (data == null || (data.getCape() == null && data.getSkin() == null)) return;
+            if (data == null || data.getCape() == null) return;
             if (counter % (20 / data.getCape().getFPS()) == 0) {
-                data.updateFrame();
-            } else if (counter % (20 / data.getSkin().getFPS()) == 0) {
                 data.updateFrame();
             }
         });
@@ -99,7 +90,6 @@ public class CapeHandler {
 
     public static class PlayerData {
         private Cape cape;
-        private Skin skin;
         private boolean online;
         private String uuid;
         private long lastOnline;
@@ -108,9 +98,8 @@ public class CapeHandler {
         private TreeMap<Integer, Integer> capeDataIds = new TreeMap<>();
         private TreeMap<Integer, Integer> skinDataIds = new TreeMap<>();
 
-        public PlayerData(@Nullable Cape cape, @Nullable Skin skin, boolean online, String uuid, long lastOnline) {
+        public PlayerData(@Nullable Cape cape, boolean online, String uuid, long lastOnline) {
             this.cape = cape;
-            this.skin = skin;
             this.online = online;
             this.uuid = uuid;
             this.lastOnline = lastOnline;
@@ -122,14 +111,6 @@ public class CapeHandler {
 
         public void setCape(Cape cape) {
             this.cape = cape;
-        }
-
-        public Skin getSkin() {
-            return skin;
-        }
-
-        public void setSkin(Skin skin) {
-            this.skin = skin;
         }
 
         public boolean isOnline() {
@@ -168,10 +149,6 @@ public class CapeHandler {
             return skinFrame;
         }
 
-        public void setSkinFrame(int skinFrame) {
-            this.skinFrame = skinFrame;
-        }
-
         public void setCapeDataId(int frame, int id) {
             capeDataIds.put(frame, id);
         }
@@ -180,23 +157,10 @@ public class CapeHandler {
             return capeDataIds.get(frame);
         }
 
-        public void setSkinDataId(int frame, int id) {
-            skinDataIds.put(frame, id);
-        }
-
-        public Integer getSkinDataId(int frame) {
-            return skinDataIds.get(frame);
-        }
-
         public void updateFrame() {
             if (cape.isAnimated()) {
                 this.capeFrame++;
                 this.capeFrame %= cape.getTotalFrames();
-            }
-
-            if (skin.isAnimated()) {
-                this.skinFrame ++;
-                this.skinFrame %= cape.getTotalFrames();
             }
         }
     }
