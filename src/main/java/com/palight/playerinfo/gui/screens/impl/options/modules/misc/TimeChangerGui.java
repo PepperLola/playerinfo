@@ -101,7 +101,7 @@ public class TimeChangerGui extends CustomGuiScreenScrollable {
     protected void mouseReleased(int p_mouseReleased_1_, int p_mouseReleased_2_, int p_mouseReleased_3_) {
         super.mouseReleased(p_mouseReleased_1_, p_mouseReleased_2_, p_mouseReleased_3_);
         fastTimeMultiplierSlider.mouseReleased(p_mouseReleased_1_, p_mouseReleased_2_);
-        module.fastTimeMultiplier = fastTimeMultiplierSlider.sliderValue;
+        module.fastTimeMultiplier = fastTimeMultiplierSlider.getValue();
         ModConfiguration.syncFromGUI();
     }
 }

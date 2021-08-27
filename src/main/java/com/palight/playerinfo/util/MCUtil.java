@@ -64,7 +64,7 @@ public class MCUtil {
         return false;
     }
 
-    public static enum ParticleTypes {
+    public enum ParticleTypes {
         POOF("poof", 0, 7),
         SPLASH("splash", 1, 1),
         BUBBLE("bubble", 0, 2),
