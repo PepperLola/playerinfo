@@ -56,7 +56,7 @@ public class ParticleGui extends CustomGuiScreenScrollable {
 
         particlePicker = new GuiDropdown(0, buttonX, buttonY, particleNames.toArray(new String[0]));
         setParticleButton = new GuiButton(1, buttonX + 64, buttonY, 64, 20, "Set Particle");
-        multiplierSlider = new GuiSlider(2, buttonX, buttonY + 32, 128, 20, "Particle Multiplier: ", "x", MIN, MAX, module.multiplier, false, true);
+        multiplierSlider = new GuiSlider(2, buttonX, buttonY + 32, this.xSize - (3 * (buttonX - guiX)), 20, "Particle Multiplier: ", "x", MIN, MAX, module.multiplier, false, true);
         forceSharp = new GuiCheckBox(3, buttonX, buttonY + 64, "Always Show Sharp Particles", module.forceSharp);
         forceCrit = new GuiCheckBox(4, buttonX, buttonY + 96, "Always Show Crit Particles", module.forceCrit);
 

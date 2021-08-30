@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class ApiUtil {
     public static final String API_URL = "https://api.jerlshoba.com";
-    public static String TOKEN;
 
     public static void authenticate(String username, String password) {
         String data = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", username, password);
@@ -104,5 +103,15 @@ public class ApiUtil {
                 PlayerInfo.instance.setConfigValue("token", "");
             }
         });
+    }
+
+    public static Map<String, String> generateHeaders() {
+        Map<String, String> HEADERS = new HashMap<>();
+
+        if (!PlayerInfo.TOKEN.isEmpty()) {
+            HEADERS.put("Authorization", "Bearer " + PlayerInfo.TOKEN);
+        }
+
+        return HEADERS;
     }
 }

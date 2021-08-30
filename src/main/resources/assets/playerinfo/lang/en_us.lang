@@ -30,6 +30,7 @@ screen.autogg=Auto GG
 screen.stats=Stats Mod
 screen.playerHider=Player Hider
 screen.entityRenderTweaks=Entity Render Tweaks
+screen.linkDiscord=Link Discord
 
 module.armor.name=Armor Status
 module.resources.name=Bedwars Resources

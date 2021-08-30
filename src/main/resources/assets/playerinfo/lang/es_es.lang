@@ -30,6 +30,7 @@ screen.autogg=Auto GG
 screen.stats=Estadísticos
 screen.playerHider=Ocultador de Jugadores
 screen.entityRenderTweaks=Ajustes de Visualización de Entidades
+screen.linkDiscord=Conectar Discord
 
 module.armor.name=Armadura
 module.resources.name=Recursos de BedWars

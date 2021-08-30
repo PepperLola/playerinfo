@@ -274,8 +274,6 @@ public class StatsMod extends Module {
                 int statusCode = response.getStatusLine().getStatusCode();
                 System.out.println("[playerinfo] HYPIXEL RESPONSE STATUS CODE: " + statusCode);
 
-                System.out.println("ENTITY: " + entity);
-
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(entity);
                 JsonObject obj = element.getAsJsonObject();
@@ -323,8 +321,6 @@ public class StatsMod extends Module {
 
                     this.rank = HypixelUtil.Rank.getRankFromAPIName(rank);
                     this.plusColor = HypixelUtil.PlusColor.getPlusColorFromName(plusColor);
-
-                    System.out.println("[playerinfo] HYPIXEL GAME TYPE: " + this.gameType.toString());
 
                     // set game-specific stats
                     switch (this.gameType){

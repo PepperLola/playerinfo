@@ -44,7 +44,7 @@ public class PlayerInfo
     public static final String CLIENT_PROXY_CLASS = "com.palight.playerinfo.proxy.ClientProxy";
     public static String DATA_FOLDER;
     public static String CONFIG_FILE;
-    public static String TOKEN;
+    public static String TOKEN = "";
 
     public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("robotosb", 16.0F);
 

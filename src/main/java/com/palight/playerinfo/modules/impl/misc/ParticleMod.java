@@ -77,7 +77,6 @@ public class ParticleMod extends Module {
     }
 
     private void attemptParticleSpawn(EnumParticleTypes type, double rawX, double rawY, double rawZ, int multiplier) {
-        System.out.println("SPAWNING PARTICLE " + type.getParticleName() + " WITH MULTIPLIER " + multiplier);
         final double x = rawX + 0.25;
         final double y = rawY + 0.4;
         final double z = rawZ + 0.25;

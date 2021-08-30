@@ -1,7 +1,12 @@
 package com.palight.playerinfo.listeners;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.screens.impl.DiscordLinkGui;
 import com.palight.playerinfo.gui.screens.impl.LoginGui;
+import com.palight.playerinfo.util.ApiUtil;
+import com.palight.playerinfo.util.HttpUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
@@ -10,6 +15,8 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 
 import java.awt.*;
 
@@ -20,13 +27,12 @@ public class RenderListener {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        if (PlayerInfo.TOKEN != null && !PlayerInfo.TOKEN.isEmpty()) return;
         if (event.gui instanceof GuiOptions) {
             GuiScreen gui = event.gui;
 
             int buttonSpacing = 4;
 
-            int buttonWidth = 50;
+            int buttonWidth = 64;
             int buttonHeight = 20;
 
             int buttonX = gui.width - buttonWidth - buttonSpacing;
@@ -59,7 +65,7 @@ public class RenderListener {
                 buttonX = increment;
             }
 
-            GuiButton loginGuiButton = new GuiButton(LOGIN_BUTTON_ID, buttonX, buttonY, buttonWidth, buttonHeight, "Login");
+            GuiButton loginGuiButton = new GuiButton(LOGIN_BUTTON_ID, buttonX, buttonY, buttonWidth, buttonHeight, PlayerInfo.TOKEN.isEmpty() ? "Login" : "Link Discord");
             event.buttonList.add(loginGuiButton);
         }
     }
@@ -68,7 +74,22 @@ public class RenderListener {
     @SubscribeEvent
     public void onButtonPressPre(GuiScreenEvent.ActionPerformedEvent.Pre event) {
         if (event.gui instanceof GuiOptions && event.button.id == LOGIN_BUTTON_ID) {
-            Minecraft.getMinecraft().displayGuiScreen(new LoginGui());
+            if (PlayerInfo.TOKEN.isEmpty()) {
+                Minecraft.getMinecraft().displayGuiScreen(new LoginGui());
+            } else {
+                HttpUtil.httpGet(ApiUtil.API_URL + "/user/generateDiscordToken", ApiUtil.generateHeaders(), (HttpResponse response) -> {
+                    String entity = EntityUtils.toString(response.getEntity());
+                    JsonParser parser = new JsonParser();
+                    JsonElement obj = parser.parse(entity);
+
+                    System.out.println(obj.toString());
+
+                    String token = obj.getAsJsonObject().get("token").getAsString();
+                    System.out.println("TOKEN " + token);
+
+                    Minecraft.getMinecraft().displayGuiScreen(new DiscordLinkGui(token));
+                });
+            }
             event.setCanceled(true);
         }
     }
