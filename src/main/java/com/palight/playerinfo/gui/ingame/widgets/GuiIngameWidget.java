@@ -71,24 +71,32 @@ public class GuiIngameWidget extends Gui {
     }
 
     protected void drawText(String text, int x, int y) {
-        drawText(text, x, y, false, -1);
+        drawText(text, x, y, false, -1, 1f);
     }
 
     protected void drawText(String text, int x, int y, boolean invertColors) {
-        drawText(text, x, y, invertColors, -1);
+        drawText(text, x, y, invertColors, -1, 1f);
     }
 
     protected void drawText(String text, int x, int y, int color) {
-        drawText(text, x, y, false, color);
+        drawText(text, x, y, false, color, 1f);
     }
 
-    protected void drawText(String text, int x, int y, boolean invertColors, int color) {
+    protected void drawText(String text, int x, int y, float scale) {
+        drawText(text, x, y, false, -1, scale);
+    }
+
+    protected void drawText(String text, int x, int y, int color, float scale) {
+        drawText(text, x, y, false, color, scale);
+    }
+
+    protected void drawText(String text, int x, int y, boolean invertColors, int color, float scale) {
         if (Minecraft.getMinecraft().gameSettings.hideGUI) return;
         int leftOffset = 0;
         int character = 0;
         if (text == null) return;
         for (String sub : text.split("")) {
-            PlayerInfo.instance.fontRendererObj.drawString(sub, x + leftOffset, y, color == -1 ? getChromaColor(character * -300L, invertColors) : color);
+            PlayerInfo.instance.fontRendererObj.drawStringScaled(sub, x + leftOffset, y, color == -1 ? getChromaColor(character * -300L, invertColors) : color, scale);
             leftOffset += (int) PlayerInfo.instance.fontRendererObj.getWidth(sub);
             character ++;
             GlStateManager.resetColor();

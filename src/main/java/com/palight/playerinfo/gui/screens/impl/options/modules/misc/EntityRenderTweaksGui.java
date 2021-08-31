@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.gui.widgets.impl.GuiButton;
+import com.palight.playerinfo.gui.widgets.impl.GuiCheckBox;
 import com.palight.playerinfo.gui.widgets.impl.GuiColorPicker;
 import com.palight.playerinfo.modules.impl.misc.EntityRenderTweaksMod;
 import com.palight.playerinfo.options.ModConfiguration;
@@ -22,6 +23,7 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
 
     private GuiColorPicker colorPicker;
     private GuiButton colorButton;
+    private GuiCheckBox armorTintButton;
     private EntityRenderTweaksMod module;
 
     public EntityRenderTweaksGui() {
@@ -41,10 +43,12 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
         colorPicker.setColor(module.hitTintColor);
 
         colorButton = new GuiButton(1, buttonX + 8, buttonY + 84, 48, 20, "Set Color");
+        armorTintButton = new GuiCheckBox(2, buttonX + 8, buttonY + 108, "Armor Tint", module.doArmorTint);
 
         this.guiElements.addAll(Arrays.asList(
                 this.colorPicker,
-                this.colorButton
+                this.colorButton,
+                this.armorTintButton
         ));
     }
 
@@ -52,6 +56,8 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         if (widget.id == colorButton.id) {
             module.hitTintColor = colorPicker.getColor();
+        } else if (widget.id == armorTintButton.id) {
+            module.doArmorTint = armorTintButton.checked;
         }
 
         ModConfiguration.syncFromGUI();

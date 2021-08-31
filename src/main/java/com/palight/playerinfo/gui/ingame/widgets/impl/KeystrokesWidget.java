@@ -2,6 +2,8 @@ package com.palight.playerinfo.gui.ingame.widgets.impl;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
+import com.palight.playerinfo.modules.impl.gui.KeystrokesMod;
+import com.palight.playerinfo.modules.impl.misc.CPSMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -169,12 +171,32 @@ public class KeystrokesWidget extends GuiIngameWidget {
                 );
             }
 
+            KeystrokesMod keystrokesMod = (KeystrokesMod) PlayerInfo.getModules().get("keystrokes");
+
+            boolean showCPS = keystrokesMod.showCPS;
+            boolean isMouseKey = key.name.equals("LMB") || key.name.equals("RMB");
+
+            int offset = 0;
+            if (showCPS && isMouseKey) offset = -4;
             this.drawTextVerticallyCentered(
                     key.getName(),
                     this.getPosition().getX() + key.getX() + (key.getWidth() - textWidth) / 2,
-                    this.getPosition().getY() + key.getY() + key.getHeight() / 2,
+                    this.getPosition().getY() + key.getY() + key.getHeight() / 2 + offset,
                     key.isDown()
             );
+
+            if (showCPS && isMouseKey) {
+//                GlStateManager.scale(0.25f, 0.25f, 0.25f);
+                String text = (key.name.equals("LMB") ? CPSMod.getLeftClicks() : CPSMod.getRightClicks()) + " CPS";
+                textWidth = (int) PlayerInfo.instance.fontRendererObj.getWidth(text);
+                this.drawText(
+                        text,
+                        this.getPosition().getX() + key.getX() + (key.getWidth() - textWidth) / 2,
+                        this.getPosition().getY() + key.getY() + key.getHeight() / 2,
+                        0.8f
+                );
+//                GlStateManager.scale(4f, 4f, 4f);
+            }
         }
 
         if (blend) {

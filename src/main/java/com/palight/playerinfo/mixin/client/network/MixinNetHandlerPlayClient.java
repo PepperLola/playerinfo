@@ -1,16 +1,21 @@
 package com.palight.playerinfo.mixin.client.network;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.ComboMod;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
+import net.minecraft.network.play.server.S19PacketEntityStatus;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(NetHandlerPlayClient.class)
 @SideOnly(Side.CLIENT)
@@ -18,6 +23,10 @@ public class MixinNetHandlerPlayClient {
     @Shadow
     private Minecraft gameController;
 
+    @Inject(method = "handleEntityStatus", at = @At("HEAD"))
+    public void handleEntityStatus(S19PacketEntityStatus packet, CallbackInfo ci) {
+        ((ComboMod) PlayerInfo.getModules().get("combo")).onEntityStatusPacket(packet);
+    }
 
     /**
      * @author Finbarr-1

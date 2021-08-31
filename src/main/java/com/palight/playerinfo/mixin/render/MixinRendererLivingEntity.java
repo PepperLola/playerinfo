@@ -47,7 +47,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
      * @reason Hurt animation tint
      */
     @Overwrite
-    protected boolean setBrightness(T p_setBrightness_1_, float p_setBrightness_2_, boolean p_setBrightness_3_) {
+    protected boolean setBrightness(T p_setBrightness_1_, float p_setBrightness_2_, boolean shouldCombineTextures) {
         if (entityRenderTweaksMod == null) {
             entityRenderTweaksMod = (EntityRenderTweaksMod) PlayerInfo.getModules().get("entityRenderTweaks");
         }
@@ -56,11 +56,9 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
         int i = this.getColorMultiplier(p_setBrightness_1_, f, p_setBrightness_2_);
         boolean flag = (i >> 24 & 255) > 0;
         boolean flag1 = p_setBrightness_1_.hurtTime > 0 || p_setBrightness_1_.deathTime > 0;
-        EntityRenderTweaksMod.flag1 = flag;
-        EntityRenderTweaksMod.flag2 = flag1;
         if (!flag && !flag1) {
             return false;
-        } else if (!flag && !p_setBrightness_3_) {
+        } else if (!flag && !shouldCombineTextures) {
             return false;
         } else {
             GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
