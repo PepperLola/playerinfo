@@ -23,7 +23,9 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
 
     private GuiColorPicker colorPicker;
     private GuiButton colorButton;
-    private GuiCheckBox armorTintButton;
+    private GuiCheckBox armorTintCheckbox;
+    private GuiCheckBox nameTagBackgroundCheckbox;
+    private GuiCheckBox nameTagShadowCheckbox;
     private EntityRenderTweaksMod module;
 
     public EntityRenderTweaksGui() {
@@ -43,12 +45,16 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
         colorPicker.setColor(module.hitTintColor);
 
         colorButton = new GuiButton(1, buttonX + 8, buttonY + 84, 48, 20, "Set Color");
-        armorTintButton = new GuiCheckBox(2, buttonX + 8, buttonY + 108, "Armor Tint", module.doArmorTint);
+        armorTintCheckbox = new GuiCheckBox(2, buttonX + 8, buttonY + 108, "Armor Tint", module.doArmorTint);
+        nameTagBackgroundCheckbox = new GuiCheckBox(3, buttonX + 8, buttonY + 132, "Enable Name Tag Background", module.enableNameTagBackground);
+        nameTagShadowCheckbox = new GuiCheckBox(4, buttonX + 8, buttonY + 156, "Enable Name Tag Shadow", module.enableNameTagBackground);
 
         this.guiElements.addAll(Arrays.asList(
                 this.colorPicker,
                 this.colorButton,
-                this.armorTintButton
+                this.armorTintCheckbox,
+                this.nameTagBackgroundCheckbox,
+                this.nameTagShadowCheckbox
         ));
     }
 
@@ -56,8 +62,12 @@ public class EntityRenderTweaksGui extends CustomGuiScreenScrollable {
     protected void widgetClicked(GuiCustomWidget widget) {
         if (widget.id == colorButton.id) {
             module.hitTintColor = colorPicker.getColor();
-        } else if (widget.id == armorTintButton.id) {
-            module.doArmorTint = armorTintButton.checked;
+        } else if (widget.id == armorTintCheckbox.id) {
+            module.doArmorTint = armorTintCheckbox.checked;
+        } else if (widget.id == nameTagBackgroundCheckbox.id) {
+            module.enableNameTagBackground = nameTagBackgroundCheckbox.checked;
+        } else if (widget.id == nameTagShadowCheckbox.id) {
+            module.enableNameTagShadow = nameTagShadowCheckbox.checked;
         }
 
         ModConfiguration.syncFromGUI();

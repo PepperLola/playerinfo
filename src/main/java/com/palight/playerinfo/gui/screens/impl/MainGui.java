@@ -14,7 +14,6 @@ import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -30,10 +29,10 @@ public class MainGui extends CustomGuiScreenScrollable {
     private final int buttonWidth = 64;
     private final int buttonHeight = 20;
 
-    private final int hPadding = 2;
+    private final int hPadding = 4;
     private final int columns = 2;
     private int columnWidth;
-    private final int rowHeight = 32;
+    private final int rowHeight = 104;
 
     private int buttonX;
     private int buttonY;
@@ -57,11 +56,9 @@ public class MainGui extends CustomGuiScreenScrollable {
         super.initGui();
 
         buttonX = (this.width - xSize) / 2 + 16;
-        buttonY = (this.height - ySize) / 2 + 32;
+        buttonY = (this.height - ySize) / 2 + 64;
 
         columnWidth = ((xSize - (3 * leftOffset)) - (2 * hPadding)) / columns;
-
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
 
         this.filterTextInput = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, (this.width + xSize) / 2 - 128, (this.height - ySize) / 2 - 18, 128, 18);
 

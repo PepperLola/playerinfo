@@ -275,7 +275,7 @@ public class UnicodeFontRenderer {
         return unicodeFont;
     }
 
-    public void drawSplitString(ArrayList<String> lines, int x, int y, int color) {
+    public void drawSplitString(List<String> lines, int x, int y, int color) {
         drawString(
                 String.join("\n\r", lines),
                 x,

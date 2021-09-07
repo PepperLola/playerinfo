@@ -45,7 +45,7 @@ public abstract class GuiCustomWidget extends Gui {
      * 9: Total width of image (specified in resource location)
      * 10: Total height of image
      */
-    public void drawScaledCustomSizeModalRect(
+    public static void drawScaledCustomSizeModalRect(
             int x,
             int y,
             int xOffset,

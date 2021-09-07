@@ -13,6 +13,12 @@ public class EntityRenderTweaksMod extends Module {
     @ConfigOption
     public boolean doArmorTint = true;
 
+    @ConfigOption
+    public boolean enableNameTagBackground = true;
+
+    @ConfigOption
+    public boolean enableNameTagShadow = false;
+
     public EntityRenderTweaksMod() {
         super("entityRenderTweaks", ModuleType.MISC, new EntityRenderTweaksGui(), null);
     }

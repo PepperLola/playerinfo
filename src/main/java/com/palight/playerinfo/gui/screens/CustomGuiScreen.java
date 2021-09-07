@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomGuiScreen extends GuiScreen {
-    protected int xSize = 256;
-    protected int ySize = 236;
+    protected int xSize = 512;
+    protected int ySize = 472;
+
+    private final int imageWidth = 256;
+    private final int imageHeight = 236;
+
     protected int guiX;
     protected int guiY;
 
-    protected int leftOffset = 15;
+    protected int leftOffset = 30;
 
     private String screenNameKey;
     private String screenName;
@@ -31,8 +35,8 @@ public class CustomGuiScreen extends GuiScreen {
         this.screenNameKey = screenNameKey;
     }
 
-    protected int headerWidth = 76;
-    protected int headerHeight = 25;
+    protected int headerWidth = 152;
+    protected int headerHeight = 50;
 
     protected int footerHeight = 20;
 
@@ -63,7 +67,7 @@ public class CustomGuiScreen extends GuiScreen {
         guiY = (this.height - ySize) / 2;
 
         this.mc.getTextureManager().bindTexture(gui);
-        drawTexturedModalRect(guiX, guiY, 0, 0, xSize, ySize);
+        GuiCustomWidget.drawScaledCustomSizeModalRect(guiX, guiY, 0, 0, imageWidth, imageHeight, xSize, ySize, imageWidth, imageHeight);
 
         this.mc.getTextureManager().bindTexture(guiAssets);
 

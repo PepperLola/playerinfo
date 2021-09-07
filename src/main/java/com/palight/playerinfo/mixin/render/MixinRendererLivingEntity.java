@@ -26,20 +26,21 @@ import java.nio.FloatBuffer;
 @Mixin(RendererLivingEntity.class)
 public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
 
-    @Shadow protected FloatBuffer brightnessBuffer;
-    @Final @Shadow private static DynamicTexture textureBrightness;
-
-    private EntityRenderTweaksMod entityRenderTweaksMod;
-
+    @Final
     @Shadow
-    protected int getColorMultiplier(T entity, float f1, float f2) {
-        return 0;
-    }
-
+    private static DynamicTexture textureBrightness;
+    @Shadow
+    protected FloatBuffer brightnessBuffer;
+    private EntityRenderTweaksMod entityRenderTweaksMod;
     private DisplayTweaksMod module;
 
     protected MixinRendererLivingEntity(RenderManager renderManager) {
         super(renderManager);
+    }
+
+    @Shadow
+    protected int getColorMultiplier(T entity, float f1, float f2) {
+        return 0;
     }
 
     /**
@@ -100,10 +101,10 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                     this.brightnessBuffer.put(0.3F);
                 }
             } else {
-                float f1 = (float)(i >> 24 & 255) / 255.0F;
-                float f2 = (float)(i >> 16 & 255) / 255.0F;
-                float f3 = (float)(i >> 8 & 255) / 255.0F;
-                float f4 = (float)(i & 255) / 255.0F;
+                float f1 = (float) (i >> 24 & 255) / 255.0F;
+                float f2 = (float) (i >> 16 & 255) / 255.0F;
+                float f3 = (float) (i >> 8 & 255) / 255.0F;
+                float f4 = (float) (i & 255) / 255.0F;
                 this.brightnessBuffer.put(f2);
                 this.brightnessBuffer.put(f3);
                 this.brightnessBuffer.put(f4);
@@ -144,7 +145,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
             Team team1 = entityplayersp.getTeam();
             if (team != null) {
                 Team.EnumVisible team$enumvisible = team.getNameTagVisibility();
-                switch(team$enumvisible) {
+                switch (team$enumvisible) {
                     case NEVER:
                         return false;
                     case HIDE_FOR_OTHER_TEAMS:

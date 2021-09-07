@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.EntityRenderTweaksMod;
 import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;
 import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
@@ -33,6 +34,8 @@ public class MixinRender<T extends Entity> {
 
     private PerspectiveMod perspectiveMod;
 
+    private EntityRenderTweaksMod entityRenderTweaksMod;
+
     /**
      * @reason Render playerinfo icon next to name
      * @author palight
@@ -41,6 +44,10 @@ public class MixinRender<T extends Entity> {
     protected void renderLivingLabel(T entity, String str, double x, double y, double z, int maxDistance) {
         if (perspectiveMod == null) {
             perspectiveMod = (PerspectiveMod) PlayerInfo.getModules().get("perspective");
+        }
+
+        if (entityRenderTweaksMod == null) {
+            entityRenderTweaksMod = (EntityRenderTweaksMod) PlayerInfo.getModules().get("entityRenderTweaks");
         }
 
         double distance = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
@@ -99,18 +106,28 @@ public class MixinRender<T extends Entity> {
                 );
             }
 
-            GlStateManager.disableTexture2D();
-            worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            worldRenderer.pos(-halfStringWidth - 1, -1 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldRenderer.pos(-halfStringWidth - 1, 9 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldRenderer.pos(halfStringWidth + 1 + xOffset, 9 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldRenderer.pos(halfStringWidth + 1 + xOffset, -1 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            tessellator.draw();
-            GlStateManager.enableTexture2D();
-            fr.drawString(str, -fr.getStringWidth(str) / 2 + xOffset, offset, 553648127);
-            GlStateManager.enableDepth();
-            GlStateManager.depthMask(true);
-            fr.drawString(str, -fr.getStringWidth(str) / 2 + xOffset, offset, -1);
+            if (entityRenderTweaksMod.enableNameTagBackground) {
+                GlStateManager.disableTexture2D();
+                worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                worldRenderer.pos(-halfStringWidth - 1, -1 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                worldRenderer.pos(-halfStringWidth - 1, 9 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                worldRenderer.pos(halfStringWidth + 1 + xOffset, 9 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                worldRenderer.pos(halfStringWidth + 1 + xOffset, -1 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                tessellator.draw();
+                GlStateManager.enableTexture2D();
+            }
+
+            if (entityRenderTweaksMod.enableNameTagShadow) {
+                fr.drawStringWithShadow(str, -fr.getStringWidth(str) / 2f + xOffset, offset, 553648127);
+                GlStateManager.enableDepth();
+                GlStateManager.depthMask(true);
+                fr.drawStringWithShadow(str, -fr.getStringWidth(str) / 2f + xOffset, offset, -1);
+            } else {
+                fr.drawString(str, -fr.getStringWidth(str) / 2 + xOffset, offset, 553648127);
+                GlStateManager.enableDepth();
+                GlStateManager.depthMask(true);
+                fr.drawString(str, -fr.getStringWidth(str) / 2 + xOffset, offset, -1);
+            }
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

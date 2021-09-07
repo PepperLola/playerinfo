@@ -33,6 +33,7 @@
     "entity.MixinEntityFishHook",
     "render.IMixinItemRenderer",
     "render.IMixinRender",
+    "render.IMixinRendererLivingEntity",
     "render.MixinEntityFX",
     "render.MixinEntityRenderer",
     "render.MixinItemRenderer",

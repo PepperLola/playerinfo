@@ -50,7 +50,7 @@ public class GuiWidgetOptions extends GuiCustomWidget {
         );
 
         int xOffset = widget.getModule().isEnabled() ? 0 : 32;
-        this.drawScaledCustomSizeModalRect(
+        drawScaledCustomSizeModalRect(
                 this.xPosition,
                 this.yPosition,
                 xOffset,
@@ -64,7 +64,7 @@ public class GuiWidgetOptions extends GuiCustomWidget {
         );
 
         xOffset = widget.getPosition().isChroma() ? 96 : 64;
-        this.drawScaledCustomSizeModalRect(
+        drawScaledCustomSizeModalRect(
                 this.xPosition + this.height,
                 this.yPosition,
                 xOffset,
@@ -78,7 +78,7 @@ public class GuiWidgetOptions extends GuiCustomWidget {
         );
 
         xOffset = widget.getModule().shouldRenderBackground() ? 128 : 160;
-        this.drawScaledCustomSizeModalRect(
+        drawScaledCustomSizeModalRect(
                 this.xPosition + this.height * 2,
                 this.yPosition,
                 xOffset,
@@ -93,7 +93,7 @@ public class GuiWidgetOptions extends GuiCustomWidget {
 
         if (widget.getModule().getOptionsGui() != null) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiTexturedButton.iconTextures);
-            this.drawScaledCustomSizeModalRect(
+            drawScaledCustomSizeModalRect(
                     this.xPosition + this.width - this.height,
                     this.yPosition,
                     0,
