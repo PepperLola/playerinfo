@@ -15,6 +15,10 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#features">Features</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#starting">Getting Started</a></li>
+    <li><a href="#directory">Game Directory</a></li>
+    <li><a href="#note">Note</a></li>
   </ol>
 </details>
 
@@ -78,7 +82,7 @@
 2. You'll probably want to create a separate game directory for playerinfo to run in. More info <a href="#directory">here</a>.
 3. Run this version of Forge at least once in order to create the mods folder.
 
-### Getting Started
+### <a name="starting"></a>Getting Started
 1. Go to the [playerinfo website](https://playerinfo-frontend.vercel.app).
 2. Click download. It should automatically take you to the latest release of playerinfo on GitHub. You can also click <a href="https://github.com/PepperLola/playerinfo/releases/latest">here</a>.
 3. Download the release. Make sure you download `playerinfo-XX.XX.XX.jar` and **not** `playerinfo-XX.XX.XX-sources.jar`. You don't want the sources jar.
