@@ -29,6 +29,17 @@ jobs:
         with:
           name: dist
           path: ./build/libs/playerinfo*.jar
+          
+      - name: Create Release
+        id: create-release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          prerelease: false
+          files: artifacts/*
 
   release:
     name: Create Github Release
@@ -43,17 +54,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: artifacts/
-
-      - name: Create Release
-        id: create-release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          prerelease: false
-          files: artifacts/*
 
 #       - name: Upload Release Asset
 #         id: upload-release-asset
