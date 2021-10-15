@@ -41,6 +41,8 @@ jobs:
 
       - name: Download Artifacts
         uses: actions/download-artifact@v2
+        with:
+          path: artifacts/
 
       - name: Create Release
         id: create-release
@@ -51,7 +53,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           prerelease: false
-          files: ./build/libs/playerinfo*.jar
+          files: artifacts/*
 
 #       - name: Upload Release Asset
 #         id: upload-release-asset
