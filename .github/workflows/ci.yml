@@ -36,10 +36,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          name: Release ${{ github.ref }}
           prerelease: false
-          files: artifacts/*
+          files: ./build/libs/playerinfo*.jar
 
   release:
     name: Create Github Release
