@@ -3,7 +3,7 @@
   <a href="https://playerinfo-frontend.vercel.app" target="_blank"><img src="img/playerinfo_icon.png" width=256/></a>
 </p>
 
-[![Build Status](https://travis-ci.org/PepperLola/playerinfo.svg?branch=master)](https://travis-ci.org/PepperLola/playerinfo)
+[![Build Status](https://github.com/PepperLola/playerinfo/actions/workflows/ci.yml/badge.svg)](https://github.com/PepperLola/playerinfo/actions/workflows/ci.yml)
 [![GitHub issues](https://img.shields.io/github/issues/PepperLola/playerinfo)](https://github.com/PepperLola/playerinfo/issues)
 [![GitHub stars](https://img.shields.io/github/stars/PepperLola/playerinfo)](https://github.com/PepperLola/playerinfo/stargazers)
 [![GitHub All Releases](https://img.shields.io/github/downloads/PepperLola/playerinfo/total)](https://github.com/PepperLola/playerinfo/releases/latest)
