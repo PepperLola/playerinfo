@@ -17,7 +17,7 @@ jobs:
       - name: Get Mod Version
         id: get_version
         run: |
-          echo "::set-env name=MOD_VERSION::$(sed -e 's/"//g' <<< cat build.gradle | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')"
+          echo "MOD_VERSION=v$(sed -e 's/"//g' <<< cat build.gradle | grep 'version = ' | cut -d'=' -f2 | awk '{$1=$1};1')" >> $GITHUB_ENV
 
       - name: Set Up Java
         uses: actions/setup-java@v1
