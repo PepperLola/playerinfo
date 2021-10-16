@@ -100,7 +100,7 @@ public class MainGui extends CustomGuiScreenScrollable {
         for (int i = 0; i < filteredModules.size(); i++) {
             Module module = filteredModules.get(i);
             int xPosition = guiX + leftOffset + hPadding + (columnWidth * (i % columns));
-            int yPosition = guiY + headerHeight + (i - (i % columns)) * rowHeight + 4;
+            int yPosition = guiY + headerHeight + (i - (i / columns)) * rowHeight + 4;
             GuiModuleEntry entry = new GuiModuleEntry(this, i, module, xPosition, yPosition, columnWidth, rowHeight);
             entry.init();
             modules.add(entry);
