@@ -30,7 +30,7 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
         this.drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         for (GuiCustomWidget guiElement : guiElements) {
-            if (NumberUtil.isBetween(guiElement.yPosition, (height - ySize) / 2 + headerHeight, (height + ySize) / 2 - footerHeight)) {
+            if (NumberUtil.isBetween(guiElement.yPosition, (height - ySize) / 2 + headerHeight, (height + ySize) / 2 - footerHeight - guiElement.height)) {
                 guiElement.drawWidget(mc, mouseX, mouseY);
             }
             guiElement.yPosition += getScrollAmount();

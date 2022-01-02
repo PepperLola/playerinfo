@@ -32,7 +32,7 @@ public class MainGui extends CustomGuiScreenScrollable {
     private final int hPadding = 4;
     private final int columns = 2;
     private int columnWidth;
-    private final int rowHeight = 104;
+    private final int ROW_HEIGHT = 52;
 
     private int buttonX;
     private int buttonY;
@@ -44,7 +44,7 @@ public class MainGui extends CustomGuiScreenScrollable {
 
     private GuiTextField filterTextInput;
 
-    List<GuiModuleEntry> modules = new ArrayList<>();
+    private List<GuiModuleEntry> modules = new ArrayList<>();
 
     public MainGui() {
         super("screen.main");
@@ -66,7 +66,7 @@ public class MainGui extends CustomGuiScreenScrollable {
 
         this.menuBar = new GuiMenuBar(1, (width - xSize) / 2 + 67, (height - ySize) / 2 + 5, 180, 16, new CustomGuiScreen[]{new InfoGui(), new ServerSelector(), new LifxGui(), new CalculatorGui()});
 
-        this.settingsGuiButton = new GuiTexturedButton(2, (width - xSize) / 2 + 226 - 24, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
+        this.settingsGuiButton = new GuiTexturedButton(2, guiX + leftOffset + xSize - 110, (this.height + ySize) / 2 - 24, 20, 20, 0, 0);
         this.editModsButton = new GuiButton(3, guiX + leftOffset + 2, (height + ySize) / 2 - 24, 48, 20, "Edit GUI");
 
         this.buttonList.addAll(Arrays.asList(
@@ -100,8 +100,8 @@ public class MainGui extends CustomGuiScreenScrollable {
         for (int i = 0; i < filteredModules.size(); i++) {
             Module module = filteredModules.get(i);
             int xPosition = guiX + leftOffset + hPadding + (columnWidth * (i % columns));
-            int yPosition = guiY + headerHeight + (i - (i / columns)) * rowHeight + 4;
-            GuiModuleEntry entry = new GuiModuleEntry(this, i, module, xPosition, yPosition, columnWidth, rowHeight);
+            int yPosition = guiY + headerHeight + (i / columns) * ROW_HEIGHT + 4;
+            GuiModuleEntry entry = new GuiModuleEntry(this, i, module, xPosition, yPosition, columnWidth, ROW_HEIGHT);
             entry.init();
             modules.add(entry);
         }
@@ -121,8 +121,6 @@ public class MainGui extends CustomGuiScreenScrollable {
 
     @Override
     protected void actionPerformed(GuiButton b) {
-        System.out.println(b.id);
-
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         World playerWorld = player.getEntityWorld();
         BlockPos playerLocation = player.getPosition();

@@ -13,13 +13,13 @@ import java.util.List;
 
 public class GuiModuleEntry extends GuiCustomWidget {
 
-    private GuiButton toggleButton;
+    private final GuiButton toggleButton;
     private GuiTexturedButton optionsButton;
-    private Module module;
-    private CustomGuiScreen owningScreen;
+    private final Module module;
+    private final CustomGuiScreen owningScreen;
 
-    private String formattedName;
-    private String formattedDescription;
+    private final String formattedName;
+    private final String formattedDescription;
 
     private int buttonX;
     private int buttonY;
@@ -52,13 +52,15 @@ public class GuiModuleEntry extends GuiCustomWidget {
     public void drawWidget(Minecraft mc, int mouseX, int mouseY) {
         super.drawWidget(mc, mouseX, mouseY);
         this.drawGradientRect(xPosition, yPosition, xPosition + width, yPosition + height, 0x22ffffff, 0x22ffffff);
+
         PlayerInfo.instance.fontRendererObj.drawString(formattedName, xPosition + (width - PlayerInfo.instance.fontRendererObj.getWidth(formattedName)) / 2, yPosition, 0xffffffff);
-//        this.drawString(mc.fontRendererObj, formattedName, xPosition + (width - mc.fontRendererObj.getStringWidth(formattedName)) / 2, yPosition, 0xffffffff);
+
         List<String> lines = PlayerInfo.instance.fontRendererObj.splitString(formattedDescription, width);
         PlayerInfo.instance.fontRendererObj.drawSplitString(lines, xPosition, yPosition + PlayerInfo.instance.fontRendererObj.FONT_HEIGHT, 0xffffff);
-//        owningScreen.drawTextMultiLine(formattedDescription, xPosition, yPosition + mc.fontRendererObj.FONT_HEIGHT + 4, 0xffffffff, width, true);
+
         buttonX = xPosition;
         buttonY = yPosition + 32;
+
         this.toggleButton.yPosition = this.yPosition + 32;
         this.toggleButton.drawWidget(mc, mouseX, mouseY);
 

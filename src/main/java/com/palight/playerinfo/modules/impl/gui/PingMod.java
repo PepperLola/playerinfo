@@ -3,16 +3,16 @@ package com.palight.playerinfo.modules.impl.gui;
 import com.palight.playerinfo.gui.ingame.widgets.impl.PingWidget;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.network.NetHandlerPlayClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.util.Session;
+import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.server.S37PacketStatistics;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class PingMod extends Module {
     public long currentPing = -1;
-    private int counter = 0;
-    private int updateTimeout = 100; // in ticks
+
+    private long lastPing = -1L;
 
     public PingMod() {
         super("ping", ModuleType.GUI, null, new PingWidget());
@@ -20,26 +20,29 @@ public class PingMod extends Module {
 
     @SubscribeEvent
     public void onTick(TickEvent.PlayerTickEvent event) {
-        if (counter == updateTimeout) {
-            updatePing();
-            counter %= updateTimeout;
+        // 5 seconds
+        if (System.nanoTime() - Math.abs(lastPing) > 1000000L * 5000) {
+            sendPacket();
         }
-
-        counter ++;
     }
 
-    public void updatePing() {
-        // TODO separate into multiple lines and add null checks
-        NetHandlerPlayClient netHandlerPlayClient = Minecraft.getMinecraft().getNetHandler();
-        if (netHandlerPlayClient == null) return;
+    private void sendPacket() {
+        Minecraft.getMinecraft().thePlayer.sendQueue.getNetworkManager().sendPacket(new C16PacketClientStatus(C16PacketClientStatus.EnumState.REQUEST_STATS));
+        lastPing = System.nanoTime();
+    }
 
-        Session session = Minecraft.getMinecraft().getSession();
-        if (session == null || session.getProfile() == null || session.getProfile().getId() == null) return;
+    @SubscribeEvent
+    public void onPlayerJoin(EntityJoinWorldEvent event) {
+        if (event.entity.getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+            this.lastPing = -1L;
+        }
+    }
 
-        NetworkPlayerInfo networkPlayerInfo = netHandlerPlayClient.getPlayerInfo(session.getProfile().getId());
-
-        if (networkPlayerInfo != null) {
-            currentPing = networkPlayerInfo.getResponseTime();
+    public void onEntityStatisticsPacket (S37PacketStatistics packet) {
+        if (lastPing > 0) {
+            long diff = (Math.abs(System.nanoTime() - lastPing) / 1000000);
+            this.lastPing *= -1;
+            this.currentPing = diff;
         }
     }
 }

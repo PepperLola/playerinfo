@@ -64,6 +64,7 @@ module.timeChanger.name=Cambiador de Tiempo
 module.toggleSprint.name=Alternar Sprint
 module.noteBlockHelper.name=Aydante de Bloque de Notas
 module.entityRenderTweaks.name=Ajustes de Visualización de Entidades
+module.combo.name=Combo
 
 module.armor.description=Muestra qué tipo de armadura estás usando, así como su durabilidad.
 module.resources.description=Muestra un recuento de recursos para bedwars.
@@ -97,5 +98,6 @@ module.timeChanger.description=Te permite cambiar el tiempo de juego por ti.
 module.toggleSprint.description=Alternar sprint y sneak.
 module.noteBlockHelper.description=Muestra la afinación de bloques de notas.
 module.entityRenderTweaks.description=Algunos ajustes útiles/cosméticos para renderizar entidades.
+module.combo.description=Muestra su combo actual.
 
 upload.success=Subir con éxito

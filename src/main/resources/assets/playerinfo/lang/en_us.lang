@@ -64,6 +64,7 @@ module.timeChanger.name=Time Changer
 module.toggleSprint.name=Toggle Sprint
 module.noteBlockHelper.name=Note Block Helper
 module.entityRenderTweaks.name=Entity Render Tweaks
+module.combo.name=Combo
 
 module.armor.description=Shows which type of armor you're wearing, as well as its durability.
 module.resources.description=Shows a resources count for bedwars.
@@ -97,5 +98,6 @@ module.timeChanger.description=Lets you change the in game time for you.
 module.toggleSprint.description=Toggle sprint and sneak.
 module.noteBlockHelper.description=Shows the tuning of note blocks.
 module.entityRenderTweaks.description=Some useful/cosmetic tweaks for rendering entities.
+module.combo.description=Shows your current combo in PvP.
 
 upload.success=Upload successful

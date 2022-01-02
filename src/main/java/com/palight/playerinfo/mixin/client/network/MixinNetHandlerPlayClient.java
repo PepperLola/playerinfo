@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.client.network;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.gui.PingMod;
 import com.palight.playerinfo.modules.impl.misc.ComboMod;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
 import net.minecraft.client.Minecraft;
@@ -8,6 +9,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S19PacketEntityStatus;
+import net.minecraft.network.play.server.S37PacketStatistics;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,6 +28,11 @@ public class MixinNetHandlerPlayClient {
     @Inject(method = "handleEntityStatus", at = @At("HEAD"))
     public void handleEntityStatus(S19PacketEntityStatus packet, CallbackInfo ci) {
         ((ComboMod) PlayerInfo.getModules().get("combo")).onEntityStatusPacket(packet);
+    }
+
+    @Inject(method = "handleStatistics", at = @At("HEAD"))
+    public void handleStatistics(S37PacketStatistics packet, CallbackInfo ci) {
+        ((PingMod) PlayerInfo.getModules().get("ping")).onEntityStatisticsPacket(packet);
     }
 
     /**
