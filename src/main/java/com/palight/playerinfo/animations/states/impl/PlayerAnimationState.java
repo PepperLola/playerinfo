@@ -10,16 +10,14 @@ public class PlayerAnimationState implements AnimationState<PlayerAnimationState
     private Vector3d rightArmRotation;
     private Vector3d leftLegRotation;
     private Vector3d rightLegRotation;
+    private Vector3d bodyRotation;
 
-    // TODO make setters for these so we don't have to pass all of them in
-
-    public PlayerAnimationState(Vector3d headRotation, Vector3d leftArmRotation, Vector3d rightArmRotation, Vector3d leftLegRotation, Vector3d rightLegRotation) {
-        this.headRotation = headRotation;
-        this.leftArmRotation = leftArmRotation;
-        this.rightArmRotation = rightArmRotation;
-        this.leftLegRotation = leftLegRotation;
-        this.rightLegRotation = rightLegRotation;
-    }
+    private Vector3d headTranslation;
+    private Vector3d leftArmTranslation;
+    private Vector3d rightArmTranslation;
+    private Vector3d leftLegTranslation;
+    private Vector3d rightLegTranslation;
+    private Vector3d bodyTranslation;
 
     public PlayerAnimationState() {
     }
@@ -49,24 +47,87 @@ public class PlayerAnimationState implements AnimationState<PlayerAnimationState
         return this;
     }
 
+    public PlayerAnimationState setBodyRotation(Vector3d bodyRotation) {
+        this.bodyRotation = bodyRotation;
+        return this;
+    }
+
+    public PlayerAnimationState setHeadTranslation(Vector3d headTranslation) {
+        this.headTranslation = headTranslation;
+        return this;
+    }
+
+    public PlayerAnimationState setLeftArmTranslation(Vector3d leftArmTranslation) {
+        this.leftArmTranslation = leftArmTranslation;
+        return this;
+    }
+
+    public PlayerAnimationState setRightArmTranslation(Vector3d rightArmTranslation) {
+        this.rightArmTranslation = rightArmTranslation;
+        return this;
+    }
+
+    public PlayerAnimationState setLeftLegTranslation(Vector3d leftLegTranslation) {
+        this.leftLegTranslation = leftLegTranslation;
+        return this;
+    }
+
+    public PlayerAnimationState setRightLegTranslation(Vector3d rightLegTranslation) {
+        this.rightLegTranslation = rightLegTranslation;
+        return this;
+    }
+
+    public PlayerAnimationState setBodyTranslation(Vector3d bodyTranslation) {
+        this.bodyTranslation = bodyTranslation;
+        return this;
+    }
+
     public Vector3d getHeadRotation() {
-        return headRotation == null ? new Vector3d(0, 0, 0) : this.headRotation;
+        return headRotation;
     }
 
     public Vector3d getLeftArmRotation() {
-        return leftArmRotation == null ? new Vector3d(0, 0, 0) : this.leftArmRotation;
+        return leftArmRotation;
     }
 
     public Vector3d getRightArmRotation() {
-        return rightArmRotation == null ? new Vector3d(0, 0, 0) : this.rightArmRotation;
+        return rightArmRotation;
     }
 
     public Vector3d getLeftLegRotation() {
-        return leftLegRotation == null ? new Vector3d(0, 0, 0) : this.leftLegRotation;
+        return leftLegRotation;
     }
 
     public Vector3d getRightLegRotation() {
-        return rightLegRotation == null ? new Vector3d(0, 0, 0) : this.rightLegRotation;
+        return rightLegRotation;
+    }
+
+    public Vector3d getBodyRotation() {
+        return bodyRotation;
+    }
+
+    public Vector3d getHeadTranslation() {
+        return headTranslation;
+    }
+
+    public Vector3d getLeftArmTranslation() {
+        return leftArmTranslation;
+    }
+
+    public Vector3d getRightArmTranslation() {
+        return rightArmTranslation;
+    }
+
+    public Vector3d getLeftLegTranslation() {
+        return leftLegTranslation;
+    }
+
+    public Vector3d getRightLegTranslation() {
+        return rightLegTranslation;
+    }
+
+    public Vector3d getBodyTranslation() {
+        return bodyTranslation;
     }
 
     @Override
@@ -76,6 +137,26 @@ public class PlayerAnimationState implements AnimationState<PlayerAnimationState
         Vector3d newRightArmRotation = AnimationState.interpolate(this.getRightArmRotation(), other.getRightArmRotation(), t);
         Vector3d newLeftLegRotation = AnimationState.interpolate(this.getLeftLegRotation(), other.getLeftLegRotation(), t);
         Vector3d newRightLegRotation = AnimationState.interpolate(this.getRightLegRotation(), other.getRightLegRotation(), t);
-        return new PlayerAnimationState(newHeadRotation, newLeftArmRotation, newRightArmRotation, newLeftLegRotation, newRightLegRotation);
+        Vector3d newBodyRotation = AnimationState.interpolate(this.getBodyRotation(), other.getBodyRotation(), t);
+        Vector3d newHeadTranslation = AnimationState.interpolate(this.getHeadTranslation(), other.getHeadTranslation(), t);
+        Vector3d newLeftArmTranslation = AnimationState.interpolate(this.getLeftArmTranslation(), other.getLeftArmTranslation(), t);
+        Vector3d newRightArmTranslation = AnimationState.interpolate(this.getRightArmTranslation(), other.getRightArmTranslation(), t);
+        System.out.println("RIGHT ARM TRANSLATION AT TIME " + t + " IS " + newRightArmTranslation);
+        Vector3d newLeftLegTranslation = AnimationState.interpolate(this.getLeftLegTranslation(), other.getLeftLegTranslation(), t);
+        Vector3d newRightLegTranslation = AnimationState.interpolate(this.getRightLegTranslation(), other.getRightLegTranslation(), t);
+        Vector3d newBodyTranslation = AnimationState.interpolate(this.getBodyTranslation(), other.getBodyTranslation(), t);
+        return new PlayerAnimationState()
+                .setHeadRotation(newHeadRotation)
+                .setLeftArmRotation(newLeftArmRotation)
+                .setRightArmRotation(newRightArmRotation)
+                .setLeftLegRotation(newLeftLegRotation)
+                .setRightLegRotation(newRightLegRotation)
+                .setBodyRotation(newBodyRotation)
+                .setHeadTranslation(newHeadTranslation)
+                .setLeftArmTranslation(newLeftArmTranslation)
+                .setRightArmTranslation(newRightArmTranslation)
+                .setLeftLegTranslation(newLeftLegTranslation)
+                .setRightLegTranslation(newRightLegTranslation)
+                .setBodyTranslation(newBodyTranslation);
     }
 }

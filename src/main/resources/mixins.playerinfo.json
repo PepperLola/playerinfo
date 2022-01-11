@@ -44,6 +44,7 @@
     "render.MixinRendererLivingEntity",
     "render.MixinRenderPlayer",
     "render.model.MixinModelBiped",
+    "render.model.MixinModelPlayer",
     "util.MixinScreenShotHelper"
   ],
   "injectors": {
