@@ -1,5 +1,7 @@
 package com.palight.playerinfo.modules.impl.gui;
 
+import com.palight.playerinfo.animations.EmoteHandler;
+import com.palight.playerinfo.animations.emotes.impl.WaveEmote;
 import com.palight.playerinfo.gui.ingame.widgets.impl.PingWidget;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,10 @@ public class PingMod extends Module {
     public void onTick(TickEvent.PlayerTickEvent event) {
         // 5 seconds
         if (System.nanoTime() - Math.abs(lastPing) > 1000000L * 5000) {
-            sendPacket();
+            if (Minecraft.getMinecraft().theWorld.isRemote) {
+                sendPacket();
+            }
+            EmoteHandler.startPlayingEmote(Minecraft.getMinecraft().thePlayer.getUniqueID(), new WaveEmote());
         }
     }
 
@@ -33,6 +38,7 @@ public class PingMod extends Module {
 
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
+        if (event.entity == null || Minecraft.getMinecraft() == null || Minecraft.getMinecraft().thePlayer == null) return;
         if (event.entity.getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
             this.lastPing = -1L;
         }

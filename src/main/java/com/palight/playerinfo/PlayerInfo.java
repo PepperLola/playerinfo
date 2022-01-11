@@ -36,7 +36,7 @@ public class PlayerInfo
     //TODO update version here and in build.gradle
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
-    public static final String VERSION = "1.17.16";
+    public static final String VERSION = "1.17.17";
     public static String commitHash;
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
@@ -186,7 +186,6 @@ public class PlayerInfo
         Thread thread = new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("SENDING ONLINE!");
                     ApiUtil.sendOnline();
                     ApiUtil.testToken();
                     Thread.sleep(30000); // keepalive every 30s

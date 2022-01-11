@@ -37,7 +37,7 @@ sourceSets {
     main.resources.srcDirs += '../shared/main/resources'
 }
 
-version = "1.17.16"
+version = "1.17.17"
 group= "com.palight.playerinfo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "playerinfo"
 
