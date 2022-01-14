@@ -1,6 +1,7 @@
 package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.modules.impl.misc.FullBrightMod;
 import com.palight.playerinfo.modules.impl.misc.PerspectiveMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -42,6 +43,10 @@ public class MixinEntityRenderer {
     @Shadow private ShaderGroup theShaderGroup;
     @Shadow private boolean useShader;
     @Shadow private long renderEndNanoTime;
+
+    private boolean createdLightmap = false;
+
+    private FullBrightMod fullbrightMod;
 
     /**
      * @author palight
@@ -197,5 +202,20 @@ public class MixinEntityRenderer {
             if (perspectiveMod.getCameraPitch() < -90) perspectiveMod.setCameraPitch(-90);
             mc.renderGlobal.setDisplayListEntitiesDirty();
         }
+    }
+
+    @Inject(method = "updateLightmap", at = @At("HEAD"), cancellable = true)
+    private void patcher$cancelLightmapBuild(CallbackInfo ci) {
+        if (this.fullbrightMod == null) {
+            this.fullbrightMod = (FullBrightMod) PlayerInfo.getModules().get("fullBright");
+        }
+        if (fullbrightMod.isEnabled() && this.createdLightmap) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "updateLightmap", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endSection()V"))
+    private void updateLightmap(CallbackInfo ci) {
+        this.createdLightmap = true;
     }
 }

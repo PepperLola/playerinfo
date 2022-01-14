@@ -3,7 +3,9 @@ package com.palight.playerinfo.mixin.client.gui;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.widgets.GuiCustomWidget;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
+import com.palight.playerinfo.modules.impl.gui.PingMod;
 import com.palight.playerinfo.rendering.cosmetics.CapeHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -25,6 +27,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Iterator;
 import java.util.List;
@@ -40,36 +45,52 @@ public class MixinGuiPlayerTabOverlay extends Gui {
     @Shadow private boolean isBeingRendered;
     @Shadow @Final private static Ordering<NetworkPlayerInfo> field_175252_a;
 
+    private DisplayTweaksMod displayTweaksMod;
+    private PingMod pingMod;
+
     /**
      * @reason Add ability to render ping as text instead of bars
      * @author palight
      */
-    @Overwrite
-    protected void drawPing(int p_drawPing_1_, int p_drawPing_2_, int p_drawPing_3_, NetworkPlayerInfo info) {
-        if (((DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks")).renderPingAsText) {
-            String ping = String.valueOf(info.getResponseTime());
-            this.mc.fontRendererObj.drawString(ping, p_drawPing_2_ + p_drawPing_1_ - this.mc.fontRendererObj.getStringWidth(ping), p_drawPing_3_, 0xffffffff);
-        } else {
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(icons);
-            byte offset;
-            if (info.getResponseTime() < 0) {
-                offset = 5;
-            } else if (info.getResponseTime() < 150) {
-                offset = 0;
-            } else if (info.getResponseTime() < 300) {
-                offset = 1;
-            } else if (info.getResponseTime() < 600) {
-                offset = 2;
-            } else if (info.getResponseTime() < 1000) {
-                offset = 3;
+    @Inject(method = "drawPing", at = @At("HEAD"), cancellable = true)
+    protected void drawPing(int offset, int xPosition, int yPosition, NetworkPlayerInfo info, CallbackInfo ci) {
+        if (this.displayTweaksMod == null) {
+            this.displayTweaksMod = (DisplayTweaksMod) PlayerInfo.getModules().get("displayTweaks");
+        }
+        if (this.displayTweaksMod.renderPingAsText) {
+            long ping = info.getResponseTime();
+            if (ping <= 0) {
+                if (this.pingMod == null) {
+                    this.pingMod = ((PingMod) PlayerInfo.getModules().get("ping"));
+                }
+                ping = this.pingMod.currentPing;
+            }
+            int x = xPosition + offset - (this.mc.fontRendererObj.getStringWidth(String.valueOf(ping)) >> 1) - 2; // width >> 1 halves it and floors
+            int y = yPosition + 2;
+
+            int color;
+            if (ping > 500) {
+                color = 11141120;
+            } else if (ping > 300) {
+                color = 11184640;
+            } else if (ping > 200) {
+                color = 11193344;
+            } else if (ping > 135) {
+                color = 2128640;
+            } else if (ping > 70) {
+                color = 39168;
+            } else if (ping >= 0) {
+                color = 47872;
             } else {
-                offset = 4;
+                color = 11141120;
             }
 
-            this.zLevel += 100.0F;
-            this.drawTexturedModalRect(p_drawPing_2_ + p_drawPing_1_ - 11, p_drawPing_3_, 0, 176 + offset * 8, 10, 8);
-            this.zLevel -= 100.0F;
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(0.5f, 0.5f, 0.5f);
+            this.mc.fontRendererObj.drawStringWithShadow("    " + (ping <= 0 ? "?" : ping), 2 * x - 10, 2 * y, color);
+            GlStateManager.scale(2.0f, 2.0f, 2.0f);
+            GlStateManager.popMatrix();
+            ci.cancel();
         }
     }
 
@@ -200,18 +221,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
                     }
                     if (xOffset > 0) {
                         mc.getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, "icons/icon-32x.png"));
-                        Gui.drawScaledCustomSizeModalRect(
-                                xPosition,
-                                yPosition,
-                                0,
-                                0,
-                                32,
-                                32,
-                                8,
-                                8,
-                                32,
-                                32
-                        );
+                        GuiCustomWidget.drawScaledCustomSizeModalRect(xPosition, yPosition, 0, 0, 32, 32, 8, 8, 32, 32);
                     }
                     this.mc.fontRendererObj.drawStringWithShadow(playerName, (float)xPosition + xOffset, (float)yPosition, -1);
                 }
@@ -224,7 +234,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
                     }
                 }
 
-                this.drawPing(lvt_13_1_, xPosition - (encrypted ? 9 : 0), yPosition, networkPlayerInfo);
+                ((IMixinGuiPlayerTabOverlay) this).callDrawPing(lvt_13_1_, xPosition - (encrypted ? 9 : 0), yPosition, networkPlayerInfo);
             }
         }
 

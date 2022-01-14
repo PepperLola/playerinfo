@@ -1,7 +1,5 @@
 package com.palight.playerinfo.modules.impl.gui;
 
-import com.palight.playerinfo.animations.EmoteHandler;
-import com.palight.playerinfo.animations.emotes.impl.WaveEmote;
 import com.palight.playerinfo.gui.ingame.widgets.impl.PingWidget;
 import com.palight.playerinfo.modules.Module;
 import net.minecraft.client.Minecraft;
@@ -27,7 +25,6 @@ public class PingMod extends Module {
             if (Minecraft.getMinecraft().theWorld.isRemote) {
                 sendPacket();
             }
-            EmoteHandler.startPlayingEmote(Minecraft.getMinecraft().thePlayer.getUniqueID(), new WaveEmote());
         }
     }
 

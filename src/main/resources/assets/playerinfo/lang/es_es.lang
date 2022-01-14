@@ -31,6 +31,7 @@ screen.stats=Estadísticos
 screen.playerHider=Ocultador de Jugadores
 screen.entityRenderTweaks=Ajustes de Visualización de Entidades
 screen.linkDiscord=Conectar Discord
+screen.itemPhysics=Física de los Items
 
 module.armor.name=Armadura
 module.resources.name=Recursos de BedWars
@@ -65,6 +66,7 @@ module.toggleSprint.name=Alternar Sprint
 module.noteBlockHelper.name=Aydante de Bloque de Notas
 module.entityRenderTweaks.name=Ajustes de Visualización de Entidades
 module.combo.name=Combo
+module.itemPhysics.name=Física de los Items
 
 module.armor.description=Muestra qué tipo de armadura estás usando, así como su durabilidad.
 module.resources.description=Muestra un recuento de recursos para bedwars.
@@ -99,5 +101,6 @@ module.toggleSprint.description=Alternar sprint y sneak.
 module.noteBlockHelper.description=Muestra la afinación de bloques de notas.
 module.entityRenderTweaks.description=Algunos ajustes útiles/cosméticos para renderizar entidades.
 module.combo.description=Muestra su combo actual.
+module.itemPhysics.description=Agrega física a los Items
 
 upload.success=Subir con éxito

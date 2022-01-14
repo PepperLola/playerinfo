@@ -10,4 +10,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface IMixinGuiPlayerTabOverlay {
     @Invoker
     void callDrawScoreboardValues(ScoreObjective p_drawScoreboardValues_1_, int p_drawScoreboardValues_2_, String p_drawScoreboardValues_3_, int p_drawScoreboardValues_4_, int p_drawScoreboardValues_5_, NetworkPlayerInfo p_drawScoreboardValues_6_);
+    @Invoker
+    void callDrawPing(int p_drawPing_1_, int p_drawPing_2_, int p_drawPing_3_, NetworkPlayerInfo p_drawPing_4_);
 }

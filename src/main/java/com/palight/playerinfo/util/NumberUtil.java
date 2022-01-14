@@ -78,4 +78,12 @@ public class NumberUtil {
     public static int clamp(int n, int low, int high) {
         return n < low ? low : Math.min(n, high);
     }
+
+    public static double degreesToRadians(double degrees) {
+        return degrees * (2 * Math.PI / 360D);
+    }
+
+    public static double radiansToDegrees(double radians) {
+        return radians * (360 / (2 * Math.PI));
+    }
 }
