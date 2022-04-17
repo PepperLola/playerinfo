@@ -112,6 +112,8 @@ public class GuiWidgetOptions extends GuiCustomWidget {
     public void mouseClicked(int mouseX, int mouseY) {
         super.mouseClicked(mouseX, mouseY);
 
+        if (!this.isShouldShow()) return;
+
         if (NumberUtil.pointIsBetween(
                 mouseX,
                 mouseY,

@@ -1,6 +1,7 @@
 package com.palight.playerinfo.gui.ingame.widgets;
 
 import com.palight.playerinfo.PlayerInfo;
+import com.palight.playerinfo.gui.screens.impl.options.modules.WidgetSnapLine;
 import com.palight.playerinfo.modules.Module;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
@@ -15,6 +16,8 @@ public class GuiIngameWidget extends Gui {
     public int height;
     public boolean movable = true;
 
+    private boolean selected = false;
+
     private WidgetEditingState state;
 
     public GuiIngameWidget(int xPosition, int yPosition, int width, int height) {
@@ -25,10 +28,47 @@ public class GuiIngameWidget extends Gui {
     }
 
     public void render(Minecraft mc) {
+        if (this.isSelected()) {
+            this.drawHorizontalLine(this.getPosition().getX() - 1, this.getPosition().getX() + this.width + 1, this.getPosition().getY(), ColorUtil.getColorInt(255, 0, 0));
+            this.drawHorizontalLine(this.getPosition().getX() - 1, this.getPosition().getX() + this.width + 1, this.getPosition().getY() + this.height, ColorUtil.getColorInt(255, 0, 0));
+            this.drawVerticalLine(this.getPosition().getX() - 1, this.getPosition().getY(), this.getPosition().getY() + this.height, ColorUtil.getColorInt(255, 0, 0));
+            this.drawVerticalLine(this.getPosition().getX() + this.width + 1, this.getPosition().getY(), this.getPosition().getY() + this.height, ColorUtil.getColorInt(255, 0, 0));
+        }
         if (getModule().shouldRenderBackground()) {
             this.drawGradientRect(position.getX(), position.getY(), position.getX() + width, position.getY() + height, 0x55000000, 0x55000000);
-            GlStateManager.resetColor();
         }
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    public boolean shouldSnap(WidgetSnapLine.Axis axis, double x1, double y1, double x2, double y2, double threshold) {
+        if (axis == WidgetSnapLine.Axis.VERTICAL) {
+            // x axis because vertical line has horizontal position
+            return Math.abs(x1 - x2) <= threshold;
+        } else {
+            // y axis because horizontal line has vertical position
+            return Math.abs(y1 - y2) <= threshold;
+        }
+    }
+
+    public boolean shouldSnapTop(WidgetSnapLine line, double x, double y) {
+        return shouldSnap(line.getAxis(), line.getPosSupplier().getAsInt(), line.getPosSupplier().getAsInt(), x, y, WidgetSnapLine.SnapStrength.WEAK.getThreshold());
+    }
+
+    public boolean shouldSnapTop(GuiIngameWidget other, WidgetSnapLine.Axis axis, double x, double y) {
+        return shouldSnap(axis, other.getPosition().getX(), other.getPosition().getY(), x, y, WidgetSnapLine.SnapStrength.WEAK.getThreshold());
+    }
+
+    public boolean shouldSnapBottom(WidgetSnapLine line, double x, double y) {
+        return shouldSnap(line.getAxis(), line.getPosSupplier().getAsInt(), line.getPosSupplier().getAsInt(), x + this.width, y + this.height, WidgetSnapLine.SnapStrength.WEAK.getThreshold());
+    }
+
+    public boolean shouldSnapBottom(GuiIngameWidget other, WidgetSnapLine.Axis axis, double x, double y) {
+        return shouldSnap(axis, other.getPosition().getX() + other.width, other.getPosition().getY() + other.height, x, y, WidgetSnapLine.SnapStrength.WEAK.getThreshold());
+    }
+
+    // no method for middle snap with another widget because it doesn't seem like a necessary feature
+    public boolean shouldSnapMiddle(WidgetSnapLine line, double x, double y) {
+        return shouldSnap(line.getAxis(), line.getPosSupplier().getAsInt(), line.getPosSupplier().getAsInt(), x + this.width / 2.0, y + this.height / 2.0, line.getThresholdSupplier().getAsInt());
     }
 
     public void startEditing() {
@@ -121,6 +161,14 @@ public class GuiIngameWidget extends Gui {
 
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 
     protected enum WidgetEditingState {

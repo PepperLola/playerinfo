@@ -39,6 +39,11 @@ public class WidgetState {
         this.widget = widget;
     }
 
+    public void set(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public int getX() {
         return (int) x;
     }

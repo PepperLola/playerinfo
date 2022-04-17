@@ -48,7 +48,6 @@ public abstract class MixinGuiScreen {
             Pattern enchantmentPattern = Pattern.compile("enchantment.level.(\\d+)");
             Matcher matcher = enchantmentPattern.matcher(current);
             if (matcher.find()) {
-                System.out.println("TOOLTIP TEXT: " + current + " | GROUP 0: " + matcher.group(0) + " | GROUP 1: " + matcher.group(1));
                 int level = Integer.parseInt(matcher.group(1));
                 current = current.replaceAll("enchantment.level.(\\d+)", NumberUtil.integerToRoman(level));
             }

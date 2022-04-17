@@ -10,6 +10,7 @@ import com.palight.playerinfo.modules.impl.gui.ScoreboardMod;
 import com.palight.playerinfo.util.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class WidgetEditorGui extends CustomGuiScreen {
 
     private double moduleXDiff; // x difference between widget and mouse
     private double moduleYDiff; // y difference between widget and mouse
+
+    private List<WidgetSnapLine> snapLines = null;
+    private List<WidgetSnapLine> linesToDraw = new ArrayList<>();
 
     public WidgetEditorGui() {
         super("screen.widgetEditor");
@@ -75,7 +79,11 @@ public class WidgetEditorGui extends CustomGuiScreen {
         if (editingWidget == null) return;
         if (!editingWidget.movable) return;
 
+        editingWidget.setSelected(true);
+
         if (btn == 0) {
+
+            this.snapLines = WidgetSnapLine.getLines(new ScaledResolution(Minecraft.getMinecraft()));
 
             int widgetX = editingWidget.getPosition().getX();
             int widgetY = editingWidget.getPosition().getY();
@@ -98,10 +106,102 @@ public class WidgetEditorGui extends CustomGuiScreen {
     protected void mouseClickMove(int mouseX, int mouseY, int btn, long p_mouseClickMove_4_) {
         if (editingWidget == null) return;
         if (!editingWidget.movable) return;
-        ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
         if (btn == 0) {
             double posX = mouseX + moduleXDiff;
             double posY = mouseY + moduleYDiff;
+
+            double newX = -1.0;
+            double newY = -1.0;
+
+            for (GuiIngameWidget widget : this.widgets) {
+                if (newX != -1 && newY != -1) break;
+                boolean shouldSnapTop = editingWidget.shouldSnapTop(widget, WidgetSnapLine.Axis.HORIZONTAL, mouseX + moduleXDiff, mouseY + moduleYDiff + editingWidget.height);
+                boolean shouldSnapBottom = editingWidget.shouldSnapBottom(widget, WidgetSnapLine.Axis.HORIZONTAL, mouseX + moduleXDiff, mouseY + moduleYDiff);
+                boolean shouldSnapLeft = editingWidget.shouldSnapTop(widget, WidgetSnapLine.Axis.VERTICAL, mouseX + moduleXDiff + editingWidget.width, mouseY + moduleYDiff);
+                boolean shouldSnapRight = editingWidget.shouldSnapBottom(widget, WidgetSnapLine.Axis.VERTICAL, mouseX + moduleXDiff, mouseY + moduleYDiff);
+
+//                boolean betweenVertically = Math.abs(editingWidget.getPosition().getY() - widget.getPosition().getY()) < widget.height;
+
+                if (Math.abs(editingWidget.getPosition().getY() - widget.getPosition().getY()) < widget.height + editingWidget.height) {
+                    if (shouldSnapLeft && mouseX + moduleXDiff + editingWidget.width < widget.getPosition().getX()) {
+                        if (newX == -1) {
+                            newX = widget.getPosition().getX() - editingWidget.width;
+                        }
+                    }
+
+                    if (shouldSnapRight && mouseX + moduleXDiff >= widget.getPosition().getX() + widget.width) {
+                        if (newX == -1) {
+                            newX = widget.getPosition().getX() + widget.width;
+                        }
+                    }
+                }
+
+                if (Math.abs(editingWidget.getPosition().getX() - widget.getPosition().getX()) < widget.width + editingWidget.width) {
+                    if (shouldSnapTop && editingWidget.getPosition().getY() - editingWidget.height <= widget.getPosition().getY()) {
+                        if (newY == -1) {
+                            newY = widget.getPosition().getY() - editingWidget.height;
+                        }
+                    }
+                    if (shouldSnapBottom && editingWidget.getPosition().getY() >= widget.getPosition().getY() + widget.height) {
+                        if (newY == -1) {
+                            newY = widget.getPosition().getY() + widget.height;
+                        }
+                    }
+                }
+            }
+
+            for (WidgetSnapLine line : snapLines) {
+                if (newX != -1 && newY != -1) break;
+
+                boolean shouldSnapMiddle = editingWidget.shouldSnapMiddle(line, mouseX + moduleXDiff, mouseY + moduleYDiff);
+                boolean shouldSnapTop = editingWidget.shouldSnapTop(line, mouseX + moduleXDiff, mouseY + moduleYDiff);
+                boolean shouldSnapBottom = editingWidget.shouldSnapBottom(line, mouseX + moduleXDiff, mouseY + moduleYDiff);
+                if (shouldSnapMiddle || shouldSnapTop || shouldSnapBottom) {
+                    linesToDraw.add(line);
+                    if (shouldSnapMiddle) {
+                        if (line.getAxis() == WidgetSnapLine.Axis.HORIZONTAL) {
+                            if (newY == -1) {
+                                newY = line.getPos() - editingWidget.height / 2.0;
+                            }
+                        } else {
+                            if (newX == -1) {
+                                newX = line.getPos() - editingWidget.width / 2.0;
+                            }
+                        }
+                    }
+                    if (shouldSnapTop) {
+                        if (line.getAxis() == WidgetSnapLine.Axis.HORIZONTAL) {
+                            if (newY == -1) {
+                                newY = line.getPos();
+                            }
+                        } else {
+                            if (newX == -1) {
+                                newX = line.getPos();
+                            }
+                        }
+                    }
+                    if (shouldSnapBottom) {
+                        if (line.getAxis() == WidgetSnapLine.Axis.HORIZONTAL) {
+                            if (newY == -1) {
+                                newY = line.getPos() - editingWidget.height;
+                            }
+                        } else {
+                            if (newX == -1) {
+                                newX = line.getPos() - editingWidget.width;
+                            }
+                        }
+                    }
+                } else {
+                    linesToDraw.remove(line);
+                }
+            }
+
+            if (newX != -1 || newY != -1) {
+                if (newX == -1) newX = mouseX + moduleXDiff;
+                if (newY == -1) newY = mouseY + moduleYDiff;
+                editingWidget.getPosition().set(newX, newY);
+                return;
+            }
 
             if (editingWidget instanceof ScoreboardWidget) {
                 ScoreboardWidget scoreboardWidget = (ScoreboardWidget) editingWidget;
@@ -119,7 +219,10 @@ public class WidgetEditorGui extends CustomGuiScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int btn) {
+        if (editingWidget != null)
+            editingWidget.setSelected(false);
         editingWidget = null;
+        linesToDraw.clear();
         super.mouseReleased(mouseX, mouseY, btn);
     }
 
@@ -130,7 +233,6 @@ public class WidgetEditorGui extends CustomGuiScreen {
             double posY = widget.getPosition().getY_double();
 
             if (widget instanceof ScoreboardWidget) {
-                ScoreboardWidget scoreboardWidget = (ScoreboardWidget) editingWidget;
                 ScoreboardMod scoreboardMod = (ScoreboardMod) PlayerInfo.getModules().get("scoreboard");
 
                 posX += scoreboardMod.offsetX;
@@ -149,6 +251,9 @@ public class WidgetEditorGui extends CustomGuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        super.drawScreen(mouseX, mouseY, partialTicks);
 
+        ScaledResolution res = new ScaledResolution(mc);
+        this.linesToDraw.forEach(line -> this.renderLine(line, res));
+
         this.optionsMap.forEach((widget, optionWidget) -> {
             if (NumberUtil.pointIsBetween(
                     mouseX,
@@ -156,11 +261,11 @@ public class WidgetEditorGui extends CustomGuiScreen {
                     widget.getPosition().getX(),
                     optionWidget.isReversed() ?
                             widget.getPosition().getY() - 2 - optionWidget.height :
-                        widget.getPosition().getY(),
+                            widget.getPosition().getY(),
                     widget.getPosition().getX() + widget.width,
                     optionWidget.isReversed() ?
-                        widget.getPosition().getY() + widget.height :
-                        widget.getPosition().getY() + widget.height + (optionWidget.isShouldShow() ? optionWidget.height : 0))) {
+                            widget.getPosition().getY() + widget.height :
+                            widget.getPosition().getY() + widget.height + (optionWidget.isShouldShow() ? optionWidget.height : 0))) {
 
                 optionWidget.setShouldShow(true);
             } else {
@@ -171,6 +276,15 @@ public class WidgetEditorGui extends CustomGuiScreen {
                 optionWidget.drawWidget(mc, mouseX, mouseY);
             }
         });
+    }
+
+    private void renderLine(WidgetSnapLine line, ScaledResolution res) {
+        if (line.getAxis() == WidgetSnapLine.Axis.HORIZONTAL) {
+            this.drawHorizontalLine(0, res.getScaledWidth(), line.getPos(), 0xffff0000);
+        } else {
+            this.drawVerticalLine(line.getPos(), res.getScaledHeight(), 0, 0xffff0000);
+        }
+        GlStateManager.color(1, 1, 1, 1);
     }
 
     @Override

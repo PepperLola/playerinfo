@@ -37,7 +37,7 @@ public class ScoreboardWidget extends GuiIngameWidget {
         if (module == null) {
             module = ((ScoreboardMod) PlayerInfo.getModules().get("scoreboard"));
         }
-        if (module.isEnabled() && !module.scoreboardEnabled) return;
+        if (module.isEnabled() && !module.scoreboardEnabled && this.getState() != WidgetEditingState.EDITING) return;
 
         if (mc == null) {
             mc = Minecraft.getMinecraft();
@@ -88,13 +88,20 @@ public class ScoreboardWidget extends GuiIngameWidget {
 
         int xEnd = scoreboardX + this.width;
 
-        for (int i = 0; i < list.size(); i++) {
-            Score score = list.get(i);
+        for (int i = 0; i < (this.getState() == WidgetEditingState.EDITING ? 10 : list.size()); i++) {
+            String formattedPlayerName, scoreString;
 
-            ScorePlayerTeam teamScore = scoreboard.getPlayersTeam(score.getPlayerName());
+            if (this.getState() == WidgetEditingState.EDITING) {
+                formattedPlayerName = "Score " + i;
+                scoreString = !module.isEnabled() || module.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + i : "";
+            } else {
+                Score score = list.get(i);
 
-            String formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
-            String scoreString = !module.isEnabled() || module.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
+                ScorePlayerTeam teamScore = scoreboard.getPlayersTeam(score.getPlayerName());
+
+                formattedPlayerName = ScorePlayerTeam.formatPlayerName(teamScore, score.getPlayerName());
+                scoreString = !module.isEnabled() || module.scoreboardNumbersEnabled ? EnumChatFormatting.RED.toString() + score.getScorePoints() : "";
+            }
 
             int lineY = scoreboardY + ((list.size() - i) * mc.fontRendererObj.FONT_HEIGHT);
 
@@ -105,6 +112,10 @@ public class ScoreboardWidget extends GuiIngameWidget {
         }
 
         String objectiveDisplayName = objective.getDisplayName();
+
+        if (this.getState() == WidgetEditingState.EDITING) {
+            objectiveDisplayName = "Editing";
+        }
 
         drawRect(scoreboardX - 2, scoreboardY, xEnd, scoreboardY + mc.fontRendererObj.FONT_HEIGHT, module.scoreboardHeaderColor);
 
