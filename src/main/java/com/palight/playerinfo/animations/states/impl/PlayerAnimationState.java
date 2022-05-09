@@ -141,7 +141,6 @@ public class PlayerAnimationState implements AnimationState<PlayerAnimationState
         Vector3d newHeadTranslation = AnimationState.interpolate(this.getHeadTranslation(), other.getHeadTranslation(), t);
         Vector3d newLeftArmTranslation = AnimationState.interpolate(this.getLeftArmTranslation(), other.getLeftArmTranslation(), t);
         Vector3d newRightArmTranslation = AnimationState.interpolate(this.getRightArmTranslation(), other.getRightArmTranslation(), t);
-        System.out.println("RIGHT ARM TRANSLATION AT TIME " + t + " IS " + newRightArmTranslation);
         Vector3d newLeftLegTranslation = AnimationState.interpolate(this.getLeftLegTranslation(), other.getLeftLegTranslation(), t);
         Vector3d newRightLegTranslation = AnimationState.interpolate(this.getRightLegTranslation(), other.getRightLegTranslation(), t);
         Vector3d newBodyTranslation = AnimationState.interpolate(this.getBodyTranslation(), other.getBodyTranslation(), t);

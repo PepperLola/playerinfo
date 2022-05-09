@@ -8,11 +8,12 @@ import java.io.IOException;
 
 public class CustomGuiScreenScrollable extends CustomGuiScreen {
 
-    private float amountScrolled = 0;
+    private float targetY, animatedY, lastAnimatedY, calculatedY;
     private int slotHeight = 20;
 
     /**
      * Constructor for CustomGuiScreenScrollable class.
+     *
      * @param screenName Name to be displayed when in the GUI.
      */
     public CustomGuiScreenScrollable(String screenName) {
@@ -28,19 +29,28 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
+        this.updateScrollAmount();
+
+        calculatedY = lastAnimatedY + (animatedY - lastAnimatedY) * partialTicks;
         super.drawScreen(mouseX, mouseY, partialTicks);
+
         for (GuiCustomWidget guiElement : guiElements) {
-            if (NumberUtil.isBetween(guiElement.yPosition, (height - ySize) / 2 + headerHeight, (height + ySize) / 2 - footerHeight - guiElement.height)) {
+            if (NumberUtil.isBetween(guiElement.yPosition, (height - ySize) / 2.0 + headerHeight, (height + ySize) / 2.0 - footerHeight - guiElement.height)) {
                 guiElement.drawWidget(mc, mouseX, mouseY);
             }
-            guiElement.yPosition += getScrollAmount();
-        }
 
-        amountScrolled = 0;
+            guiElement.yPosition = guiElement.originalY + (int) Math.floor(calculatedY);
+        }
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
+        super.mouseClicked(mouseX, mouseY, btn);
     }
 
     /**
      * Offsets the elements on mouse scroll, creating a scrolling effect.
+     *
      * @throws IOException If there's an error getting mouse events.
      */
     @Override
@@ -48,19 +58,17 @@ public class CustomGuiScreenScrollable extends CustomGuiScreen {
         int scrollAmount = Mouse.getEventDWheel();
         if (scrollAmount != 0) {
             scrollAmount = Integer.signum(scrollAmount);
-            amountScrolled = (float)(scrollAmount * slotHeight / 2);
+            targetY += (float) (scrollAmount * slotHeight / 6.0);
         }
 
         super.handleMouseInput();
     }
 
     /**
-     * Gets the amount the elements should be offset by.
-     * @return Amount the user has scrolled.
+     * Updates the scroll amounts.
      */
-    public int getScrollAmount() {
-        return (int) Math.floor(amountScrolled) * 2; // 2x speed modifier because the scrolling was too slow before
+    public void updateScrollAmount() {
+        lastAnimatedY = animatedY;
+        animatedY += (targetY - animatedY) * 0.6F;
     }
-
-
 }
