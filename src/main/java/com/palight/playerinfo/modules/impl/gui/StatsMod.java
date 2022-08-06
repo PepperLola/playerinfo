@@ -111,14 +111,14 @@ public class StatsMod extends Module {
         Matcher matcher = whereAmIPattern.matcher(message);
         if (!matcher.matches()) return;
         String serverName = matcher.group(1);
-        System.out.println("[playerinfo] SERVER NAME: " + serverName + " | EQUALS: " + matcher.group(1).equals(serverName));
-        System.out.println("[playerinfo] CONTAINS MINI: " + serverName.contains("mini") + " | CONTAINS LOBBY: " + serverName.contains("lobby"));
+//        System.out.println("[playerinfo] SERVER NAME: " + serverName + " | EQUALS: " + matcher.group(1).equals(serverName));
+//        System.out.println("[playerinfo] CONTAINS MINI: " + serverName.contains("mini") + " | CONTAINS LOBBY: " + serverName.contains("lobby"));
         int players = Minecraft.getMinecraft().theWorld.playerEntities.size();
         int PLAYER_THRESHOLD = 24;
-        System.out.println("PLAYERS IN LOBBY: " + players + " | LESS THAN THRESHOLD: " + (players <= PLAYER_THRESHOLD));
+//        System.out.println("PLAYERS IN LOBBY: " + players + " | LESS THAN THRESHOLD: " + (players <= PLAYER_THRESHOLD));
         // server name must contain mini (for minigame server), not contain lobby, and have less than a specific amount of players
         isInGame = serverName.contains("mini") && players <= PLAYER_THRESHOLD && !serverName.contains("lobby");
-        System.out.println("SERVER NAME: " + serverName + " | IS IN GAME: " + isInGame);
+//        System.out.println("SERVER NAME: " + serverName + " | IS IN GAME: " + isInGame);
         if (isInGame) {
             Multithreading.runAsync(
                 () -> {
@@ -259,12 +259,15 @@ public class StatsMod extends Module {
                 module = (DiscordRichPresenceMod) PlayerInfo.getModules().get("discordRPC");
             }
 
+            if (!module.isEnabled()) return;
+
             if (module.hypixelApiKey == null || module.hypixelApiKey.isEmpty()) {
                 System.out.println("[playerinfo] HYPIXEL API KEY IS UNDEFINED!");
                 return;
-            } else {
-                System.out.println("[playerinfo] HYPIXEL API KEY IS DEFINED!");
             }
+
+            if (this.gameType == null) return;
+
             String requestGameType = this.gameType.getRequestName();
             // fetch player stats from playerinfo api
             String url = "https://api.jerlshoba.com/hypixel/stats/" + uuid.toString() + "/" + requestGameType + "?key=" + module.hypixelApiKey + "&get_status=true";
@@ -272,7 +275,6 @@ public class StatsMod extends Module {
                 String entity = EntityUtils.toString(response.getEntity());
 
                 int statusCode = response.getStatusLine().getStatusCode();
-                System.out.println("[playerinfo] HYPIXEL RESPONSE STATUS CODE: " + statusCode);
 
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(entity);
@@ -280,8 +282,6 @@ public class StatsMod extends Module {
 
                 // parse data if the request succeeds
                 if (statusCode >= 200 && statusCode < 300) {
-                    System.out.println("[playerinfo] HYPIXEL REQUEST IS OK");
-
                     boolean online = obj.get("online").getAsBoolean();
 
                     if (!online) {
@@ -344,7 +344,6 @@ public class StatsMod extends Module {
                     }
 
                 } else {
-                    System.out.println("[playerinfo] HYPIXEL STATUS CODE IS NOT OK");
                     // if the request fails and the player is nicked, they're a nick
                     // otherwise it's watchdog
                     if (statusCode == 404) {

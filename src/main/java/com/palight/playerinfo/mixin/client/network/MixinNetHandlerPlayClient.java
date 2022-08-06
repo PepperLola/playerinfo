@@ -3,6 +3,7 @@ package com.palight.playerinfo.mixin.client.network;
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.gui.PingMod;
 import com.palight.playerinfo.modules.impl.misc.ComboMod;
+import com.palight.playerinfo.modules.impl.misc.DuelTrackerMod;
 import com.palight.playerinfo.modules.impl.misc.TimeChangerMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -28,6 +29,7 @@ public class MixinNetHandlerPlayClient {
     @Inject(method = "handleEntityStatus", at = @At("HEAD"))
     public void handleEntityStatus(S19PacketEntityStatus packet, CallbackInfo ci) {
         ((ComboMod) PlayerInfo.getModules().get("combo")).onEntityStatusPacket(packet);
+        ((DuelTrackerMod) PlayerInfo.getModules().get("duelTracker")).onEntityStatusPacket(packet);
     }
 
     @Inject(method = "handleStatistics", at = @At("HEAD"))

@@ -31,6 +31,7 @@
     "client.resources.MixinLocale",
     "client.world.MixinChunk",
     "entity.MixinEntityFishHook",
+    "entity.MixinEntityPlayer",
     "render.IMixinItemRenderer",
     "render.IMixinRender",
     "render.IMixinRenderEntityItem",
