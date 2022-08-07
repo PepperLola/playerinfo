@@ -14,6 +14,7 @@ public class DuelTrackerWidget extends GuiIngameWidget {
     }
 
     private final List<String> lines = new ArrayList<>();
+    private final List<String> linesQueue = new ArrayList<>();
 
     @Override
     public void render(Minecraft mc) {
@@ -25,6 +26,9 @@ public class DuelTrackerWidget extends GuiIngameWidget {
             this.drawText("palight : 3.000", this.getPosition().getX(), this.getPosition().getY());
         } else if (this.getModule().isEnabled() && lines.size() > 0) {
             super.render(mc);
+
+            lines.addAll(linesQueue);
+            linesQueue.clear();
 
             while (lines.size() > 4) {
                 lines.remove(0);
@@ -45,6 +49,6 @@ public class DuelTrackerWidget extends GuiIngameWidget {
     }
 
     public void setLastHit(EntityPlayer player, double distance) {
-        lines.add(player.getName() + " : " + Math.round(distance * 1000) / 1000.0);
+        linesQueue.add(player.getName() + " : " + Math.round(distance * 1000) / 1000.0);
     }
 }
