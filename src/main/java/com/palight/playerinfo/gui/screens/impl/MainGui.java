@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.screens.impl;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.GuiHandler;
+import com.palight.playerinfo.gui.dynamic.impl.TestDynamicGuiScreen;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.gui.screens.CustomGuiScreenScrollable;
 import com.palight.playerinfo.gui.screens.impl.options.modules.misc.LifxGui;
@@ -158,7 +159,8 @@ public class MainGui extends CustomGuiScreenScrollable {
     }
 
     public static void openGui() {
-        Minecraft.getMinecraft().displayGuiScreen(new MainGui());
+//        Minecraft.getMinecraft().displayGuiScreen(new MainGui());
+        Minecraft.getMinecraft().displayGuiScreen(new TestDynamicGuiScreen());
 //        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 //        World playerWorld = player.getEntityWorld();
 //        BlockPos playerLocation = player.getPosition();
