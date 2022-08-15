@@ -47,6 +47,7 @@ public class PlayerInfo
     public static String TOKEN = "";
 
     public final UnicodeFontRenderer fontRendererObj = new UnicodeFontRenderer("robotosb", 16.0F);
+    public final UnicodeFontRenderer titleRendererObj = new UnicodeFontRenderer("robotosb", 30.0F);
 
     public static Random random = new Random();
 

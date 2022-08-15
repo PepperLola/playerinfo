@@ -15,7 +15,7 @@ public class ArmorGui extends DynamicGuiScreen {
     private ArmorMod module;
 
     public ArmorGui() {
-        super(new Vector2<>(512, 472));
+        super("screen.armor", new Vector2<>(512, 472));
     }
 
     @Override
@@ -25,8 +25,6 @@ public class ArmorGui extends DynamicGuiScreen {
         }
 
         GuiStack stack = this.createStack(4, 4, 4);
-
-        stack.addComponent(this.createLabel("Armor", 4, 4));
         stack.addComponent(this.createSpacer(0, 0, 0, 16));
 
         this.hideDurability = this.createCheckbox("Hide Durability", 4, 0, 20, 20, module.hideDurability)

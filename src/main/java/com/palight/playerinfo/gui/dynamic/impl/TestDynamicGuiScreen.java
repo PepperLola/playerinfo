@@ -7,7 +7,7 @@ import com.palight.playerinfo.util.math.Vector2;
 
 public class TestDynamicGuiScreen extends DynamicGuiScreen {
     public TestDynamicGuiScreen() {
-        super(new Vector2<>(512, 472));
+        super("screen.test", new Vector2<>(512, 472));
     }
 
     @Override
