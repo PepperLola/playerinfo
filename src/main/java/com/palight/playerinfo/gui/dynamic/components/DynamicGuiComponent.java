@@ -15,6 +15,7 @@ public abstract class DynamicGuiComponent extends Gui {
     protected Vector2<Integer> position;
     protected Vector2<Integer> size;
     protected DynamicGuiScreen screen;
+    protected UnicodeFontRenderer fontRenderer;
     private boolean isHovered = false;
     private BiConsumer<Vector2<Integer>, Integer> onClick = (pos, mouseButton) -> { }; // (position, mouseButton) -> {};
 
@@ -22,6 +23,7 @@ public abstract class DynamicGuiComponent extends Gui {
         this.screen = screen;
         this.position = position;
         this.size = size;
+        this.fontRenderer = PlayerInfo.instance.fontRendererObj;
     }
 
     public DynamicGuiComponent(DynamicGuiScreen screen, int x, int y, int width, int height) {
@@ -70,43 +72,29 @@ public abstract class DynamicGuiComponent extends Gui {
         return (T) this;
     }
 
-    protected void renderText(String text, int x, int y, int color, Baseline baseline, Alignment alignment) {
-        UnicodeFontRenderer fr = PlayerInfo.instance.fontRendererObj;
-        double textWidth = fr.getWidth(text);
-        double textHeight = fr.FONT_HEIGHT;
-        switch (baseline) {
-            case TOP:
-                break;
-            case BOTTOM:
-                y -= textHeight;
-                break;
-            case MIDDLE:
-                y -= textHeight / 2;
-                break;
-        }
-        switch (alignment) {
-            case LEFT:
-                break;
-            case RIGHT:
-                x -= textWidth;
-                break;
-            case CENTER:
-                x -= textWidth / 2;
-                break;
-        }
-        fr.drawString(text, x, y, color);
+    public <T extends DynamicGuiComponent> T setFontRenderer(UnicodeFontRenderer fontRenderer) {
+        this.fontRenderer = fontRenderer;
+        return (T) this;
+    }
+
+    public Vector2<Integer> getPosition() {
+        return position;
+    }
+
+    public Vector2<Integer> getSize() {
+        return size;
+    }
+
+    protected void renderText(String text, int x, int y, int color, UnicodeFontRenderer.Baseline baseline, UnicodeFontRenderer.Alignment alignment) {
+        this.fontRenderer.drawString(text, x, y, color, baseline, alignment);
+    }
+
+    protected void renderText(String text, int x, int y, int color) {
+        fontRenderer.drawString(text, x, y, color);
     }
 
     protected void renderCenteredString(String text, int x, int y, int color) {
-        this.renderText(text, x + this.size.x / 2, y + this.size.y / 2, color, Baseline.MIDDLE, Alignment.CENTER);
-    }
-
-    protected void renderHorizontallyCenteredString(String text, int x, int y, int color) {
-        this.renderText(text, x + this.size.x / 2, y, color, Baseline.TOP, Alignment.CENTER);
-    }
-
-    protected void renderVerticallyCenteredString(String text, int x, int y, int color) {
-        this.renderText(text, x, y + this.size.y / 2, color, Baseline.MIDDLE, Alignment.LEFT);
+        fontRenderer.drawString(text, x + (this.size.x >> 1), y + (this.size.y >> 1), color, UnicodeFontRenderer.Baseline.MIDDLE, UnicodeFontRenderer.Alignment.CENTER);
     }
 
     protected void renderBackground() {
@@ -123,13 +111,5 @@ public abstract class DynamicGuiComponent extends Gui {
 
     public void onClick(int mouseX, int mouseY, int mouseButton) {
         this.onClick.accept(new Vector2<>(mouseX, mouseY), mouseButton);
-    }
-
-    public enum Baseline {
-        TOP, MIDDLE, BOTTOM;
-    }
-
-    public enum Alignment {
-        LEFT, CENTER, RIGHT;
     }
 }

@@ -4,6 +4,7 @@ import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.gui.DisplayTweaksMod;
 import com.palight.playerinfo.util.ColorUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
@@ -82,6 +83,62 @@ public class UnicodeFontRenderer {
         return Font.createFont(Font.TRUETYPE_FONT, UnicodeFontRenderer.class.getResourceAsStream(path));
     }
 
+    public enum Baseline {
+        TOP, MIDDLE, BOTTOM;
+    }
+
+    public enum Alignment {
+        LEFT, CENTER, RIGHT;
+    }
+
+    private float transformXWithAlignment(float x, float width, Alignment alignment) {
+        switch (alignment) {
+            case CENTER:
+                return x - ((int) width >> 1);
+            case RIGHT:
+                return x - width;
+            case LEFT:
+            default:
+                return x;
+        }
+    }
+
+    private float transformYWithBaseline(float y, float height, Baseline baseline) {
+        switch (baseline) {
+            case MIDDLE:
+                return y - ((int) height >> 1);
+            case BOTTOM:
+                return y - height;
+            case TOP:
+            default:
+                return y;
+        }
+    }
+
+    private float getOffsetX(float width, Alignment alignment) {
+        switch (alignment) {
+            case CENTER:
+                return -((int) width >> 1);
+            case RIGHT:
+                return -width;
+            case LEFT:
+            default:
+                return 0;
+        }
+    }
+
+    private float getOffsetY(float height, Baseline baseline) {
+        switch (baseline) {
+            case MIDDLE:
+                return -((int) height >> 1) * 1.5f;
+            case BOTTOM:
+                return -height;
+            case TOP:
+            default:
+                return 0;
+        }
+    }
+
     public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
         GL11.glPushMatrix();
         GL11.glTranslated(givenX, givenY, 0);
@@ -91,6 +148,10 @@ public class UnicodeFontRenderer {
     }
 
     public int drawString(String text, float x, float y, int color) {
+        return this.drawString(text, x, y, color, Baseline.TOP, Alignment.LEFT);
+    }
+
+    public int drawString(String text, float x, float y, int color, Baseline baseline, Alignment alignment) {
         if (text == null) return 0;
 
         if (module == null) {
@@ -109,36 +170,25 @@ public class UnicodeFontRenderer {
             } catch (FontFormatException | IOException | SlickException e) {
                 e.printStackTrace();
             }
-
-            this.antiAliasingFactor = resolution.getScaleFactor();
-        }
-
-        if (!module.unicodeFontRendererEnabled) {
-            Minecraft.getMinecraft().fontRendererObj.drawString(text, (int) x, (int) y, color);
-            return 0;
-        }
-
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-
-        try {
-            if (resolution.getScaleFactor() != prevScaleFactor) {
-                prevScaleFactor = resolution.getScaleFactor();
-                unicodeFont = new UnicodeFont(getFontByName(name).deriveFont(size * prevScaleFactor / 2));
-                unicodeFont.addAsciiGlyphs();
-                unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
-                unicodeFont.loadGlyphs();
-            }
-        } catch (FontFormatException | IOException | SlickException e) {
-            e.printStackTrace();
         }
 
         this.antiAliasingFactor = resolution.getScaleFactor();
 
+        if (!module.unicodeFontRendererEnabled) {
+            FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+            int height = fr.FONT_HEIGHT;
+            int width = fr.getStringWidth(text);
+            Minecraft.getMinecraft().fontRendererObj.drawString(text, (int) transformXWithAlignment(x, width, alignment), (int) transformYWithBaseline(y, height, baseline), color);
+            return 0;
+        }
+
         GL11.glPushMatrix();
+        GlStateManager.translate(getOffsetX(getWidth(text), alignment), getOffsetY(getHeight(text), baseline), 0);
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
-        float originalX = x;
+
+        float originalX = transformXWithAlignment(x, getWidth(text), alignment);
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;

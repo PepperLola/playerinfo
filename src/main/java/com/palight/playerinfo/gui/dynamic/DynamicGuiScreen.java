@@ -1,8 +1,14 @@
 package com.palight.playerinfo.gui.dynamic;
 
+import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.dynamic.components.*;
+import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import com.palight.playerinfo.util.math.Vector2;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,13 +18,21 @@ public abstract class DynamicGuiScreen extends GuiScreen {
     protected Vector2<Integer> size = new Vector2<>(512, 472);
     public Vector2<Integer> topLeft = new Vector2<>(0, 0);
 
-    private List<DynamicGuiComponent> components = new ArrayList<>();
+    private static int TITLE_WIDTH = 76;
+    private static int TITLE_HEIGHT = 25;
+    private static int TITLE_SLANT_X = 16;
 
-    public DynamicGuiScreen() {
+    private List<DynamicGuiComponent> components = new ArrayList<>();
+    private GuiLabel titleLabel;
+
+    private String langKey;
+
+    public DynamicGuiScreen(String langKey) {
+        this.langKey = langKey;
     }
 
-    public DynamicGuiScreen(Vector2<Integer> size) {
-        this();
+    public DynamicGuiScreen(String langKey, Vector2<Integer> size) {
+        this(langKey);
         this.size = size;
     }
 
@@ -28,13 +42,44 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         this.drawGradientRect(topLeft.x, topLeft.y, topLeft.x + size.x, topLeft.y + size.y, DefaultUIConfig.DEFAULT_BACKGROUND_COLOR, DefaultUIConfig.DEFAULT_BACKGROUND_COLOR);
     }
 
+    protected void renderTitle() {
+        GlStateManager.pushMatrix();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer wr = tessellator.getWorldRenderer();
+        wr.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
+        float r, g, b;
+        r = g = b = 0.5f;
+        float a = 1.0f;
+
+        wr.pos(topLeft.x + TITLE_WIDTH / 2f + TITLE_SLANT_X, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+        wr.pos(topLeft.x - TITLE_WIDTH / 2f, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+        wr.pos(topLeft.x - TITLE_WIDTH / 2f - TITLE_SLANT_X, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+        wr.pos(topLeft.x + TITLE_WIDTH / 2f, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.popMatrix();
+    }
 
     @Override
     public void initGui() {
         super.initGui();
         topLeft.x = (this.width - size.x) / 2;
         topLeft.y = (this.height - size.y) / 2;
+        this.titleLabel = this.createLabel(langKey, 0, 0)
+                .<GuiLabel>setFontRenderer(PlayerInfo.instance.titleRendererObj)
+                .setAlignment(UnicodeFontRenderer.Alignment.CENTER)
+                .setBaseline(UnicodeFontRenderer.Baseline.MIDDLE);
+
+        this.components.add(this.titleLabel);
         setup();
     }
 
@@ -58,6 +103,7 @@ public abstract class DynamicGuiScreen extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         this.renderBackground();
+        this.renderTitle();
 
         this.components.forEach(component -> {
             component.setHovered(component.mouseIsOver(mouseX, mouseY));

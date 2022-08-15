@@ -2,6 +2,7 @@ package com.palight.playerinfo.gui.dynamic.components;
 
 import com.palight.playerinfo.gui.dynamic.DefaultUIConfig;
 import com.palight.playerinfo.gui.dynamic.DynamicGuiScreen;
+import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import com.palight.playerinfo.util.math.Vector2;
 
 public class GuiCheckbox extends DynamicGuiComponent {
@@ -13,7 +14,7 @@ public class GuiCheckbox extends DynamicGuiComponent {
         super(screen, position, size);
 
         this.label = new GuiLabel(screen, position.x + size.x + 4, position.y + size.y / 2, 0, size.y)
-            .setBaseline(Baseline.MIDDLE);
+            .setBaseline(UnicodeFontRenderer.Baseline.MIDDLE);
     }
 
     public GuiCheckbox(DynamicGuiScreen screen, int x, int y, int width, int height) {
