@@ -1,17 +1,13 @@
 package com.palight.playerinfo.gui.dynamic;
 
-import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.gui.dynamic.components.*;
 import com.palight.playerinfo.rendering.font.UnicodeFontRenderer;
 import com.palight.playerinfo.util.math.Vector2;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class DynamicGuiScreen extends GuiScreen {
@@ -21,6 +17,10 @@ public abstract class DynamicGuiScreen extends GuiScreen {
     private static int TITLE_WIDTH = 76;
     private static int TITLE_HEIGHT = 25;
     private static int TITLE_SLANT_X = 16;
+
+    protected static int STANDARD_PADDING = 4;
+
+    protected GuiStack stack;
 
     private List<DynamicGuiComponent> components = new ArrayList<>();
     private GuiLabel titleLabel;
@@ -43,30 +43,30 @@ public abstract class DynamicGuiScreen extends GuiScreen {
     }
 
     protected void renderTitle() {
-        GlStateManager.pushMatrix();
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.shadeModel(7425);
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer wr = tessellator.getWorldRenderer();
-        wr.begin(7, DefaultVertexFormats.POSITION_COLOR);
-
-        float r, g, b;
-        r = g = b = 0.5f;
-        float a = 1.0f;
-
-        wr.pos(topLeft.x + TITLE_WIDTH / 2f + TITLE_SLANT_X, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
-        wr.pos(topLeft.x - TITLE_WIDTH / 2f, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
-        wr.pos(topLeft.x - TITLE_WIDTH / 2f - TITLE_SLANT_X, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
-        wr.pos(topLeft.x + TITLE_WIDTH / 2f, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
-        tessellator.draw();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
-        GlStateManager.popMatrix();
+//        GlStateManager.pushMatrix();
+//        GlStateManager.disableTexture2D();
+//        GlStateManager.enableBlend();
+//        GlStateManager.disableAlpha();
+//        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+//        GlStateManager.shadeModel(7425);
+//        Tessellator tessellator = Tessellator.getInstance();
+//        WorldRenderer wr = tessellator.getWorldRenderer();
+//        wr.begin(7, DefaultVertexFormats.POSITION_COLOR);
+//
+//        float r, g, b;
+//        r = g = b = 0.5f;
+//        float a = 1.0f;
+//
+//        wr.pos(topLeft.x + TITLE_WIDTH / 2f + TITLE_SLANT_X, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+//        wr.pos(topLeft.x - TITLE_WIDTH / 2f, topLeft.y - TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+//        wr.pos(topLeft.x - TITLE_WIDTH / 2f - TITLE_SLANT_X, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+//        wr.pos(topLeft.x + TITLE_WIDTH / 2f, topLeft.y + TITLE_HEIGHT / 2f, this.zLevel).color(r, g, b, a).endVertex();
+//        tessellator.draw();
+//        GlStateManager.shadeModel(7424);
+//        GlStateManager.disableBlend();
+//        GlStateManager.enableAlpha();
+//        GlStateManager.enableTexture2D();
+//        GlStateManager.popMatrix();
     }
 
     @Override
@@ -74,12 +74,14 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         super.initGui();
         topLeft.x = (this.width - size.x) / 2;
         topLeft.y = (this.height - size.y) / 2;
-        this.titleLabel = this.createLabel(langKey, 0, 0)
-                .<GuiLabel>setFontRenderer(PlayerInfo.instance.titleRendererObj)
-                .setAlignment(UnicodeFontRenderer.Alignment.CENTER)
+
+        stack = this.createStack(STANDARD_PADDING, 16, STANDARD_PADDING);
+        this.titleLabel = this.createLabel(langKey, STANDARD_PADDING, STANDARD_PADDING)
+//                .<GuiLabel>setFontRenderer(PlayerInfo.instance.titleRendererObj)
+                .setAlignment(UnicodeFontRenderer.Alignment.LEFT)
                 .setBaseline(UnicodeFontRenderer.Baseline.MIDDLE);
 
-        this.components.add(this.titleLabel);
+        addComponents(this.titleLabel, this.stack);
         setup();
     }
 
@@ -113,6 +115,14 @@ public abstract class DynamicGuiScreen extends GuiScreen {
 
     public void addComponent(DynamicGuiComponent component) {
         this.components.add(component);
+    }
+
+    public void addComponents(List<DynamicGuiComponent> components) {
+        this.components.addAll(components);
+    }
+
+    public void addComponents(DynamicGuiComponent... components) {
+        this.components.addAll(Arrays.asList(components));
     }
 
     public GuiStack createStack(int x, int y, int spacing) {

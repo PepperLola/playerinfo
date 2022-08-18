@@ -4,6 +4,7 @@ import com.palight.playerinfo.gui.dynamic.DynamicGuiScreen;
 import com.palight.playerinfo.util.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -59,6 +60,22 @@ public class GuiStack extends DynamicGuiComponent {
         return this;
     }
 
+    public GuiStack addComponent(DynamicGuiComponent... components) {
+        this.components.addAll(Arrays.asList(components));
+
+        arrangeComponents();
+
+        return this;
+    }
+
+    public GuiStack addComponent(List<DynamicGuiComponent> components) {
+        this.components.addAll(components);
+
+        arrangeComponents();
+
+        return this;
+    }
+
     public GuiStack removeComponent(DynamicGuiComponent component) {
         this.components.remove(component);
 
@@ -71,7 +88,7 @@ public class GuiStack extends DynamicGuiComponent {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-
+        this.drawGradientRect(this.position.x, this.position.y, this.position.x + this.size.x, this.position.y + this.size.y, 0xFF000000, 0xFF000000);
     }
 
     public enum Direction {

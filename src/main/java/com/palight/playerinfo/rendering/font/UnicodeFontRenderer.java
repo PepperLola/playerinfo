@@ -130,7 +130,7 @@ public class UnicodeFontRenderer {
     private float getOffsetY(float height, Baseline baseline) {
         switch (baseline) {
             case MIDDLE:
-                return -((int) height >> 1) * 1.5f;
+                return -((int) height >> 1);
             case BOTTOM:
                 return -height;
             case TOP:
