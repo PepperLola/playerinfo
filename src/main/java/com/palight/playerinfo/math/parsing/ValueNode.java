@@ -7,6 +7,10 @@ public class ValueNode extends ExpressionNode {
         this.value = Double.parseDouble(value);
     }
 
+    public ValueNode(double value) {
+        this.value = value;
+    }
+
     public double getValue() {
         return value;
     }

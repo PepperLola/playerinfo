@@ -44,7 +44,7 @@ public class MathParsingTest {
 
     @Test
     public void functionTest() throws InvalidExpressionException, ImaginaryNumberException {
-        Assertions.assertEquals(NumberUtil.evaluateExpression("log(5,2)"), Math.log(5) / Math.log(2));
+        Assertions.assertEquals(NumberUtil.evaluateExpression("log(5)"), Math.log(5));
         Assertions.assertEquals(NumberUtil.evaluateExpression("sin(5)"), Math.sin(5));
         Assertions.assertEquals(NumberUtil.evaluateExpression("cos(5)"), Math.cos(5));
         Assertions.assertEquals(NumberUtil.evaluateExpression("tan(5)"), Math.tan(5));
@@ -54,5 +54,10 @@ public class MathParsingTest {
         Assertions.assertEquals(NumberUtil.evaluateExpression("asin(0.5)"), Math.asin(0.5));
         Assertions.assertEquals(NumberUtil.evaluateExpression("acos(0.5)"), Math.acos(0.5));
         Assertions.assertEquals(NumberUtil.evaluateExpression("atan(0.5)"), Math.atan(0.5));
+    }
+
+    @Test
+    public void parenthesesTest() throws InvalidExpressionException, ImaginaryNumberException {
+        Assertions.assertEquals(NumberUtil.evaluateExpression("(1+2)+2"), 5);
     }
 }

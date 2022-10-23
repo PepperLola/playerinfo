@@ -43,7 +43,7 @@ public class OperatorNode extends ExpressionNode {
     }
 
     @Override
-    public double evaluate() {
+    public double evaluate() throws ImaginaryNumberException {
         double leftValue = left.evaluate();
         double rightValue = right.evaluate();
 
