@@ -127,8 +127,6 @@ public class CommonProxy {
 
                     Cape cape = new Cape(name, frames, fps, animated);
 
-                    System.out.println(cape.toString());
-
                     Cosmetics.addCape(name, cape);
                 }
             });

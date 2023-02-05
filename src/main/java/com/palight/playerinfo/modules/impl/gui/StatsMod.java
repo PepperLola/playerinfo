@@ -53,7 +53,7 @@ public class StatsMod extends Module {
     @SubscribeEvent
     public void onPlayerJoin(EntityJoinWorldEvent event) {
 
-        if (!(event.entity instanceof EntityPlayer) || !event.world.isRemote || !DiscordRichPresenceMod.serverIp.contains("hypixel")) return;
+        if (!this.isEnabled() || !(event.entity instanceof EntityPlayer) || !event.world.isRemote || !DiscordRichPresenceMod.serverIp.contains("hypixel")) return;
         EntityPlayer player = ((EntityPlayer) event.entity);
         EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
         if (player.getUniqueID().equals(clientPlayer.getUniqueID())) {
@@ -65,13 +65,12 @@ public class StatsMod extends Module {
             }
         } else {
             if (isInGame) {
+                if (player.getUniqueID().version() == 2 || playerStats.containsKey(player.getUniqueID())) return;
                 Multithreading.runAsync(
                     () -> {
                         if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
                             //getting scoreboard title
                             String scoreboardTitle = ColorUtil.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().trim().replace("\u00A7[0-9a-zA-Z]", ""));
-                            if (player.getUniqueID().version() == 2 || // Hypixel NPCs have uuid version 2
-                                    playerStats.containsKey(player.getUniqueID())) return;
                             //adds people to the list to be displayed
                             playerStats.put(
                                     player.getUniqueID(),
@@ -107,6 +106,7 @@ public class StatsMod extends Module {
 
     @SubscribeEvent
     public void onChatMessage(ClientChatReceivedEvent event) {
+        if (!this.isEnabled()) return;
         String message = ColorUtil.stripColor(event.message.getUnformattedText());
         Matcher matcher = whereAmIPattern.matcher(message);
         if (!matcher.matches()) return;
@@ -274,11 +274,15 @@ public class StatsMod extends Module {
             HttpUtil.httpGet(url, response -> {
                 String entity = EntityUtils.toString(response.getEntity());
 
+                System.out.println(entity);
+
                 int statusCode = response.getStatusLine().getStatusCode();
 
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(entity);
                 JsonObject obj = element.getAsJsonObject();
+
+                if (obj.isJsonNull()) return;
 
                 // parse data if the request succeeds
                 if (statusCode >= 200 && statusCode < 300) {
@@ -291,32 +295,31 @@ public class StatsMod extends Module {
                     // sometimes some of these are null for some reason
                     // so we have to handle that by checking if they're null
                     String rank = "NONE";
-                    if (obj.get("rank") != null) {
+                    if (obj.has("rank") && !obj.get("rank").isJsonNull())
                         rank = obj.get("rank").getAsString();
-                    }
 
                     String plusColor = "RED";
-                    if (obj.get("plusColor") != null) {
+                    if (obj.has("plusColor") && !obj.get("plusColor").isJsonNull())
                         plusColor = obj.get("plusColor").getAsString();
-                    }
 
-                    if(obj.get("level") != null) {
+                    if (obj.has("level") && !obj.get("level").isJsonNull())
                         level = obj.get("level").getAsInt();
+
+                    if (obj.has("kdr") && !obj.get("kdr").isJsonNull()) {
+                        System.out.println("KDR: " + obj.get("kdr") + " IS JSON NULL? " + obj.get("kdr").isJsonNull());
+                        kdr = obj.get("kdr").getAsDouble();
                     }
 
-                    if (obj.get("kdr") != null)
-                        kdr = obj.get("kdr").getAsDouble();
-
-                    if (obj.get("wlr") != null)
+                    if (obj.has("wlr") && !obj.get("wlr").isJsonNull())
                         wlr = obj.get("wlr").getAsDouble();
 
-                    if (obj.get("ws") != null)
+                    if (obj.has("ws") && !obj.get("ws").isJsonNull())
                         ws = obj.get("winstreak").getAsInt();
 
-                    if (obj.get("wins") != null)
+                    if (obj.has("wins") && !obj.get("wins").isJsonNull())
                         wins = obj.get("wins").getAsInt();
 
-                    if (obj.get("losses") != null)
+                    if (obj.has("losses") && !obj.get("losses").isJsonNull())
                         losses = obj.get("losses").getAsInt();
 
                     this.rank = HypixelUtil.Rank.getRankFromAPIName(rank);
@@ -325,17 +328,21 @@ public class StatsMod extends Module {
                     // set game-specific stats
                     switch (this.gameType){
                         case BEDWARS:
-                            if (obj.get("fkdr") != null)
+                            if (obj.has("fkdr") || obj.get("fkdr").isJsonNull())
                                 fkdr = obj.get("fkdr").getAsDouble();
-                            if (obj.get("bblr") != null)
+                            if (obj.has("bblr") && !obj.get("bblr").isJsonNull())
                                 bblr = obj.get("bblr").getAsDouble();
-                            if (obj.get("gameLevel") != null)
+                            if (obj.has("gameLevel") && !obj.get("gameLevel").isJsonNull())
                                 gameLevel = obj.get("gameLevel").getAsInt();
                             break;
                         case DUELS:
-                            title = obj.get("title").getAsString();
+                            if (obj.has("title") && !obj.get("title").isJsonNull())
+                                title = obj.get("title").getAsString();
+
                             this.division = DuelsDivision.getDuelsDivision(this.wins);
-                            prestige = obj.get("prestige").getAsInt();
+
+                            if (obj.has("prestige") && !obj.get("prestige").isJsonNull())
+                                prestige = obj.get("prestige").getAsInt();
                             String duelsType = obj.get("gameType").getAsString();
                             if ((currentDuelsType == null || currentDuelsType.isEmpty()) && (duelsType != null && !duelsType.isEmpty())) {
                                 currentDuelsType = duelsType;
@@ -347,7 +354,7 @@ public class StatsMod extends Module {
                     // if the request fails and the player is nicked, they're a nick
                     // otherwise it's watchdog
                     if (statusCode == 404) {
-                        boolean success = obj.get("success").getAsBoolean();
+//                        boolean success = obj.get("success").getAsBoolean();
                         boolean isNicked = obj.get("nicked").getAsBoolean();
                         if (isNicked) {
                             nicked = true;

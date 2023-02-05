@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Final;
@@ -46,7 +45,6 @@ public abstract class MixinGuiIngame extends Gui {
                 String title = ((IMixinGuiIngame) this).getDisplayedTitle();
                 String subtitle = ((IMixinGuiIngame) this).getDisplayedSubTitle();
                 if (!title.equals("") && subtitle.equals("")) {
-                    System.out.println("TITLE IN MIXIN: " + title + " | " + EnumChatFormatting.getTextWithoutFormattingCodes(title));
                     MinecraftForge.EVENT_BUS.post(new RenderTitleEvent(title, subtitle));
                     sentTitle = true;
                 }

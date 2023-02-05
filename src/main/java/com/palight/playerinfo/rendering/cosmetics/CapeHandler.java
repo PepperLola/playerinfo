@@ -23,11 +23,10 @@ public class CapeHandler {
     private int counter = 0;
 
     public static void fetchCape(UUID uuid) {
+        if (PLAYER_DATA.containsKey(uuid)) return;
         HttpUtil.httpGet("https://api.jerlshoba.com/user/" + uuid.toString().replaceAll("-", ""),
             response -> {
                 String entity = EntityUtils.toString(response.getEntity());
-
-                System.out.println(entity);
 
                 JsonElement element = new JsonParser().parse(entity);
                 if (element == null || element.isJsonNull()) return;

@@ -27,18 +27,6 @@ public class MixinAbstractClientPlayer extends EntityPlayer {
         return this.playerInfo;
     }
 
-    /**
-     * @author palight
-     * @reason Added custom cape textures.
-     */
-//    @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
-//    public void getLocationCape(CallbackInfoReturnable<ResourceLocation> ci) {
-//        if (CapeHandler.PLAYER_DATA.containsKey(this.getUniqueID()) && CapeHandler.PLAYER_DATA.get(this.getUniqueID()).getCape() != Cape.NONE) {
-//            ci.setReturnValue(CapeHandler.PLAYER_DATA.get(this.getUniqueID()).getCape().getImage());
-//            ci.cancel();
-//        }
-//    }
-
     @Override
     public boolean isSpectator() {
         NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(this.getGameProfile().getId());

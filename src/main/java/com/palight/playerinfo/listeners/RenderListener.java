@@ -82,10 +82,7 @@ public class RenderListener {
                     JsonParser parser = new JsonParser();
                     JsonElement obj = parser.parse(entity);
 
-                    System.out.println(obj.toString());
-
                     String token = obj.getAsJsonObject().get("token").getAsString();
-                    System.out.println("TOKEN " + token);
 
                     Minecraft.getMinecraft().displayGuiScreen(new DiscordLinkGui(token));
                 });
@@ -95,10 +92,8 @@ public class RenderListener {
     }
 
 //    @SubscribeEvent
-//    public void playerJoinEvent(EntityJoinWorldEvent event) throws IOException {
+//    public void playerJoinEvent(EntityJoinWorldEvent event) {
 //        if (!(event.entity instanceof EntityPlayer)) return;
 //        EntityPlayer player = ((EntityPlayer) event.entity);
-//        PlayerHandler playerHandler = PlayerHandler.getFromPlayer(player);
-//        playerHandler.applyCape(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(new File(((AbstractClientPlayer) player).getLocationCape().getResourcePath()))));
 //    }
 }

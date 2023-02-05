@@ -37,7 +37,7 @@ public class PlayerInfo
     public static final String NAME = "playerinfo";
     public static final String MODID = "playerinfo";
     public static final String VERSION = "1.18.1";
-    public static String commitHash;
+    public static String commitHash = "???????";
     public static String defaultBranchName = "master";
     public static String githubAPIURL = "https://api.github.com/repos/PepperLola/playerinfo/git/refs/heads/" + defaultBranchName;
     public static final String SERVER_PROXY_CLASS = "com.palight.playerinfo.proxy.CommonProxy";
@@ -64,11 +64,13 @@ public class PlayerInfo
 
     static {
         HttpUtil.httpGet(githubAPIURL, response -> {
-            HttpEntity entity = response.getEntity();
-            String entityString = EntityUtils.toString(entity);
-            JsonObject githubObj = parser.parse(entityString).getAsJsonObject();
-            JsonObject objectObj = githubObj.get("object").getAsJsonObject();
-            commitHash = objectObj.get("sha").getAsString();
+            if (response.getStatusLine().getStatusCode() >= 200 && response.getStatusLine().getStatusCode() < 300) {
+                HttpEntity entity = response.getEntity();
+                String entityString = EntityUtils.toString(entity);
+                JsonObject githubObj = parser.parse(entityString).getAsJsonObject();
+                JsonObject objectObj = githubObj.get("object").getAsJsonObject();
+                commitHash = objectObj.get("sha").getAsString();
+            }
         });
 
         modules.put("scoreboard", new ScoreboardMod());
@@ -168,9 +170,8 @@ public class PlayerInfo
         if (element == null || element.isJsonNull()) return;
         JsonObject obj = element.getAsJsonObject();
         if (obj == null) return;
-        JsonElement token = obj.get("token");
-        if (token != null) {
-            PlayerInfo.TOKEN = token.getAsString();
+        if (obj.has("token")) {
+            PlayerInfo.TOKEN = obj.get("token").getAsString();
         }
     }
 
