@@ -183,12 +183,13 @@ public class UnicodeFontRenderer {
         }
 
         GL11.glPushMatrix();
+//        System.out.println("OFFSET Y: " + getOffsetY(getHeight(text), baseline) + " | Y: " + y);
         GlStateManager.translate(getOffsetX(getWidth(text), alignment), getOffsetY(getHeight(text), baseline), 0);
         GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         x *= antiAliasingFactor;
         y *= antiAliasingFactor;
 
-        float originalX = transformXWithAlignment(x, getWidth(text), alignment);
+        float originalX = x;//transformXWithAlignment(x, getWidth(text), alignment);
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;

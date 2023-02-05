@@ -13,8 +13,8 @@ public class GuiCheckbox extends DynamicGuiComponent {
     public GuiCheckbox(DynamicGuiScreen screen, Vector2<Integer> position, Vector2<Integer> size) {
         super(screen, position, size);
 
-        this.label = new GuiLabel(screen, position.x + size.x + 4, position.y + size.y / 2, 0, size.y)
-            .setBaseline(UnicodeFontRenderer.Baseline.MIDDLE);
+        this.label = new GuiLabel(screen, position.x + size.x + 4, position.y/* + size.y / 2*/, 0, size.y)
+            .setBaseline(UnicodeFontRenderer.Baseline.TOP);
     }
 
     public GuiCheckbox(DynamicGuiScreen screen, int x, int y, int width, int height) {

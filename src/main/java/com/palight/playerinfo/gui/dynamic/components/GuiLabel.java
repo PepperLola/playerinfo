@@ -53,7 +53,6 @@ public class GuiLabel extends DynamicGuiComponent {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
         this.renderText(this.text, this.position.x, this.position.y, DefaultUIConfig.DEFAULT_LABEL_COLOR, baseline, align);
     }
 

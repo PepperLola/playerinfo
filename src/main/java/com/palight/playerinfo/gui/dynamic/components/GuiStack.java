@@ -34,6 +34,7 @@ public class GuiStack extends DynamicGuiComponent {
         if (direction == Direction.VERTICAL) {
             AtomicInteger y = new AtomicInteger(this.position.y);
             this.components.forEach(component -> {
+                System.out.println("POSITIONING " + component.getClass().getSimpleName() + " AT Y " + y.get());
                 component.setPosition(this.position.x, y.getAndAdd(component.size.y + spacing));
             });
         } else {

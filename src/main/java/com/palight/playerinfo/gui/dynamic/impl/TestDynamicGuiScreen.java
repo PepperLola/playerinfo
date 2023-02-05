@@ -23,5 +23,7 @@ public class TestDynamicGuiScreen extends DynamicGuiScreen {
         }));
 
         stack.addComponent(this.createCheckbox("Test Checkbox", 0, 0, 20, 20, false));
+
+        stack.addComponent(this.createDropdown(new String[]{"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"}, 0, 0, 256, 20));
     }
 }

@@ -97,6 +97,7 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         for (DynamicGuiComponent component : components) {
             if (component.mouseIsOver(mouseX, mouseY)) {
                 component.onClick(mouseX - topLeft.x, mouseY - topLeft.y, btn);
+                break; // only click one element at a time
             }
         }
     }
@@ -153,5 +154,11 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         GuiCheckbox checkbox = new GuiCheckbox(this, x + topLeft.x, y + topLeft.y, width, height).setLabel(label).setEnabled(checked);
         addComponent(checkbox);
         return checkbox;
+    }
+
+    public GuiDropdown createDropdown(String[] options, int x, int y, int width, int height) {
+        GuiDropdown dropdown = new GuiDropdown(this, x + topLeft.x, y + topLeft.y, width, height).setOptions(options);
+        addComponent(dropdown);
+        return dropdown;
     }
 }

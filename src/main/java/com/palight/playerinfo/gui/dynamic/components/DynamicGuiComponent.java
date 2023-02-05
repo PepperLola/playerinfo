@@ -16,7 +16,7 @@ public abstract class DynamicGuiComponent extends Gui {
     protected Vector2<Integer> size;
     protected DynamicGuiScreen screen;
     protected UnicodeFontRenderer fontRenderer;
-    private boolean isHovered = false;
+    protected boolean isHovered = false;
     private BiConsumer<Vector2<Integer>, Integer> onClick = (pos, mouseButton) -> { }; // (position, mouseButton) -> {};
 
     public DynamicGuiComponent(DynamicGuiScreen screen, Vector2<Integer> position, Vector2<Integer> size) {
