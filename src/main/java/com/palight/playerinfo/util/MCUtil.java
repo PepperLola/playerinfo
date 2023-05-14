@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +26,14 @@ public class MCUtil {
 
     public static void sendPlayerMessage(EntityPlayer player, String message, ChatStyle formatting) {
         player.addChatMessage(new ChatComponentText(message).setChatStyle(formatting));
+    }
+
+    public static void sendPlayerinfoMessage(EntityPlayer player, String message) {
+        sendPlayerinfoMessage(player, message, new ChatStyle());
+    }
+
+    public static void sendPlayerinfoMessage(EntityPlayer player, String message, ChatStyle formatting) {
+        player.addChatMessage(new ChatComponentText("[playerinfo] ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)).appendSibling(new ChatComponentText(message).setChatStyle(formatting)));
     }
 
     public static int getTotalItems(InventoryPlayer inv, Item itemStack) {
