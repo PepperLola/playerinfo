@@ -1,10 +1,16 @@
 package com.palight.playerinfo.modules;
 
+import com.palight.playerinfo.gui.dynamic.DynamicGuiScreen;
+import com.palight.playerinfo.gui.dynamic.components.GuiStack;
 import com.palight.playerinfo.gui.ingame.widgets.GuiIngameWidget;
 import com.palight.playerinfo.gui.screens.CustomGuiScreen;
 import com.palight.playerinfo.options.ConfigOption;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Module {
     private String id;
@@ -134,8 +140,30 @@ public abstract class Module {
      * Gets module options GUI.
      * @return Module options GUI.
      */
-    public CustomGuiScreen getOptionsGui() {
-        return optionsGui;
+    public DynamicGuiScreen getOptionsGui() {
+        List<Field> options = Arrays.stream(getClass().getFields()).filter(field -> field.isAnnotationPresent(ConfigOption.class)).collect(Collectors.toList());
+        return new DynamicGuiScreen("screen." + this.id) {
+
+            @Override
+            public void setup() {
+                GuiStack stack = this.createStack(0, 0, 4);
+                for (Field option : options) {
+                    try {
+                        if (Boolean.TYPE.equals(option.getType())) {
+                            stack.addComponent(this.createCheckbox(option.getName(), 0, 0, 20, 20, option.getBoolean(Module.this)));
+                        } else if (String.class.equals(option.getType())) {
+                            stack.addComponent(this.createCheckbox(option.getName(), 0, 0, 20, 20, option.getBoolean(Module.this)));
+                        } else if (Double.TYPE.equals(option.getType())) {
+                            stack.addComponent(this.createCheckbox(option.getName(), 0, 0, 20, 20, option.getBoolean(Module.this)));
+                        } else if (Integer.TYPE.equals(option.getType())) {
+                            stack.addComponent(this.createCheckbox(option.getName(), 0, 0, 20, 20, option.getBoolean(Module.this)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 
     /**

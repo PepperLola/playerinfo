@@ -1,7 +1,7 @@
 package com.palight.playerinfo.listeners;
 
 import com.palight.playerinfo.PlayerInfo;
-import com.palight.playerinfo.gui.dynamic.impl.ArmorGui;
+import com.palight.playerinfo.gui.dynamic.impl.TestDynamicGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -15,7 +15,7 @@ public class KeyListener {
     public void onKeyPress(InputEvent.KeyInputEvent event) {
         if (isKeyPressed("key.main")) {
 //            MainGui.openGui();
-            Minecraft.getMinecraft().displayGuiScreen(new ArmorGui());
+            Minecraft.getMinecraft().displayGuiScreen(new TestDynamicGuiScreen());
         }
     }
 
