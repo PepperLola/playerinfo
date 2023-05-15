@@ -42,16 +42,16 @@ public class MixinLayerCape {
 
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(0.0F, 0.0F, 0.125F);
-                double xDiff = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) p_doRenderLayer_4_ - (player.prevPosX + (player.posX - player.prevPosX) * (double) p_doRenderLayer_4_);
-                double yDiff = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) p_doRenderLayer_4_ - (player.prevPosY + (player.posY - player.prevPosY) * (double) p_doRenderLayer_4_);
-                double zDiff = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) p_doRenderLayer_4_ - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) p_doRenderLayer_4_);
-                float yawDiff = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * p_doRenderLayer_4_;
-                double lvt_16_1_ = MathHelper.sin(yawDiff * 3.1415927F / 180.0F);
-                double lvt_18_1_ = -MathHelper.cos(yawDiff * 3.1415927F / 180.0F);
-                float lvt_20_1_ = (float) yDiff * 10.0F;
+                double lvt_9_1_ = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) p_doRenderLayer_4_ - (player.prevPosX + (player.posX - player.prevPosX) * (double) p_doRenderLayer_4_);
+                double lvt_11_1_ = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) p_doRenderLayer_4_ - (player.prevPosY + (player.posY - player.prevPosY) * (double) p_doRenderLayer_4_);
+                double lvt_13_1_ = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) p_doRenderLayer_4_ - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) p_doRenderLayer_4_);
+                float lvt_15_1_ = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * p_doRenderLayer_4_;
+                double lvt_16_1_ = MathHelper.sin(lvt_15_1_ * 3.1415927F / 180.0F);
+                double lvt_18_1_ = -MathHelper.cos(lvt_15_1_ * 3.1415927F / 180.0F);
+                float lvt_20_1_ = (float) lvt_11_1_ * 10.0F;
                 lvt_20_1_ = MathHelper.clamp_float(lvt_20_1_, -6.0F, 32.0F);
-                float lvt_21_1_ = (float) (xDiff * lvt_16_1_ + zDiff * lvt_18_1_) * 100.0F;
-                float lvt_22_1_ = (float) (xDiff * lvt_18_1_ - zDiff * lvt_16_1_) * 100.0F;
+                float lvt_21_1_ = (float) (lvt_9_1_ * lvt_16_1_ + lvt_13_1_ * lvt_18_1_) * 100.0F;
+                float lvt_22_1_ = (float) (lvt_9_1_ * lvt_18_1_ - lvt_13_1_ * lvt_16_1_) * 100.0F;
                 if (lvt_21_1_ < 0.0F) {
                     lvt_21_1_ = 0.0F;
                 }
@@ -69,30 +69,28 @@ public class MixinLayerCape {
                 this.playerRenderer.getMainModel().renderCape(0.0625F);
                 GlStateManager.popMatrix();
             } else {
-                renderSmoothCape(player, p_doRenderLayer_2_, p_doRenderLayer_3_,
-                p_doRenderLayer_4_, p_doRenderLayer_5_, p_doRenderLayer_6_, p_doRenderLayer_7_,
-                p_doRenderLayer_8_);
+                renderSmoothCape(player, p_doRenderLayer_4_, new float[]{1.570793f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f});
             }
         }
     }
 
-    public void renderSmoothCape(AbstractClientPlayer player, float p_doRenderLayer_2_, float p_doRenderLayer_3_, float p_doRenderLayer_4_, float p_doRenderLayer_5_, float p_doRenderLayer_6_, float p_doRenderLayer_7_, float p_doRenderLayer_8_) throws IOException, URISyntaxException {
+    public void renderSmoothCape(AbstractClientPlayer player, float p_doRenderLayer_4_, float[] angles) throws IOException, URISyntaxException {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         RenderUtil.bindCapeTexture(player, playerRenderer);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.0F, 0.0F, 0.125F);
-        double xDiff = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) p_doRenderLayer_4_ - (player.prevPosX + (player.posX - player.prevPosX) * (double) p_doRenderLayer_4_);
-        double yDiff = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) p_doRenderLayer_4_ - (player.prevPosY + (player.posY - player.prevPosY) * (double) p_doRenderLayer_4_);
-        double zDiff = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) p_doRenderLayer_4_ - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) p_doRenderLayer_4_);
-        float yawDiff = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * p_doRenderLayer_4_;
-        double lvt_16_1_ = MathHelper.sin(yawDiff * 3.1415927F / 180.0F);
-        double lvt_18_1_ = -MathHelper.cos(yawDiff * 3.1415927F / 180.0F);
-        float lvt_20_1_ = (float) yDiff * 10.0F;
+        double lvt_9_1_ = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) p_doRenderLayer_4_ - (player.prevPosX + (player.posX - player.prevPosX) * (double) p_doRenderLayer_4_);
+        double lvt_11_1_ = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) p_doRenderLayer_4_ - (player.prevPosY + (player.posY - player.prevPosY) * (double) p_doRenderLayer_4_);
+        double lvt_13_1_ = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) p_doRenderLayer_4_ - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) p_doRenderLayer_4_);
+        float lvt_15_1_ = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * p_doRenderLayer_4_;
+        double lvt_16_1_ = MathHelper.sin(lvt_15_1_ * 3.1415927F / 180.0F);
+        double lvt_18_1_ = -MathHelper.cos(lvt_15_1_ * 3.1415927F / 180.0F);
+        float lvt_20_1_ = (float) lvt_11_1_ * 10.0F;
         lvt_20_1_ = MathHelper.clamp_float(lvt_20_1_, -6.0F, 32.0F);
-        float lvt_21_1_ = (float) (xDiff * lvt_16_1_ + zDiff * lvt_18_1_) * 100.0F;
-        float lvt_22_1_ = (float) (xDiff * lvt_18_1_ - zDiff * lvt_16_1_) * 100.0F;
+        float lvt_21_1_ = (float) (lvt_9_1_ * lvt_16_1_ + lvt_13_1_ * lvt_18_1_) * 100.0F;
+        float lvt_22_1_ = (float) (lvt_9_1_ * lvt_18_1_ - lvt_13_1_ * lvt_16_1_) * 100.0F;
         if (lvt_21_1_ < 0.0F) {
             lvt_21_1_ = 0.0F;
         }
@@ -122,47 +120,51 @@ public class MixinLayerCape {
 
         final int HEIGHT_SEGMENTS = 8;
         final int SEGMENT_HEIGHT = height / HEIGHT_SEGMENTS;
-        final float angleDiff = 5 / 180f * 3.1415926f;
-        final float startAngle = 0;//0 / 180f * 3.1415926f;
+        float previousAnglesSum = 0.0f;
+        float lastZDiff = 0;
 
-        float lastXDiff = (float) (SEGMENT_HEIGHT * Math.sin(startAngle));
         for (int i = 0; i < HEIGHT_SEGMENTS; i++) {
-            float newXDiff = (float) (SEGMENT_HEIGHT * Math.sin(startAngle + angleDiff * i));
-            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, -1 - lastXDiff, 0.0F, 0.0F);
-            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, 0 - lastXDiff, 8.0F, 0.0F);
-            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, 0 - lastXDiff - newXDiff, 8.0F, 8.0F);
-            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, -1 - lastXDiff - newXDiff, 0.0F, 8.0F);
+            previousAnglesSum += angles[i];
+            float zDiff = (float) (SEGMENT_HEIGHT * Math.sin(previousAnglesSum));
+
+            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, -1 - lastZDiff, 0.0F, 0.0F);
+            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, 0 - lastZDiff, 8.0F, 0.0F);
+            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, 0 - lastZDiff - zDiff, 8.0F, 8.0F);
+            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, -1 - lastZDiff - zDiff, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{backTopLeft, frontTopLeft, frontBottomLeft, backBottomLeft}, 0, 1, 1, 1 + height, textureWidth, textureHeight)
             );
 
-            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, 0 - lastXDiff, 0.0F, 0.0F);
-            PositionTextureVertex backTopRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, -1 - lastXDiff, 8.0F, 0.0F);
-            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, -1 - lastXDiff - newXDiff, 8.0F, 8.0F);
-            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, 0 - lastXDiff - newXDiff, 0.0F, 8.0F);
+            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, 0 - lastZDiff, 0.0F, 0.0F);
+            PositionTextureVertex backTopRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, -1 - lastZDiff, 8.0F, 0.0F);
+            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, -1 - lastZDiff - zDiff, 8.0F, 8.0F);
+            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, 0 - lastZDiff - zDiff, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{frontTopRight, backTopRight, backBottomRight, frontBottomRight}, 1 + width, 1, 1 + width + 1, 1 + height, textureWidth, textureHeight)
             );
 
-            lastXDiff = newXDiff + lastXDiff;
+            lastZDiff += zDiff;
         }
 
         for (int side : new int[]{-1, 0}) {
             int leftOffset = side == 0 ? width : 0;
-            lastXDiff = (float) (SEGMENT_HEIGHT * Math.sin(startAngle));
+            lastZDiff = 0;
+            previousAnglesSum = 0;
             for (int i = 0; i < HEIGHT_SEGMENTS; i++) {
-                float newXDiff = (float) (SEGMENT_HEIGHT * Math.sin(startAngle + angleDiff * i));
+                previousAnglesSum += angles[i];
+                float zDiff = (float) (SEGMENT_HEIGHT * Math.sin(previousAnglesSum));
+
 //                System.out.println("i: " + i + " | NEWXDIFF: " + newXDiff);
-                PositionTextureVertex topLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, side - lastXDiff, 0.0F, 0.0F);
-                PositionTextureVertex topRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, side - lastXDiff, 8.0F, 0.0F);
-                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, side - lastXDiff - newXDiff, 0.0F, 8.0F);
-                PositionTextureVertex bottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, side - lastXDiff - newXDiff, 8.0F, 8.0F);
+                PositionTextureVertex topLeft = new PositionTextureVertex(-5, i * SEGMENT_HEIGHT, side - lastZDiff, 0.0F, 0.0F);
+                PositionTextureVertex topRight = new PositionTextureVertex(5, i * SEGMENT_HEIGHT, side - lastZDiff, 8.0F, 0.0F);
+                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, (i + 1) * SEGMENT_HEIGHT, side - lastZDiff - zDiff, 0.0F, 8.0F);
+                PositionTextureVertex bottomRight = new PositionTextureVertex(5, (i + 1) * SEGMENT_HEIGHT, side - lastZDiff - zDiff, 8.0F, 8.0F);
                 quadList.add(
                         new TexturedQuad(new PositionTextureVertex[]{topLeft, topRight, bottomRight, bottomLeft}, 1 + leftOffset, 1 + i * SEGMENT_HEIGHT, 1 + width + leftOffset, 1 + (i + 1) * SEGMENT_HEIGHT, textureWidth, textureHeight)
                 );
-                lastXDiff = newXDiff + lastXDiff;
+                lastZDiff += zDiff;
             }
         }
 
