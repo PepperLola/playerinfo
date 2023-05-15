@@ -86,4 +86,8 @@ public class NumberUtil {
     public static double radiansToDegrees(double radians) {
         return radians * (360 / (2 * Math.PI));
     }
+
+    public static double lerp(double delta, double num1, double num2) {
+        return num1 + delta * (num2 - num1);
+    }
 }
