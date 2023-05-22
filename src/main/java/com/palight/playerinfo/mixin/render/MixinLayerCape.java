@@ -83,7 +83,7 @@ public class MixinLayerCape {
         RenderUtil.bindCapeTexture(player, playerRenderer);
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.0F, 0.0F, 0.125F);
+//        GlStateManager.translate(0.0F, 0.0F, 0.125F);
 //        double lvt_9_1_ = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) delta - (player.prevPosX + (player.posX - player.prevPosX) * (double) delta);
 //        double lvt_11_1_ = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) delta - (player.prevPosY + (player.posY - player.prevPosY) * (double) delta);
 //        double lvt_13_1_ = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) delta - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) delta);
@@ -123,7 +123,7 @@ public class MixinLayerCape {
 
         for (int i = 0; i < simulation.getPoints().size(); i++) {
             VerletSimulation.Point point = simulation.getPoints().get(i);
-            System.out.println("POINT " + i + " - Z: " + point.position.x + " | Y: " + point.position.y);
+//            System.out.println("POINT " + i + " - Z: " + point.position.x + " | Y: " + point.position.y);
         }
 
         final int HEIGHT_SEGMENTS = 16;
@@ -135,22 +135,20 @@ public class MixinLayerCape {
 
             float y = simulation.getPoints().get(0).getLerpY(delta) - i - simulation.getPoints().get(i).getLerpY(delta);
 
-            System.out.println("Z: " + z + " | Y: " + y);
-
-            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, y, -1 - z, 0.0F, 0.0F);
-            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, y, 0 - z, 8.0F, 0.0F);
+            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, -y, -1 + z, 0.0F, 0.0F);
+            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, -y, 0 + z, 8.0F, 0.0F);
             // TODO y for next 2 shouldn't be y, should be angled
-            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, y, 0 - z, 8.0F, 8.0F);
-            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, y, -1 - z, 0.0F, 8.0F);
+            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, 0 + z, 8.0F, 8.0F);
+            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, -1 + z, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{backTopLeft, frontTopLeft, frontBottomLeft, backBottomLeft}, 0, 1, 1, 1 + height, textureWidth, textureHeight)
             );
 
-            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, y, 0 - z, 0.0F, 0.0F);
-            PositionTextureVertex backTopRight = new PositionTextureVertex(5, y, -1 - z, 8.0F, 0.0F);
-            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, y, -1 - z, 8.0F, 8.0F);
-            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, y, 0 - z, 0.0F, 8.0F);
+            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, -y, 0 + z, 0.0F, 0.0F);
+            PositionTextureVertex backTopRight = new PositionTextureVertex(5, -y, -1 + z, 8.0F, 0.0F);
+            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, -1 + z, 8.0F, 8.0F);
+            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, 0 + z, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{frontTopRight, backTopRight, backBottomRight, frontBottomRight}, 1 + width, 1, 1 + width + 1, 1 + height, textureWidth, textureHeight)
@@ -165,10 +163,10 @@ public class MixinLayerCape {
 
                 float y = simulation.getPoints().get(0).getLerpY(delta) - i - simulation.getPoints().get(i).getLerpY(delta);
 
-                PositionTextureVertex topLeft = new PositionTextureVertex(-5, y, side - z, 0.0F, 0.0F);
-                PositionTextureVertex topRight = new PositionTextureVertex(5, y, side - z, 8.0F, 0.0F);
-                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, y, side - z, 0.0F, 8.0F);
-                PositionTextureVertex bottomRight = new PositionTextureVertex(5, y, side - z, 8.0F, 8.0F);
+                PositionTextureVertex topLeft = new PositionTextureVertex(-5, -y, side - z, 0.0F, 0.0F);
+                PositionTextureVertex topRight = new PositionTextureVertex(5, -y, side - z, 8.0F, 0.0F);
+                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, side - z, 0.0F, 8.0F);
+                PositionTextureVertex bottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, side - z, 8.0F, 8.0F);
                 quadList.add(
                         new TexturedQuad(new PositionTextureVertex[]{topLeft, topRight, bottomRight, bottomLeft}, 1 + leftOffset, 1 + i * SEGMENT_HEIGHT, 1 + width + leftOffset, 1 + (i + 1) * SEGMENT_HEIGHT, textureWidth, textureHeight)
                 );

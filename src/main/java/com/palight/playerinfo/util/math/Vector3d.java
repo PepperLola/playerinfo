@@ -52,11 +52,12 @@ public class Vector3d {
     }
 
     public Vector3d normalized() {
-        double norm = 1.0/Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
-        this.x *= norm;
-        this.y *= norm;
-        this.z *= norm;
-        return this;
+        double l = Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+        if (l < 1.0E-4D) {
+            return new Vector3d(0, 0, 0);
+        } else {
+            return new Vector3d(this.x / l, this.y / l, this.z / l);
+        }
     }
 
     public void copy(Vector3d other) {

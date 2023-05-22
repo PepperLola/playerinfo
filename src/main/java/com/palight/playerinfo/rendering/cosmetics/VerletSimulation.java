@@ -19,7 +19,6 @@ public class VerletSimulation {
             for (int i = 0; i < partCount; i++) {
                 Point point = new Point();
                 point.position.y = -i;
-                point.position.x = -i;
                 point.locked = i == 0;
                 points.add(point);
                 if (i > 0) {
@@ -44,15 +43,26 @@ public class VerletSimulation {
         }
 
         for (int i = 0; i < numIterations; i++) {
-            for (Stick stick : sticks) {
+            for (int j = sticks.size() - 1; j >= 0; j--) {
+                Stick stick = sticks.get(j);
                 Vector3d stickCenter = (stick.pointA.position.add(stick.pointB.position)).div(2);
                 Vector3d stickDir = (stick.pointA.position.sub(stick.pointB.position)).normalized();
+
+//                System.out.println("POINT LOCKED: " + stick.pointA.locked + " | X: " + stick.pointA.position.x + " | Y: " + stick.pointA.position.y + " | Z: " + stick.pointA.position.z);
 
                 if (!stick.pointA.locked)
                     stick.pointA.position = stickCenter.add(stickDir.mul(stick.length / 2));
                 if (!stick.pointB.locked)
                     stick.pointB.position = stickCenter.sub(stickDir.mul(stick.length / 2));
             }
+        }
+
+        for (int i = 0; i < sticks.size(); i++) {
+            Stick stick = sticks.get(i);
+            Vector3d stickDir = stick.pointA.position.sub(stick.pointB.position).normalized();
+
+            if (!stick.pointB.locked)
+                stick.pointB.position = stick.pointA.position.sub(stickDir.mul(stick.length));
         }
     }
 
