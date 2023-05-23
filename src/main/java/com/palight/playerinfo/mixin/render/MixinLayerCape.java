@@ -121,34 +121,39 @@ public class MixinLayerCape {
 
         VerletSimulation simulation = ((CapeHolder) player).getSimulation();
 
-        for (int i = 0; i < simulation.getPoints().size(); i++) {
-            VerletSimulation.Point point = simulation.getPoints().get(i);
+//        for (int i = 0; i < simulation.getPoints().size(); i++) {
+//            VerletSimulation.Point point = simulation.getPoints().get(i);
 //            System.out.println("POINT " + i + " - Z: " + point.position.x + " | Y: " + point.position.y);
-        }
+//        }
 
         final int HEIGHT_SEGMENTS = 16;
         final int SEGMENT_HEIGHT = height / HEIGHT_SEGMENTS;
+        VerletSimulation.Stick zeroStick = simulation.getSticks().get(0);
 
-        for (int i = 0; i < HEIGHT_SEGMENTS; i++) {
-            float z = simulation.getPoints().get(i).getLerpX(delta) - simulation.getPoints().get(0).getLerpX(delta);
-            if (z > 0) z = 0;
+        for (int i = 0; i < HEIGHT_SEGMENTS - 1; i++) {
+            VerletSimulation.Stick stick = simulation.getSticks().get(i);
+            float z1 = (stick.pointA.getLerpX(delta) - zeroStick.pointA.getLerpX(delta)) * 1;
+            float z2 = (stick.pointB.getLerpX(delta) - zeroStick.pointA.getLerpX(delta)) * 1;
+//            if (z1 > 0) z1 = 0;
+//            if (z2 > 0) z2 = 0;
 
-            float y = simulation.getPoints().get(0).getLerpY(delta) - i - simulation.getPoints().get(i).getLerpY(delta);
+            float y1 = (stick.pointA.getLerpY(delta) - i - zeroStick.pointA.getLerpY(delta)) * 1;
+            float y2 = (stick.pointB.getLerpY(delta) - i - zeroStick.pointB.getLerpY(delta)) * 1;
 
-            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, -y, -1 + z, 0.0F, 0.0F);
-            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, -y, 0 + z, 8.0F, 0.0F);
+            PositionTextureVertex backTopLeft = new PositionTextureVertex(-5, -z1, -1 - y1, 0.0F, 0.0F);
+            PositionTextureVertex frontTopLeft = new PositionTextureVertex(-5, -y1, 0 - z1, 8.0F, 0.0F);
             // TODO y for next 2 shouldn't be y, should be angled
-            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, 0 + z, 8.0F, 8.0F);
-            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, -1 + z, 0.0F, 8.0F);
+            PositionTextureVertex frontBottomLeft = new PositionTextureVertex(-5, -y2, 0 - z2, 8.0F, 8.0F);
+            PositionTextureVertex backBottomLeft = new PositionTextureVertex(-5, -z2, -1 - y2, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{backTopLeft, frontTopLeft, frontBottomLeft, backBottomLeft}, 0, 1, 1, 1 + height, textureWidth, textureHeight)
             );
 
-            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, -y, 0 + z, 0.0F, 0.0F);
-            PositionTextureVertex backTopRight = new PositionTextureVertex(5, -y, -1 + z, 8.0F, 0.0F);
-            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, -1 + z, 8.0F, 8.0F);
-            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, 0 + z, 0.0F, 8.0F);
+            PositionTextureVertex frontTopRight = new PositionTextureVertex(5, -z1, 0 - y1, 0.0F, 0.0F);
+            PositionTextureVertex backTopRight = new PositionTextureVertex(5, -y1, -1 - z1, 8.0F, 0.0F);
+            PositionTextureVertex backBottomRight = new PositionTextureVertex(5, -y2, -1 - z2, 8.0F, 8.0F);
+            PositionTextureVertex frontBottomRight = new PositionTextureVertex(5, -z2, 0 - y2, 0.0F, 8.0F);
 
             quadList.add(
                     new TexturedQuad(new PositionTextureVertex[]{frontTopRight, backTopRight, backBottomRight, frontBottomRight}, 1 + width, 1, 1 + width + 1, 1 + height, textureWidth, textureHeight)
@@ -157,16 +162,20 @@ public class MixinLayerCape {
 
         for (int side : new int[]{-1, 0}) {
             int leftOffset = side == 0 ? width : 0;
-            for (int i = 0; i < HEIGHT_SEGMENTS; i++) {
-                float z = simulation.getPoints().get(i).getLerpX(delta) - simulation.getPoints().get(0).getLerpX(delta);
-                if (z > 0) z = 0;
+            for (int i = 0; i < HEIGHT_SEGMENTS - 1; i++) {
+                VerletSimulation.Stick stick = simulation.getSticks().get(i);
+                float z1 = (stick.pointA.getLerpX(delta) - zeroStick.pointA.getLerpX(delta)) * 1;
+                float z2 = (stick.pointB.getLerpX(delta) - zeroStick.pointA.getLerpX(delta)) * 1;
+//                if (z1 > 0) z1 = 0;
+//                if (z2 > 0) z2 = 0;
 
-                float y = simulation.getPoints().get(0).getLerpY(delta) - i - simulation.getPoints().get(i).getLerpY(delta);
+                float y1 = (zeroStick.pointA.getLerpY(delta) - i - stick.pointA.getLerpY(delta)) * 1;
+                float y2 = (zeroStick.pointB.getLerpY(delta) - i - stick.pointB.getLerpY(delta)) * 1;
 
-                PositionTextureVertex topLeft = new PositionTextureVertex(-5, -y, side - z, 0.0F, 0.0F);
-                PositionTextureVertex topRight = new PositionTextureVertex(5, -y, side - z, 8.0F, 0.0F);
-                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, -y - SEGMENT_HEIGHT, side - z, 0.0F, 8.0F);
-                PositionTextureVertex bottomRight = new PositionTextureVertex(5, -y - SEGMENT_HEIGHT, side - z, 8.0F, 8.0F);
+                PositionTextureVertex topLeft = new PositionTextureVertex(-5, -y1, side - z1, 0.0F, 0.0F);
+                PositionTextureVertex topRight = new PositionTextureVertex(5, -y1, side - z1, 8.0F, 0.0F);
+                PositionTextureVertex bottomLeft = new PositionTextureVertex(-5, -y2, side - z2, 0.0F, 8.0F);
+                PositionTextureVertex bottomRight = new PositionTextureVertex(5, -y2, side - z2, 8.0F, 8.0F);
                 quadList.add(
                         new TexturedQuad(new PositionTextureVertex[]{topLeft, topRight, bottomRight, bottomLeft}, 1 + leftOffset, 1 + i * SEGMENT_HEIGHT, 1 + width + leftOffset, 1 + (i + 1) * SEGMENT_HEIGHT, textureWidth, textureHeight)
                 );

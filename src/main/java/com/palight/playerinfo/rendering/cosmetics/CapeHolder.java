@@ -31,8 +31,8 @@ public interface CapeHolder {
         simulation.getPoints().get(0).position.x += (d * o + m * p) + MathHelper.clamp_double((simulation.getPoints().get(0).position.y - (player.posY * heightMul)), 0d, 1d);
         simulation.getPoints().get(0).position.y = (float) (player.posY * heightMul + (player.isSneaking() ? -4 : 0));
         int numPoints = simulation.getPoints().size();
-        System.out.println("X1: " + simulation.getPoints().get(0).position.x + " | Y1: " + simulation.getPoints().get(0).position.y + " | Z1: " + simulation.getPoints().get(0).position.z);
-        System.out.println("X2: " + simulation.getPoints().get(numPoints - 1).position.x + " | Y2: " + simulation.getPoints().get(numPoints - 1).position.y + " | Z2: " + simulation.getPoints().get(numPoints - 1).position.z);
+//        System.out.println("X1: " + simulation.getPoints().get(0).position.x + " | Y1: " + simulation.getPoints().get(0).position.y + " | Z1: " + simulation.getPoints().get(0).position.z);
+//        System.out.println("X2: " + simulation.getPoints().get(numPoints - 1).position.x + " | Y2: " + simulation.getPoints().get(numPoints - 1).position.y + " | Z2: " + simulation.getPoints().get(numPoints - 1).position.z);
         simulation.simulate();
     }
 }
