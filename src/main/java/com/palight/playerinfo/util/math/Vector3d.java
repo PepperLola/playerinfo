@@ -1,5 +1,7 @@
 package com.palight.playerinfo.util.math;
 
+import net.minecraft.util.MathHelper;
+
 public class Vector3d {
     public double x;
     public double y;
@@ -58,6 +60,15 @@ public class Vector3d {
         } else {
             return new Vector3d(this.x / l, this.y / l, this.z / l);
         }
+    }
+
+    public Vector3d rotateDegrees(float deg) {
+        double ox = x;
+        double oy = y;
+        deg = (float) Math.toRadians(deg);
+        x = MathHelper.cos(deg) * ox - MathHelper.sin(deg) * oy;
+        y = MathHelper.sin(deg) * ox + MathHelper.cos(deg) * oy;
+        return this;
     }
 
     public void copy(Vector3d other) {

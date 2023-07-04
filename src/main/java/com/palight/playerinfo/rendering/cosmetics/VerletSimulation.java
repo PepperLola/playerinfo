@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VerletSimulation {
-    private static final Vector3d gravity = new Vector3d(0, -0.1, 0);
+    private static final Vector3d gravity = new Vector3d(0, -25, 0);
     private List<Point> points = new ArrayList<>();
     private List<Stick> sticks = new ArrayList<>();
     private final int numIterations = 20;
@@ -33,37 +33,50 @@ public class VerletSimulation {
 
     public void simulate() {
         float deltaTime = 0.05f;
+        // add gravity
+        Vector3d down = gravity.copy().mul(deltaTime);
         for (Point p : points) {
             if (!p.locked) {
                 Vector3d positionBeforeUpdate = p.position.copy();
-                p.position.add(p.position.sub(p.prevPosition));
-                p.position.add(gravity.mul(deltaTime * deltaTime));
+//                p.position.add(p.position.sub(p.prevPosition));
+//                p.position.add(gravity.mul(deltaTime * deltaTime));
+                p.position = p.position.add(down);
                 p.prevPosition = positionBeforeUpdate;
             }
+//            System.out.println("----------------GRAVITY----------------");
+//            System.out.println("X1: " + p.getLerpX(0) + " | X2: " + p.getLerpX(0));
+//            System.out.println("Y1: " + p.getLerpY(0) + " | Y2: " + p.getLerpY(0));
         }
+
 
         for (int i = 0; i < numIterations; i++) {
             for (int j = sticks.size() - 1; j >= 0; j--) {
                 Stick stick = sticks.get(j);
-                Vector3d stickCenter = (stick.pointA.position.add(stick.pointB.position)).div(2);
-                Vector3d stickDir = (stick.pointA.position.sub(stick.pointB.position)).normalized();
-
-//                System.out.println("POINT LOCKED: " + stick.pointA.locked + " | X: " + stick.pointA.position.x + " | Y: " + stick.pointA.position.y + " | Z: " + stick.pointA.position.z);
+                Vector3d stickCenter = (stick.pointA.position.copy().add(stick.pointB.position)).div(2);
+                Vector3d stickDir = (stick.pointA.position.copy().sub(stick.pointB.position)).normalized();
 
                 if (!stick.pointA.locked)
-                    stick.pointA.position = stickCenter.add(stickDir.mul(stick.length / 2));
+                    stick.pointA.position = stickCenter.copy().add(stickDir.copy().mul(stick.length / 2));
                 if (!stick.pointB.locked)
-                    stick.pointB.position = stickCenter.sub(stickDir.mul(stick.length / 2));
+                    stick.pointB.position = stickCenter.copy().sub(stickDir.copy().mul(stick.length / 2));
             }
         }
 
         for (int i = 0; i < sticks.size(); i++) {
             Stick stick = sticks.get(i);
-            Vector3d stickDir = stick.pointA.position.sub(stick.pointB.position).normalized();
+            Vector3d stickDir = stick.pointA.position.copy().sub(stick.pointB.position).normalized();
 
             if (!stick.pointB.locked)
-                stick.pointB.position = stick.pointA.position.sub(stickDir.mul(stick.length));
+                stick.pointB.position = stick.pointA.position.copy().sub(stickDir.mul(stick.length));
+
+//            System.out.println("POINT " + i + " - X1: " + stick.pointA.getLerpX(0) + " | X2: " + stick.pointB.getLerpX(0));
+//            System.out.println("POINT " + i + " - Y1: " + stick.pointA.getLerpY(0) + " | Y2: " + stick.pointB.getLerpY(0));
         }
+    }
+
+    public void applyMovement(Vector3d movement) {
+        points.get(0).prevPosition.copy(points.get(0).position);
+        points.get(0).position = points.get(0).position.add(new Vector3d(movement.x, movement.y, movement.z));
     }
 
     public List<Point> getPoints() {
