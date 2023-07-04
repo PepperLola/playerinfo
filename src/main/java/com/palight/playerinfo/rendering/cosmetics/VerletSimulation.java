@@ -72,6 +72,12 @@ public class VerletSimulation {
 //            System.out.println("POINT " + i + " - X1: " + stick.pointA.getLerpX(0) + " | X2: " + stick.pointB.getLerpX(0));
 //            System.out.println("POINT " + i + " - Y1: " + stick.pointA.getLerpY(0) + " | Y2: " + stick.pointB.getLerpY(0));
         }
+
+        Point basePoint = points.get(0);
+        for (int i = 1; i < points.size(); i++) {
+            Point p = points.get(i);
+            if (p.position.x - basePoint.position.x > 0) p.position.x = basePoint.position.x;
+        }
     }
 
     public void applyMovement(Vector3d movement) {
