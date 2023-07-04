@@ -7,7 +7,7 @@ import com.palight.playerinfo.util.math.Vector2;
 
 public class GuiCheckbox extends DynamicGuiComponent {
     private boolean enabled;
-    private boolean disabled; // whether or not the user is allowed to toggle
+    private boolean disabled; // whether the user is allowed to toggle
     private GuiLabel label;
 
     public GuiCheckbox(DynamicGuiScreen screen, Vector2<Integer> position, Vector2<Integer> size) {

@@ -90,6 +90,13 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         super.handleMouseInput();
     }
 
+    /**
+     * On mouse clicked
+     * @param mouseX mouse X in screen coords; 0 is left side of screen
+     * @param mouseY mouse Y in screen coords; 0 is top side of screen
+     * @param btn mouse button pressed
+     * @throws IOException
+     */
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int btn) throws IOException {
         super.mouseClicked(mouseX, mouseY, btn);
@@ -153,5 +160,11 @@ public abstract class DynamicGuiScreen extends GuiScreen {
         GuiCheckbox checkbox = new GuiCheckbox(this, x + topLeft.x, y + topLeft.y, width, height).setLabel(label).setEnabled(checked);
         addComponent(checkbox);
         return checkbox;
+    }
+
+    public GuiSlider createSlider(int x, int y, int width, int height, int min, int max, int step, String prefix, String suffix) {
+        GuiSlider slider = new GuiSlider(this, x + topLeft.x, y + topLeft.y, width, height, min, max, step, prefix, suffix);
+        addComponent(slider);
+        return slider;
     }
 }

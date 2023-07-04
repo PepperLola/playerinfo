@@ -23,5 +23,6 @@ public class TestDynamicGuiScreen extends DynamicGuiScreen {
         }));
 
         stack.addComponent(this.createCheckbox("Test Checkbox", 0, 0, 20, 20, false));
+        stack.addComponent(this.createSlider(30, 0, 100, 20, 0, 100, 1, "PREFIX: ", " :SUFFIX"));
     }
 }
