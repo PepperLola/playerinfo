@@ -84,6 +84,12 @@ public class MixinLayerCape {
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.0F, 0.0F, 0.2F);
+
+        // TODO rotate cape when sneaking so it doesn't clip into the player
+        if (player.isSneaking()) {
+            GlStateManager.translate(0.0, 0.15F, 0.0);
+            GlStateManager.rotate(0.5F, 1F, 0F, 0F);
+        }
 //        double lvt_9_1_ = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double) delta - (player.prevPosX + (player.posX - player.prevPosX) * (double) delta);
 //        double lvt_11_1_ = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double) delta - (player.prevPosY + (player.posY - player.prevPosY) * (double) delta);
 //        double lvt_13_1_ = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double) delta - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double) delta);

@@ -11,6 +11,7 @@ public class VerletSimulation {
     private List<Point> points = new ArrayList<>();
     private List<Stick> sticks = new ArrayList<>();
     private final int numIterations = 20;
+    private boolean sneaking = false;
 
     public boolean init(int partCount) {
         if (points.size() != partCount) {
@@ -95,6 +96,14 @@ public class VerletSimulation {
 
     public int getNumIterations() {
         return numIterations;
+    }
+
+    public boolean isSneaking() {
+        return this.sneaking;
+    }
+
+    public void setSneaking(boolean sneaking) {
+        this.sneaking = sneaking;
     }
 
     public static class Point {

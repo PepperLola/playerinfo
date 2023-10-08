@@ -33,9 +33,10 @@ public interface CapeHolder {
         double fallHack = MathHelper.clamp_double((player.prevPosY - player.posY) * 10, 0, 1);
         Vector3d strafe = new Vector3d(player.posX - player.prevPosX, player.posY - player.prevPosY, player.posZ - player.prevPosZ);
         strafe.rotateDegrees(-player.rotationYaw);
-        double changeX = (d * o + m * p) + fallHack;
-        double changeY = (player.posY - player.prevPosY) * heightMul;
+        double changeX = (d * o + m * p) + fallHack + (player.isSneaking() && !simulation.isSneaking() ? 3 : 0);
+        double changeY = (player.posY - player.prevPosY) * heightMul + (player.isSneaking() && !simulation.isSneaking() ? 1 : 0);
         double changeZ = -strafe.x * strafeMul;
+        simulation.setSneaking(player.isSneaking());
         Vector3d change = new Vector3d(changeX, changeY, changeZ);
         simulation.applyMovement(change);
         simulation.simulate();
