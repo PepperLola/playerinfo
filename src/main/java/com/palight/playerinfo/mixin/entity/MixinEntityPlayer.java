@@ -2,6 +2,7 @@ package com.palight.playerinfo.mixin.entity;
 
 import com.palight.playerinfo.rendering.cosmetics.CapeHolder;
 import com.palight.playerinfo.rendering.cosmetics.VerletSimulation;
+import com.palight.playerinfo.training.AimTrainingController;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,5 +22,10 @@ public class MixinEntityPlayer implements CapeHolder {
     @Inject(method = "onUpdate", at = @At("HEAD"))
     private void moveCapeUpdate(CallbackInfo ci) {
         simulate((AbstractClientPlayer) (Object) this);
+    }
+
+    @Inject(method = "onUpdate", at = @At("HEAD"))
+    private void updateTargets(CallbackInfo ci) {
+        AimTrainingController.update();
     }
 }

@@ -2,7 +2,9 @@ package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.rendering.cosmetics.CapeHolder;
 import com.palight.playerinfo.rendering.cosmetics.VerletSimulation;
+import com.palight.playerinfo.rendering.training.TargetRenderer;
 import com.palight.playerinfo.util.RenderUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.PositionTextureVertex;
 import net.minecraft.client.model.TexturedQuad;

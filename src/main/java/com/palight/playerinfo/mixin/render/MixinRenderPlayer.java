@@ -2,6 +2,8 @@ package com.palight.playerinfo.mixin.render;
 
 import com.palight.playerinfo.PlayerInfo;
 import com.palight.playerinfo.modules.impl.misc.PlayerHiderMod;
+import com.palight.playerinfo.training.AimTrainingController;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.util.EnumChatFormatting;

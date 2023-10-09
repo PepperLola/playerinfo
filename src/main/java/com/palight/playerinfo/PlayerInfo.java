@@ -108,6 +108,7 @@ public class PlayerInfo
         modules.put("combo", new ComboMod());
         modules.put("itemPhysics", new ItemPhysicsMod());
         modules.put("duelTracker", new DuelTrackerMod());
+        modules.put("training", new TrainingMod());
     }
 
     @EventHandler

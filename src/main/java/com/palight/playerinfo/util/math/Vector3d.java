@@ -80,4 +80,20 @@ public class Vector3d {
     public Vector3d copy() {
         return new Vector3d(this.x, this.y, this.z);
     }
+
+    public static Vector3d random(double xScale, double yScale, double zScale) {
+        return new Vector3d(
+                (2 * Math.random() - 1) * xScale,
+                (2 * Math.random() - 1) * yScale,
+                (2 * Math.random() - 1) * zScale
+        );
+    }
+
+    public static Vector3d random(double scale) {
+        return random(scale, scale, scale);
+    }
+
+    public static Vector3d random() {
+        return random(1);
+    }
 }
