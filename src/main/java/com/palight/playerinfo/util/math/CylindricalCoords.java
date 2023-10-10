@@ -57,6 +57,13 @@ public class CylindricalCoords {
         );
     }
 
+    public static CylindricalCoords playerLookToCoords(double yaw, double pitch, double distance) {
+        System.out.println("PLAYER YAW: " + yaw);
+        double angle = Math.toRadians((yaw + 90) % 360);
+        double height = Math.tan(-Math.toRadians(pitch)) * distance; // pitch up is negative
+        return new CylindricalCoords(angle, distance, height);
+    }
+
     public double getAngle() {
         return angle;
     }

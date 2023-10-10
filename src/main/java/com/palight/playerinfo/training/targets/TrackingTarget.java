@@ -32,6 +32,6 @@ public class TrackingTarget extends TrainingTarget {
         if (this.position.getHeight() + velocity.getHeight() > MAX_HEIGHT || this.position.getHeight() + velocity.getHeight() < MIN_HEIGHT)
             velocity = new CylindricalCoords(velocity.getAngle(), velocity.getRadius(), -velocity.getHeight());
 
-        this.position = this.position.add(velocity);
+//        this.position = this.position.add(velocity);
     }
 }

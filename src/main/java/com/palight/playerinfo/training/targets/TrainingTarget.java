@@ -4,6 +4,7 @@ import com.palight.playerinfo.rendering.training.TargetRenderer;
 import com.palight.playerinfo.util.math.CylindricalCoords;
 import com.palight.playerinfo.util.math.Vector3d;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 
 public abstract class TrainingTarget {
     protected CylindricalCoords position;
@@ -24,6 +25,20 @@ public abstract class TrainingTarget {
 
     public void render() {
         TargetRenderer.renderTarget(Minecraft.getMinecraft().thePlayer, this);
+    }
+
+    public boolean isPlayerLooking(AbstractClientPlayer player) {
+        // need to improve this method
+        // currently the player can look through the front of the target on the edges, and it won't count
+        // since it technically collides with the cylinder outside the cube
+        CylindricalCoords playerLook = CylindricalCoords.playerLookToCoords(player.rotationYawHead, player.rotationPitch, this.position.getRadius());
+        Vector3d playerLookVector = playerLook.toVector3d();
+
+        Vector3d targetVector = this.getPositionVector3d();
+
+        return Math.abs(playerLookVector.x - targetVector.x) < this.size / 2 &&
+                Math.abs(playerLookVector.y - targetVector.y) < this.size / 2 &&
+                Math.abs(playerLookVector.z - targetVector.z) < this.size / 2;
     }
 
     public CylindricalCoords getPosition() {

@@ -20,28 +20,34 @@ import java.util.List;
 
 public class TargetRenderer {
     public static void renderTarget(AbstractClientPlayer player, TrainingTarget target) {
-        renderTarget(player, target.getPosition(), target.getSize());
+        System.out.println("---------");
+        boolean playerLooking = target.isPlayerLooking(player);
+        System.out.println("Is player looking? " + playerLooking);
+        System.out.println("---------");
+        renderTarget(player, target.getPosition(), target.getSize(), playerLooking);
     }
 
-    public static void renderTarget(AbstractClientPlayer player, CylindricalCoords position, float size) {
-        renderTarget(player, position.toVector3d(), size);
+    public static void renderTarget(AbstractClientPlayer player, CylindricalCoords position, float size, boolean playerLooking) {
+        renderTarget(player, position.toVector3d(), size, playerLooking);
     }
 
-    public static void renderTarget(AbstractClientPlayer player, Vector3d position, float size) {
-        renderTarget(player, position.x, position.y, position.z, size);
+    public static void renderTarget(AbstractClientPlayer player, Vector3d position, float size, boolean playerLooking) {
+        renderTarget(player, position.x, position.y, position.z, size, playerLooking);
     }
 
-    public static void renderTarget(AbstractClientPlayer player, double x, double y, double z, float size) {
+    public static void renderTarget(AbstractClientPlayer player, double x, double y, double z, float size, boolean playerLooking) {
         List<TexturedQuad> quadList = new ArrayList<>();
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
+        GlStateManager.translate(x, y + player.getEyeHeight(), z);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         Tessellator tess = Tessellator.getInstance();
         WorldRenderer wr = tess.getWorldRenderer();
 
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, "textures/training/target_red.png"));
+        String texturePath = playerLooking ? "textures/training/target_green.png" : "textures/training/target_red.png";
+
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(PlayerInfo.MODID, texturePath));
 
 
         int textureWidth = 64;
