@@ -1,7 +1,7 @@
 package com.palight.playerinfo.training.targets;
 
+import com.palight.playerinfo.training.AimTrainingController;
 import com.palight.playerinfo.util.math.CylindricalCoords;
-import com.palight.playerinfo.util.math.Vector3d;
 
 public class TrackingTarget extends TrainingTarget {
     private static int framesUntilUpdate = 0;
@@ -25,13 +25,22 @@ public class TrackingTarget extends TrainingTarget {
     @Override
     public void update() {
         if (--framesUntilUpdate <= 0) {
-            velocity = CylindricalCoords.random(0.1 / 360D, 0, 0.001);
+            int speedMult = 2;
+            switch (AimTrainingController.DIFFICULTY) {
+                case MEDIUM:
+                    speedMult = 4;
+                    break;
+                case HARD:
+                    speedMult = 6;
+                    break;
+            }
+            velocity = CylindricalCoords.random(0.1 / 360D * speedMult, 0, 0.001 * speedMult);
             framesUntilUpdate = (int) Math.floor(Math.random() * 1600) + 400;
         }
 
         if (this.position.getHeight() + velocity.getHeight() > MAX_HEIGHT || this.position.getHeight() + velocity.getHeight() < MIN_HEIGHT)
             velocity = new CylindricalCoords(velocity.getAngle(), velocity.getRadius(), -velocity.getHeight());
 
-//        this.position = this.position.add(velocity);
+        this.position = this.position.add(velocity);
     }
 }

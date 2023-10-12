@@ -20,11 +20,7 @@ import java.util.List;
 
 public class TargetRenderer {
     public static void renderTarget(AbstractClientPlayer player, TrainingTarget target) {
-        System.out.println("---------");
-        boolean playerLooking = target.isPlayerLooking(player);
-        System.out.println("Is player looking? " + playerLooking);
-        System.out.println("---------");
-        renderTarget(player, target.getPosition(), target.getSize(), playerLooking);
+        renderTarget(player, target.getPosition(), target.getSize(), target.isPlayerLooking(player));
     }
 
     public static void renderTarget(AbstractClientPlayer player, CylindricalCoords position, float size, boolean playerLooking) {
